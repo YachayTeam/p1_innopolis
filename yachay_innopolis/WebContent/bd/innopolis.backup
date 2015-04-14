@@ -1,0 +1,587 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.2.10
+-- Dumped by pg_dump version 9.2.10
+-- Started on 2015-04-14 11:48:52
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 184 (class 3079 OID 11727)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2008 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 168 (class 1259 OID 16394)
+-- Name: eventos; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE eventos (
+    id_evento bigint NOT NULL,
+    id_solcab bigint,
+    id_tipo_evento bigint,
+    nombre text,
+    descripcion text,
+    imagen text,
+    fecha_i date,
+    fecha_f date,
+    costo money,
+    lugar text
+);
+
+
+ALTER TABLE public.eventos OWNER TO postgres;
+
+--
+-- TOC entry 169 (class 1259 OID 16402)
+-- Name: recurso; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE recurso (
+    id_recurso bigint NOT NULL,
+    id_rectipo bigint,
+    id_recest bigint,
+    nombre character varying(200),
+    capacidad bigint,
+    descripcion text,
+    lugar text
+);
+
+
+ALTER TABLE public.recurso OWNER TO postgres;
+
+--
+-- TOC entry 170 (class 1259 OID 16410)
+-- Name: recursoestado; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE recursoestado (
+    id_recest bigint NOT NULL,
+    estado character varying(100)
+);
+
+
+ALTER TABLE public.recursoestado OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 16415)
+-- Name: recursotipo; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE recursotipo (
+    id_rectipo bigint NOT NULL,
+    tipo character varying(100)
+);
+
+
+ALTER TABLE public.recursotipo OWNER TO postgres;
+
+--
+-- TOC entry 176 (class 1259 OID 16481)
+-- Name: seq_eventos; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_eventos
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_eventos OWNER TO postgres;
+
+--
+-- TOC entry 177 (class 1259 OID 16483)
+-- Name: seq_recurso; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_recurso
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_recurso OWNER TO postgres;
+
+--
+-- TOC entry 178 (class 1259 OID 16485)
+-- Name: seq_recursoestado; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_recursoestado
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_recursoestado OWNER TO postgres;
+
+--
+-- TOC entry 179 (class 1259 OID 16487)
+-- Name: seq_recursotipo; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_recursotipo
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_recursotipo OWNER TO postgres;
+
+--
+-- TOC entry 180 (class 1259 OID 16489)
+-- Name: seq_solicicabecera; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_solicicabecera
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_solicicabecera OWNER TO postgres;
+
+--
+-- TOC entry 181 (class 1259 OID 16491)
+-- Name: seq_solicidetallle; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_solicidetallle
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_solicidetallle OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 16493)
+-- Name: seq_soliciestado; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_soliciestado
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_soliciestado OWNER TO postgres;
+
+--
+-- TOC entry 183 (class 1259 OID 16495)
+-- Name: seq_tipoevento; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_tipoevento
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_tipoevento OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 16420)
+-- Name: solicicabecera; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE solicicabecera (
+    id_solcab bigint NOT NULL,
+    id_solest bigint,
+    direccion text,
+    actividad text,
+    fecha date,
+    horainicio time without time zone,
+    horafin time without time zone
+);
+
+
+ALTER TABLE public.solicicabecera OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 16428)
+-- Name: solicidetalle; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE solicidetalle (
+    id_soldet bigint NOT NULL,
+    id_solcab bigint,
+    id_recurso bigint,
+    capacidad bigint
+);
+
+
+ALTER TABLE public.solicidetalle OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 16433)
+-- Name: soliciestado; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE soliciestado (
+    id_solest bigint NOT NULL,
+    estado character varying(100)
+);
+
+
+ALTER TABLE public.soliciestado OWNER TO postgres;
+
+--
+-- TOC entry 175 (class 1259 OID 16438)
+-- Name: tipoevento; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tipoevento (
+    id_tipo_evento bigint NOT NULL,
+    tipo text,
+    descripcion text
+);
+
+
+ALTER TABLE public.tipoevento OWNER TO postgres;
+
+--
+-- TOC entry 1985 (class 0 OID 16394)
+-- Dependencies: 168
+-- Data for Name: eventos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY eventos (id_evento, id_solcab, id_tipo_evento, nombre, descripcion, imagen, fecha_i, fecha_f, costo, lugar) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1986 (class 0 OID 16402)
+-- Dependencies: 169
+-- Data for Name: recurso; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY recurso (id_recurso, id_rectipo, id_recest, nombre, capacidad, descripcion, lugar) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1987 (class 0 OID 16410)
+-- Dependencies: 170
+-- Data for Name: recursoestado; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY recursoestado (id_recest, estado) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1988 (class 0 OID 16415)
+-- Dependencies: 171
+-- Data for Name: recursotipo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY recursotipo (id_rectipo, tipo) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2009 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: seq_eventos; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_eventos', 1, false);
+
+
+--
+-- TOC entry 2010 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: seq_recurso; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_recurso', 1, false);
+
+
+--
+-- TOC entry 2011 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: seq_recursoestado; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_recursoestado', 1, false);
+
+
+--
+-- TOC entry 2012 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: seq_recursotipo; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_recursotipo', 1, false);
+
+
+--
+-- TOC entry 2013 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: seq_solicicabecera; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_solicicabecera', 1, false);
+
+
+--
+-- TOC entry 2014 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: seq_solicidetallle; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_solicidetallle', 1, false);
+
+
+--
+-- TOC entry 2015 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: seq_soliciestado; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_soliciestado', 1, false);
+
+
+--
+-- TOC entry 2016 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: seq_tipoevento; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_tipoevento', 1, false);
+
+
+--
+-- TOC entry 1989 (class 0 OID 16420)
+-- Dependencies: 172
+-- Data for Name: solicicabecera; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY solicicabecera (id_solcab, id_solest, direccion, actividad, fecha, horainicio, horafin) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1990 (class 0 OID 16428)
+-- Dependencies: 173
+-- Data for Name: solicidetalle; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY solicidetalle (id_soldet, id_solcab, id_recurso, capacidad) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1991 (class 0 OID 16433)
+-- Dependencies: 174
+-- Data for Name: soliciestado; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY soliciestado (id_solest, estado) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1992 (class 0 OID 16438)
+-- Dependencies: 175
+-- Data for Name: tipoevento; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tipoevento (id_tipo_evento, tipo, descripcion) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1857 (class 2606 OID 16401)
+-- Name: pk_eventos; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY eventos
+    ADD CONSTRAINT pk_eventos PRIMARY KEY (id_evento);
+
+
+--
+-- TOC entry 1859 (class 2606 OID 16409)
+-- Name: pk_recurso; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY recurso
+    ADD CONSTRAINT pk_recurso PRIMARY KEY (id_recurso);
+
+
+--
+-- TOC entry 1861 (class 2606 OID 16414)
+-- Name: pk_recursoestado; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY recursoestado
+    ADD CONSTRAINT pk_recursoestado PRIMARY KEY (id_recest);
+
+
+--
+-- TOC entry 1863 (class 2606 OID 16419)
+-- Name: pk_recursotipo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY recursotipo
+    ADD CONSTRAINT pk_recursotipo PRIMARY KEY (id_rectipo);
+
+
+--
+-- TOC entry 1865 (class 2606 OID 16427)
+-- Name: pk_solicicabecera; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY solicicabecera
+    ADD CONSTRAINT pk_solicicabecera PRIMARY KEY (id_solcab);
+
+
+--
+-- TOC entry 1867 (class 2606 OID 16432)
+-- Name: pk_solicidetalle; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY solicidetalle
+    ADD CONSTRAINT pk_solicidetalle PRIMARY KEY (id_soldet);
+
+
+--
+-- TOC entry 1869 (class 2606 OID 16437)
+-- Name: pk_soliciestado; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY soliciestado
+    ADD CONSTRAINT pk_soliciestado PRIMARY KEY (id_solest);
+
+
+--
+-- TOC entry 1871 (class 2606 OID 16445)
+-- Name: pk_tipoevento; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tipoevento
+    ADD CONSTRAINT pk_tipoevento PRIMARY KEY (id_tipo_evento);
+
+
+--
+-- TOC entry 1873 (class 2606 OID 16451)
+-- Name: fk_eventos_reference_solicica; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY eventos
+    ADD CONSTRAINT fk_eventos_reference_solicica FOREIGN KEY (id_solcab) REFERENCES solicicabecera(id_solcab) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1872 (class 2606 OID 16446)
+-- Name: fk_eventos_reference_tipoeven; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY eventos
+    ADD CONSTRAINT fk_eventos_reference_tipoeven FOREIGN KEY (id_tipo_evento) REFERENCES tipoevento(id_tipo_evento) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1875 (class 2606 OID 16461)
+-- Name: fk_recurso_reference_recursoe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY recurso
+    ADD CONSTRAINT fk_recurso_reference_recursoe FOREIGN KEY (id_recest) REFERENCES recursoestado(id_recest) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1874 (class 2606 OID 16456)
+-- Name: fk_recurso_reference_recursot; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY recurso
+    ADD CONSTRAINT fk_recurso_reference_recursot FOREIGN KEY (id_rectipo) REFERENCES recursotipo(id_rectipo) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1876 (class 2606 OID 16466)
+-- Name: fk_solicica_reference_solicies; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY solicicabecera
+    ADD CONSTRAINT fk_solicica_reference_solicies FOREIGN KEY (id_solest) REFERENCES soliciestado(id_solest) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1878 (class 2606 OID 16476)
+-- Name: fk_solicide_reference_recurso; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY solicidetalle
+    ADD CONSTRAINT fk_solicide_reference_recurso FOREIGN KEY (id_recurso) REFERENCES recurso(id_recurso) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1877 (class 2606 OID 16471)
+-- Name: fk_solicide_reference_solicica; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY solicidetalle
+    ADD CONSTRAINT fk_solicide_reference_solicica FOREIGN KEY (id_solcab) REFERENCES solicicabecera(id_solcab) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2007 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2015-04-14 11:48:52
+
+--
+-- PostgreSQL database dump complete
+--
+

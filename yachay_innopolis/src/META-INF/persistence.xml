@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="yachay_innopolis">
+	<persistence-unit name="yachay_innopolis" transaction-type="RESOURCE_LOCAL">
+		<class>innopolis.entities.Evento</class>
+		<class>innopolis.entities.Recurso</class>
+		<class>innopolis.entities.Recursoestado</class>
+		<class>innopolis.entities.Recursotipo</class>
+		<class>innopolis.entities.Solicicabecera</class>
+		<class>innopolis.entities.Solicidetalle</class>
+		<class>innopolis.entities.Soliciestado</class>
+		<class>innopolis.entities.Tipoevento</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/innopolis"/>
+			<property name="javax.persistence.jdbc.user" value="postgres"/>
+			<property name="javax.persistence.jdbc.password" value="root"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+		</properties>
 	</persistence-unit>
 </persistence>
