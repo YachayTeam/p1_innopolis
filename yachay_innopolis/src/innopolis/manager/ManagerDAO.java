@@ -25,7 +25,7 @@ public class ManagerDAO {
 	public ManagerDAO() {
 		mostrarLog("constructor","ManagerDAO Creado");
 		if (factory == null) {
-			factory = Persistence.createEntityManagerFactory("Gym2");
+			factory = Persistence.createEntityManagerFactory("yachay_innopolis");
 			mostrarLog("constructor","Factory creado");
 		}
 		if (em == null) {
