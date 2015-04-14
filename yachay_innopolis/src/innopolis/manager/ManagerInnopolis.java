@@ -119,9 +119,9 @@ public class ManagerInnopolis {
 			return (Evento) mDAO.findById(Evento.class, id_evento);
 		}
 
-		public void insertarEvento(Evento r) throws Exception {
-			mDAO.insertar(r);
-		}
+		//public void insertarEvento(Evento r) throws Exception {
+	//		mDAO.insertar(r);
+		//}
 
 	//	public void eliminarEvento(Integer id_receta) throws Exception {
 		//	mDAO.eliminar(Receta.class, id_receta);
