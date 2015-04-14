@@ -89,7 +89,7 @@ public class ManagerReservas {
 			return mDAO.findAll(Solicicabecera.class);
 		}
 		
-		public Solicicabecera findSolicitudCabeceraById(Integer id) throws Exception{
+		public Solicicabecera findSolicitudCabeceraById(Long id) throws Exception{
 			return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
 		}
 		
@@ -102,12 +102,31 @@ public class ManagerReservas {
 			return soliTemp;
 		}
 		
-		public void agregarSolicitudDetalleTmp(){
+		public void agregarSolicitudDetalleTmp(Long id_recurso, Long cantidad) throws Exception{
+			Solicidetalle det;
+			Recurso rec;
+			
+			//Validaciones de proceso
+			if(soliTemp == null)
+				throw new Exception("Error primero debe crear una solicitud.");
+			if(id_recurso==null||id_recurso== -1)
+				throw new Exception("Error debe especificar el recurso.");
+			if(cantidad==null||cantidad.intValue()<=0)
+				throw new Exception("Error debe especificar la cantidad del recurso.");
+			//FALTA VALIDACIONES DE RECURSOS
+			
+			//Busqueda Recurso
+			rec = this.RecursoByID(id_recurso);
+			//Crear detalle
+			det = new Solicidetalle();
+			det.setRecurso(rec);
+			det.setCapacidad(cantidad);
+			//Agregar al la solicitud
+			soliTemp.getSolicidetalles().add(det);
 			
 		}
 		
-		//Solicitud Detalle
-		
+				
 		
 
 }
