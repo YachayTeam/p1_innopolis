@@ -1,15 +1,18 @@
 package innopolis.manager;
 
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
-import innopolis.entities.Evento;
-import innopolis.entities.Recurso;
-import innopolis.entities.Recursoestado;
-import innopolis.entities.Recursotipo;
+import innopolis.entities.*;
 
 public class ManagerInnopolis {
 	
 	private ManagerDAO mDAO;
+	
+	//Solicitud Temporal
+	private Solicicabecera soliTemp;
 	
 	
 	public ManagerInnopolis()
@@ -71,4 +74,35 @@ public class ManagerInnopolis {
 			e.printStackTrace();
 		}
 	}
+	
+	//SolicitudEstado
+		@SuppressWarnings("unchecked")
+		public List<Soliciestado> findAllSolicitudEstado(){
+			return mDAO.findAll(Soliciestado.class);
+		}
+		
+		//Solicitud Cabecera
+		@SuppressWarnings("unchecked")
+		public List<Solicicabecera> findAllSolicitudCabecera(){
+			return mDAO.findAll(Solicicabecera.class);
+		}
+		
+		public Solicicabecera findSolicitudCabeceraById(Integer id) throws Exception{
+			return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
+		}
+		
+		//Temporales
+		public Solicicabecera crearSolicitudTmp(String direccion, String actividad, Date fecha, Time horafin, Time horainicio){
+			soliTemp=new Solicicabecera();
+			soliTemp.setActividad(actividad);soliTemp.setDireccion(direccion);soliTemp.setFecha(fecha);
+			soliTemp.setHorainicio(horainicio);soliTemp.setHorafin(horafin);
+			soliTemp.setSolicidetalles(new ArrayList<Solicidetalle>());
+			return soliTemp;
+		}
+		
+		public void agregarSolicitudDetalleTmp(){
+			
+		}
+		
+		//Solicitud Detalle
 }
