@@ -74,6 +74,8 @@ public class ManagerInnopolis {
 			e.printStackTrace();
 		}
 	}
+
+	// ------SOLICITUDES-------
 	
 	//SolicitudEstado
 		@SuppressWarnings("unchecked")
