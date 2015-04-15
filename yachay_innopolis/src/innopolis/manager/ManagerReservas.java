@@ -115,7 +115,7 @@ public class ManagerReservas {
 				throw new Exception("Error debe especificar la cantidad del recurso.");
 			//FALTA VALIDACIONES DE RECURSOS
 			
-			//Busqueda Recurso
+			//Busqueda Recurso Libre--- Cambiar Método
 			rec = this.RecursoByID(id_recurso);
 			//Crear detalle
 			det = new Solicidetalle();
@@ -124,6 +124,10 @@ public class ManagerReservas {
 			//Agregar al la solicitud
 			soliTemp.getSolicidetalles().add(det);
 			
+		}
+		
+		public void quitarDetalleSolicitudTem(Solicidetalle sd){
+			soliTemp.removeSolicidetalle(sd);
 		}
 		
 				
