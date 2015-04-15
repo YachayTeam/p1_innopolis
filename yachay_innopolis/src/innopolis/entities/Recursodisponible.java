@@ -15,7 +15,7 @@ public class Recursodisponible implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RECURSODISPONIBLE_IDRECDISPONIBLE_GENERATOR", sequenceName="SEQ_RECURSODISPONIBLE")
+	@SequenceGenerator(name="RECURSODISPONIBLE_IDRECDISPONIBLE_GENERATOR", sequenceName="SEQ_RECURSODISPONIBLE", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSODISPONIBLE_IDRECDISPONIBLE_GENERATOR")
 	@Column(name="id_recdisponible")
 	private Long idRecdisponible;

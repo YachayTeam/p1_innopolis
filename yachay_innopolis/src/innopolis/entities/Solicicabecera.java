@@ -17,7 +17,7 @@ public class Solicicabecera implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SOLICICABECERA_IDSOLCAB_GENERATOR", sequenceName="SEQ_SOLICICABECERA")
+	@SequenceGenerator(name="SOLICICABECERA_IDSOLCAB_GENERATOR", sequenceName="SEQ_SOLICICABECERA", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SOLICICABECERA_IDSOLCAB_GENERATOR")
 	@Column(name="id_solcab")
 	private Long idSolcab;
@@ -43,7 +43,7 @@ public class Solicicabecera implements Serializable {
 	private Soliciestado soliciestado;
 
 	//bi-directional many-to-one association to Solicidetalle
-	@OneToMany(mappedBy="solicicabecera")
+	@OneToMany(mappedBy="solicicabecera", cascade=CascadeType.PERSIST)
 	private List<Solicidetalle> solicidetalles;
 
 	public Solicicabecera() {

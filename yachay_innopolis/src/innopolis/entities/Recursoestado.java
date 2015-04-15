@@ -15,7 +15,7 @@ public class Recursoestado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RECURSOESTADO_IDRECEST_GENERATOR", sequenceName="SEQ_RECURSOESTADO")
+	@SequenceGenerator(name="RECURSOESTADO_IDRECEST_GENERATOR", sequenceName="SEQ_RECURSOESTADO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSOESTADO_IDRECEST_GENERATOR")
 	@Column(name="id_recest")
 	private Long idRecest;
