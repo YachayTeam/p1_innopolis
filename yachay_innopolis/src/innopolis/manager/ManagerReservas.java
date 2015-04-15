@@ -94,41 +94,60 @@ public class ManagerReservas {
 		}
 		
 		//Temporales
-		public Solicicabecera crearSolicitudTmp(String direccion, String actividad, Date fecha, Time horafin, Time horainicio){
-			soliTemp=new Solicicabecera();
-			soliTemp.setActividad(actividad);soliTemp.setDireccion(direccion);soliTemp.setFecha(fecha);
-			soliTemp.setHorainicio(horainicio);soliTemp.setHorafin(horafin);
-			soliTemp.setSolicidetalles(new ArrayList<Solicidetalle>());
-			return soliTemp;
-		}
-		
-		public void agregarSolicitudDetalleTmp(Long id_recurso, Long cantidad) throws Exception{
-			Solicidetalle det;
-			Recurso rec;
-			
-			//Validaciones de proceso
-			if(soliTemp == null)
-				throw new Exception("Error primero debe crear una solicitud.");
-			if(id_recurso==null||id_recurso== -1)
-				throw new Exception("Error debe especificar el recurso.");
-			if(cantidad==null||cantidad.intValue()<=0)
-				throw new Exception("Error debe especificar la cantidad del recurso.");
-			//FALTA VALIDACIONES DE RECURSOS
-			
-			//Busqueda Recurso Libre--- Cambiar Método
-			rec = this.RecursoByID(id_recurso);
-			//Crear detalle
-			det = new Solicidetalle();
-			det.setRecurso(rec);
-			det.setCapacidad(cantidad);
-			//Agregar al la solicitud
-			soliTemp.getSolicidetalles().add(det);
-			
-		}
-		
-		public void quitarDetalleSolicitudTem(Solicidetalle sd){
-			soliTemp.removeSolicidetalle(sd);
-		}
+				public Solicicabecera crearSolicitudTmp(String direccion, String actividad, Date fecha, Time horafin, Time horainicio){
+					soliTemp=new Solicicabecera();
+					soliTemp.setActividad(actividad);soliTemp.setDireccion(direccion);soliTemp.setFecha(fecha);
+					soliTemp.setHorainicio(horainicio);soliTemp.setHorafin(horafin);
+					soliTemp.setSolicidetalles(new ArrayList<Solicidetalle>());
+					return soliTemp;
+				}
+				
+				public void agregarSolicitudDetalleTmp(Long id_recurso, Long cantidad) throws Exception{
+					Solicidetalle det;
+					Recurso rec;
+					
+					//Validaciones de proceso
+					if(soliTemp == null)
+						throw new Exception("Error primero debe crear una solicitud.");
+					if(id_recurso==null||id_recurso== -1)
+						throw new Exception("Error debe especificar el recurso.");
+					if(cantidad==null||cantidad.intValue()<=0)
+						throw new Exception("Error debe especificar la cantidad del recurso.");
+					//FALTA VALIDACIONES DE RECURSOS por fecha y capacidad
+					
+					//Busqueda Recurso Libre--- Cambiar Método
+					rec = this.RecursoByID(id_recurso);
+					//Crear detalle
+					det = new Solicidetalle();
+					det.setRecurso(rec);
+					det.setCapacidad(cantidad);
+					//Agregar al la solicitud
+					soliTemp.getSolicidetalles().add(det);
+					
+				}
+				
+				public void quitarDetalleSolicitudTem(Solicidetalle sd){
+					soliTemp.removeSolicidetalle(sd);
+				}
+				
+				//Guardar Solicitud Temporal
+				public void guardarSolicitudTemporal(Solicicabecera solicitud) throws Exception{
+					
+					if(soliTemp==null)
+						throw new Exception("Debe crear una solicitud primero.");
+					if(soliTemp.getSolicidetalles()==null || soliTemp.getSolicidetalles().size()==0)
+						throw new Exception("Debe ingresar los recursos en la solicitud.");
+					
+					for(Solicidetalle det : soliTemp.getSolicidetalles()){
+						//Combinamos la relacion bidireccional
+						det.setSolicicabecera(soliTemp);
+					}
+					
+					//Insertamos los datosa la bdd
+					mDAO.insertar(soliTemp);
+					
+					soliTemp = null;
+				}
 		
 				
 		
