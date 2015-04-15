@@ -26,16 +26,16 @@ public class ManagerInnopolis {
 			return (Evento) mDAO.findById(Evento.class, id_evento);
 		}
 
-		//public void insertarEvento(Evento r) throws Exception {
-	//		mDAO.insertar(r);
-		//}
+		public void insertarEvento(Evento r) throws Exception {
+			mDAO.insertar(r);
+		}
 
-	//	public void eliminarEvento(Integer id_receta) throws Exception {
-		//	mDAO.eliminar(Receta.class, id_receta);
-	//	}
+		public void eliminarEvento(Integer id_evento) throws Exception {
+			mDAO.eliminar(Evento.class, id_evento);
+		}
 
-//		public void actualizarReceta(Receta receta) throws Exception {
-	//		mDAO.actualizar(receta);
-//		}
+		public void actualizarEvento(Evento evento) throws Exception {
+			mDAO.actualizar(evento);
+		}
 
 }

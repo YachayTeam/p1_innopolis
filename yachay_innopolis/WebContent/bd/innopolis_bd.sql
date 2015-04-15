@@ -6,6 +6,8 @@
 
 drop table EVENTOS;
 
+drop table INSCRIPCIONES;
+
 drop table RECURSO;
 
 drop table RECURSOESTADO;
@@ -35,6 +37,19 @@ create table EVENTOS (
    COSTO                MONEY                null,
    LUGAR                TEXT                 null,
    constraint PK_EVENTOS primary key (ID_EVENTO)
+);
+
+/*==============================================================*/
+/* Table: INSCRIPCIONES                                         */
+/*==============================================================*/
+create table INSCRIPCIONES (
+   ID_INSCRIPCION       INT8                 not null,
+   ID_EVENTO            INT8                 null,
+   ID_USUARIO           INT8                 null,
+   IMAGEN_PAGO          TEXT                 null,
+   FECHA_INSCRIPCION    DATE                 null,
+   DESCRIPCION          TEXT                 null,
+   constraint PK_INSCRIPCIONES primary key (ID_INSCRIPCION)
 );
 
 /*==============================================================*/
@@ -121,6 +136,11 @@ alter table EVENTOS
 alter table EVENTOS
    add constraint FK_EVENTOS_REFERENCE_SOLICICA foreign key (ID_SOLCAB)
       references SOLICICABECERA (ID_SOLCAB)
+      on delete restrict on update restrict;
+      
+alter table INSCRIPCIONES
+   add constraint FK_INSCRIPC_REFERENCE_EVENTOS foreign key (ID_EVENTO)
+      references EVENTOS (ID_EVENTO)
       on delete restrict on update restrict;
 
 alter table RECURSO
@@ -230,7 +250,21 @@ ALTER TABLE solicidetalle
   ADD CONSTRAINT fk_solicide_reference_solicica FOREIGN KEY (id_solcab)
       REFERENCES solicicabecera (id_solcab) MATCH SIMPLE
       ON UPDATE RESTRICT ON DELETE RESTRICT;
+ 
+      CREATE SEQUENCE public.seq_inscripciones
+   INCREMENT 1
+   START 1;
    
+   ALTER TABLE inscripciones
+   ALTER COLUMN id_inscripcion SET DEFAULT nextval('seq_inscripciones');
+ALTER TABLE inscripciones
+  DROP CONSTRAINT fk_inscripc_reference_eventos;
+ALTER TABLE inscripciones
+  ADD CONSTRAINT fk_inscripc_reference_eventos FOREIGN KEY (id_evento)
+      REFERENCES eventos (id_evento) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+  
       
       
 
