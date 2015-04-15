@@ -10,6 +10,8 @@ drop table INSCRIPCIONES;
 
 drop table RECURSO;
 
+drop table RECURSODISPONIBLE;
+
 drop table RECURSOESTADO;
 
 drop table RECURSOTIPO;
@@ -64,6 +66,15 @@ create table RECURSO (
    DESCRIPCION          TEXT                 null,
    LUGAR                TEXT                 null,
    constraint PK_RECURSO primary key (ID_RECURSO)
+);
+
+/*==============================================================*/
+/* Table: RECURSODISPONIBLE                                     */
+/*==============================================================*/
+create table RECURSODISPONIBLE (
+   ID_RECDISPONIBLE     INT8                 not null,
+   DISPONIBILIDAD       TEXT                 null,
+   constraint PK_RECURSODISPONIBLE primary key (ID_RECDISPONIBLE)
 );
 
 /*==============================================================*/
@@ -137,6 +148,11 @@ alter table EVENTOS
    add constraint FK_EVENTOS_REFERENCE_SOLICICA foreign key (ID_SOLCAB)
       references SOLICICABECERA (ID_SOLCAB)
       on delete restrict on update restrict;
+
+alter table RECURSO
+   add constraint FK_RECURSO_REFERENCE_RECURSOD foreign key (ID_RECDISPONIBLE)
+      references RECURSODISPONIBLE (ID_RECDISPONIBLE)
+      on delete restrict on update restrict;
       
 alter table INSCRIPCIONES
    add constraint FK_INSCRIPC_REFERENCE_EVENTOS foreign key (ID_EVENTO)
@@ -171,6 +187,39 @@ alter table SOLICIDETALLE
 /*==============================================================*/
 /* SECUENCIAS                                           */
 /*==============================================================*/
+       CREATE SEQUENCE public.seq_recurso
+   INCREMENT 1
+   START 1;
+   
+   ALTER TABLE recurso
+   ALTER COLUMN id_recurso SET DEFAULT nextval('seq_recurso');
+ALTER TABLE recurso
+  DROP CONSTRAINT fk_recurso_reference_recursod;
+ALTER TABLE recurso
+  DROP CONSTRAINT fk_recurso_reference_recursoe;
+ALTER TABLE recurso
+  DROP CONSTRAINT fk_recurso_reference_recursot;
+ALTER TABLE recurso
+  ADD CONSTRAINT fk_recurso_reference_recursod FOREIGN KEY (id_recdisponible)
+      REFERENCES recursodisponible (id_recdisponible) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE recurso
+  ADD CONSTRAINT fk_recurso_reference_recursoe FOREIGN KEY (id_recest)
+      REFERENCES recursoestado (id_recest) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE recurso
+  ADD CONSTRAINT fk_recurso_reference_recursot FOREIGN KEY (id_rectipo)
+      REFERENCES recursotipo (id_rectipo) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+      
+      CREATE SEQUENCE public.seq_recursodisponible
+   INCREMENT 1
+   START 1;
+   
+   ALTER TABLE recursodisponible
+   ALTER COLUMN id_recdisponible SET DEFAULT nextval('seq_recursodisponible');
+
+      
       
       CREATE SEQUENCE public.seq_tipoevento
    INCREMENT 1
