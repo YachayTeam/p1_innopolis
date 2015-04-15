@@ -6,7 +6,7 @@ import innopolis.entities.Solicicabecera;
 import innopolis.entities.Tipoevento;
 import innopolis.manager.ManagerInnopolis;
 
-import javax.annotation.ManagedBean;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 @SessionScoped
