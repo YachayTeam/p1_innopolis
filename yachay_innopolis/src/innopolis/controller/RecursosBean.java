@@ -12,6 +12,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 @ManagedBean
 public class RecursosBean {
+	
 	private ManagerInnopolis manager;
 	
 	private Long idRecurso;
