@@ -3,6 +3,7 @@ package innopolis.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -19,7 +20,7 @@ public class Evento implements Serializable {
 	@SequenceGenerator(name="EVENTOS_IDEVENTO_GENERATOR", sequenceName="SEQ_EVENTOS", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EVENTOS_IDEVENTO_GENERATOR")
 	@Column(name="id_evento")
-	private Long idEvento;
+	private Integer idEvento;
 
 	private double costo;
 
@@ -49,14 +50,18 @@ public class Evento implements Serializable {
 	@JoinColumn(name="id_tipo_evento")
 	private Tipoevento tipoevento;
 
+	//bi-directional many-to-one association to Inscripcione
+	@OneToMany(mappedBy="evento")
+	private List<Inscripcione> inscripciones;
+
 	public Evento() {
 	}
 
-	public Long getIdEvento() {
+	public Integer getIdEvento() {
 		return this.idEvento;
 	}
 
-	public void setIdEvento(Long idEvento) {
+	public void setIdEvento(Integer idEvento) {
 		this.idEvento = idEvento;
 	}
 
@@ -130,6 +135,28 @@ public class Evento implements Serializable {
 
 	public void setTipoevento(Tipoevento tipoevento) {
 		this.tipoevento = tipoevento;
+	}
+
+	public List<Inscripcione> getInscripciones() {
+		return this.inscripciones;
+	}
+
+	public void setInscripciones(List<Inscripcione> inscripciones) {
+		this.inscripciones = inscripciones;
+	}
+
+	public Inscripcione addInscripcione(Inscripcione inscripcione) {
+		getInscripciones().add(inscripcione);
+		inscripcione.setEvento(this);
+
+		return inscripcione;
+	}
+
+	public Inscripcione removeInscripcione(Inscripcione inscripcione) {
+		getInscripciones().remove(inscripcione);
+		inscripcione.setEvento(null);
+
+		return inscripcione;
 	}
 
 }

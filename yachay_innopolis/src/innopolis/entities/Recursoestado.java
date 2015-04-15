@@ -18,7 +18,7 @@ public class Recursoestado implements Serializable {
 	@SequenceGenerator(name="RECURSOESTADO_IDRECEST_GENERATOR", sequenceName="SEQ_RECURSOESTADO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSOESTADO_IDRECEST_GENERATOR")
 	@Column(name="id_recest")
-	private Long idRecest;
+	private Integer idRecest;
 
 	private String estado;
 
@@ -29,11 +29,11 @@ public class Recursoestado implements Serializable {
 	public Recursoestado() {
 	}
 
-	public Long getIdRecest() {
+	public Integer getIdRecest() {
 		return this.idRecest;
 	}
 
-	public void setIdRecest(Long idRecest) {
+	public void setIdRecest(Integer idRecest) {
 		this.idRecest = idRecest;
 	}
 

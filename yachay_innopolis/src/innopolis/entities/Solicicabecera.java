@@ -20,7 +20,7 @@ public class Solicicabecera implements Serializable {
 	@SequenceGenerator(name="SOLICICABECERA_IDSOLCAB_GENERATOR", sequenceName="SEQ_SOLICICABECERA", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SOLICICABECERA_IDSOLCAB_GENERATOR")
 	@Column(name="id_solcab")
-	private Long idSolcab;
+	private Integer idSolcab;
 
 	private String actividad;
 
@@ -49,11 +49,11 @@ public class Solicicabecera implements Serializable {
 	public Solicicabecera() {
 	}
 
-	public Long getIdSolcab() {
+	public Integer getIdSolcab() {
 		return this.idSolcab;
 	}
 
-	public void setIdSolcab(Long idSolcab) {
+	public void setIdSolcab(Integer idSolcab) {
 		this.idSolcab = idSolcab;
 	}
 

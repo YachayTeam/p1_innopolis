@@ -18,11 +18,13 @@ public class Recurso implements Serializable {
 	@SequenceGenerator(name="RECURSO_IDRECURSO_GENERATOR", sequenceName="SEQ_RECURSO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSO_IDRECURSO_GENERATOR")
 	@Column(name="id_recurso")
-	private Long idRecurso;
+	private Integer idRecurso;
 
-	private Long capacidad;
+	private Integer capacidad;
 
 	private String descripcion;
+
+	private String imagen;
 
 	private String lugar;
 
@@ -50,19 +52,19 @@ public class Recurso implements Serializable {
 	public Recurso() {
 	}
 
-	public Long getIdRecurso() {
+	public Integer getIdRecurso() {
 		return this.idRecurso;
 	}
 
-	public void setIdRecurso(Long idRecurso) {
+	public void setIdRecurso(Integer idRecurso) {
 		this.idRecurso = idRecurso;
 	}
 
-	public Long getCapacidad() {
+	public Integer getCapacidad() {
 		return this.capacidad;
 	}
 
-	public void setCapacidad(Long capacidad) {
+	public void setCapacidad(Integer capacidad) {
 		this.capacidad = capacidad;
 	}
 
@@ -72,6 +74,14 @@ public class Recurso implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	public String getImagen() {
+		return this.imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 	public String getLugar() {

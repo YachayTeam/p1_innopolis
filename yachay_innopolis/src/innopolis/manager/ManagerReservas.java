@@ -36,12 +36,12 @@ public class ManagerReservas {
 		}
 	
 //buscar recurso por ID
-	public Recurso RecursoByID(Long id_recurso) throws Exception{
+	public Recurso RecursoByID(Integer id_recurso) throws Exception{
 		return (Recurso) mDAO.findById(Recurso.class, id_recurso);
 	}
 	
 //insertar los recursos
-	public void insertarRecurso(Long capacidad, String descripcion, String lugar, String nombre,Recursotipo rt, Recursoestado re) throws Exception{
+	public void insertarRecurso(Integer capacidad, String descripcion, String lugar, String nombre,Recursotipo rt, Recursoestado re) throws Exception{
 		Recurso r = new Recurso();
 		r.setCapacidad(capacidad);
 		r.setDescripcion(descripcion);
@@ -60,7 +60,7 @@ public class ManagerReservas {
 	}
 
 //editar los recursos
-	public void editarRecurso(Long idRecurso, Long capacidad, String descripcion, String lugar, String nombre, Recursotipo rt){
+	public void editarRecurso(Integer idRecurso, Integer capacidad, String descripcion, String lugar, String nombre, Recursotipo rt){
 		try {
 			Recurso r = this.RecursoByID(idRecurso);
 			r.setCapacidad(capacidad);
@@ -102,7 +102,7 @@ public class ManagerReservas {
 					return soliTemp;
 				}
 				
-				public void agregarSolicitudDetalleTmp(Long id_recurso, Long cantidad) throws Exception{
+				public void agregarSolicitudDetalleTmp(Integer id_recurso, Integer cantidad) throws Exception{
 					Solicidetalle det;
 					Recurso rec;
 					

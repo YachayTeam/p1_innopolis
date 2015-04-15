@@ -15,12 +15,12 @@ public class Recursodisponible implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RECURSODISPONIBLE_IDRECDISPONIBLE_GENERATOR", sequenceName="SEQ_RECURSODISPONIBLE", allocationSize=1)
+	@SequenceGenerator(name="RECURSODISPONIBLE_IDRECDISPONIBLE_GENERATOR", sequenceName="SEQ_RECURSOS_DISPONIBLES", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSODISPONIBLE_IDRECDISPONIBLE_GENERATOR")
 	@Column(name="id_recdisponible")
-	private Long idRecdisponible;
+	private Integer idRecdisponible;
 
-	private String disponibilidad;
+	private String disponible;
 
 	//bi-directional many-to-one association to Recurso
 	@OneToMany(mappedBy="recursodisponible")
@@ -29,20 +29,20 @@ public class Recursodisponible implements Serializable {
 	public Recursodisponible() {
 	}
 
-	public Long getIdRecdisponible() {
+	public Integer getIdRecdisponible() {
 		return this.idRecdisponible;
 	}
 
-	public void setIdRecdisponible(Long idRecdisponible) {
+	public void setIdRecdisponible(Integer idRecdisponible) {
 		this.idRecdisponible = idRecdisponible;
 	}
 
-	public String getDisponibilidad() {
-		return this.disponibilidad;
+	public String getDisponible() {
+		return this.disponible;
 	}
 
-	public void setDisponibilidad(String disponibilidad) {
-		this.disponibilidad = disponibilidad;
+	public void setDisponible(String disponible) {
+		this.disponible = disponible;
 	}
 
 	public List<Recurso> getRecursos() {

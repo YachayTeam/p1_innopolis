@@ -18,7 +18,7 @@ public class Recursotipo implements Serializable {
 	@SequenceGenerator(name="RECURSOTIPO_IDRECTIPO_GENERATOR", sequenceName="SEQ_RECURSOTIPO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSOTIPO_IDRECTIPO_GENERATOR")
 	@Column(name="id_rectipo")
-	private Long idRectipo;
+	private Integer idRectipo;
 
 	private String tipo;
 
@@ -29,11 +29,11 @@ public class Recursotipo implements Serializable {
 	public Recursotipo() {
 	}
 
-	public Long getIdRectipo() {
+	public Integer getIdRectipo() {
 		return this.idRectipo;
 	}
 
-	public void setIdRectipo(Long idRectipo) {
+	public void setIdRectipo(Integer idRectipo) {
 		this.idRectipo = idRectipo;
 	}
 

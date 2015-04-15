@@ -237,15 +237,7 @@ ALTER TABLE recurso
       REFERENCES recursotipo (id_rectipo) MATCH SIMPLE
       ON UPDATE RESTRICT ON DELETE RESTRICT;
       
-      CREATE SEQUENCE public.seq_recursodisponible
-   INCREMENT 1
-   START 1;
-   
-   ALTER TABLE recursodisponible
-   ALTER COLUMN id_recdisponible SET DEFAULT nextval('seq_recursodisponible');
-
-      
-      
+         
       CREATE SEQUENCE public.seq_tipoevento
    INCREMENT 1
    START 1;

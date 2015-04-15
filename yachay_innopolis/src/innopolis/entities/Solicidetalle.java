@@ -14,12 +14,12 @@ public class Solicidetalle implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SOLICIDETALLE_IDSOLDET_GENERATOR", sequenceName="SEQ_SOLICIDETALLE" , allocationSize=1)
+	@SequenceGenerator(name="SOLICIDETALLE_IDSOLDET_GENERATOR", sequenceName="SEQ_SOLICIDETALLE", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SOLICIDETALLE_IDSOLDET_GENERATOR")
 	@Column(name="id_soldet")
-	private Long idSoldet;
+	private Integer idSoldet;
 
-	private Long capacidad;
+	private Integer capacidad;
 
 	//bi-directional many-to-one association to Recurso
 	@ManyToOne
@@ -34,19 +34,19 @@ public class Solicidetalle implements Serializable {
 	public Solicidetalle() {
 	}
 
-	public Long getIdSoldet() {
+	public Integer getIdSoldet() {
 		return this.idSoldet;
 	}
 
-	public void setIdSoldet(Long idSoldet) {
+	public void setIdSoldet(Integer idSoldet) {
 		this.idSoldet = idSoldet;
 	}
 
-	public Long getCapacidad() {
+	public Integer getCapacidad() {
 		return this.capacidad;
 	}
 
-	public void setCapacidad(Long capacidad) {
+	public void setCapacidad(Integer capacidad) {
 		this.capacidad = capacidad;
 	}
 
