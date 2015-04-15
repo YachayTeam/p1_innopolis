@@ -1,39 +1,11 @@
+
 /*==============================================================*/
-/* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     15/04/2015 11:40:44                          */
+/* User: PUBLIC                                                 */
 /*==============================================================*/
-
-
-drop table EVENTOS;
-
-drop table INSCRIPCIONES;
-
-drop table RECURSO;
-
-drop table RECURSODISPONIBLE;
-
-drop table RECURSOESTADO;
-
-drop table RECURSOTIPO;
-
-drop table SERVICIOSVIRTREGIS;
-
-drop table SOLICICABECERA;
-
-drop table SOLICIDETALLE;
-
-drop table SOLICIESTADO;
-
-drop table TIPOESTADO;
-
-drop table TIPOEVENTO;
-
-drop table TIPOSERVICIO;
-
 /*==============================================================*/
 /* Table: EVENTOS                                               */
 /*==============================================================*/
-create table EVENTOS (
+create table PUBLIC.EVENTOS (
    ID_EVENTO            INT4                 not null,
    ID_SOLCAB            INT4                 null,
    ID_TIPO_EVENTO       INT4                 null,
@@ -50,7 +22,7 @@ create table EVENTOS (
 /*==============================================================*/
 /* Table: INSCRIPCIONES                                         */
 /*==============================================================*/
-create table INSCRIPCIONES (
+create table PUBLIC.INSCRIPCIONES (
    ID_INSCRIPCION       INT4                 not null,
    ID_EVENTO            INT4                 null,
    ID_USUARIO           INT4                 null,
@@ -63,7 +35,7 @@ create table INSCRIPCIONES (
 /*==============================================================*/
 /* Table: RECURSO                                               */
 /*==============================================================*/
-create table RECURSO (
+create table PUBLIC.RECURSO (
    ID_RECURSO           INT4                 not null,
    ID_RECTIPO           INT4                 null,
    ID_RECEST            INT4                 null,
@@ -79,21 +51,16 @@ create table RECURSO (
 /*==============================================================*/
 /* Table: RECURSODISPONIBLE                                     */
 /*==============================================================*/
-create table RECURSODISPONIBLE (
-<<<<<<< HEAD
+create table PUBLIC.RECURSODISPONIBLE (
    ID_RECDISPONIBLE     INT4                 not null,
    DISPONIBLE           TEXT                 null,
-=======
-   ID_RECDISPONIBLE     INT8                 not null,
-   DISPONIBILIDAD       TEXT                 null,
->>>>>>> branch 'master' of https://github.com/YachayTeam/p1_innopolis.git
    constraint PK_RECURSODISPONIBLE primary key (ID_RECDISPONIBLE)
 );
 
 /*==============================================================*/
 /* Table: RECURSOESTADO                                         */
 /*==============================================================*/
-create table RECURSOESTADO (
+create table PUBLIC.RECURSOESTADO (
    ID_RECEST            INT4                 not null,
    ESTADO               VARCHAR(100)         null,
    constraint PK_RECURSOESTADO primary key (ID_RECEST)
@@ -102,7 +69,7 @@ create table RECURSOESTADO (
 /*==============================================================*/
 /* Table: RECURSOTIPO                                           */
 /*==============================================================*/
-create table RECURSOTIPO (
+create table PUBLIC.RECURSOTIPO (
    ID_RECTIPO           INT4                 not null,
    TIPO                 VARCHAR(100)         null,
    constraint PK_RECURSOTIPO primary key (ID_RECTIPO)
@@ -111,7 +78,7 @@ create table RECURSOTIPO (
 /*==============================================================*/
 /* Table: SERVICIOSVIRTREGIS                                    */
 /*==============================================================*/
-create table SERVICIOSVIRTREGIS (
+create table PUBLIC.SERVICIOSVIRTREGIS (
    ID_SVR               INT4                 not null,
    ID_TP                INT4                 null,
    ID_ESTADO            INT4                 null,
@@ -126,7 +93,7 @@ create table SERVICIOSVIRTREGIS (
 /*==============================================================*/
 /* Table: SOLICICABECERA                                        */
 /*==============================================================*/
-create table SOLICICABECERA (
+create table PUBLIC.SOLICICABECERA (
    ID_SOLCAB            INT4                 not null,
    ID_SOLEST            INT4                 null,
    DIRECCION            TEXT                 null,
@@ -140,7 +107,7 @@ create table SOLICICABECERA (
 /*==============================================================*/
 /* Table: SOLICIDETALLE                                         */
 /*==============================================================*/
-create table SOLICIDETALLE (
+create table PUBLIC.SOLICIDETALLE (
    ID_SOLDET            INT4                 not null,
    ID_SOLCAB            INT4                 null,
    ID_RECURSO           INT4                 null,
@@ -151,7 +118,7 @@ create table SOLICIDETALLE (
 /*==============================================================*/
 /* Table: SOLICIESTADO                                          */
 /*==============================================================*/
-create table SOLICIESTADO (
+create table PUBLIC.SOLICIESTADO (
    ID_SOLEST            INT4                 not null,
    ESTADO               VARCHAR(100)         null,
    constraint PK_SOLICIESTADO primary key (ID_SOLEST)
@@ -160,7 +127,7 @@ create table SOLICIESTADO (
 /*==============================================================*/
 /* Table: TIPOESTADO                                            */
 /*==============================================================*/
-create table TIPOESTADO (
+create table PUBLIC.TIPOESTADO (
    ID_ESTADO            INT4                 not null,
    NOMBREESTADO         VARCHAR(60)          null,
    constraint PK_TIPOESTADO primary key (ID_ESTADO)
@@ -169,7 +136,7 @@ create table TIPOESTADO (
 /*==============================================================*/
 /* Table: TIPOEVENTO                                            */
 /*==============================================================*/
-create table TIPOEVENTO (
+create table PUBLIC.TIPOEVENTO (
    ID_TIPO_EVENTO       INT4                 not null,
    TIPO                 VARCHAR(25)          null,
    DESCRIPCION          VARCHAR(100)         null,
@@ -179,30 +146,22 @@ create table TIPOEVENTO (
 /*==============================================================*/
 /* Table: TIPOSERVICIO                                          */
 /*==============================================================*/
-create table TIPOSERVICIO (
+create table PUBLIC.TIPOSERVICIO (
    ID_TP                INT4                 not null,
    NOMBRE_SERVICIO      VARCHAR(60)          null,
    constraint PK_TIPOSERVICIO primary key (ID_TP)
 );
 
 alter table EVENTOS
-   add constraint FK_EVENTOS_REFERENCE_TIPOEVEN foreign key (ID_TIPO_EVENTO)
-      references TIPOEVENTO (ID_TIPO_EVENTO)
-      on delete restrict on update restrict;
-
-alter table EVENTOS
    add constraint FK_EVENTOS_REFERENCE_SOLICICA foreign key (ID_SOLCAB)
       references SOLICICABECERA (ID_SOLCAB)
       on delete restrict on update restrict;
 
-<<<<<<< HEAD
-=======
-alter table RECURSO
-   add constraint FK_RECURSO_REFERENCE_RECURSOD foreign key (ID_RECDISPONIBLE)
-      references RECURSODISPONIBLE (ID_RECDISPONIBLE)
+alter table EVENTOS
+   add constraint FK_EVENTOS_REFERENCE_TIPOEVEN foreign key (ID_TIPO_EVENTO)
+      references TIPOEVENTO (ID_TIPO_EVENTO)
       on delete restrict on update restrict;
-      
->>>>>>> branch 'master' of https://github.com/YachayTeam/p1_innopolis.git
+
 alter table INSCRIPCIONES
    add constraint FK_INSCRIPC_REFERENCE_EVENTOS foreign key (ID_EVENTO)
       references EVENTOS (ID_EVENTO)
@@ -214,23 +173,23 @@ alter table RECURSO
       on delete restrict on update restrict;
 
 alter table RECURSO
-   add constraint FK_RECURSO_REFERENCE_RECURSOT foreign key (ID_RECTIPO)
-      references RECURSOTIPO (ID_RECTIPO)
-      on delete restrict on update restrict;
-
-alter table RECURSO
    add constraint FK_RECURSO_REFERENCE_RECURSOE foreign key (ID_RECEST)
       references RECURSOESTADO (ID_RECEST)
       on delete restrict on update restrict;
 
-alter table SERVICIOSVIRTREGIS
-   add constraint FK_SERVICIO_REFERENCE_TIPOSERV foreign key (ID_TP)
-      references TIPOSERVICIO (ID_TP)
+alter table RECURSO
+   add constraint FK_RECURSO_REFERENCE_RECURSOT foreign key (ID_RECTIPO)
+      references RECURSOTIPO (ID_RECTIPO)
       on delete restrict on update restrict;
 
 alter table SERVICIOSVIRTREGIS
    add constraint FK_SERVICIO_REFERENCE_TIPOESTA foreign key (ID_ESTADO)
       references TIPOESTADO (ID_ESTADO)
+      on delete restrict on update restrict;
+
+alter table SERVICIOSVIRTREGIS
+   add constraint FK_SERVICIO_REFERENCE_TIPOSERV foreign key (ID_TP)
+      references TIPOSERVICIO (ID_TP)
       on delete restrict on update restrict;
 
 alter table SOLICICABECERA
@@ -239,13 +198,13 @@ alter table SOLICICABECERA
       on delete restrict on update restrict;
 
 alter table SOLICIDETALLE
-   add constraint FK_SOLICIDE_REFERENCE_SOLICICA foreign key (ID_SOLCAB)
-      references SOLICICABECERA (ID_SOLCAB)
+   add constraint FK_SOLICIDE_REFERENCE_RECURSO foreign key (ID_RECURSO)
+      references RECURSO (ID_RECURSO)
       on delete restrict on update restrict;
 
 alter table SOLICIDETALLE
-   add constraint FK_SOLICIDE_REFERENCE_RECURSO foreign key (ID_RECURSO)
-      references RECURSO (ID_RECURSO)
+   add constraint FK_SOLICIDE_REFERENCE_SOLICICA foreign key (ID_SOLCAB)
+      references SOLICICABECERA (ID_SOLCAB)
       on delete restrict on update restrict;
 
 
@@ -417,6 +376,3 @@ ALTER TABLE serviciosvirtregis
    START 1;
 ALTER TABLE recursodisponible
    ALTER COLUMN id_recdisponible SET DEFAULT nextval('seq_recursos_disponibles');
-
-      
-      
