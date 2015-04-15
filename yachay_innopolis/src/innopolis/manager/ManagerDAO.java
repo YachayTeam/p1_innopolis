@@ -326,5 +326,6 @@ public class ManagerDAO {
 	public static EntityManager getEntityManager() {
 		return em;
 	}
+	//asadasasada
 
 }
