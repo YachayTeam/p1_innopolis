@@ -3,6 +3,7 @@
 	<persistence-unit name="yachay_innopolis" transaction-type="RESOURCE_LOCAL">
 		<class>innopolis.entities.Evento</class>
 		<class>innopolis.entities.Recurso</class>
+		<class>innopolis.entities.Recursodisponible</class>
 		<class>innopolis.entities.Recursoestado</class>
 		<class>innopolis.entities.Recursotipo</class>
 		<class>innopolis.entities.Solicicabecera</class>

@@ -15,7 +15,7 @@ public class Tipoevento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="TIPOEVENTO_IDTIPOEVENTO_GENERATOR", sequenceName="SEQ_TIPOEVENTO", allocationSize=1)
+	@SequenceGenerator(name="TIPOEVENTO_IDTIPOEVENTO_GENERATOR" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TIPOEVENTO_IDTIPOEVENTO_GENERATOR")
 	@Column(name="id_tipo_evento")
 	private Long idTipoEvento;
