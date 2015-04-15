@@ -7,7 +7,7 @@ import java.util.List;
 import innopolis.entities.Solicicabecera;
 import innopolis.manager.ManagerReservas;
 
-import javax.annotation.ManagedBean;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 @SessionScoped
