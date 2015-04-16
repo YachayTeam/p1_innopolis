@@ -15,7 +15,7 @@ public class Serviciosvirtregi implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SERVICIOSVIRTREGIS_IDSVR_GENERATOR", sequenceName="SEQ_SERVICIOS_VIRTUALES", allocationSize=1)
+	@SequenceGenerator(name="SERVICIOSVIRTREGIS_IDSVR_GENERATOR", sequenceName="SEQ_SERVICIOS_VIRTUALES",allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SERVICIOSVIRTREGIS_IDSVR_GENERATOR")
 	@Column(name="id_svr")
 	private Integer idSvr;

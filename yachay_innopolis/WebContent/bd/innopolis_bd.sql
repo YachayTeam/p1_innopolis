@@ -1,4 +1,3 @@
-
 /*==============================================================*/
 /* User: PUBLIC                                                 */
 /*==============================================================*/
@@ -38,7 +37,6 @@ create table PUBLIC.INSCRIPCIONES (
 create table PUBLIC.RECURSO (
    ID_RECURSO           INT4                 not null,
    ID_RECTIPO           INT4                 null,
-   ID_RECEST            INT4                 null,
    ID_RECDISPONIBLE     INT4                 null,
    NOMBRE               VARCHAR(200)         null,
    CAPACIDAD            INT4                 null,
@@ -58,12 +56,16 @@ create table PUBLIC.RECURSODISPONIBLE (
 );
 
 /*==============================================================*/
-/* Table: RECURSOESTADO                                         */
+/* Table: RECURSOSACTIVOS                                       */
 /*==============================================================*/
-create table PUBLIC.RECURSOESTADO (
-   ID_RECEST            INT4                 not null,
-   ESTADO               VARCHAR(100)         null,
-   constraint PK_RECURSOESTADO primary key (ID_RECEST)
+create table RECURSOSACTIVOS (
+   ID_RECACT            NUMERIC              not null,
+   ID_SOLICITUD         INT4                 null,
+   FECHA                DATE                 null,
+   HORA_INICIO          TIME                 null,
+   HORA_FIN             TIME                 null,
+   ID_RECURSO           INT4                 null,
+   constraint PK_RECURSOSACTIVOS primary key (ID_RECACT)
 );
 
 /*==============================================================*/
@@ -173,11 +175,6 @@ alter table RECURSO
       on delete restrict on update restrict;
 
 alter table RECURSO
-   add constraint FK_RECURSO_REFERENCE_RECURSOE foreign key (ID_RECEST)
-      references RECURSOESTADO (ID_RECEST)
-      on delete restrict on update restrict;
-
-alter table RECURSO
    add constraint FK_RECURSO_REFERENCE_RECURSOT foreign key (ID_RECTIPO)
       references RECURSOTIPO (ID_RECTIPO)
       on delete restrict on update restrict;
@@ -208,6 +205,7 @@ alter table SOLICIDETALLE
       on delete restrict on update restrict;
 
 
+
       
 /*==============================================================*/
 /* SECUENCIAS                                           */
@@ -221,23 +219,18 @@ alter table SOLICIDETALLE
 ALTER TABLE recurso
   DROP CONSTRAINT fk_recurso_reference_recursod;
 ALTER TABLE recurso
-  DROP CONSTRAINT fk_recurso_reference_recursoe;
-ALTER TABLE recurso
   DROP CONSTRAINT fk_recurso_reference_recursot;
 ALTER TABLE recurso
   ADD CONSTRAINT fk_recurso_reference_recursod FOREIGN KEY (id_recdisponible)
       REFERENCES recursodisponible (id_recdisponible) MATCH SIMPLE
       ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE recurso
-  ADD CONSTRAINT fk_recurso_reference_recursoe FOREIGN KEY (id_recest)
-      REFERENCES recursoestado (id_recest) MATCH SIMPLE
-      ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE recurso
   ADD CONSTRAINT fk_recurso_reference_recursot FOREIGN KEY (id_rectipo)
       REFERENCES recursotipo (id_rectipo) MATCH SIMPLE
       ON UPDATE RESTRICT ON DELETE RESTRICT;
       
-         
+        
+      
       CREATE SEQUENCE public.seq_tipoevento
    INCREMENT 1
    START 1;
@@ -271,12 +264,12 @@ CREATE SEQUENCE public.seq_recursotipo
 ALTER TABLE recursotipo
    ALTER COLUMN id_rectipo SET DEFAULT nextval('seq_recursotipo');
 
-   CREATE SEQUENCE public.seq_recursoestado
+   CREATE SEQUENCE public.seq_recursoactivo
    INCREMENT 1
    START 1;
    
-   ALTER TABLE recursoestado
-   ALTER COLUMN id_recest SET DEFAULT nextval('seq_recursoestado');
+   ALTER TABLE recursosactivos
+   ALTER COLUMN id_recact SET DEFAULT nextval('seq_recursoactivo');
    
    CREATE SEQUENCE public.seq_soliciestado
    INCREMENT 1

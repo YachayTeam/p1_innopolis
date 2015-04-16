@@ -15,7 +15,7 @@ public class ManagerReservas {
 	private Solicicabecera soliTemp;
 	
 	//Almacenar tipos y estados
-		private static Recursoestado re;
+		//private static Recursoestado re;
 		private static Recursotipo rt;
 		private static Recursodisponible rd;
 	
@@ -40,7 +40,7 @@ public class ManagerReservas {
 			}
 		
 	// listar todos los RecursosEstados 
-					@SuppressWarnings("unchecked")
+				/*	@SuppressWarnings("unchecked")
 					public List<Recursoestado> findAllRecursoEstado(){
 						return mDAO.findAll(Recursoestado.class);
 					}
@@ -48,7 +48,7 @@ public class ManagerReservas {
 					@SuppressWarnings("unchecked")
 					public List<Recursoestado> findAllRecursoDisponibles(){
 						return mDAO.findAll(Recursodisponible.class);		
-					}
+					}*/
 					
 	//buscar recurso por ID
 		public Recurso findRecursoByID(Integer id_recurso) throws Exception{
@@ -58,7 +58,7 @@ public class ManagerReservas {
 			public Recursotipo findRecursoTipoByID(Integer id_rec_tipo) throws Exception{
 				return (Recursotipo) mDAO.findById(Recursotipo.class, id_rec_tipo);
 			}
-			
+			/*
 			//buscar RecursoEstado por ID
 			public Recursoestado findRecursoEstadoByID(Integer id_rec_estado) throws Exception{
 				return (Recursoestado) mDAO.findById(Recursoestado.class, id_rec_estado);
@@ -126,7 +126,7 @@ public class ManagerReservas {
 				}
 	 	 		return re;
 	 		}
-
+*/
 	// ------SOLICITUDES-------
 	
 	//SolicitudEstado

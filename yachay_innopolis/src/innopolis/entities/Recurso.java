@@ -15,7 +15,7 @@ public class Recurso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RECURSO_IDRECURSO_GENERATOR", sequenceName="SEQ_RECURSO", allocationSize=1)
+	@SequenceGenerator(name="RECURSO_IDRECURSO_GENERATOR", sequenceName="SEQ_RECURSO",allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSO_IDRECURSO_GENERATOR")
 	@Column(name="id_recurso")
 	private Integer idRecurso;
@@ -34,11 +34,6 @@ public class Recurso implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_recdisponible")
 	private Recursodisponible recursodisponible;
-
-	//bi-directional many-to-one association to Recursoestado
-	@ManyToOne
-	@JoinColumn(name="id_recest")
-	private Recursoestado recursoestado;
 
 	//bi-directional many-to-one association to Recursotipo
 	@ManyToOne
@@ -106,14 +101,6 @@ public class Recurso implements Serializable {
 
 	public void setRecursodisponible(Recursodisponible recursodisponible) {
 		this.recursodisponible = recursodisponible;
-	}
-
-	public Recursoestado getRecursoestado() {
-		return this.recursoestado;
-	}
-
-	public void setRecursoestado(Recursoestado recursoestado) {
-		this.recursoestado = recursoestado;
 	}
 
 	public Recursotipo getRecursotipo() {

@@ -5,7 +5,7 @@
 		<class>innopolis.entities.Inscripcione</class>
 		<class>innopolis.entities.Recurso</class>
 		<class>innopolis.entities.Recursodisponible</class>
-		<class>innopolis.entities.Recursoestado</class>
+		<class>innopolis.entities.Recursosactivo</class>
 		<class>innopolis.entities.Recursotipo</class>
 		<class>innopolis.entities.Serviciosvirtregi</class>
 		<class>innopolis.entities.Solicicabecera</class>

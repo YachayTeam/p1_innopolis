@@ -14,7 +14,7 @@ public class Solicidetalle implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SOLICIDETALLE_IDSOLDET_GENERATOR", sequenceName="SEQ_SOLICIDETALLE", allocationSize=1)
+	@SequenceGenerator(name="SOLICIDETALLE_IDSOLDET_GENERATOR", sequenceName="SEQ_SOLICIDETALLE",allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SOLICIDETALLE_IDSOLDET_GENERATOR")
 	@Column(name="id_soldet")
 	private Integer idSoldet;

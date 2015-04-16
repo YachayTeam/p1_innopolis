@@ -118,7 +118,7 @@ public class RecursosBean {
 	}
 
 		//accion para invocar el manager y crear recurso
-		public String crearRecurso(){
+		/*public String crearRecurso(){
 			try {
 				manager.insertarRecurso(capacidad, descripcion, lugar, nombre, imagen);
 				//reiniciamos datos (limpiamos el formulario)
@@ -185,7 +185,7 @@ public class RecursosBean {
 			        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
 					return "recurso";
 					
-				}
+				}*/
 				
 				//------ traslados--------
 				
