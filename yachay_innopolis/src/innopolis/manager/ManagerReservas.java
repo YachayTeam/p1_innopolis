@@ -128,78 +128,87 @@ public class ManagerReservas {
 	 		}
 */
 	// ------SOLICITUDES-------
+	//Disponibilidad Libre y Activo
 	
 	//SolicitudEstado
-		@SuppressWarnings("unchecked")
-		public List<Soliciestado> findAllSolicitudEstado(){
-			return mDAO.findAll(Soliciestado.class);
+	@SuppressWarnings("unchecked")
+	public List<Soliciestado> findAllSolicitudEstado(){
+		return mDAO.findAll(Soliciestado.class);
+	}
+	
+	public Soliciestado findSolicitudEstadoByID(Integer pID) throws Exception{
+		return (Soliciestado) mDAO.findById(Soliciestado.class, pID);
+	}
+	
+	//Solicitud Cabecera
+	@SuppressWarnings("unchecked")
+	public List<Solicicabecera> findAllSolicitudCabecera(){
+		return mDAO.findAll(Solicicabecera.class);
+	}
+	
+	public Solicicabecera findSolicitudCabeceraById(Integer id) throws Exception{
+		return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
+	}
+	
+	//Temporales
+	public Solicicabecera crearSolicitudTmp(String direccion, String actividad, Date fecha, Time horafin, Time horainicio) throws Exception{
+		soliTemp=new Solicicabecera();
+		soliTemp.setActividad(actividad);soliTemp.setDireccion(direccion);soliTemp.setFecha(fecha);
+		soliTemp.setHorainicio(horainicio);soliTemp.setHorafin(horafin);
+		//OJO ESTADOS
+		soliTemp.setSoliciestado(findSolicitudEstadoByID(1));//1 Pendiente
+		soliTemp.setSolicidetalles(new ArrayList<Solicidetalle>());
+		return soliTemp;
+	}
+			
+	public void agregarSolicitudDetalleTmp(Integer id_recurso, Integer cantidad) throws Exception{
+		Solicidetalle det;
+		Recurso rec;
+		
+		//Validaciones de proceso
+		if(soliTemp == null)
+			throw new Exception("Error primero debe crear una solicitud.");
+		if(id_recurso==null||id_recurso== -1)
+			throw new Exception("Error debe especificar el recurso.");
+		if(cantidad==null||cantidad.intValue()<=0)
+			throw new Exception("Error debe especificar la cantidad del recurso.");
+		//Busqueda Recurso Libre--- Cargar en el list recursos libres por fecha y Hora
+		rec = this.findRecursoByID(id_recurso);
+		//Validar cantidad
+		if(cantidad>rec.getCapacidad())
+			throw new Exception("La capacidad es mayor a la del recurso solicitado");
+			
+		//Crear detalle
+		det = new Solicidetalle();
+		det.setRecurso(rec);
+		det.setCapacidad(cantidad);
+		//Agregar al la solicitud
+		soliTemp.getSolicidetalles().add(det);
+		
+	}
+	
+	public void quitarDetalleSolicitudTem(Solicidetalle sd){
+		soliTemp.removeSolicidetalle(sd);
+	}
+	
+	//Guardar Solicitud Temporal
+	public void guardarSolicitudTemporal(Solicicabecera solicitud) throws Exception{
+		
+		if(soliTemp==null)
+			throw new Exception("Debe crear una solicitud primero.");
+		if(soliTemp.getSolicidetalles()==null || soliTemp.getSolicidetalles().size()==0)
+			throw new Exception("Debe ingresar los recursos en la solicitud.");
+		
+		for(Solicidetalle det : soliTemp.getSolicidetalles()){
+			//Combinamos la relacion bidireccional
+			det.setSolicicabecera(soliTemp);
 		}
 		
-		//Solicitud Cabecera
-		@SuppressWarnings("unchecked")
-		public List<Solicicabecera> findAllSolicitudCabecera(){
-			return mDAO.findAll(Solicicabecera.class);
-		}
+		//Insertamos los datosa la bdd
+		mDAO.insertar(soliTemp);
 		
-		public Solicicabecera findSolicitudCabeceraById(Long id) throws Exception{
-			return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
-		}
-		
-		//Temporales
-				public Solicicabecera crearSolicitudTmp(String direccion, String actividad, Date fecha, Time horafin, Time horainicio){
-					soliTemp=new Solicicabecera();
-					soliTemp.setActividad(actividad);soliTemp.setDireccion(direccion);soliTemp.setFecha(fecha);
-					soliTemp.setHorainicio(horainicio);soliTemp.setHorafin(horafin);
-					soliTemp.setSolicidetalles(new ArrayList<Solicidetalle>());
-					return soliTemp;
-				}
-				
-				public void agregarSolicitudDetalleTmp(Integer id_recurso, Integer cantidad) throws Exception{
-					Solicidetalle det;
-					Recurso rec;
-					
-					//Validaciones de proceso
-					if(soliTemp == null)
-						throw new Exception("Error primero debe crear una solicitud.");
-					if(id_recurso==null||id_recurso== -1)
-						throw new Exception("Error debe especificar el recurso.");
-					if(cantidad==null||cantidad.intValue()<=0)
-						throw new Exception("Error debe especificar la cantidad del recurso.");
-					//FALTA VALIDACIONES DE RECURSOS por fecha y capacidad
-					
-					//Busqueda Recurso Libre--- Cambiar Método
-					rec = this.findRecursoByID(id_recurso);
-					//Crear detalle
-					det = new Solicidetalle();
-					det.setRecurso(rec);
-					det.setCapacidad(cantidad);
-					//Agregar al la solicitud
-					soliTemp.getSolicidetalles().add(det);
-					
-				}
-				
-				public void quitarDetalleSolicitudTem(Solicidetalle sd){
-					soliTemp.removeSolicidetalle(sd);
-				}
-				
-				//Guardar Solicitud Temporal
-				public void guardarSolicitudTemporal(Solicicabecera solicitud) throws Exception{
-					
-					if(soliTemp==null)
-						throw new Exception("Debe crear una solicitud primero.");
-					if(soliTemp.getSolicidetalles()==null || soliTemp.getSolicidetalles().size()==0)
-						throw new Exception("Debe ingresar los recursos en la solicitud.");
-					
-					for(Solicidetalle det : soliTemp.getSolicidetalles()){
-						//Combinamos la relacion bidireccional
-						det.setSolicicabecera(soliTemp);
-					}
-					
-					//Insertamos los datosa la bdd
-					mDAO.insertar(soliTemp);
-					
-					soliTemp = null;
-				}
+		soliTemp = null;
+	}
 		
 				
 		

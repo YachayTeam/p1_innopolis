@@ -5,10 +5,13 @@ import java.util.Date;
 import java.util.List;
 
 import innopolis.entities.Solicicabecera;
+import innopolis.entities.Solicidetalle;
 import innopolis.manager.ManagerReservas;
 
-import javax.faces.bean.ManagedBean;
+import javax.annotation.ManagedBean;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 @SessionScoped
 @ManagedBean
@@ -76,6 +79,7 @@ public class SolicitudBean {
 	}
 
 	public List<Solicicabecera> getListadoSolCab() {
+		listadoSolCab = manager.findAllSolicitudCabecera();
 		return listadoSolCab;
 	}
 	
@@ -121,15 +125,64 @@ public class SolicitudBean {
 	
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
-		solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getFecha(), getHorafin(), getHorainicio()); 
-		id_recurso=0; 
-		cantidad_recurso = 0;
-		solicitudCabTmpGuardada=false;
+		try {
+			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getFecha(), getHorafin(), getHorainicio()); 
+			id_recurso=0; 
+			cantidad_recurso=0;
+			solicitudCabTmpGuardada=false;
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al crear la solicitud."));
+		}
 		return "";
 	}
 	
+	public String insertarDetalleSolicitud(){
+		if(solicitudCabTmpGuardada==true){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud ya fue guardada."));
+			return "";
+		}
+		
+		try {
+			manager.agregarSolicitudDetalleTmp(getId_recurso(), getCantidad_recurso());
+			id_recurso=0; 
+			cantidad_recurso=0;
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+		}
+						
+		return "";
+	}
 	
+	public String quitarDetalleSolicitud(Solicidetalle det){
+		if(solicitudCabTmpGuardada==true){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud ya fue guardada."));
+			return "";
+		}
+		
+		try {
+			manager.quitarDetalleSolicitudTem(det);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+		}
+		
+		return "";
+	}
 	
+	public String guardarSolicitud(){
+		if(solicitudCabTmpGuardada==true){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud ya fue guardada."));
+			return "";
+		}
+		
+		try {
+			manager.guardarSolicitudTemporal(solicitudCabTem);
+			solicitudCabTmpGuardada=true;
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+		}
+		
+		return "";
+	}
 	
 	
 	
