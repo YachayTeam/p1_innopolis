@@ -50,7 +50,8 @@
 				<h:outputText value="#{lu.recursoestado.estado}"></h:outputText>
 			</p:column>
 			<p:column headerText="ESTADO">
-				<h:outputText value="#{lu.recursodisponible.disponible}"></h:outputText>
+				<h:outputText value="#{lu.recursodisponible.disponible}">+&nbsp;</h:outputText> 
+				<p:commandButton icon="ui-icon-refresh" action="#{recursosBean.cargarRecursos(lu)}"></p:commandButton>
 			</p:column>
 			<p:column headerText="ADMINISTRAR">
 				<p:commandButton icon="ui-icon-pencil" action="#{recursosBean.cargarRecursos(lu)}"></p:commandButton>

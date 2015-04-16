@@ -31,8 +31,6 @@ public class RecursosBean {
 
 	private String nombre;
 	
-	private Integer re;
-	
 	private Integer rd;
 	
 	private Integer rt;
@@ -88,14 +86,6 @@ public class RecursosBean {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	public Integer getRe() {
-		return re;
-	}
-
-	public void setRe(Integer re) {
-		this.re = re;
-	}
 
 	public Integer getRd() {
 		return rd;
@@ -118,7 +108,7 @@ public class RecursosBean {
 	}
 
 		//accion para invocar el manager y crear recurso
-		/*public String crearRecurso(){
+		public String crearRecurso(){
 			try {
 				manager.insertarRecurso(capacidad, descripcion, lugar, nombre, imagen);
 				//reiniciamos datos (limpiamos el formulario)
@@ -128,7 +118,6 @@ public class RecursosBean {
 				nombre="";
 				imagen="";
 				rd=1;
-				re=1;
 				rt=0;
 				FacesContext context = FacesContext.getCurrentInstance();
 		        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Recurso Almacenado ") );
@@ -179,13 +168,12 @@ public class RecursosBean {
 					nombre="";
 					imagen="";
 					rd=1;
-					re=1;
 					rt=0;
 					FacesContext context = FacesContext.getCurrentInstance();
 			        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
 					return "recurso";
 					
-				}*/
+				}
 				
 				//------ traslados--------
 				
@@ -199,7 +187,6 @@ public class RecursosBean {
 					nombre="";
 					imagen="";
 					rd=1;
-					re=1;
 					rt=0;
 					return "recurso";					
 				}
