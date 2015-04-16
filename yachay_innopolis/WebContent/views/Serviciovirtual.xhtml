@@ -25,14 +25,14 @@
 			<p:inputTextarea required="true" id="tema" value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido"></p:inputTextarea>
 			<h:outputText value="SERVICIO*"/>
 			<h:panelGroup>  
-					<p:selectOneMenu value="#{tiposervicioBean.idTp}">
-						<f:selectItem  itemLabel="Seleccione Servicio!!!!" itemValue="-1" />
+					<p:selectOneMenu value="#{serviciosVirtualesBean.idtiposervicio}">
+						<f:selectItem  itemLabel="Seleccione Estado!!!!" itemValue="-1" />
 						<f:selectItems value="#{serviciosVirtualesBean.listaTiposerv}" />
 						<p:ajax
-							listener="#{serviciosVirtualesBean.asignarTiposerv}">
+							listener="#{serviciosVirtualesBean.asignarTiposerv()}">
 						</p:ajax>
 					</p:selectOneMenu>
-			</h:panelGroup>			
+			</h:panelGroup>					
 			<p:commandButton value="Registrarse" action="#{serviciosVirtualesBean.crearRegistroServ}"></p:commandButton>
 		</p:panelGrid>
 	</p:panel>

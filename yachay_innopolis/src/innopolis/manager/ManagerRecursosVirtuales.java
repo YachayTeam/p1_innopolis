@@ -1,8 +1,5 @@
 package innopolis.manager;
 
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import innopolis.controller.ServiciosVirtualesBean;
@@ -74,15 +71,16 @@ public class ManagerRecursosVirtuales {
 			return (Tiposervicio) mDAO.findById(Tiposervicio.class, id_Tp);
 		}								
 //insertar los serviciosvirtuales
-		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo, int id_Estado, int id_serv) throws Exception{
+		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo) throws Exception{
 			Serviciosvirtregi svt = new Serviciosvirtregi();
 		    svt.setCedula(cedula);
 		    svt.setNombres(nombres);
 		    svt.setApellidos(apellidos);
 			svt.setCorreo(correo);
 			svt.setTema(tema);
-			svt.setTipoestado(this.EstadoByID(id_Estado));
-			svt.setTiposervicio(this.findServicioTipoByID(id_serv));
+			svt.setTipoestado(tipoesta);
+			svt.setTipoestado(this.EstadoByID(1));
+			svt.setTiposervicio(tiposerv);
 			mDAO.insertar(svt);
 		}
 	
@@ -109,8 +107,10 @@ public class ManagerRecursosVirtuales {
 	    svt.setApellidos(apellidos);
 		svt.setCorreo(correo);
 		svt.setTema(tema);
-		svt.setTipoestado(this.EstadoByID(id_Estado));
+		//svt.setTipoestado(tipoesta);
+		//svt.setTiposervicio(tiposerv);
 		svt.setTiposervicio(this.findServicioTipoByID(id_serv));
+		svt.setTipoestado(this.asignarTipoest(id_Estado));
 		mDAO.actualizar(svt);
 		} catch (Exception e) {
 			System.out.println("Error_mod_recurso");

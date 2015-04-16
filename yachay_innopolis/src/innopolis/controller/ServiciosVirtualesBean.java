@@ -3,7 +3,6 @@ package innopolis.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import innopolis.entities.Recurso;
 import innopolis.entities.Serviciosvirtregi;
 import innopolis.entities.Tipoestado;
 import innopolis.entities.Tiposervicio;
@@ -105,17 +104,30 @@ public class ServiciosVirtualesBean {
 	public void setTipoestli(List<Tipoestado> tipoestli) {
 		this.tipoestli = tipoestli;
 	}
+	//metodo para asignar el TipoServicio al registro
+	public String getasignarTiposerv(){
+		managerservirt.asignarTiposerv(idtiposervicio);	
+			return "";
+		}
+	//metodo para asignar el Tipoestado al registro
+	public String getasignarTipoest(){
+			managerservirt.asignarTipoest(idtipoestado);
+			return "";
+		}
+	public List<Serviciosvirtregi> getListRegServi(){
+			return managerservirt.findAllRServiciosVirtuales();
+		}
 	//accion para invocar el manager y crear registro
 	public String crearRegistroServ(){
 		try {
-			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo, idtipoestado, idtiposervicio);
+			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo);
 			//reiniciamos datos (limpiamos el formulario)
 			cedula=0;
 			nombres="";
 			correo="";
 			tema="";
 			apellidos="";
-			idtipoestado=0;
+			idtipoestado=1;
 			idtiposervicio=0;
 			idSvr=0;
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -179,21 +191,4 @@ public class ServiciosVirtualesBean {
 						}
 						return listadoTE;
 					}
-
-		
-		
-		//metodo para asignar el TipoServicio al registro
-		public String getasignarTiposerv(){
-				managerservirt.asignarTiposerv(idtiposervicio);
-				return "";
-			}
-		//metodo para asignar el TipoServicio al registro
-		public String getasignarTipoest(){
-				managerservirt.asignarTipoest(idtipoestado);
-				return "";
-			}
-		public List<Serviciosvirtregi> getListRegServi(){
-				return managerservirt.findAllRServiciosVirtuales();
-			}
 		}
-
