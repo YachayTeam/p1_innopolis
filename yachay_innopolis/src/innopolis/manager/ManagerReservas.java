@@ -217,6 +217,7 @@ public class ManagerReservas {
 	}
 				
 	//RECURSOS LIBRES --> NO TOME EN CUENTA HORA FIN
+    //HORA FIN NECESITO PARA CALCULAR LA PROXIMA HORA INICIO
 	//RecursosXFecha
 	//Devuelve todos recursos que se encuentran ocupados en esa fecha
 	public List<Recursosactivo> findAllRecursoLibreByFecha(Date fecha_seleccionada){
