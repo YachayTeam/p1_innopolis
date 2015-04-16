@@ -108,7 +108,7 @@ public class ServiciosVirtualesBean {
 	//accion para invocar el manager y crear registro
 	public String crearRegistroServ(){
 		try {
-			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo);
+			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo, idtipoestado, idtiposervicio);
 			//reiniciamos datos (limpiamos el formulario)
 			cedula=0;
 			nombres="";
@@ -125,6 +125,23 @@ public class ServiciosVirtualesBean {
 			e.printStackTrace();
 		};
 		return "servicio";
+	}
+	//accion para modificar los recursos
+	public String actualizarRegistro(){
+		managerservirt.editarserviciovirtual(idSvr, cedula, nombres, apellidos, tema, correo, idtipoestado, idtiposervicio);
+		//limpiamos los datos
+		cedula=0;
+		nombres="";
+		correo="";
+		tema="";
+		apellidos="";
+		idtipoestado=0;
+		idtiposervicio=0;
+		idSvr=0;
+		FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
+		return "recurso";
+		
 	}
 
 		public String Cargarregistros(Serviciosvirtregi serv)

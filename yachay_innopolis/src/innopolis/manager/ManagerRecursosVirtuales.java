@@ -13,7 +13,6 @@ public class ManagerRecursosVirtuales {
 	private ManagerDAO mDAO;
 	
 	//Registro Temporal
-	private Serviciosvirtregi soliTemp;
 	private static Tiposervicio tiposerv;
 	private static Tipoestado tipoesta;
 			
@@ -23,7 +22,7 @@ public class ManagerRecursosVirtuales {
 	}	
 	
 // ------ServiciosVirtuales-------
-	//metodo para asignar el Tiposervicio al servivirtual
+	//metodo para asignar el Tiposervicio al registro
  	public Tiposervicio asignarTiposerv(Integer idtiposervicio) {
  		try {
 			tiposerv = findServicioTipoByID(idtiposervicio);
@@ -70,21 +69,20 @@ public class ManagerRecursosVirtuales {
 		public Tipoestado EstadoByID(int id_Estado) throws Exception{
 			return (Tipoestado) mDAO.findById(Tipoestado.class, id_Estado);
 		}
-//buscar tipo servicio por ID
-		public Tiposervicio findServicioTipoByID(int id_Tp) throws Exception{
+//buscar RecursoTipo por ID
+		public Tiposervicio findServicioTipoByID(Integer id_Tp) throws Exception{
 			return (Tiposervicio) mDAO.findById(Tiposervicio.class, id_Tp);
-		}
-											
+		}								
 //insertar los serviciosvirtuales
-		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo) throws Exception{
+		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo, int id_Estado, int id_serv) throws Exception{
 			Serviciosvirtregi svt = new Serviciosvirtregi();
 		    svt.setCedula(cedula);
 		    svt.setNombres(nombres);
 		    svt.setApellidos(apellidos);
 			svt.setCorreo(correo);
 			svt.setTema(tema);
-			svt.setTipoestado(this.EstadoByID((1)));
-			svt.setTiposervicio(this.findServicioTipoByID(0));
+			svt.setTipoestado(this.EstadoByID(id_Estado));
+			svt.setTiposervicio(this.findServicioTipoByID(id_serv));
 			mDAO.insertar(svt);
 		}
 	
@@ -103,7 +101,7 @@ public class ManagerRecursosVirtuales {
 	}
 
 	//editar los serviciosvirtuales
-	public void editarserviciovirtual(int id_Srv,int cedula, String nombres, String apellidos, String tema,String correo,Tipoestado te, Tiposervicio ts){
+	public void editarserviciovirtual(int id_Srv,int cedula, String nombres, String apellidos, String tema,String correo,int id_Estado, int id_serv){
 		try{
 		Serviciosvirtregi svt = this.ServicioVirtualByID(id_Srv);
 	    svt.setCedula(cedula);
@@ -111,8 +109,8 @@ public class ManagerRecursosVirtuales {
 	    svt.setApellidos(apellidos);
 		svt.setCorreo(correo);
 		svt.setTema(tema);
-	    svt.setTipoestado(te);
-	    svt.setTiposervicio(ts);
+		svt.setTipoestado(this.EstadoByID(id_Estado));
+		svt.setTiposervicio(this.findServicioTipoByID(id_serv));
 		mDAO.actualizar(svt);
 		} catch (Exception e) {
 			System.out.println("Error_mod_recurso");
