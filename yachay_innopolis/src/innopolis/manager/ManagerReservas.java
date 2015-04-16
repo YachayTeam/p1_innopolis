@@ -236,7 +236,7 @@ public class ManagerReservas {
 	}
 				
 	//RECURSOS LIBRES --> NO TOME EN CUENTA HORA FIN
-    //HORA FIN NECESITO PARA CALCULAR LA PROXIMA HORA INICIO
+	//HORA FIN NECESITO PARA CALCULAR LA PROXIMA HORA INICIO
 	//RecursosXFecha
 	//Devuelve todos recursos que se encuentran ocupados en esa fecha
 	public List<Recursosactivo> findAllRecursoLibreByFecha(Date fecha_seleccionada){
@@ -259,7 +259,7 @@ public class ManagerReservas {
 		List<Recursosactivo> listado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
 		
 		for (Recursosactivo recursosactivo : listado) {
-			if(!recursosactivo.getHoraInicio().equals(hora_inicio)){
+			if(recursosactivo.getHoraInicio().getTime()!=hora_inicio.getTime() && recursosactivo.getHoraFin().getTime()==hora_inicio.getTime()){//&& getHoraFin() con hora_inicio
 				resultado.remove(recursosactivo);
 			}
 		}
@@ -292,7 +292,8 @@ public class ManagerReservas {
 		}
 		
 		return resultados;
-	}	
+	}
 
 }
+
 
