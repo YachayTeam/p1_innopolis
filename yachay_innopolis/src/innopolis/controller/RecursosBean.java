@@ -1,6 +1,7 @@
 package innopolis.controller;
 
 import innopolis.entities.Recurso;
+import innopolis.entities.Recursodisponible;
 import innopolis.entities.Recursotipo;
 import innopolis.manager.ManagerReservas;
 
@@ -146,6 +147,24 @@ public class RecursosBean {
 					return "";
 				}
 				
+				//metodo para mostrar los RecursosDisponibles en Recursos
+				public List<SelectItem> getListaRecDisponibles(){
+					List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+					List<Recursodisponible> listadoRecursos=manager.findAllRecursoDisponibles();
+					
+					for(Recursodisponible t:listadoRecursos){
+						SelectItem item=new SelectItem(t.getIdRecdisponible(),t.getDisponible());
+						listadoSI.add(item);
+					}
+					return listadoSI;
+				}
+	
+				//metodo para asignar el RecursoDisponible al Recurso
+				public String asignarRecDisponible(){
+					manager.asignarRecursoDisponible(rd);
+					return "";
+				}
+				
 				//accion para cargar los datos en el formulario
 				public String cargarRecursos(Recurso t){
 					idRecurso=t.getIdRecurso();
@@ -175,6 +194,17 @@ public class RecursosBean {
 					
 				}
 				
+				//activar y desactivar
+				public String cambiarEstado(Recurso r){
+					try {
+						manager.cambioDisRecurso(r.getIdRecurso());
+					} catch (Exception e) {
+						System.out.print("ERROR CAMBIAR ESTADO");
+					}
+					return "";
+				}
+	
+				
 				//------ traslados--------
 				
 				public String irRecurso(){
@@ -190,5 +220,6 @@ public class RecursosBean {
 					rt=0;
 					return "recurso";					
 				}
-	
+				
+				
 }

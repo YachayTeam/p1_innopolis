@@ -115,6 +115,25 @@ public class ManagerReservas {
 					}
 		 	 		return rd;
 		 		}
+		 	 	
+		 	 	 //desactivar y activar Recurso
+		 		public void cambioDisRecurso(Integer id) throws Exception{
+		 			Recurso r = findRecursoByID(id);
+		 			Recursodisponible t= new Recursodisponible();
+		 			System.out.print(r.getIdRecurso());
+					if(r.getRecursodisponible().getDisponible().equals("Activado")){
+						t.setIdRecdisponible(2);
+						t.setDisponible("Desactivado");
+						r.setRecursodisponible(t);
+		 			}else{
+		 				t.setIdRecdisponible(1);
+						t.setDisponible("Activado");
+						r.setRecursodisponible(t);
+		 			}
+					System.out.println(r.getRecursodisponible().getDisponible());
+					mDAO.actualizar(r);
+		 		}
+		 		
 	// ------SOLICITUDES-------
 	//Disponibilidad Libre y Activo
 	

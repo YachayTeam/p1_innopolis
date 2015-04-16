@@ -51,10 +51,21 @@
 			</p:column>
 			<p:column headerText="ESTADO">
 				<h:outputText value="#{lu.recursodisponible.disponible}"></h:outputText>
+				
 			</p:column>
 			<p:column headerText="ADMINISTRAR">
 				<p:commandButton icon="ui-icon-pencil" action="#{recursosBean.cargarRecursos(lu)}"></p:commandButton>
+				<p:commandButton icon="ui-icon-refresh" actionListener="#{recursosBean.cambiarEstado(lu)}" update=":form2:panel2 :form2:message2">
+        		<p:confirm header="Confirmacion" message="Quieres modificar el recurso?" icon="ui-icon-alert" />
+    			</p:commandButton>
+    			
+    			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+        		<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       			 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    			</p:confirmDialog>
 			</p:column>
+			
+		
 		</p:dataTable>			
 	</p:panel>
 </h:form>
