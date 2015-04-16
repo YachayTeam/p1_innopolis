@@ -65,7 +65,7 @@ public class ManagerReservas {
 			}
 		
 			//buscar RecursoDisponible por ID
-					public Recursodisponible findRecursoDisponibleByID(Long id_rec_disponible) throws Exception{
+					public Recursodisponible findRecursoDisponibleByID(Integer id_rec_disponible) throws Exception{
 						return (Recursodisponible) mDAO.findById(Recursodisponible.class, id_rec_disponible);
 					}
 	//insertar los recursos
@@ -77,8 +77,8 @@ public class ManagerReservas {
 			r.setNombre(nombre);
 			r.setImagen(imagen);
 			r.setRecursotipo(rt);
-			r.setRecursoestado(re);
-			r.setRecursodisponible(rd);
+			r.setRecursoestado(this.findRecursoEstadoByID(1));
+			r.setRecursodisponible(this.findRecursoDisponibleByID(1));
 			mDAO.insertar(r);
 		}
 		

@@ -7,8 +7,10 @@ import innopolis.manager.ManagerReservas;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 @SessionScoped
@@ -128,6 +130,8 @@ public class RecursosBean {
 				rd=1;
 				re=1;
 				rt=0;
+				FacesContext context = FacesContext.getCurrentInstance();
+		        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Recurso Almacenado ") );
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -162,14 +166,14 @@ public class RecursosBean {
 					descripcion=t.getDescripcion();
 					imagen=t.getImagen();
 					rt=t.getRecursotipo().getIdRectipo();
-					return "editarRecurso";
+					return "modrecurso";
 				}
 				
 				//accion para modificar los recursos
 				public String actualizarRecurso(){
 					manager.editarRecurso(idRecurso, capacidad, descripcion, lugar, nombre);
 					//limpiamos los datos
-					capacidad=0;
+					capacidad=null;
 					descripcion="";
 					lugar="";
 					nombre="";
@@ -177,8 +181,27 @@ public class RecursosBean {
 					rd=1;
 					re=1;
 					rt=0;
+					FacesContext context = FacesContext.getCurrentInstance();
+			        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
 					return "recurso";
 					
+				}
+				
+				//------ traslados--------
+				
+				public String irRecurso(){
+					FacesContext context = FacesContext.getCurrentInstance();
+			        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cancelado!", "Actualizacion Cancelada"));
+			      //limpiamos los datos
+					capacidad=null;
+					descripcion="";
+					lugar="";
+					nombre="";
+					imagen="";
+					rd=1;
+					re=1;
+					rt=0;
+					return "recurso";					
 				}
 	
 }

@@ -6,15 +6,15 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Recursos</title>
+<title>Editar Recurso</title>
 </h:head>
 <body>
-<h:form id="form1" style="width: 933px; ">
+<h:form id="form1" style="width: 50%;">
 	<p:growl id="message" showDetail="true" />
 	<p:panel id="panel1"  header="Registro de Recursos">
 		<p:panelGrid columns="2" >
 			<h:outputText value="NOMBRE*"/>
-			<p:inputText required="true" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText required="false" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido"></p:inputText>
 			<h:outputText value="CAPACIDAD"/>
 			<p:inputText required="false" id="can" value="#{recursosBean.capacidad}" requiredMessage="Requerido"></p:inputText>
 			<h:outputText value="DESCRIPCION"/>
@@ -31,31 +31,9 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>
-			<p:commandButton update="panel1 :form2:panel2 message" value="Insertar" action="#{recursosBean.crearRecurso}"></p:commandButton>
+			<p:commandButton update="message" value="Actualizar" icon="ui-icon-refresh" action="#{recursosBean.actualizarRecurso}"></p:commandButton>
+				<p:commandButton update="panel1 message" value="Cancelar" icon="ui-icon-close" action="#{recursosBean.irRecurso}"></p:commandButton>
 		</p:panelGrid>
-	</p:panel>
-</h:form>
-<hr />
-<h:form id="form2">
-	<p:growl id="message2" showDetail="true" />
-	<p:panel id="panel2" header="Recursos Registrados">
-		<p:dataTable id="dt" paginator="true" rows="25"  value="#{recursosBean.listRegistro}" var="lu">
-			<p:column id="f1" filterBy="#{lu.nombre}" headerText="NOMBRES">
-				<h:outputText value="#{lu.nombre}"></h:outputText>
-			</p:column>
-			<p:column  headerText="CAPACIDAD">
-				<h:outputText value="#{lu.capacidad}"></h:outputText>
-			</p:column>
-			<p:column headerText="DISPONIBILIDAD">
-				<h:outputText value="#{lu.recursoestado.estado}"></h:outputText>
-			</p:column>
-			<p:column headerText="ESTADO">
-				<h:outputText value="#{lu.recursodisponible.disponible}"></h:outputText>
-			</p:column>
-			<p:column headerText="ADMINISTRAR">
-				<p:commandButton icon="ui-icon-pencil" action="#{recursosBean.cargarRecursos(lu)}"></p:commandButton>
-			</p:column>
-		</p:dataTable>			
 	</p:panel>
 </h:form>
 </body>
