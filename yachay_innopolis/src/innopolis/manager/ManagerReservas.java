@@ -216,11 +216,63 @@ public class ManagerReservas {
 		mDAO.eliminar(Recursosactivo.class, id_tabla);
 	}
 				
-	//recursolibre
-	public boolean findRecursosSolicitadosLibreByHorario(Integer id_recurso, Date fecha, Time hora_inicio, Time hora_fin){
-		//Hacer metodo jajaja
+	//RECURSOS LIBRES --> NO TOME EN CUENTA HORA FIN
+	//RecursosXFecha
+	//Devuelve todos recursos que se encuentran ocupados en esa fecha
+	public List<Recursosactivo> findAllRecursoLibreByFecha(Date fecha_seleccionada){
+		List<Recursosactivo> resultado = this.findAllRecursosSolicitados();
+		List<Recursosactivo> listado = this.findAllRecursosSolicitados();
+		
+		for (Recursosactivo recursosactivo : listado) {
+			if(!recursosactivo.getFecha().equals(fecha_seleccionada)){
+				resultado.remove(recursosactivo);
+			}
+		}
+		
+		return resultado;
+	}
+	
+	//RecursosXHora
+	//Devuelve los recursos que esten ocupados de una fecha en un horario
+	public List<Recursosactivo> findAllRecursoLibreByHorario(Date fecha_seleccionada, Time hora_inicio){
+		List<Recursosactivo> resultado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
+		List<Recursosactivo> listado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
+		
+		for (Recursosactivo recursosactivo : listado) {
+			if(!recursosactivo.getHoraInicio().equals(hora_inicio)){
+				resultado.remove(recursosactivo);
+			}
+		}
+		
+		return resultado;
+	}
+	
+	//Devuelve un valor booleano para conocer si se encuentra ocupado o no el recurso
+	public boolean findRecursosSolicitadosLibreByHorario(Integer id_recurso, Date fecha, Time hora_inicio){
+		List<Recursosactivo> listado = this.findAllRecursoLibreByHorario(fecha, hora_inicio);
+		
+		for (Recursosactivo recursosactivo : listado) {
+			if(recursosactivo.getIdRecurso().equals(recursosactivo)){
+				return true;
+			}
+		}
+		
 		return false;
-	}		
+	}
+	
+	//Carga de recursos disponibles
+	public List<Recurso> findAllRecursosDisponibles(Date fecha, Time hora_inicio){
+		List<Recurso> listado = this.findAllRecurso();
+		List<Recurso> resultados = this.findAllRecurso();
+		
+		for (Recurso recurso : listado) {
+			if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRecurso(), fecha, hora_inicio)){
+				resultados.remove(recurso);
+			}
+		}
+		
+		return resultados;
+	}	
 
 }
 
