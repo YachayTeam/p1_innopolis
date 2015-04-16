@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import innopolis.controller.ServiciosVirtualesBean;
 import innopolis.entities.*;
 
 public class ManagerRecursosVirtuales {
@@ -13,14 +14,36 @@ public class ManagerRecursosVirtuales {
 	
 	//Registro Temporal
 	private Serviciosvirtregi soliTemp;
-		
+	private static Tiposervicio tiposerv;
+	private static Tipoestado tipoesta;
+			
 	public ManagerRecursosVirtuales()
 	{
 		mDAO= new ManagerDAO();
 	}	
 	
 // ------ServiciosVirtuales-------
-	
+	//metodo para asignar el Tiposervicio al servivirtual
+ 	public Tiposervicio asignarTiposerv(Integer idtiposervicio) {
+ 		try {
+			tiposerv = findServicioTipoByID(idtiposervicio);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		return tiposerv;
+	}
+ 	//metodo para asignar el Tiposestado al servivirtual
+ 	 	public Tipoestado asignarTipoest(Integer idtipoest) {
+ 	 		try {
+ 				tipoesta = EstadoByID(idtipoest);
+ 			} catch (Exception e) {
+ 				// TODO Auto-generated catch block
+ 				e.printStackTrace();
+ 			}
+ 	 		return tipoesta;
+ 		}
+		
 // listar todos los serviciosvirtuales 
 	@SuppressWarnings("unchecked")
 	public List<Serviciosvirtregi> findAllRServiciosVirtuales(){
@@ -48,20 +71,20 @@ public class ManagerRecursosVirtuales {
 			return (Tipoestado) mDAO.findById(Tipoestado.class, id_Estado);
 		}
 //buscar tipo servicio por ID
-		public Tiposervicio ServicioTipoByID(int id_Tp) throws Exception{
+		public Tiposervicio findServicioTipoByID(int id_Tp) throws Exception{
 			return (Tiposervicio) mDAO.findById(Tiposervicio.class, id_Tp);
 		}
 											
 //insertar los serviciosvirtuales
-		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo,Tipoestado te, Tiposervicio ts) throws Exception{
+		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo) throws Exception{
 			Serviciosvirtregi svt = new Serviciosvirtregi();
 		    svt.setCedula(cedula);
 		    svt.setNombres(nombres);
 		    svt.setApellidos(apellidos);
 			svt.setCorreo(correo);
 			svt.setTema(tema);
-		    svt.setTipoestado(te);
-		    svt.setTiposervicio(ts);
+			svt.setTipoestado(this.EstadoByID((1)));
+			svt.setTiposervicio(this.findServicioTipoByID(0));
 			mDAO.insertar(svt);
 		}
 	
@@ -116,13 +139,18 @@ public class ManagerRecursosVirtuales {
 	{
 		try
 		{
-			Tiposervicio ts = this.ServicioTipoByID(id_Tp);
+			Tiposervicio ts = this.findServicioTipoByID(id_Tp);
 			ts.setNombreServicio(nombreServicio);
 			mDAO.actualizar(ts);
 		} catch (Exception e) {
 			System.out.println("Error_mod_recurso");
 			e.printStackTrace();
 			}				
+	}
+	// listar todos los registros 
+	@SuppressWarnings("unchecked")
+	public List<ManagerRecursosVirtuales> findAllRecurso(){
+		return mDAO.findAll(ServiciosVirtualesBean.class);
 	}
 	
 }

@@ -3,19 +3,23 @@ package innopolis.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import innopolis.entities.Recurso;
 import innopolis.entities.Serviciosvirtregi;
 import innopolis.entities.Tipoestado;
 import innopolis.entities.Tiposervicio;
 import innopolis.manager.ManagerRecursosVirtuales;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 
 @SessionScoped
 @ManagedBean
 public class ServiciosVirtualesBean {
-	private ManagerRecursosVirtuales managerservirt= new ManagerRecursosVirtuales();
+	private ManagerRecursosVirtuales managerservirt;
 	private Integer idSvr;
 	private Integer idtipoestado;
 	private Integer idtiposervicio;
@@ -31,54 +35,10 @@ public class ServiciosVirtualesBean {
 	
 	public ServiciosVirtualesBean()
 	{
-		liservicioreg = new ArrayList<Serviciosvirtregi>();
+		managerservirt = new ManagerRecursosVirtuales();
 		
 	}
-	public void guardarregistros()
-	{		
-			Serviciosvirtregi serv = new Serviciosvirtregi();
-			serv.setNombres(nombres);
-			serv.setApellidos(apellidos);
-			serv.setCedula(cedula);
-			serv.setCorreo(correo);
-			serv.setTema(tema);			
-			try {
-				Tipoestado te = managerservirt.EstadoByID(idtipoestado);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			try {
-				Tiposervicio ts = managerservirt.ServicioTipoByID(idtiposervicio);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-			//serv.setTipoestado(idtipoestado);
-			//serv.setTiposervicio(idtiposervicio);
-			//no se como insertar de tipo est o tiposer		
-			
-	}
-	public String Cargarregistros(Serviciosvirtregi serv)
-	{
-		idSvr= serv.getIdSvr();
-		cedula= serv.getCedula();
-		nombres= serv.getNombres();
-		apellidos= serv.getApellidos();
-		correo= serv.getCorreo();
-		tema= serv.getTema();
-		idtipoestado= serv.getTipoestado().getIdEstado();
-		idtiposervicio= serv.getTiposervicio().getIdTp();
-		return "registros_cargar";
-				
-	}		
-	
-	public ManagerRecursosVirtuales getManagerservirt() {
-		return managerservirt;
-	}
-	public void setManagerservirt(ManagerRecursosVirtuales managerservirt) {
-		this.managerservirt = managerservirt;
-	}
+		
 	public List<Serviciosvirtregi> getServicioreg() {
 		return liservicioreg;
 	}
@@ -145,11 +105,78 @@ public class ServiciosVirtualesBean {
 	public void setTipoestli(List<Tipoestado> tipoestli) {
 		this.tipoestli = tipoestli;
 	}
-	
-	
-	
-	
-	
-	
-	
-}
+	//accion para invocar el manager y crear registro
+	public String crearRegistroServ(){
+		try {
+			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo);
+			//reiniciamos datos (limpiamos el formulario)
+			cedula=0;
+			nombres="";
+			correo="";
+			tema="";
+			apellidos="";
+			idtipoestado=0;
+			idtiposervicio=0;
+			idSvr=0;
+			FacesContext context = FacesContext.getCurrentInstance();
+	        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Recurso Almacenado ") );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+		return "servicio";
+	}
+
+		public String Cargarregistros(Serviciosvirtregi serv)
+		{
+		idSvr= serv.getIdSvr();
+		cedula= serv.getCedula();
+		nombres= serv.getNombres();
+		apellidos= serv.getApellidos();
+		correo= serv.getCorreo();
+		tema= serv.getTema();
+		idtipoestado= serv.getTipoestado().getIdEstado();
+		idtiposervicio= serv.getTiposervicio().getIdTp();
+		return "registros_cargar";
+				
+		}
+		//metodo para mostrar los TiposServicio
+		public List<SelectItem> getListaTiposerv(){
+				List<SelectItem> listadoTS=new ArrayList<SelectItem>();
+				List<Tiposervicio> listadoServicio=managerservirt.findAllTipoServicio();
+				
+				for(Tiposervicio t:listadoServicio){
+					SelectItem item=new SelectItem(t.getIdTp(),t.getNombreServicio());
+					listadoTS.add(item);
+				}
+				return listadoTS;
+			}
+		//metodo para mostrar los TiposEstado
+				public List<SelectItem> getListaTipoestado(){
+						List<SelectItem> listadoTE=new ArrayList<SelectItem>();
+						List<Tipoestado> listadoEstado=managerservirt.findAllTipoEstado();
+						
+						for(Tipoestado t:listadoEstado){
+							SelectItem item=new SelectItem(t.getIdEstado(),t.getNombreestado());
+							listadoTE.add(item);
+						}
+						return listadoTE;
+					}
+
+		
+		
+		//metodo para asignar el TipoServicio al registro
+		public String getasignarTiposerv(){
+				managerservirt.asignarTiposerv(idtiposervicio);
+				return "";
+			}
+		//metodo para asignar el TipoServicio al registro
+		public String getasignarTipoest(){
+				managerservirt.asignarTipoest(idtipoestado);
+				return "";
+			}
+		public List<Serviciosvirtregi> getListRegServi(){
+				return managerservirt.findAllRServiciosVirtuales();
+			}
+		}
+

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>ServiciosVirtuales</title>
+</h:head>
+<body>
+<h:form id="form1" style="width: 933px; ">
+	<p:growl id="message" showDetail="true" />
+	<p:panel id="panel1"  header="Registro de Servicios Virtuales">
+		<p:panelGrid columns="2" >
+		<h:outputText value="CEDULA"/>
+			<p:inputText required="true" id="ced" value="#{serviciosVirtualesBean.cedula}" requiredMessage="Requerido"></p:inputText>
+			<h:outputText value="APELLIDOS*"/>
+			<p:inputText required="true" id="ape" value="#{serviciosVirtualesBean.apellidos}" requiredMessage="Requerido"></p:inputText>
+			<h:outputText value="NOMBRES"/>
+			<p:inputText required="true" id="correo" value="#{serviciosVirtualesBean.nombres}" requiredMessage="Requerido"></p:inputText>			
+			<h:outputText value="CORREO"/>
+			<p:inputText required="true" id="nom" value="#{serviciosVirtualesBean.correo}" requiredMessage="Requerido"></p:inputText>
+			<h:outputText value="TEMA"/>
+			<p:inputTextarea required="true" id="tema" value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido"></p:inputTextarea>
+			<h:outputText value="SERVICIO"/>
+			<h:outputText required="false" id="est" readonly="true" value="#{serviciosVirtualesBean.idtiposervicio}"></h:outputText>
+			<h:outputText value="ESTADO"/>
+			<h:panelGroup>  
+					<p:selectOneMenu value="#{tipoestadoBean.nombreestado}">
+						<f:selectItem  itemLabel="Seleccione Estado!!!!" itemValue="-1" />
+						<f:selectItems value="#{serviciosVirtualesBean.listaTipoestado}" />
+						<p:ajax
+							listener="#{serviciosVirtualesBean.asignarTipoest}">
+						</p:ajax>
+					</p:selectOneMenu>
+			</h:panelGroup>			
+			<p:commandButton update="panel1 :form2:panel2 message" value="Actualizar" action="#{serviciosVirtualesBean.crearRegistroServ}"></p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+<hr />
+<h:form id="form2">
+	<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2" header="Registros-Registrados">
+		<p:dataTable id="dt" paginator="true" rows="20"  value="#{serviciosVirtualesBean.listRegServi}" var="reg">
+			<p:column id="f1" filterBy="#{reg.cedula}" headerText="CEDULA">
+				<h:outputText value="#{reg.cedula}"></h:outputText>
+			</p:column>
+			<p:column headerText="APELLIDOS">
+				<h:outputText value="#{reg.apellidos}"></h:outputText>
+			</p:column>			
+			<p:column headerText="NOMBRES">
+				<h:outputText value="#{reg.nombres}"></h:outputText>
+			</p:column>
+			<p:column headerText="CORREO">
+				<h:outputText value="#{reg.correo}"></h:outputText>
+			</p:column>
+			<p:column headerText="TEMA">
+			<h:outputText value="#{reg.tema}"></h:outputText>
+			</p:column>
+			<p:column headerText="SERVICIO">
+			<h:outputText value="#{reg.tiposervicio.nombreServicio}"></h:outputText>
+			</p:column>
+			<p:column headerText="ESTADO">
+			<h:outputText value="#{reg.tipoestado.nombreestado}"></h:outputText>
+			</p:column>
+			<p:column headerText="EDITAR">
+				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.Cargarregistros(reg)}"></p:commandButton>
+			</p:column>
+		</p:dataTable>			
+	</p:panel>
+</h:form>
+</body>
+</html>

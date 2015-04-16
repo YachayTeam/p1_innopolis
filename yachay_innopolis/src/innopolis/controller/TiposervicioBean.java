@@ -1,10 +1,16 @@
 package innopolis.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import innopolis.entities.Recursotipo;
+import innopolis.entities.Tiposervicio;
 import innopolis.manager.ManagerRecursosVirtuales;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 
 @SessionScoped
 @ManagedBean
@@ -26,5 +32,4 @@ public class TiposervicioBean {
 		this.nombreServicio = nombreServicio;
 	}
 
-	
 }
