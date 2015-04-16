@@ -199,7 +199,28 @@ public class ManagerReservas {
 	}
 		
 				
-		
+	//Tabla RECURSOACTIVO para reservaciones realizadas
+	@SuppressWarnings("unchecked")
+	public List<Recursosactivo> findAllRecursosSolicitados(){
+		return mDAO.findAll(Recursosactivo.class);
+	}
+	
+	public void insertarRecursoSolicitado(Integer idSolicitud, Date fecha, Time hora_inicio, Time hora_fin, Integer id_recurso)throws Exception{
+		Recursosactivo recact = new Recursosactivo();
+		recact.setIdSolicitud(idSolicitud);recact.setFecha(fecha);recact.setHoraInicio(hora_inicio);
+		recact.setHoraFin(hora_fin);recact.setIdRecurso(id_recurso);
+		mDAO.insertar(recact);
+	}
+	
+	public void eliminarRecursoSolicitado(Long id_tabla) throws Exception{
+		mDAO.eliminar(Recursosactivo.class, id_tabla);
+	}
+				
+	//recursolibre
+	public boolean findRecursosSolicitadosLibreByHorario(Integer id_recurso, Date fecha, Time hora_inicio, Time hora_fin){
+		//Hacer metodo jajaja
+		return false;
+	}		
 
 }
 
