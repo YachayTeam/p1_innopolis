@@ -1,6 +1,7 @@
 package innopolis.controller;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import innopolis.entities.Serviciosvirtregi;
 import innopolis.entities.Tipoestado;
@@ -10,6 +11,7 @@ import innopolis.manager.ManagerRecursosVirtuales;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+
 @SessionScoped
 @ManagedBean
 public class ServiciosVirtualesBean {
@@ -18,11 +20,71 @@ public class ServiciosVirtualesBean {
 	private Integer idtipoestado;
 	private Integer idtiposervicio;
 	private String apellidos;
-	private Long cedula;
+	private int cedula;
 	private String correo;
 	private String nombres;
 	private String tema;
+	private List<Serviciosvirtregi> liservicioreg;
+	private List<Tiposervicio> tiposervli;
+	private List<Tipoestado> tipoestli;
 	
+	
+	public ServiciosVirtualesBean()
+	{
+		liservicioreg = new ArrayList<Serviciosvirtregi>();
+		
+	}
+	public void guardarregistros()
+	{		
+			Serviciosvirtregi serv = new Serviciosvirtregi();
+			serv.setNombres(nombres);
+			serv.setApellidos(apellidos);
+			serv.setCedula(cedula);
+			serv.setCorreo(correo);
+			serv.setTema(tema);			
+			try {
+				Tipoestado te = managerservirt.EstadoByID(idtipoestado);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				Tiposervicio ts = managerservirt.ServicioTipoByID(idtiposervicio);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+			//serv.setTipoestado(idtipoestado);
+			//serv.setTiposervicio(idtiposervicio);
+			//no se como insertar de tipo est o tiposer		
+			
+	}
+	public String Cargarregistros(Serviciosvirtregi serv)
+	{
+		idSvr= serv.getIdSvr();
+		cedula= serv.getCedula();
+		nombres= serv.getNombres();
+		apellidos= serv.getApellidos();
+		correo= serv.getCorreo();
+		tema= serv.getTema();
+		idtipoestado= serv.getTipoestado().getIdEstado();
+		idtiposervicio= serv.getTiposervicio().getIdTp();
+		return "registros_cargar";
+				
+	}		
+	
+	public ManagerRecursosVirtuales getManagerservirt() {
+		return managerservirt;
+	}
+	public void setManagerservirt(ManagerRecursosVirtuales managerservirt) {
+		this.managerservirt = managerservirt;
+	}
+	public List<Serviciosvirtregi> getServicioreg() {
+		return liservicioreg;
+	}
+	public void setServicioreg(List<Serviciosvirtregi> liservicioreg) {
+		this.liservicioreg = liservicioreg;
+	}		
 	public Integer getIdSvr() {
 		return idSvr;
 	}
@@ -47,10 +109,10 @@ public class ServiciosVirtualesBean {
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
-	public Long getCedula() {
+	public int getCedula() {
 		return cedula;
 	}
-	public void setCedula(Long cedula) {
+	public void setCedula(int cedula) {
 		this.cedula = cedula;
 	}
 	public String getCorreo() {
@@ -71,5 +133,23 @@ public class ServiciosVirtualesBean {
 	public void setTema(String tema) {
 		this.tema = tema;
 	}	
+	public List<Tiposervicio> getTiposervli() {
+		return tiposervli;
+	}
+	public void setTiposervli(List<Tiposervicio> tiposervli) {
+		this.tiposervli = tiposervli;
+	}
+	public List<Tipoestado> getTipoestli() {
+		return tipoestli;
+	}
+	public void setTipoestli(List<Tipoestado> tipoestli) {
+		this.tipoestli = tipoestli;
+	}
+	
+	
+	
+	
+	
+	
 	
 }

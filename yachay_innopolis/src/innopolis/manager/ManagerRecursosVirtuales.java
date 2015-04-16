@@ -11,7 +11,7 @@ public class ManagerRecursosVirtuales {
 	
 	private ManagerDAO mDAO;
 	
-	//Solicitud Temporal
+	//Registro Temporal
 	private Serviciosvirtregi soliTemp;
 		
 	public ManagerRecursosVirtuales()
@@ -29,13 +29,13 @@ public class ManagerRecursosVirtuales {
 	
 //listar todos los tipoEstado 
 	@SuppressWarnings("unchecked")
-	public List<Serviciosvirtregi> findAllTipoEstado(){
+	public List<Tipoestado> findAllTipoEstado(){
 		return mDAO.findAll(Tipoestado.class);
-	}	
+	}		
 	
 //listar todos los tipoServicio 
 		@SuppressWarnings("unchecked")
-		public List<Serviciosvirtregi> findAllTipoServicio(){
+		public List<Tiposervicio> findAllTipoServicio(){
 			return mDAO.findAll(Tiposervicio.class);
 		}	
 	
