@@ -105,12 +105,12 @@ public class ServiciosVirtualesBean {
 		this.tipoestli = tipoestli;
 	}
 	//metodo para asignar el TipoServicio al registro
-	public String getasignarTiposerv(){
+	public String asignarTiposerv(){
 		managerservirt.asignarTiposerv(idtiposervicio);	
 			return "";
 		}
 	//metodo para asignar el Tipoestado al registro
-	public String getasignarTipoest(){
+	public String asignarTipoest(){
 			managerservirt.asignarTipoest(idtipoestado);
 			return "";
 		}
