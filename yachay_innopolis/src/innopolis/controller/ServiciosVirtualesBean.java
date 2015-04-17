@@ -136,7 +136,7 @@ public class ServiciosVirtualesBean {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		};
-		return "servicio";
+		return "modservedi";
 	}
 	//accion para modificar los recursos
 	public String actualizarRegistro(){
@@ -152,7 +152,7 @@ public class ServiciosVirtualesBean {
 		idSvr=0;
 		FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
-		return "recurso";
+		return "AprovadorServiciovirtual";
 		
 	}
 
@@ -166,7 +166,7 @@ public class ServiciosVirtualesBean {
 		tema= serv.getTema();
 		idtipoestado= serv.getTipoestado().getIdEstado();
 		idtiposervicio= serv.getTiposervicio().getIdTp();
-		return "registros_cargar";
+		return "modservedi";
 				
 		}
 		//metodo para mostrar los TiposServicio
