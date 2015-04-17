@@ -270,12 +270,16 @@ public class ManagerReservas {
 	
 	//RecursosXHora
 	//Devuelve los recursos que esten ocupados de una fecha en un horario
-	public List<Recursosactivo> findAllRecursoLibreByHorario(Date fecha_seleccionada, Time hora_inicio){
+	public List<Recursosactivo> findAllRecursoLibreByHorario(Date fecha_seleccionada, Time hora_inicio, Time hora_fin){
 		List<Recursosactivo> resultado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
 		List<Recursosactivo> listado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
 		
 		for (Recursosactivo recursosactivo : listado) {
-			if(recursosactivo.getHoraInicio().getTime()!=hora_inicio.getTime() && recursosactivo.getHoraFin().getTime()==hora_inicio.getTime()){//&& getHoraFin() con hora_inicio
+			if(recursosactivo.getHoraInicio().getTime()!=hora_inicio.getTime()){//debe ser iguales
+				resultado.remove(recursosactivo);
+			}else if(hora_inicio.getTime()<recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()>recursosactivo.getHoraFin().getTime()){// inicio entre horas
+				resultado.remove(recursosactivo);
+			}else if(hora_fin.getTime()<recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()>recursosactivo.getHoraFin().getTime()){// fin entre horas
 				resultado.remove(recursosactivo);
 			}
 		}
@@ -284,8 +288,8 @@ public class ManagerReservas {
 	}
 	
 	//Devuelve un valor booleano para conocer si se encuentra ocupado o no el recurso
-	public boolean findRecursosSolicitadosLibreByHorario(Integer id_recurso, Date fecha, Time hora_inicio){
-		List<Recursosactivo> listado = this.findAllRecursoLibreByHorario(fecha, hora_inicio);
+	public boolean findRecursosSolicitadosLibreByHorario(Integer id_recurso, Date fecha, Time hora_inicio, Time hora_fin){
+		List<Recursosactivo> listado = this.findAllRecursoLibreByHorario(fecha, hora_inicio, hora_fin);
 		
 		for (Recursosactivo recursosactivo : listado) {
 			if(recursosactivo.getIdRecurso().equals(recursosactivo)){
@@ -297,12 +301,12 @@ public class ManagerReservas {
 	}
 	
 	//Carga de recursos disponibles
-	public List<Recurso> findAllRecursosDisponibles(Date fecha, Time hora_inicio){
+	public List<Recurso> findAllRecursosDisponibles(Date fecha, Time hora_inicio, Time hora_fin){
 		List<Recurso> listado = this.findAllRecurso();
 		List<Recurso> resultados = this.findAllRecurso();
 		
 		for (Recurso recurso : listado) {
-			if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRecurso(), fecha, hora_inicio)){
+			if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRecurso(), fecha, hora_inicio, hora_fin)){
 				resultados.remove(recurso);
 			}
 		}
