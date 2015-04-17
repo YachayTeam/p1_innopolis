@@ -78,7 +78,7 @@ public class ManagerRecursosVirtuales {
 		    svt.setApellidos(apellidos);
 			svt.setCorreo(correo);
 			svt.setTema(tema);
-			svt.setTipoestado(tipoesta);
+			//svt.setTipoestado(tipoesta);
 			svt.setTipoestado(this.EstadoByID(1));
 			svt.setTiposervicio(tiposerv);
 			mDAO.insertar(svt);
@@ -99,7 +99,7 @@ public class ManagerRecursosVirtuales {
 	}
 
 	//editar los serviciosvirtuales
-	public void editarserviciovirtual(int id_Srv,int cedula, String nombres, String apellidos, String tema,String correo,int id_Estado, int id_serv){
+	public void editarserviciovirtual(Integer id_Srv,Integer cedula, String nombres, String apellidos, String tema,String correo,Integer id_Estado, Integer id_serv){
 		try{
 		Serviciosvirtregi svt = this.ServicioVirtualByID(id_Srv);
 	    svt.setCedula(cedula);
@@ -109,7 +109,7 @@ public class ManagerRecursosVirtuales {
 		svt.setTema(tema);
 		//svt.setTipoestado(tipoesta);
 		//svt.setTiposervicio(tiposerv);
-		svt.setTiposervicio(this.findServicioTipoByID(id_serv));
+		svt.setTiposervicio(this.findServicioTipoByID(1));
 		svt.setTipoestado(this.asignarTipoest(id_Estado));
 		mDAO.actualizar(svt);
 		} catch (Exception e) {

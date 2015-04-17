@@ -27,8 +27,8 @@
 			<h:outputText required="false" id="est" readonly="true" value="#{serviciosVirtualesBean.idtiposervicio}"></h:outputText>
 			<h:outputText value="ESTADO"/>
 			<h:panelGroup>  
-					<p:selectOneMenu value="#{tipoestadoBean.nombreestado}">
-						<f:selectItem  itemLabel="Seleccione Estado!!!!" itemValue="-1" />
+					<p:selectOneMenu required="true" requiredMessage="Requerido" value="#{tipoestadoBean.nombreestado}">
+						<f:selectItem  itemLabel="Seleccione Estado!!!!" itemValue="" />
 						<f:selectItems value="#{serviciosVirtualesBean.listaTipoestado}" />
 						<p:ajax
 							listener="#{serviciosVirtualesBean.asignarTipoest}">

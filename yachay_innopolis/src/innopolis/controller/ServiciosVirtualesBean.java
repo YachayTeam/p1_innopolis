@@ -23,14 +23,32 @@ public class ServiciosVirtualesBean {
 	private Integer idtipoestado;
 	private Integer idtiposervicio;
 	private String apellidos;
-	private int cedula;
+	private Integer cedula;
 	private String correo;
 	private String nombres;
 	private String tema;
 	private List<Serviciosvirtregi> liservicioreg;
 	private List<Tiposervicio> tiposervli;
 	private List<Tipoestado> tipoestli;
+	private Tipoestado testado;
+	private Tiposervicio tservicio;
 	
+	
+	public Tipoestado getTestado() {
+		return testado;
+	}
+
+	public void setTestado(Tipoestado testado) {
+		this.testado = testado;
+	}
+
+	public Tiposervicio getTservicio() {
+		return tservicio;
+	}
+
+	public void setTservicio(Tiposervicio tservicio) {
+		this.tservicio = tservicio;
+	}
 	
 	public ServiciosVirtualesBean()
 	{
@@ -122,14 +140,14 @@ public class ServiciosVirtualesBean {
 		try {
 			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo);
 			//reiniciamos datos (limpiamos el formulario)
-			cedula=0;
+			cedula=null;
 			nombres="";
 			correo="";
 			tema="";
 			apellidos="";
 			idtipoestado=1;
-			idtiposervicio=0;
-			idSvr=0;
+			idtiposervicio=null;
+			idSvr=null;
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Registro Almacenado ") );
 		} catch (Exception e) {
@@ -142,16 +160,16 @@ public class ServiciosVirtualesBean {
 	public String actualizarRegistro(){
 		managerservirt.editarserviciovirtual(idSvr, cedula, nombres, apellidos, tema, correo, idtipoestado, idtiposervicio);
 		//limpiamos los datos
-		cedula=0;
+		cedula=null;
 		nombres="";
 		correo="";
 		tema="";
 		apellidos="";
-		idtipoestado=0;
-		idtiposervicio=0;
-		idSvr=0;
+		idtipoestado=null;
+		idtiposervicio=null;
+		idSvr=null;
 		FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
+        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Registro Actualizado ") );
 		return "AprovadorServiciovirtual";
 		
 	}
@@ -197,7 +215,7 @@ public class ServiciosVirtualesBean {
 					FacesContext context = FacesContext.getCurrentInstance();
 			        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cancelado!", "Actualizacion Cancelada"));
 			      //limpiamos los datos
-			        cedula=0;
+			        cedula=null;
 					nombres="";
 					correo="";
 					tema="";
