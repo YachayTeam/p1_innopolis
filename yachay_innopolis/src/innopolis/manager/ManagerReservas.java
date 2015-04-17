@@ -268,6 +268,20 @@ public class ManagerReservas {
 		return resultado;
 	}
 	
+	public ArrayList<Recursosactivo> findAllRecursoOcupadoByFecha(Date fecha_seleccionada){
+		ArrayList<Recursosactivo> resultado = new ArrayList<Recursosactivo>();
+		List<Recursosactivo> listado = this.findAllRecursosSolicitados();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		
+		for (Recursosactivo recursosactivo : listado) {
+			if(dateFormat.format(recursosactivo.getFecha()).toString().equals(dateFormat.format(fecha_seleccionada).toString())){
+				resultado.add(recursosactivo);
+			}
+		}
+		
+		return resultado;
+	}
+	
 	//RecursosXHora
 	//Devuelve los recursos que esten ocupados de una fecha en un horario
 	public List<Recursosactivo> findAllRecursoLibreByHorario(Date fecha_seleccionada, Time hora_inicio, Time hora_fin){
@@ -294,6 +308,21 @@ public class ManagerReservas {
 		
 		return resultado;
 	}
+	
+	public ArrayList<Recursosactivo> findAllRecursoOcupadoByHorario(Date fecha_seleccionada, Time hora_inicio, Time hora_fin){
+		ArrayList<Recursosactivo> resultado = new ArrayList<Recursosactivo>();
+		List<Recursosactivo> listado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
+		
+		for (Recursosactivo recursosactivo : listado) {
+			if(recursosactivo.getHoraInicio().getTime()==hora_inicio.getTime() || 
+			hora_inicio.getTime()<recursosactivo.getHoraFin().getTime() || 
+			(hora_inicio.getTime()>recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()<recursosactivo.getHoraFin().getTime()) || 
+			(hora_fin.getTime()>recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()<recursosactivo.getHoraFin().getTime()) ){
+				resultado.add(recursosactivo);
+			}
+		}
+		return resultado;
+	}	
 	
 	//Devuelve un valor booleano para conocer si se encuentra ocupado o no el recurso
 	public boolean findRecursosSolicitadosLibreByHorario(Integer id_recurso, Date fecha, Time hora_inicio, Time hora_fin){
@@ -323,4 +352,3 @@ public class ManagerReservas {
 	}
 
 }
-
