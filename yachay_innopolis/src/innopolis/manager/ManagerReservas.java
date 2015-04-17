@@ -116,23 +116,36 @@ public class ManagerReservas {
 		 	 		return rd;
 		 		}
 		 	 	
-		 	 	 //desactivar y activar Recurso
-		 		public void cambioDisRecurso(Integer id) throws Exception{
-		 			Recurso r = findRecursoByID(id);
-		 			Recursodisponible t= new Recursodisponible();
-		 			System.out.print(r.getIdRecurso());
-					if(r.getRecursodisponible().getDisponible().equals("Activado")){
-						t.setIdRecdisponible(2);
-						t.setDisponible("Desactivado");
-						r.setRecursodisponible(t);
-		 			}else{
-		 				t.setIdRecdisponible(1);
-						t.setDisponible("Activado");
-						r.setRecursodisponible(t);
+		 	 //desactivar y activar Recurso
+		 		public String cambioDisRecurso(Integer id) throws Exception{
+		 			List<Recursosactivo> lista= findAllRecursosSolicitados();
+		 			int p=0;
+		 			String h="";
+		 			for (Recursosactivo ra: lista){
+		 				if (ra.getIdRecurso().equals(id)){
+		 					p=1;
+		 				}
 		 			}
-					System.out.println(r.getRecursodisponible().getDisponible());
-					mDAO.actualizar(r);
-		 		}
+		 				Recurso r = findRecursoByID(id);
+			 			Recursodisponible t= new Recursodisponible();
+						if(r.getRecursodisponible().getDisponible().equals("Activado") && p==0){
+							t.setIdRecdisponible(2);
+							t.setDisponible("Desactivado");
+							r.setRecursodisponible(t);
+							h="Estado del recurso modificado";
+			 			}
+						else if(r.getRecursodisponible().getDisponible().equals("Activado") && p==1) {
+							h="Recurso ocupado no puede ser modificado";
+			 			}
+						else if(r.getRecursodisponible().getDisponible().equals("Desactivado")){
+							t.setIdRecdisponible(1);
+							t.setDisponible("Activado");
+							r.setRecursodisponible(t);
+							h="Estado del recurso modificado";
+			 			}
+						mDAO.actualizar(r);
+						return h;
+		 			}
 		 		
 	// ------SOLICITUDES-------
 	//Disponibilidad Libre y Activo

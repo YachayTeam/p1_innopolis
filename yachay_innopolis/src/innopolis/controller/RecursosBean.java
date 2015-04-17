@@ -197,13 +197,14 @@ public class RecursosBean {
 				//activar y desactivar
 				public String cambiarEstado(Recurso r){
 					try {
-						manager.cambioDisRecurso(r.getIdRecurso());
+						FacesContext context = FacesContext.getCurrentInstance();
+				        context.addMessage(null, new FacesMessage("INFORMACION",manager.cambioDisRecurso(r.getIdRecurso())));
+						
 					} catch (Exception e) {
-						System.out.print("ERROR CAMBIAR ESTADO");
+						System.out.println(e.getMessage());
 					}
 					return "";
 				}
-	
 				
 				//------ traslados--------
 				
@@ -221,5 +222,6 @@ public class RecursosBean {
 					return "recurso";					
 				}
 				
-				
+			
+	
 }
