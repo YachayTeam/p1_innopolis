@@ -275,13 +275,19 @@ public class ManagerReservas {
 		List<Recursosactivo> listado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
 		
 		for (Recursosactivo recursosactivo : listado) {
-			if(recursosactivo.getHoraInicio().getTime()!=hora_inicio.getTime()){//inicio debe ser iguales
+			/*if(recursosactivo.getHoraInicio().getTime()!=hora_inicio.getTime()){//inicio debe ser iguales
 				resultado.remove(recursosactivo);
 			}else if(hora_inicio.getTime()>recursosactivo.getHoraFin().getTime()){// inicio mayor que fin
 				resultado.remove(recursosactivo);
 			}else if(hora_inicio.getTime()<recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()>recursosactivo.getHoraFin().getTime()){// inicio entre horas
 				resultado.remove(recursosactivo);
 			}else if(hora_fin.getTime()<recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()>recursosactivo.getHoraFin().getTime()){// fin entre horas
+				resultado.remove(recursosactivo);
+			}*/
+			if(recursosactivo.getHoraInicio().getTime()!=hora_inicio.getTime() || 
+			hora_inicio.getTime()>recursosactivo.getHoraFin().getTime() || 
+			(hora_inicio.getTime()<recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()>recursosactivo.getHoraFin().getTime()) || 
+			(hora_fin.getTime()<recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()>recursosactivo.getHoraFin().getTime()) ){
 				resultado.remove(recursosactivo);
 			}
 		}
