@@ -254,20 +254,6 @@ public class ManagerReservas {
 	//HORA FIN NECESITO PARA CALCULAR LA PROXIMA HORA INICIO
 	//RecursosXFecha
 	//Devuelve todos recursos que se encuentran ocupados en esa fecha
-	public List<Recursosactivo> findAllRecursoLibreByFecha(Date fecha_seleccionada){
-		List<Recursosactivo> resultado = this.findAllRecursosSolicitados();
-		List<Recursosactivo> listado = this.findAllRecursosSolicitados();
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		
-		for (Recursosactivo recursosactivo : listado) {
-			if(!dateFormat.format(recursosactivo.getFecha()).toString().equals(dateFormat.format(fecha_seleccionada).toString())){
-				resultado.remove(recursosactivo);
-			}
-		}
-		
-		return resultado;
-	}
-	
 	public ArrayList<Recursosactivo> findAllRecursoOcupadoByFecha(Date fecha_seleccionada){
 		ArrayList<Recursosactivo> resultado = new ArrayList<Recursosactivo>();
 		List<Recursosactivo> listado = this.findAllRecursosSolicitados();
@@ -284,39 +270,12 @@ public class ManagerReservas {
 	
 	//RecursosXHora
 	//Devuelve los recursos que esten ocupados de una fecha en un horario
-	public List<Recursosactivo> findAllRecursoLibreByHorario(Date fecha_seleccionada, Time hora_inicio, Time hora_fin){
-		List<Recursosactivo> resultado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
-		List<Recursosactivo> listado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
-		
-		for (Recursosactivo recursosactivo : listado) {
-			/*if(recursosactivo.getHoraInicio().getTime()!=hora_inicio.getTime()){//inicio debe ser iguales
-				resultado.remove(recursosactivo);
-			}else if(hora_inicio.getTime()>recursosactivo.getHoraFin().getTime()){// inicio mayor que fin
-				resultado.remove(recursosactivo);
-			}else if(hora_inicio.getTime()<recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()>recursosactivo.getHoraFin().getTime()){// inicio entre horas
-				resultado.remove(recursosactivo);
-			}else if(hora_fin.getTime()<recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()>recursosactivo.getHoraFin().getTime()){// fin entre horas
-				resultado.remove(recursosactivo);
-			}*/
-			if(recursosactivo.getHoraInicio().getTime()!=hora_inicio.getTime() || 
-			hora_inicio.getTime()>recursosactivo.getHoraFin().getTime() || 
-			(hora_inicio.getTime()<recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()>recursosactivo.getHoraFin().getTime()) || 
-			(hora_fin.getTime()<recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()>recursosactivo.getHoraFin().getTime()) ){
-				resultado.remove(recursosactivo);
-			}
-		}
-		
-		return resultado;
-	}
-	
 	public ArrayList<Recursosactivo> findAllRecursoOcupadoByHorario(Date fecha_seleccionada, Time hora_inicio, Time hora_fin){
 		ArrayList<Recursosactivo> resultado = new ArrayList<Recursosactivo>();
-		List<Recursosactivo> listado = this.findAllRecursoLibreByFecha(fecha_seleccionada);
+		List<Recursosactivo> listado = this.findAllRecursoOcupadoByFecha(fecha_seleccionada);
 		
 		for (Recursosactivo recursosactivo : listado) {
-			if(recursosactivo.getHoraInicio().getTime()==hora_inicio.getTime() || 
-			hora_inicio.getTime()<recursosactivo.getHoraFin().getTime() || 
-			(hora_inicio.getTime()>recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()<recursosactivo.getHoraFin().getTime()) || 
+			if( (hora_inicio.getTime()>=recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()<recursosactivo.getHoraFin().getTime()) || 
 			(hora_fin.getTime()>recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()<recursosactivo.getHoraFin().getTime()) ){
 				resultado.add(recursosactivo);
 			}
@@ -326,7 +285,7 @@ public class ManagerReservas {
 	
 	//Devuelve un valor booleano para conocer si se encuentra ocupado o no el recurso
 	public boolean findRecursosSolicitadosLibreByHorario(Integer id_recurso, Date fecha, Time hora_inicio, Time hora_fin){
-		List<Recursosactivo> listado = this.findAllRecursoLibreByHorario(fecha, hora_inicio, hora_fin);
+		List<Recursosactivo> listado = this.findAllRecursoOcupadoByHorario(fecha, hora_inicio, hora_fin);
 		
 		for (Recursosactivo recursosactivo : listado) {
 			if(recursosactivo.getIdRecurso().equals(recursosactivo)){
