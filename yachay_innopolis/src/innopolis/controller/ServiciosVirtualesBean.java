@@ -131,12 +131,12 @@ public class ServiciosVirtualesBean {
 			idtiposervicio=0;
 			idSvr=0;
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Recurso Almacenado ") );
+	        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Registro Almacenado ") );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		};
-		return "modservedi";
+		return "Serviciovirual";
 	}
 	//accion para modificar los recursos
 	public String actualizarRegistro(){
@@ -191,4 +191,20 @@ public class ServiciosVirtualesBean {
 						}
 						return listadoTE;
 					}
+		//------ traslados--------
+				
+				public String irRecurso(){
+					FacesContext context = FacesContext.getCurrentInstance();
+			        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cancelado!", "Actualizacion Cancelada"));
+			      //limpiamos los datos
+			        cedula=0;
+					nombres="";
+					correo="";
+					tema="";
+					apellidos="";
+					idtipoestado=0;
+					idtiposervicio=0;
+					idSvr=0;
+					return "AprovadorServiciovirtual";					
+				}
 		}
