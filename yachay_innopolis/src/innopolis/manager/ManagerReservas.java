@@ -1,6 +1,8 @@
 package innopolis.manager;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -248,16 +250,17 @@ public class ManagerReservas {
 		mDAO.eliminar(Recursosactivo.class, id_tabla);
 	}
 				
-	//RECURSOS LIBRES --> NO TOME EN CUENTA HORA FIN
+	//RECURSOS LIBRES --> REVISAR
 	//HORA FIN NECESITO PARA CALCULAR LA PROXIMA HORA INICIO
 	//RecursosXFecha
 	//Devuelve todos recursos que se encuentran ocupados en esa fecha
 	public List<Recursosactivo> findAllRecursoLibreByFecha(Date fecha_seleccionada){
 		List<Recursosactivo> resultado = this.findAllRecursosSolicitados();
 		List<Recursosactivo> listado = this.findAllRecursosSolicitados();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		
 		for (Recursosactivo recursosactivo : listado) {
-			if(!recursosactivo.getFecha().equals(fecha_seleccionada)){
+			if(!dateFormat.format(recursosactivo.getFecha()).toString().equals(dateFormat.format(fecha_seleccionada).toString())){
 				resultado.remove(recursosactivo);
 			}
 		}
@@ -308,5 +311,4 @@ public class ManagerReservas {
 	}
 
 }
-
 
