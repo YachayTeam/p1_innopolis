@@ -276,7 +276,7 @@ public class ManagerReservas {
 		
 		for (Recursosactivo recursosactivo : listado) {
 			if( (hora_inicio.getTime()>=recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()<recursosactivo.getHoraFin().getTime()) || 
-			(hora_fin.getTime()>recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()<recursosactivo.getHoraFin().getTime()) ){
+			(hora_fin.getTime()>recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()<=recursosactivo.getHoraFin().getTime()) ){
 				resultado.add(recursosactivo);
 			}
 		}
