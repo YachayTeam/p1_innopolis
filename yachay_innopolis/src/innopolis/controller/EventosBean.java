@@ -12,10 +12,10 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 @ManagedBean
 public class EventosBean {
-	private ManagerInnopolis minnopolis= new ManagerInnopolis();
-	private Long idEvento;
-	private Long idTipoEvento;
-	private Long idSolicitudCab;
+	private ManagerInnopolis minnopolis = new ManagerInnopolis();
+	private Integer idEvento;
+	private Integer idTipoEvento;
+	private Integer idSolicitudCab;
 	private String nombre;
 	private String descripcion;
 	private double costo;
@@ -23,65 +23,85 @@ public class EventosBean {
 	private Date fechaF;
 	private String imagen;
 	private String lugar;
-	private Long getIdEvento() {
+
+	private Integer getIdEvento() {
 		return idEvento;
 	}
-	private void setIdEvento(Long idEvento) {
+
+	private void setIdEvento(Integer idEvento) {
 		this.idEvento = idEvento;
 	}
-	private Long getIdTipoEvento() {
+
+	private Integer getIdTipoEvento() {
 		return idTipoEvento;
 	}
-	private void setIdTipoEvento(Long idTipoEvento) {
+
+	private void setIdTipoEvento(Integer idTipoEvento) {
 		this.idTipoEvento = idTipoEvento;
 	}
-	private Long getIdSolicitudCab() {
+
+	private Integer getIdSolicitudCab() {
 		return idSolicitudCab;
 	}
-	private void setIdSolicitudCab(Long idSolicitudCab) {
+
+	private void setIdSolicitudCab(Integer idSolicitudCab) {
 		this.idSolicitudCab = idSolicitudCab;
 	}
+
 	private String getNombre() {
 		return nombre;
 	}
+
 	private void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 	private String getDescripcion() {
 		return descripcion;
 	}
+
 	private void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
 	private double getCosto() {
 		return costo;
 	}
+
 	private void setCosto(double costo) {
 		this.costo = costo;
 	}
+
 	private Date getFechaI() {
 		return fechaI;
 	}
+
 	private void setFechaI(Date fechaI) {
 		this.fechaI = fechaI;
 	}
+
 	private Date getFechaF() {
 		return fechaF;
 	}
+
 	private void setFechaF(Date fechaF) {
 		this.fechaF = fechaF;
 	}
+
 	private String getImagen() {
 		return imagen;
 	}
+
 	private void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
+
 	private String getLugar() {
 		return lugar;
 	}
+
 	private void setLugar(String lugar) {
 		this.lugar = lugar;
 	}
-	
+
 }
