@@ -176,7 +176,7 @@ private ManagerDAO mDAO;
 	public Solicicabecera crearSolicitudTmp(String direccion, String actividad, Date fecha, Time horafin, Time horainicio) throws Exception{
 		soliTemp=new Solicicabecera();
 		soliTemp.setActividad(actividad);soliTemp.setDireccion(direccion);soliTemp.setFecha(fecha);
-		//soliTemp.setHorainicio(horainicio);soliTemp.setHorafin(horafin);
+		soliTemp.setHorainicio(horainicio);soliTemp.setHorafin(horafin);
 		//OJO ESTADOS
 		soliTemp.setSoliciestado(findSolicitudEstadoByID(1));//1 Pendiente
 		soliTemp.setSolicidetalles(new ArrayList<Solicidetalle>());
@@ -241,8 +241,8 @@ private ManagerDAO mDAO;
 	
 	public void insertarRecursoSolicitado(Integer idSolicitud, Date fecha, Time hora_inicio, Time hora_fin, Integer id_recurso)throws Exception{
 		Recursosactivo recact = new Recursosactivo();
-		//recact.setIdSolicitud(idSolicitud);recact.setFecha(fecha);recact.setHoraInicio(hora_inicio);
-		//recact.setHoraFin(hora_fin);recact.setIdRecurso(id_recurso);
+		recact.setIdSolicitud(idSolicitud);recact.setFecha(fecha);recact.setHoraInicio(hora_inicio);
+		recact.setHoraFin(hora_fin);recact.setIdRecurso(id_recurso);
 		mDAO.insertar(recact);
 	}
 	
@@ -275,10 +275,10 @@ private ManagerDAO mDAO;
 		List<Recursosactivo> listado = this.findAllRecursoOcupadoByFecha(fecha_seleccionada);
 		
 		for (Recursosactivo recursosactivo : listado) {
-			//if( (hora_inicio.getTime()>=recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()<recursosactivo.getHoraFin().getTime()) || 
-			//(hora_fin.getTime()>recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()<=recursosactivo.getHoraFin().getTime()) ){
-			//	resultado.add(recursosactivo);
-			//}
+			if( (hora_inicio.getTime()>=recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()<recursosactivo.getHoraFin().getTime()) || 
+			(hora_fin.getTime()>recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()<=recursosactivo.getHoraFin().getTime()) ){
+				resultado.add(recursosactivo);
+			}
 		}
 		return resultado;
 	}	
