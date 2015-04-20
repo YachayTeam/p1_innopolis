@@ -62,8 +62,8 @@ create table RECURSOSACTIVOS (
    ID_RECACT            NUMERIC              not null,
    ID_SOLICITUD         INT4                 null,
    FECHA                DATE                 null,
-   HORA_INICIO          DATE                 null,
-   HORA_FIN             DATE                 null,
+   HORA_INICIO          VARCHAR(5)           null,
+   HORA_FIN             VARCHAR(5)           null,
    ID_RECURSO           INT4                 null,
    constraint PK_RECURSOSACTIVOS primary key (ID_RECACT)
 );
@@ -101,8 +101,8 @@ create table PUBLIC.SOLICICABECERA (
    DIRECCION            TEXT                 null,
    ACTIVIDAD            TEXT                 null,
    FECHA                DATE                 null,
-   HORAINICIO           DATE                 null,
-   HORAFIN              DATE                 null,
+   HORAINICIO           VARCHAR(5)           null,
+   HORAFIN              VARCHAR(5)           null,
    constraint PK_SOLICICABECERA primary key (ID_SOLCAB)
 );
 

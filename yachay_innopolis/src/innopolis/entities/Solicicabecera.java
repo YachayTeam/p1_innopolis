@@ -28,11 +28,9 @@ public class Solicicabecera implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 
-	@Temporal(TemporalType.DATE)
-	private Date horafin;
+	private String horafin;
 
-	@Temporal(TemporalType.DATE)
-	private Date horainicio;
+	private String horainicio;
 
 	//bi-directional many-to-one association to Evento
 	@OneToMany(mappedBy="solicicabecera")
@@ -82,19 +80,19 @@ public class Solicicabecera implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public Date getHorafin() {
+	public String getHorafin() {
 		return this.horafin;
 	}
 
-	public void setHorafin(Date horafin) {
+	public void setHorafin(String horafin) {
 		this.horafin = horafin;
 	}
 
-	public Date getHorainicio() {
+	public String getHorainicio() {
 		return this.horainicio;
 	}
 
-	public void setHorainicio(Date horainicio) {
+	public void setHorainicio(String horainicio) {
 		this.horainicio = horainicio;
 	}
 

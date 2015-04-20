@@ -24,13 +24,11 @@ public class Recursosactivo implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="hora_fin")
-	private Date horaFin;
+	private String horaFin;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="hora_inicio")
-	private Date horaInicio;
+	private String horaInicio;
 
 	@Column(name="id_recurso")
 	private Integer idRecurso;
@@ -57,19 +55,19 @@ public class Recursosactivo implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public Date getHoraFin() {
+	public String getHoraFin() {
 		return this.horaFin;
 	}
 
-	public void setHoraFin(Date horaFin) {
+	public void setHoraFin(String horaFin) {
 		this.horaFin = horaFin;
 	}
 
-	public Date getHoraInicio() {
+	public String getHoraInicio() {
 		return this.horaInicio;
 	}
 
-	public void setHoraInicio(Date horaInicio) {
+	public void setHoraInicio(String horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
