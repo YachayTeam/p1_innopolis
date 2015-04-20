@@ -24,7 +24,7 @@ public class ServiciosVirtualesBean {
 	private Integer idtipoestado;
 	private Integer idtiposervicio;
 	private String apellidos;
-	private Integer cedula;
+	private int cedula;
 	private String correo;
 	private String nombres;
 	private String tema;
@@ -141,7 +141,7 @@ public class ServiciosVirtualesBean {
 		try {
 			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo);
 			//reiniciamos datos (limpiamos el formulario)
-			cedula=null;
+			cedula=0;
 			nombres="";
 			correo="";
 			tema="";
@@ -161,7 +161,7 @@ public class ServiciosVirtualesBean {
 	public String actualizarRegistro(){
 		managerservirt.editarserviciovirtual(idSvr, cedula, nombres, apellidos, tema, correo, idtipoestado, idtiposervicio);
 		//limpiamos los datos
-		cedula=null;
+		cedula=0;
 		nombres="";
 		correo="";
 		tema="";
@@ -227,7 +227,7 @@ public class ServiciosVirtualesBean {
 					FacesContext context = FacesContext.getCurrentInstance();
 			        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cancelado!", "Actualizacion Cancelada"));
 			      //limpiamos los datos
-			        cedula=null;
+			        cedula=0;
 					nombres="";
 					correo="";
 					tema="";
