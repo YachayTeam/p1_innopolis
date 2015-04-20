@@ -66,7 +66,7 @@ public class ManagerRecursosVirtuales {
 		public Tipoestado EstadoByID(int id_Estado) throws Exception{
 			return (Tipoestado) mDAO.findById(Tipoestado.class, id_Estado);
 		}
-//buscar RecursoTipo por ID
+//ServicioTipo por ID
 		public Tiposervicio findServicioTipoByID(Integer id_Tp) throws Exception{
 			return (Tiposervicio) mDAO.findById(Tiposervicio.class, id_Tp);
 		}								
@@ -150,6 +150,35 @@ public class ManagerRecursosVirtuales {
 	public List<ManagerRecursosVirtuales> findAllRecurso(){
 		return mDAO.findAll(ServiciosVirtualesBean.class);
 	}
+	
+	 //desactivar y activar Recurso
+		public String cambioDisServicio(Integer id) throws Exception{
+			List<Tipoestado> lista= findAllTipoEstado();
+			int p=0;
+			String h="";
+			for (Tipoestado ta: lista){
+				if (ta.getIdEstado().equals(id)){
+					p=1;
+				}
+			}
+				Serviciosvirtregi ser = ServicioVirtualByID(id);
+ 			Tipoestado est = new Tipoestado();
+ 			
+			if(ser.getTipoestado().getNombreestado().equals("Pendiente")){
+				est.setIdEstado(2);
+				est.setNombreestado("Aprobado");				
+				ser.setTipoestado(est);				
+				h="Estado del registro modificado";
+ 			}
+			else if(ser.getTipoestado().getNombreestado().equals("Aprobado")){
+				est.setIdEstado(1);
+				est.setNombreestado("Pendiente");				
+				ser.setTipoestado(est);				
+				h="Estado del recurso modificado";
+ 			}
+			mDAO.actualizar(ser);
+			return h;
+			}
 	
 }
 

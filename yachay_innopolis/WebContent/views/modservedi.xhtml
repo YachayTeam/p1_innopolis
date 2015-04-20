@@ -22,19 +22,11 @@
 			<h:outputText value="CORREO"/>
 			<p:inputText required="false" id="nom" value="#{serviciosVirtualesBean.correo}" requiredMessage="Requerido"></p:inputText>
 			<h:outputText value="TEMA"/>
-			<p:inputTextarea required="false" id="tema" value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido"></p:inputTextarea>
+			<p:inputTextarea required="false" id="tema"  value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido"></p:inputTextarea>
 			<h:outputText value="SERVICIO"/>
-			<h:outputText required="false" id="est" readonly="true" value="#{serviciosVirtualesBean.idtiposervicio}"></h:outputText>
+			<h:outputText required="false" id="ser" readonly="true" value="#{serviciosVirtualesBean.idtiposervicio}"></h:outputText>
 			<h:outputText value="ESTADO"/>
-			<h:panelGroup>  
-					<p:selectOneMenu required="true" requiredMessage="Requerido" value="#{tipoestadoBean.nombreestado}">
-						<f:selectItem  itemLabel="Seleccione Estado!!!!" itemValue="" />
-						<f:selectItems value="#{serviciosVirtualesBean.listaTipoestado}" />
-						<p:ajax
-							listener="#{serviciosVirtualesBean.asignarTipoest}">
-						</p:ajax>
-					</p:selectOneMenu>
-			</h:panelGroup>								
+			<h:outputText required="false" id="est" readonly="true" value="#{serviciosVirtualesBean.idtipoestado}"></h:outputText>				
 			<p:commandButton value="Actualizar" action="#{serviciosVirtualesBean.actualizarRegistro}"></p:commandButton>
 			<p:commandButton update="panel1 message" value="Cancelar" icon="ui-icon-close" action="#{serviciosVirtualesBean.irRecurso}"></p:commandButton>
 		</p:panelGrid>

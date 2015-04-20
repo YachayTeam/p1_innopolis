@@ -3,6 +3,7 @@ package innopolis.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import innopolis.entities.Recurso;
 import innopolis.entities.Serviciosvirtregi;
 import innopolis.entities.Tipoestado;
 import innopolis.entities.Tiposervicio;
@@ -209,6 +210,17 @@ public class ServiciosVirtualesBean {
 						}
 						return listadoTE;
 					}
+				
+				public String cambiarServicio(Serviciosvirtregi ser){
+					try {
+						FacesContext context = FacesContext.getCurrentInstance();
+				        context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioDisServicio(ser.getIdSvr())));
+						
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+					return "";
+				}
 		//------ traslados--------
 				
 				public String irRecurso(){
