@@ -1,13 +1,15 @@
 package innopolis.controller;
 
 import java.util.Date;
+import java.util.List;
 
-import innopolis.entities.Solicicabecera;
-import innopolis.entities.Tipoevento;
+import innopolis.entities.Evento;
 import innopolis.manager.ManagerInnopolis;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 @SessionScoped
 @ManagedBean
@@ -18,7 +20,7 @@ public class EventosBean {
 	private Integer idSolicitudCab;
 	private String nombre;
 	private String descripcion;
-	private double costo;
+	private Double costo;
 	private Date fechaI;
 	private Date fechaF;
 	private String imagen;
@@ -64,11 +66,11 @@ public class EventosBean {
 		this.descripcion = descripcion;
 	}
 
-	private double getCosto() {
+	private Double getCosto() {
 		return costo;
 	}
 
-	private void setCosto(double costo) {
+	private void setCosto(Double costo) {
 		this.costo = costo;
 	}
 
@@ -103,5 +105,95 @@ public class EventosBean {
 	private void setLugar(String lugar) {
 		this.lugar = lugar;
 	}
+	
+	public List<Evento> getListaEventos()
+	{
+		return minnopolis.findAllEventos();
+	}
+	
+	public String accioninsertarEvento() {
+		Evento evento = new Evento();
+		try {
+			evento.setSolicicabecera(minnopolis.findSolicitudCabeceraById(idSolicitudCab));
+			evento.setTipoevento(minnopolis.findTipoEventoById(idTipoEvento));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}		
+		evento.setNombre(nombre);
+		evento.setDescripcion(descripcion);
+		evento.setImagen(imagen);
+		evento.setFechaI(fechaI);
+		evento.setFechaF(fechaF);
+		evento.setCosto(costo);
+		evento.setLugar(lugar);
+		try {
+			minnopolis.insertarEvento(evento);
+			idEvento=null;
+			idSolicitudCab=null;
+			idTipoEvento=null;
+			nombre=null;
+			descripcion=null;
+			imagen=null;
+			fechaI=null;
+			fechaF=null;
+			costo=null;
+			lugar=null;
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public String accionEliminarEvento(Evento t) {
+
+		try {
+			minnopolis.eliminarEvento(t.getIdEvento());
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public String accionActualizarEvento() throws Exception {
+		Evento evento = minnopolis.findEventoById(idEvento);
+		try {
+			evento.setSolicicabecera(minnopolis.findSolicitudCabeceraById(idSolicitudCab));
+			evento.setTipoevento(minnopolis.findTipoEventoById(idTipoEvento));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}		
+		evento.setNombre(nombre);
+		evento.setDescripcion(descripcion);
+		evento.setImagen(imagen);
+		evento.setFechaI(fechaI);
+		evento.setFechaF(fechaF);
+		evento.setCosto(costo);
+		evento.setLugar(lugar);
+		try {
+			minnopolis.actualizarEvento(evento);
+			idEvento=null;
+			idSolicitudCab=null;
+			idTipoEvento=null;
+			nombre=null;
+			descripcion=null;
+			imagen=null;
+			fechaI=null;
+			fechaF=null;
+			costo=null;
+			lugar=null;
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+			e.printStackTrace();
+		}
+		return "";
+	}
+
 
 }

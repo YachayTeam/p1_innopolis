@@ -77,4 +77,8 @@ public class ManagerInnopolis {
 		mDAO.actualizar(id_inscripciones);
 	}
 	
+	//solicitud cabecera
+	public Solicicabecera findSolicitudCabeceraById(Integer id) throws Exception{
+		return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
+	}
 }
