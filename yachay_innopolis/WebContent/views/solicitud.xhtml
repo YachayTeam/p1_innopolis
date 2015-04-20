@@ -19,11 +19,12 @@
 				<h:outputText value="Actividad" style="font-weight: bold"/>
 				<h:inputTextarea value="#{solicitudBean.actividad}"></h:inputTextarea>
 				<h:outputText value="Fecha de solicitud:" style="font-weight: bold" />
-				<h:outputText value="#{solicitudBean.fecha}">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</h:outputText>
-				<h:inputText value="Seleccione Horario:" style="font-weight: bold" />
-				<pe:timePicker></pe:timePicker>				
+				<p:calendar id="fecha" value="#{solicitudBean.fecha}" pattern="dd/MM/yyyy" mask="true" />
+				<h:outputText value="Seleccione Horario:" style="font-weight: bold" />
+				<pe:timePicker value="#{solicitudBean.horainicio}" timeSeparator="-" startHours="8" endHours="18"  
+                   startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
+                   showDeselectButton="true" rows="3"  style="width:70px;" 
+                   widgetVar="customTimeWidget" label="Hora Inicio"/> 			
 				<p:commandButton action="#{solicitudBean.crearNuevaSolicitud}" value="Crear Solicitud" /> <!--update=":form3" /-->
 			</p:panelGrid>
 		</p:panel>
