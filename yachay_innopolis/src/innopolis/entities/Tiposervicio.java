@@ -15,7 +15,7 @@ public class Tiposervicio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="TIPOSERVICIO_IDTP_GENERATOR", sequenceName="SEQ_TIPO_SERVICIO",allocationSize=1)
+	@SequenceGenerator(name="TIPOSERVICIO_IDTP_GENERATOR", sequenceName="SEQ_TIPO_SERVICIO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TIPOSERVICIO_IDTP_GENERATOR")
 	@Column(name="id_tp")
 	private Integer idTp;

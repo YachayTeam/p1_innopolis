@@ -2,7 +2,6 @@ package innopolis.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class Solicicabecera implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SOLICICABECERA_IDSOLCAB_GENERATOR", sequenceName="SEQ_SOLICICABECERA",allocationSize=1)
+	@SequenceGenerator(name="SOLICICABECERA_IDSOLCAB_GENERATOR", sequenceName="SEQ_SOLICICABECERA", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SOLICICABECERA_IDSOLCAB_GENERATOR")
 	@Column(name="id_solcab")
 	private Integer idSolcab;
@@ -29,9 +28,11 @@ public class Solicicabecera implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 
-	private Time horafin;
+	@Temporal(TemporalType.DATE)
+	private Date horafin;
 
-	private Time horainicio;
+	@Temporal(TemporalType.DATE)
+	private Date horainicio;
 
 	//bi-directional many-to-one association to Evento
 	@OneToMany(mappedBy="solicicabecera")
@@ -81,19 +82,19 @@ public class Solicicabecera implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public Time getHorafin() {
+	public Date getHorafin() {
 		return this.horafin;
 	}
 
-	public void setHorafin(Time horafin) {
+	public void setHorafin(Date horafin) {
 		this.horafin = horafin;
 	}
 
-	public Time getHorainicio() {
+	public Date getHorainicio() {
 		return this.horainicio;
 	}
 
-	public void setHorainicio(Time horainicio) {
+	public void setHorainicio(Date horainicio) {
 		this.horainicio = horainicio;
 	}
 

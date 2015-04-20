@@ -15,7 +15,7 @@ public class Recurso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RECURSO_IDRECURSO_GENERATOR", sequenceName="SEQ_RECURSO",allocationSize=1)
+	@SequenceGenerator(name="RECURSO_IDRECURSO_GENERATOR", sequenceName="SEQ_RECURSO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSO_IDRECURSO_GENERATOR")
 	@Column(name="id_recurso")
 	private Integer idRecurso;

@@ -15,7 +15,7 @@ public class Soliciestado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SOLICIESTADO_IDSOLEST_GENERATOR", sequenceName="SEQ_SOLICIESTADO",allocationSize=1)
+	@SequenceGenerator(name="SOLICIESTADO_IDSOLEST_GENERATOR", sequenceName="SEQ_SOLICIESTADO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SOLICIESTADO_IDSOLEST_GENERATOR")
 	@Column(name="id_solest")
 	private Integer idSolest;

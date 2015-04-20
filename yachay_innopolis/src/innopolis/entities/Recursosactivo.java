@@ -2,7 +2,6 @@ package innopolis.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
 
 
@@ -17,7 +16,7 @@ public class Recursosactivo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RECURSOSACTIVOS_IDRECACT_GENERATOR", sequenceName="SEQ_RECURSOACTIVO",allocationSize=1)
+	@SequenceGenerator(name="RECURSOSACTIVOS_IDRECACT_GENERATOR", sequenceName="SEQ_RECURSOACTIVO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSOSACTIVOS_IDRECACT_GENERATOR")
 	@Column(name="id_recact")
 	private long idRecact;
@@ -25,11 +24,13 @@ public class Recursosactivo implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="hora_fin")
-	private Time horaFin;
+	private Date horaFin;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="hora_inicio")
-	private Time horaInicio;
+	private Date horaInicio;
 
 	@Column(name="id_recurso")
 	private Integer idRecurso;
@@ -56,19 +57,19 @@ public class Recursosactivo implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public Time getHoraFin() {
+	public Date getHoraFin() {
 		return this.horaFin;
 	}
 
-	public void setHoraFin(Time horaFin) {
+	public void setHoraFin(Date horaFin) {
 		this.horaFin = horaFin;
 	}
 
-	public Time getHoraInicio() {
+	public Date getHoraInicio() {
 		return this.horaInicio;
 	}
 
-	public void setHoraInicio(Time horaInicio) {
+	public void setHoraInicio(Date horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
