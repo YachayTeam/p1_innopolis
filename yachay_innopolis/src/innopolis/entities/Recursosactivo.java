@@ -2,6 +2,7 @@ package innopolis.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 
 
@@ -25,10 +26,10 @@ public class Recursosactivo implements Serializable {
 	private Date fecha;
 
 	@Column(name="hora_fin")
-	private String horaFin;
+	private Time horaFin;
 
 	@Column(name="hora_inicio")
-	private String horaInicio;
+	private Time horaInicio;
 
 	@Column(name="id_recurso")
 	private Integer idRecurso;
@@ -55,19 +56,19 @@ public class Recursosactivo implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public String getHoraFin() {
+	public Time getHoraFin() {
 		return this.horaFin;
 	}
 
-	public void setHoraFin(String horaFin) {
+	public void setHoraFin(Time horaFin) {
 		this.horaFin = horaFin;
 	}
 
-	public String getHoraInicio() {
+	public Time getHoraInicio() {
 		return this.horaInicio;
 	}
 
-	public void setHoraInicio(String horaInicio) {
+	public void setHoraInicio(Time horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 

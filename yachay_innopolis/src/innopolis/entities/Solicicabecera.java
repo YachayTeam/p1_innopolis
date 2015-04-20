@@ -2,6 +2,7 @@ package innopolis.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -28,9 +29,9 @@ public class Solicicabecera implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 
-	private String horafin;
+	private Time horafin;
 
-	private String horainicio;
+	private Time horainicio;
 
 	//bi-directional many-to-one association to Evento
 	@OneToMany(mappedBy="solicicabecera")
@@ -80,19 +81,19 @@ public class Solicicabecera implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public String getHorafin() {
+	public Time getHorafin() {
 		return this.horafin;
 	}
 
-	public void setHorafin(String horafin) {
+	public void setHorafin(Time horafin) {
 		this.horafin = horafin;
 	}
 
-	public String getHorainicio() {
+	public Time getHorainicio() {
 		return this.horainicio;
 	}
 
-	public void setHorainicio(String horainicio) {
+	public void setHorainicio(Time horainicio) {
 		this.horainicio = horainicio;
 	}
 
