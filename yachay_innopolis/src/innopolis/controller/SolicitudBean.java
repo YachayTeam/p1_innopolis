@@ -1,17 +1,21 @@
 package innopolis.controller;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import innopolis.entities.Recurso;
 import innopolis.entities.Solicicabecera;
 import innopolis.entities.Solicidetalle;
 import innopolis.manager.ManagerReservas;
 
-import javax.faces.bean.ManagedBean;
+
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 @SessionScoped
 @ManagedBean
@@ -25,6 +29,10 @@ public class SolicitudBean {
 	private Date fecha; 
 	private Time horafin; 
 	private Time horainicio;
+	//Extra Manejo de Horas
+	private Date h_inicio;
+	private Date h_fin;
+	private List<SelectItem> select;
 	
 	//Detalles
 	private Integer id_recurso;
@@ -35,6 +43,8 @@ public class SolicitudBean {
 	
 	public SolicitudBean() {
 		manager = new ManagerReservas();
+		//Select todos
+		select = listaRecursos();
 	}
 
 	//Metodos Get y Set
@@ -123,6 +133,26 @@ public class SolicitudBean {
 		this.horainicio = horainicio;
 	}
 	
+	public Date getH_fin() {
+		return h_fin;
+	}
+	
+	public void setH_fin(Date h_fin) {
+		this.h_fin = h_fin;
+	}
+	
+	public Date getH_inicio() {
+		return h_inicio;
+	}
+	
+	public void setH_inicio(Date h_inicio) {
+		this.h_inicio = h_inicio;
+	}
+	
+	public List<SelectItem> getSelect() {
+		return select;
+	}
+	
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
 		try {
@@ -130,6 +160,8 @@ public class SolicitudBean {
 			id_recurso=0; 
 			cantidad_recurso=0;
 			solicitudCabTmpGuardada=false;
+			//Cargar Listado----
+			select = this.listaRecursosLibres();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al crear la solicitud."));
 		}
@@ -184,7 +216,26 @@ public class SolicitudBean {
 		return "";
 	}
 	
+	//LISTADO DE RECURSOS
+	public List<SelectItem> listaRecursosLibres(){
+		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+		List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(fecha, horainicio, horafin);
+		for(Recurso p:listadoRecurso){
+			SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+p.getCapacidad());
+			listadoSI.add(item);
+		}
+		return listadoSI;
+	}
 	
+	public List<SelectItem> listaRecursos(){
+		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+		List<Recurso> listadoRecurso= manager.findAllRecurso();
+		for(Recurso p:listadoRecurso){
+			SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+p.getCapacidad());
+			listadoSI.add(item);
+		}
+		return listadoSI;
+	}
 	
 
 }
