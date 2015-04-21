@@ -3,7 +3,6 @@ package innopolis.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import innopolis.entities.Recurso;
 import innopolis.entities.Serviciosvirtregi;
 import innopolis.entities.Tipoestado;
 import innopolis.entities.Tiposervicio;
@@ -21,6 +20,8 @@ import javax.faces.model.SelectItem;
 public class ServiciosVirtualesBean {
 	private ManagerRecursosVirtuales managerservirt;
 	private Integer idSvr;
+	private Integer idestado;
+	private Integer idservi;
 	private Tipoestado tipoestado;
 	private Tiposervicio tiposervicio;
 	private String apellidos;
@@ -31,32 +32,29 @@ public class ServiciosVirtualesBean {
 	private List<Serviciosvirtregi> liservicioreg;
 	private List<Tiposervicio> tiposervli;
 	private List<Tipoestado> tipoestli;
-	private Tipoestado testado;
-	private Tiposervicio tservicio;
 	
-	
-	public Tipoestado getTestado() {
-		return testado;
-	}
 
-	public void setTestado(Tipoestado testado) {
-		this.testado = testado;
-	}
-
-	public Tiposervicio getTservicio() {
-		return tservicio;
-	}
-
-	public void setTservicio(Tiposervicio tservicio) {
-		this.tservicio = tservicio;
-	}
-	
 	public ServiciosVirtualesBean()
 	{
 		managerservirt = new ManagerRecursosVirtuales();
+		tiposervicio = new Tiposervicio();
 		
 	}
-		
+	public Integer getIdestado() {
+		return idestado;
+	}
+
+	public void setIdestado(Integer idestado) {
+		this.idestado = idestado;
+	}
+
+	public Integer getIdservi() {
+		return idservi;
+	}
+
+	public void setIdservi(Integer idservi) {
+		this.idservi = idservi;
+	}		
 	public List<Serviciosvirtregi> getServicioreg() {
 		return liservicioreg;
 	}
@@ -69,7 +67,6 @@ public class ServiciosVirtualesBean {
 	public void setIdSvr(Integer idSvr) {
 		this.idSvr = idSvr;
 	}
-
 	public String getApellidos() {
 		return apellidos;
 	}
@@ -112,8 +109,6 @@ public class ServiciosVirtualesBean {
 	public void setTipoestli(List<Tipoestado> tipoestli) {
 		this.tipoestli = tipoestli;
 	}
-	
-	
 	
 	public Tipoestado getTipoestado() {
 		return tipoestado;
@@ -224,10 +219,10 @@ public class ServiciosVirtualesBean {
 						return listadoTE;
 					}
 				
-				public String cambiarServicio(Serviciosvirtregi ser){
+				public String cambiarEstado(Serviciosvirtregi ser){
 					try {
 						FacesContext context = FacesContext.getCurrentInstance();
-				        context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioDisServicio(ser.getIdSvr())));
+				        context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioDisEstado(ser.getIdSvr())));
 						
 					} catch (Exception e) {
 						System.out.println(e.getMessage());

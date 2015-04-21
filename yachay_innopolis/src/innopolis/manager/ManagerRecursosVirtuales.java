@@ -156,7 +156,7 @@ public class ManagerRecursosVirtuales {
 	}
 	
 	 //desactivar y activar Recurso
-		public String cambioDisServicio(Integer id) throws Exception{
+		public String cambioDisEstado(Integer id) throws Exception{
 			List<Tipoestado> lista= findAllTipoEstado();
 			int p=0;
 			String h="";
@@ -172,13 +172,19 @@ public class ManagerRecursosVirtuales {
 				est.setIdEstado(2);
 				est.setNombreestado("Aprobado");				
 				ser.setTipoestado(est);				
-				h="Estado del registro modificado";
+				h="Estado del Registro Modificado";
  			}
 			else if(ser.getTipoestado().getNombreestado().equals("Aprobado")){
 				est.setIdEstado(1);
 				est.setNombreestado("Pendiente");				
 				ser.setTipoestado(est);				
-				h="Estado del recurso modificado";
+				h="Estado del Registro Modificado";
+ 			}
+			else if(ser.getTipoestado().getNombreestado().equals("Aprobado")){
+				est.setIdEstado(3);
+				est.setNombreestado("Negado");				
+				ser.setTipoestado(est);				
+				h="Estado del Registro Modificado";
  			}
 			mDAO.actualizar(ser);
 			return h;

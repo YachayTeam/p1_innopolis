@@ -14,19 +14,19 @@
 	<p:panel id="panel1"  header="Edicion de Registro">
 		<p:panelGrid columns="2" >
 		<h:outputText value="CEDULA"/>
-			<p:inputText required="false" id="ced" value="#{serviciosVirtualesBean.cedula}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText  id="ced" value="#{serviciosVirtualesBean.cedula}" ></p:inputText>
 			<h:outputText value="APELLIDOS"/>
-			<p:inputText required="false" id="ape" value="#{serviciosVirtualesBean.apellidos}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText  id="ape" value="#{serviciosVirtualesBean.apellidos}" ></p:inputText>
 			<h:outputText value="NOMBRES"/>
-			<p:inputText required="true" id="correo" value="#{serviciosVirtualesBean.nombres}" requiredMessage="Requerido"></p:inputText>			
+			<p:inputText  id="correo" value="#{serviciosVirtualesBean.nombres}" ></p:inputText>			
 			<h:outputText value="CORREO"/>
-			<p:inputText required="false" id="nom" value="#{serviciosVirtualesBean.correo}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText  id="nom" value="#{serviciosVirtualesBean.correo}" ></p:inputText>
 			<h:outputText value="TEMA"/>
-			<p:inputTextarea required="false" id="tema"  value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido"></p:inputTextarea>
+			<p:inputTextarea id="tema"   value="#{serviciosVirtualesBean.tema}" ></p:inputTextarea>
 			<h:outputText value="SERVICIO"/>
-			<h:outputText required="false" id="ser" readonly="true" value="#{serviciosVirtualesBean.tiposervicio.nombreServicio}"></h:outputText>
+			<h:outputText  id="ser" readonly="true" value="#{serviciosVirtualesBean.tiposervicio.nombreServicio}"></h:outputText>
 			<h:outputText value="ESTADO"/>
-			<h:outputText required="false" id="est" readonly="true" value="#{serviciosVirtualesBean.tipoestado.nombreestado}"></h:outputText>				
+			<h:outputText  id="est" readonly="true" value="#{serviciosVirtualesBean.tipoestado.nombreestado}"></h:outputText>				
 			<p:commandButton value="Actualizar" action="#{serviciosVirtualesBean.actualizarRegistro}"></p:commandButton>
 			<p:commandButton update="panel1 message" value="Cancelar" icon="ui-icon-close" action="#{serviciosVirtualesBean.irRecurso}"></p:commandButton>
 		</p:panelGrid>
