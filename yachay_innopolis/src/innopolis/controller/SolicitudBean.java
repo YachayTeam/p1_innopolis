@@ -1,6 +1,8 @@
 package innopolis.controller;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +11,7 @@ import innopolis.entities.Recurso;
 import innopolis.entities.Solicicabecera;
 import innopolis.entities.Solicidetalle;
 import innopolis.manager.ManagerReservas;
+
 
 
 import javax.faces.application.FacesMessage;
@@ -237,5 +240,14 @@ public class SolicitudBean {
 		return listadoSI;
 	}
 	
+	//JAVA.DATE TO SQL.TIME
+	@SuppressWarnings("deprecation")
+	public Time fechaAtiempo(Date fecha){
+		DateFormat dateFormatH = new SimpleDateFormat("HH:mm");
+		String hora = dateFormatH.format(fecha).toString();
+		String [] array = hora.split(":");
+		Time resp = new Time(Integer.parseInt(array[0]), Integer.parseInt(array[1]), 00);
+		return resp;	
+	}
 
 }
