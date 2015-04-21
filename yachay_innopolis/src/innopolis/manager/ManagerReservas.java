@@ -296,18 +296,33 @@ private ManagerDAO mDAO;
 		return false;
 	}
 	
-	//Carga de recursos disponibles
-	public List<Recurso> findAllRecursosDisponibles(Date fecha, Time hora_inicio, Time hora_fin){
-		List<Recurso> listado = this.findAllRecurso();
-		List<Recurso> resultados = this.findAllRecurso();
-		
-		for (Recurso recurso : listado) {
-			if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRecurso(), fecha, hora_inicio, hora_fin)){
-				resultados.remove(recurso);
+	//Carga de recursos disponibles verificando si esta ocupado
+		public List<Recurso> findAllRecursosDisponibles(Date fecha, Time hora_inicio, Time hora_fin){
+			List<Recurso> listado = this.findAllRecurso();
+			List<Recurso> resultados = this.findAllRecurso();
+			
+			for (Recurso recurso : listado) {
+				if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRecurso(), fecha, hora_inicio, hora_fin) || this.esRecursoDesactivado(recurso.getIdRecurso())){
+					resultados.remove(recurso);
+				}
 			}
+			
+			return resultados;
 		}
 		
-		return resultados;
-	}
+		//Recursos Activados
+		public boolean esRecursoDesactivado(Integer id_recurso){
+			Recurso rec = new Recurso();
+			try {
+				rec = this.findRecursoByID(id_recurso);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(rec.getRecursodisponible().getIdRecdisponible().equals(1)){
+				return false;
+			}else{
+				return true;
+			}	
+		}
 
 }
