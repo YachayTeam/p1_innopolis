@@ -175,14 +175,14 @@ public class ManagerRecursosVirtuales {
 				h="Estado del Registro Modificado";
  			}
 			else if(ser.getTipoestado().getNombreestado().equals("Aprobado")){
-				est.setIdEstado(1);
-				est.setNombreestado("Pendiente");				
+				est.setIdEstado(3);
+				est.setNombreestado("Negado");				
 				ser.setTipoestado(est);				
 				h="Estado del Registro Modificado";
  			}
-			else if(ser.getTipoestado().getNombreestado().equals("Aprobado")){
-				est.setIdEstado(3);
-				est.setNombreestado("Negado");				
+			else if(ser.getTipoestado().getNombreestado().equals("Negado")){
+				est.setIdEstado(2);
+				est.setNombreestado("Aprobado");				
 				ser.setTipoestado(est);				
 				h="Estado del Registro Modificado";
  			}

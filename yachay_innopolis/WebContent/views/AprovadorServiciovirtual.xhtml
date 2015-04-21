@@ -12,12 +12,13 @@
 <h:form id="form2">
 	<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Registrados">
-		<p:dataTable id="dt" rows="20" value="#{serviciosVirtualesBean.listRegServi}" var="reg" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                 paginator="true" style="margin-bottom:10px">
-			<p:column id="f1" filterBy="#{reg.cedula}" headerText="CEDULA">
+		<p:dataTable id="dt" rows="20" value="#{serviciosVirtualesBean.listRegServi}" var="reg" 
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                 paginator="true" style="margin-bottom:30px">
+			<p:column  headerText="CEDULA">
 				<h:outputText value="#{reg.cedula}"></h:outputText>
 			</p:column>
-			<p:column headerText="APELLIDOS">
+			<p:column  headerText="APELLIDOS">
 				<h:outputText value="#{reg.apellidos}"></h:outputText>
 			</p:column>			
 			<p:column headerText="NOMBRES">
@@ -29,13 +30,13 @@
 			<p:column headerText="TEMA">
 			<h:outputText value="#{reg.tema}"></h:outputText>
 			</p:column>
-			<p:column headerText="SERVICIO">
+			<p:column id="f2" filterBy="#{reg.tiposervicio.nombreServicio}" headerText="SERVICIO">
 			<h:outputText value="#{reg.tiposervicio.nombreServicio}"></h:outputText>
 			</p:column>
-			<p:column headerText="ESTADO">
+			<p:column id="f3" filterBy="#{reg.tipoestado.nombreestado}" headerText="ESTADO">
 			<h:outputText value="#{reg.tipoestado.nombreestado}"></h:outputText>
 			</p:column>
-			<p:column headerText="ADMINSITRAR">
+			<p:column headerText="MODIFICAR">
 				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.Cargarregistros(reg)}" ></p:commandButton>
 				<p:commandButton icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2">
 				</p:commandButton>
@@ -43,7 +44,7 @@
 		</p:dataTable>
 		<br/>
 		<h:commandLink>
-		<p:graphicImage name="../WebContent/views/img/excel.png" />
+		<p:commandButton value="Importar" ></p:commandButton>
         <p:dataExporter type="xls" target="dt" fileName="Lista" pageOnly="true"  />
     </h:commandLink>			    
 	</p:panel>
