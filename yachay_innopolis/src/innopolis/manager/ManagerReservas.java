@@ -257,7 +257,7 @@ private ManagerDAO mDAO;
 	public ArrayList<Recursosactivo> findAllRecursoOcupadoByFecha(Date fecha_seleccionada){
 		ArrayList<Recursosactivo> resultado = new ArrayList<Recursosactivo>();
 		List<Recursosactivo> listado = this.findAllRecursosSolicitados();
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		for (Recursosactivo recursosactivo : listado) {
 			if(dateFormat.format(recursosactivo.getFecha()).toString().equals(dateFormat.format(fecha_seleccionada).toString())){
