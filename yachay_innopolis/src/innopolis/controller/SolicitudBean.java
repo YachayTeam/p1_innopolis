@@ -169,7 +169,7 @@ public class SolicitudBean {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al crear la solicitud."));
 		}
-		return "";
+		return "soldet";
 	}
 	
 	public String insertarDetalleSolicitud(){
