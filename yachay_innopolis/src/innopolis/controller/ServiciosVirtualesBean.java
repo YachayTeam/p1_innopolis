@@ -21,8 +21,8 @@ import javax.faces.model.SelectItem;
 public class ServiciosVirtualesBean {
 	private ManagerRecursosVirtuales managerservirt;
 	private Integer idSvr;
-	private Integer idtipoestado;
-	private Integer idtiposervicio;
+	private Tipoestado tipoestado;
+	private Tiposervicio tiposervicio;
 	private String apellidos;
 	private int cedula;
 	private String correo;
@@ -69,18 +69,7 @@ public class ServiciosVirtualesBean {
 	public void setIdSvr(Integer idSvr) {
 		this.idSvr = idSvr;
 	}
-	public Integer getIdtipoestado() {
-		return idtipoestado;
-	}
-	public void setIdtipoestado(Integer idtipoestado) {
-		this.idtipoestado = idtipoestado;
-	}
-	public Integer getIdtiposervicio() {
-		return idtiposervicio;
-	}
-	public void setIdtiposervicio(Integer idtiposervicio) {
-		this.idtiposervicio = idtiposervicio;
-	}
+
 	public String getApellidos() {
 		return apellidos;
 	}
@@ -123,14 +112,33 @@ public class ServiciosVirtualesBean {
 	public void setTipoestli(List<Tipoestado> tipoestli) {
 		this.tipoestli = tipoestli;
 	}
+	
+	
+	
+	public Tipoestado getTipoestado() {
+		return tipoestado;
+	}
+
+	public void setTipoestado(Tipoestado tipoestado) {
+		this.tipoestado = tipoestado;
+	}
+
+	public Tiposervicio getTiposervicio() {
+		return tiposervicio;
+	}
+
+	public void setTiposervicio(Tiposervicio tiposervicio) {
+		this.tiposervicio = tiposervicio;
+	}
+
 	//metodo para asignar el TipoServicio al registro
 	public String asignarTiposerv(){
-		managerservirt.asignarTiposerv(idtiposervicio);	
+		managerservirt.asignarTiposerv(tiposervicio.getIdTp());	
 			return "";
 		}
 	//metodo para asignar el Tipoestado al registro
 	public String asignarTipoest(){
-			managerservirt.asignarTipoest(idtipoestado);
+			managerservirt.asignarTipoest(tipoestado.getIdEstado());
 			return "";
 		}
 	public List<Serviciosvirtregi> getListRegServi(){
@@ -146,8 +154,8 @@ public class ServiciosVirtualesBean {
 			correo="";
 			tema="";
 			apellidos="";
-			idtipoestado=1;
-			idtiposervicio=null;
+			tipoestado = managerservirt.findEstadoTipoByID(1); // numero id del estado q quieres q sea
+			tiposervicio = null;
 			idSvr=null;
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Registro Almacenado ") );
@@ -159,15 +167,20 @@ public class ServiciosVirtualesBean {
 	}
 	//accion para modificar los recursos
 	public String actualizarRegistro(){
-		managerservirt.editarserviciovirtual(idSvr, cedula, nombres, apellidos, tema, correo, idtipoestado, idtiposervicio);
+		managerservirt.editarserviciovirtual(idSvr, new Integer(cedula), nombres, apellidos, tema, correo, tipoestado.getIdEstado(), tiposervicio.getIdTp());
 		//limpiamos los datos
 		cedula=0;
 		nombres="";
 		correo="";
 		tema="";
 		apellidos="";
-		idtipoestado=null;
-		idtiposervicio=null;
+		try {
+			tipoestado = managerservirt.findEstadoTipoByID(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // numero id del estado q quieres q sea
+		tiposervicio = null;
 		idSvr=null;
 		FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Registro Actualizado ") );
@@ -183,8 +196,8 @@ public class ServiciosVirtualesBean {
 		apellidos= serv.getApellidos();
 		correo= serv.getCorreo();
 		tema= serv.getTema();
-		idtipoestado= serv.getTipoestado().getIdEstado();
-		idtiposervicio= serv.getTiposervicio().getIdTp();
+		tipoestado= serv.getTipoestado();
+		tiposervicio= serv.getTiposervicio();
 		return "modservedi";
 				
 		}
@@ -232,8 +245,13 @@ public class ServiciosVirtualesBean {
 					correo="";
 					tema="";
 					apellidos="";
-					idtipoestado=0;
-					idtiposervicio=0;
+					try {
+						tipoestado = managerservirt.findEstadoTipoByID(1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} // numero id del estado q quieres q sea;
+					tiposervicio = new Tiposervicio();
 					idSvr=0;
 					return "AprovadorServiciovirtual";					
 				}

@@ -69,7 +69,11 @@ public class ManagerRecursosVirtuales {
 //ServicioTipo por ID
 		public Tiposervicio findServicioTipoByID(Integer id_Tp) throws Exception{
 			return (Tiposervicio) mDAO.findById(Tiposervicio.class, id_Tp);
-		}								
+		}
+		//EstadoTipo por ID
+				public Tipoestado findEstadoTipoByID(Integer id_Ep) throws Exception{
+					return (Tipoestado) mDAO.findById(Tipoestado.class, id_Ep);
+				}
 //insertar los serviciosvirtuales
 		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo) throws Exception{
 			Serviciosvirtregi svt = new Serviciosvirtregi();

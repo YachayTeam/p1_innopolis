@@ -24,9 +24,9 @@
 			<h:outputText value="TEMA"/>
 			<p:inputTextarea required="false" id="tema"  value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido"></p:inputTextarea>
 			<h:outputText value="SERVICIO"/>
-			<h:outputText required="false" id="ser" readonly="true" value="#{serviciosVirtualesBean.idtiposervicio}"></h:outputText>
+			<h:outputText required="false" id="ser" readonly="true" value="#{serviciosVirtualesBean.tiposervicio.nombreServicio}"></h:outputText>
 			<h:outputText value="ESTADO"/>
-			<h:outputText required="false" id="est" readonly="true" value="#{serviciosVirtualesBean.idtipoestado}"></h:outputText>				
+			<h:outputText required="false" id="est" readonly="true" value="#{serviciosVirtualesBean.tipoestado.nombreestado}"></h:outputText>				
 			<p:commandButton value="Actualizar" action="#{serviciosVirtualesBean.actualizarRegistro}"></p:commandButton>
 			<p:commandButton update="panel1 message" value="Cancelar" icon="ui-icon-close" action="#{serviciosVirtualesBean.irRecurso}"></p:commandButton>
 		</p:panelGrid>
