@@ -20,7 +20,7 @@
 				<h:outputText value="Fecha de solicitud:" style="font-weight: bold" />
 				<p:calendar id="fecha" value="#{solicitudBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
 				<h:outputText value="Seleccione Horario:" style="font-weight: bold" />
-				<pe:timePicker value="#{solicitudBean.hora_inicio}" timeSeparator="-" startHours="8" endHours="18"  
+				<pe:timePicker value="#{solicitudBean.h_inicio}" timeSeparator="-" startHours="8" endHours="18"  
                    startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
                    showDeselectButton="true" rows="3"  style="width:70px;" 
                    widgetVar="customTimeWidget" label="Hora Inicio"/> 			

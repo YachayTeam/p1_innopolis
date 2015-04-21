@@ -19,6 +19,7 @@ private ManagerDAO mDAO;
 	//Almacenar tipos y estados
 			private static Recursotipo rt;
 			private static Recursodisponible rd;
+			private static Recurso r;
 		
 		public ManagerReservas()
 		{
@@ -323,6 +324,17 @@ private ManagerDAO mDAO;
 			}else{
 				return true;
 			}	
+		}
+		
+		//metodo para asignar el Recurso a la Solicitud
+	 	public Recurso asignarRecurso(Integer idRecurso) {
+	 		try {
+			r=findRecursoByID(idRecurso);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	 		return r;
 		}
 
 }

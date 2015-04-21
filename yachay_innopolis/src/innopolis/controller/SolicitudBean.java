@@ -14,6 +14,7 @@ import innopolis.manager.ManagerReservas;
 
 
 
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -47,7 +48,7 @@ public class SolicitudBean {
 	public SolicitudBean() {
 		manager = new ManagerReservas();
 		//Select todos
-		select = listaRecursos();
+		select = getlistaRecursos();
 	}
 
 	//Metodos Get y Set
@@ -164,7 +165,7 @@ public class SolicitudBean {
 			cantidad_recurso=0;
 			solicitudCabTmpGuardada=false;
 			//Cargar Listado----
-			select = this.listaRecursosLibres();
+			select = this.getlistaRecursosLibres();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al crear la solicitud."));
 		}
@@ -220,7 +221,7 @@ public class SolicitudBean {
 	}
 	
 	//LISTADO DE RECURSOS
-	public List<SelectItem> listaRecursosLibres(){
+	public List<SelectItem> getlistaRecursosLibres(){
 		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
 		List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(fecha, horainicio, horafin);
 		for(Recurso p:listadoRecurso){
@@ -230,7 +231,7 @@ public class SolicitudBean {
 		return listadoSI;
 	}
 	
-	public List<SelectItem> listaRecursos(){
+	public List<SelectItem> getlistaRecursos(){
 		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
 		List<Recurso> listadoRecurso= manager.findAllRecurso();
 		for(Recurso p:listadoRecurso){
@@ -238,6 +239,12 @@ public class SolicitudBean {
 			listadoSI.add(item);
 		}
 		return listadoSI;
+	}
+	
+	//metodo para asignar el RecursoTipo al Recurso
+	public String asignarRecLibre(){
+		manager.asignarRecurso(id_recurso);
+		return "";
 	}
 	
 	//JAVA.DATE TO SQL.TIME
