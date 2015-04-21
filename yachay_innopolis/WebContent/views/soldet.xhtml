@@ -11,86 +11,59 @@
 </h:head>
 <body>
 	<p:panel id="panel1">
-	<h:form id="form3">
+	<h:form id="form3" >
 		<p:panel header="Detalle de recursos">
 			<p:panelGrid columns="5" border="1">
-				<h:outputText value="Producto:" />
+				<h:outputText value="Recursos:" />
 				<h:panelGroup>  
-					<p:selectOneMenu value="#{facturacionBean.codigoProducto}">
+					<p:selectOneMenu  value="#{solicitudBean.id_recurso}">
 						<f:selectItem  itemLabel="Seleccione un producto..!!" itemValue="-1" />
-						<f:selectItems value="#{facturacionBean.listaProductosSI}" />
+						<f:selectItems value="#{solicitudBean.listaRecursosLibres}" />
 						<p:ajax
-							listener="#{recursosBean.asignarRecTipo()}">
+							listener="#{solicitudBean.asignarRecLibre()}">
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>
-				<h:outputText value="Cantidad:" />
-				<h:inputText value="#{facturacionBean.cantidadProducto}" />
-				<p:commandButton value="adicionar"
-					action="#{facturacionBean.insertarDetalle}" update="form3"
+				<h:outputText value="Capacidad Necesaria:" />
+				<p:inputText value="#{solicitudBean.capacidad_recurso}"></p:inputText>
+				<p:commandButton value="Adicionar"
+					action="#{solicitudBean.insertarDetalleSolicitud}" update="form3"
 					icon="ui-icon-plusthick" />
 			</p:panelGrid>
 			<p:messages></p:messages>
-			<p:dataTable value="#{facturacionBean.facturaCabTmp.detalles}"
-				var="d" id="tablaFacturaDets">
+			<p:dataTable value="#{solicitudBean.solicitudCabTem.solicidetalles}"
+				var="d" id="tablarecursosDets">
 				<f:facet name="header">
-					<h:outputText value="Detalle de productos:" />
+					<h:outputText value="Detalle de Recursos:" />
 				</f:facet>
 				<p:column>
 					<f:facet name="header">QUITAR</f:facet>
-					<p:commandButton  actionListener="#{facturacionBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-wrench "/> 
+					<p:commandButton  actionListener="#{solicitudBean.quitarDetalleSolicitud(d)}" update=":form3" icon="ui-icon-closethick"/> 
 				</p:column>
 				<p:column>
 					<f:facet name="header">
-					CODIGO
+					Nombre
 				</f:facet>
-					<h:outputText value="#{d.producto.idProd}" />
+					<h:outputText value="#{d.recurso.nombre}" />
 				</p:column>
 				<p:column>
 					<f:facet name="header">
-					PRODUCTO
+					Descripcion
 				</f:facet>
-					<h:outputText value="#{d.producto.nombre}" />
+					<h:outputText value="#{d.recurso.descripcion}" />
 				</p:column>
 				<p:column>
 					<f:facet name="header">
-					DESCRIPCION
+					Capacidad
 				</f:facet>
-					<h:outputText value="#{d.producto.descripcion}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-					P/U
-				</f:facet>
-					<h:outputText value="#{d.precioVenta}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-					CANT
-				</f:facet>
-					<h:outputText value="#{d.cantidad}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-					SUBTOTAL
-				</f:facet>
-					<h:outputText value="#{d.precioVenta * d.cantidad}" />
-					<f:facet name="footer">
-						<h:panelGrid columns="2"
-							style="font-weight: bold; text-align:right">
-							<h:outputText value="IVA:" />
-							<h:outputText value="12%"></h:outputText>
-							<h:outputText value="TOTAL:" />
-							<h:outputText value="#{facturacionBean.facturaCabTmp.total}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
-									currencySymbol="$" />
-							</h:outputText>
-						</h:panelGrid>
-					</f:facet>
+					<h:outputText value="#{d.recurso.capacidad}" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>
 	</h:form>
+	<p:commandButton value="Enviar Solicitud"
+					action="#{solicitudBean.guardarSolicitud}" update="form3"
+					icon="ui-icon-plusthick" />
 	</p:panel>
 </body>
 </html>

@@ -40,7 +40,7 @@ public class SolicitudBean {
 	
 	//Detalles
 	private Integer id_recurso;
-	private Integer cantidad_recurso;
+	private Integer capacidad_recurso;
 	private Solicicabecera solicitudCabTem;
 	private boolean solicitudCabTmpGuardada;
 	private List<Solicicabecera> listadoSolCab;
@@ -68,12 +68,12 @@ public class SolicitudBean {
 		this.id_recurso = id_recurso;
 	}
 
-	public Integer getCantidad_recurso() {
-		return cantidad_recurso;
+	public Integer getcapacidad_recurso() {
+		return capacidad_recurso;
 	}
 
-	public void setCantidad_recurso(Integer cantidad_recurso) {
-		this.cantidad_recurso = cantidad_recurso;
+	public void setcapacidad_recurso(Integer capacidad_recurso) {
+		this.capacidad_recurso = capacidad_recurso;
 	}
 
 	public Solicicabecera getSolicitudCabTem() {
@@ -162,7 +162,7 @@ public class SolicitudBean {
 		try {
 			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getFecha(), getHorafin(), getHorainicio()); 
 			id_recurso=0; 
-			cantidad_recurso=0;
+			capacidad_recurso=0;
 			solicitudCabTmpGuardada=false;
 			//Cargar Listado----
 			select = this.getlistaRecursosLibres();
@@ -179,9 +179,9 @@ public class SolicitudBean {
 		}
 		
 		try {
-			manager.agregarSolicitudDetalleTmp(getId_recurso(), getCantidad_recurso());
+			manager.agregarSolicitudDetalleTmp(getId_recurso(), getcapacidad_recurso());
 			id_recurso=0; 
-			cantidad_recurso=0;
+			capacidad_recurso=0;
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
 		}
