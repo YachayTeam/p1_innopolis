@@ -15,6 +15,7 @@ import innopolis.manager.ManagerReservas;
 
 
 
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -29,7 +30,9 @@ public class SolicitudBean {
 	//Atributo de solicitud
 	//Cabecera
 	private String direccion;
-	private String actividad; 
+	private String actividad;
+	private String justificacion;
+	private String objetivo;
 	private Date fecha; 
 	private Time horafin; 
 	private Time horainicio;
@@ -112,6 +115,22 @@ public class SolicitudBean {
 	public void setActividad(String actividad) {
 		this.actividad = actividad;
 	}
+	
+	public String getObjetivo() {
+		return objetivo;
+	}
+	
+	public void setObjetivo(String objetivo) {
+		this.objetivo = objetivo;
+	}
+	
+	public String getJustificacion() {
+		return justificacion;
+	}
+	
+	public void setJustificacion(String justificacion) {
+		this.justificacion = justificacion;
+	}
 
 	public Date getFecha() {
 		return fecha;
@@ -160,7 +179,7 @@ public class SolicitudBean {
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
 		try {
-			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getFecha(), getHorafin(), getHorainicio()); 
+			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), getFecha(), getHorafin(), getHorainicio()); 
 			id_recurso=0; 
 			capacidad_recurso=0;
 			solicitudCabTmpGuardada=false;

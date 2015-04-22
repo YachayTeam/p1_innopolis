@@ -198,9 +198,10 @@ private ManagerDAO mDAO;
 	}
 	
 	//Temporales
-	public Solicicabecera crearSolicitudTmp(String direccion, String actividad, Date fecha, Time horafin, Time horainicio) throws Exception{
+	public Solicicabecera crearSolicitudTmp(String direccion, String actividad, String objetivo, String justificacion,Date fecha, Time horafin, Time horainicio) throws Exception{
 		soliTemp=new Solicicabecera();
-		soliTemp.setActividad(actividad);soliTemp.setDireccion(direccion);soliTemp.setFecha(fecha);
+		soliTemp.setActividad(actividad);soliTemp.setDireccion(direccion);
+		soliTemp.setObjetivo(objetivo);soliTemp.setJustificacion(justificacion);soliTemp.setFecha(fecha);
 		soliTemp.setHorainicio(horainicio);soliTemp.setHorafin(horafin);
 		//OJO ESTADOS
 		soliTemp.setSoliciestado(findSolicitudEstadoByID(1));//1 Pendiente
