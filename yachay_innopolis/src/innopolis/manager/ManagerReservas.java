@@ -224,7 +224,10 @@ private ManagerDAO mDAO;
 		//Validar cantidad
 		if(cantidad>rec.getCapacidad())
 			throw new Exception("La capacidad es mayor a la del recurso solicitado");
-			
+		//Validar recursos existente
+		if(esRecursoAnadido(id_recurso,soliTemp))
+			throw new Exception("El recurso ya se encuentra agregado");
+		
 		//Crear detalle
 		det = new Solicidetalle();
 		det.setRecurso(rec);
@@ -281,6 +284,18 @@ private ManagerDAO mDAO;
 		actualizarContadorSolicitud(contSolicitud);
 		
 		soliTemp = null;
+	}
+	
+	//Recurso ya Añadido
+	public boolean esRecursoAnadido(Integer id_recurso, Solicicabecera solicitud){
+		List<Solicidetalle> listado = solicitud.getSolicidetalles();
+		boolean resp = false;
+		for (Solicidetalle solicidetalle : listado) {
+			if(solicidetalle.getRecurso().getIdRecurso() == id_recurso){
+				resp = true;
+			}
+		}
+		return resp;
 	}
 		
 				
@@ -348,66 +363,66 @@ private ManagerDAO mDAO;
 	}
 	
 	//Carga de recursos disponibles verificando si esta ocupado
-		public List<Recurso> findAllRecursosDisponibles(Date fecha, Time hora_inicio, Time hora_fin){
-			List<Recurso> listado = this.findAllRecurso();
-			List<Recurso> resultados = this.findAllRecurso();
-			
-			for (Recurso recurso : listado) {
-				if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRecurso(), fecha, hora_inicio, hora_fin) || this.esRecursoDesactivado(recurso.getIdRecurso())){
-					resultados.remove(recurso);
-				}
+	public List<Recurso> findAllRecursosDisponibles(Date fecha, Time hora_inicio, Time hora_fin){
+		List<Recurso> listado = this.findAllRecurso();
+		List<Recurso> resultados = this.findAllRecurso();
+		
+		for (Recurso recurso : listado) {
+			if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRecurso(), fecha, hora_inicio, hora_fin) || this.esRecursoDesactivado(recurso.getIdRecurso())){
+				resultados.remove(recurso);
 			}
-			
-			return resultados;
 		}
 		
-		//Recursos Activados
-		public boolean esRecursoDesactivado(Integer id_recurso){
-			Recurso rec = new Recurso();
-			try {
-				rec = this.findRecursoByID(id_recurso);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if(rec.getRecursodisponible().getIdRecdisponible().equals(1)){
-				return false;
-			}else{
-				return true;
-			}	
-		}
-		
-		//metodo para asignar el Recurso a la Solicitud
-	 	public Recurso asignarRecurso(Integer idRecurso) {
-	 		try {
-			r=findRecursoByID(idRecurso);
+		return resultados;
+	}
+	
+	//Recursos Activados
+	public boolean esRecursoDesactivado(Integer id_recurso){
+		Recurso rec = new Recurso();
+		try {
+			rec = this.findRecursoByID(id_recurso);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	 		return r;
-		}
-	 	
-	 	//-----------------------------APROBADOR------------------------------------------------------//
-	 	//Listar solicitudes
-		@SuppressWarnings("unchecked")
-		public List<Solicicabecera> findAllSolicitudCabecera(){
-			return mDAO.findAll(Solicicabecera.class);
-		}
-		
-		public Solicicabecera findSolicitudCabeceraById(Integer id) throws Exception{
-			return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
-		}
-	 	 	
-	 	//Cambio de estados
-		//Pide Id Estado, Busca estado y lo cambia dentro de la solicitud seleccionada
-		public void cambiarEstadoSolicitud(Integer id_solicitud, Integer id_estado) throws Exception{
-			Soliciestado estado = this.findSolicitudEstadoByID(id_estado);
-			Solicicabecera solicitud = this.findSolicitudCabeceraById(id_solicitud);
-			solicitud.setSoliciestado(estado);
-			mDAO.actualizar(solicitud);
-		}
-	 	
-	 	//Modificacion de Solicitudes
-		
+		if(rec.getRecursodisponible().getIdRecdisponible().equals(1)){
+			return false;
+		}else{
+			return true;
+		}	
+	}
+	
+	//metodo para asignar el Recurso a la Solicitud
+ 	public Recurso asignarRecurso(Integer idRecurso) {
+ 		try {
+		r=findRecursoByID(idRecurso);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+ 		return r;
+	}
+ 	
+ 	//-----------------------------APROBADOR------------------------------------------------------//
+ 	//Listar solicitudes
+	@SuppressWarnings("unchecked")
+	public List<Solicicabecera> findAllSolicitudCabecera(){
+		return mDAO.findAll(Solicicabecera.class);
+	}
+	
+	public Solicicabecera findSolicitudCabeceraById(Integer id) throws Exception{
+		return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
+	}
+ 	 	
+ 	//Cambio de estados
+	//Pide Id Estado, Busca estado y lo cambia dentro de la solicitud seleccionada
+	public void cambiarEstadoSolicitud(Integer id_solicitud, Integer id_estado) throws Exception{
+		Soliciestado estado = this.findSolicitudEstadoByID(id_estado);
+		Solicicabecera solicitud = this.findSolicitudCabeceraById(id_solicitud);
+		solicitud.setSoliciestado(estado);
+		mDAO.actualizar(solicitud);
+	}
+ 	
+ 	//Modificacion de Solicitudes
+	//SOLO TOMO EN CUENTA AGREGAR Y QUITAR RECURSOS
 
 }

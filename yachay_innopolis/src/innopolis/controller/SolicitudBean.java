@@ -42,6 +42,8 @@ public class SolicitudBean {
 	private List<SelectItem> select;
 	//Cambio estados
 	private Integer id_estadoSolicitud;
+	//Cambios solicitud
+	private List<Solicidetalle> listDetalles;
 	
 	//Detalles
 	private Integer id_recurso;
@@ -186,6 +188,14 @@ public class SolicitudBean {
 		this.id_estadoSolicitud = id_estadoSolicitud;
 	}
 	
+	public List<Solicidetalle> getListDetalles() {
+		return listDetalles;
+	}
+	
+	public void setListDetalles(List<Solicidetalle> listDetalles) {
+		this.listDetalles = listDetalles;
+	}
+	
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
 		try {
@@ -301,6 +311,19 @@ public class SolicitudBean {
 		}
 		
 		return "";	
+	}
+	
+	//CargarSolicitud
+	public String cargarDatosSolicitud(Solicicabecera solicitud){
+		direccion = solicitud.getDireccion();
+		actividad = solicitud.getActividad();
+		objetivo = solicitud.getObjetivo();
+		justificacion = solicitud.getJustificacion();
+		fecha = solicitud.getFecha();
+		horainicio = solicitud.getHorainicio();
+		horafin = solicitud.getHorafin();
+		listDetalles = solicitud.getSolicidetalles();
+		return ""; //falta poner xhtml
 	}
 
 }
