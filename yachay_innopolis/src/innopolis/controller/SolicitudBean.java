@@ -291,6 +291,16 @@ public class SolicitudBean {
 	}
 	
 	//-----------------------------APROBADOR------------------------------------------------------//
-	
+	//Tomar el id de estado general id_estadoSolicitud
+	public String cambiarEstado(Solicicabecera solicitud){
+		try {
+			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), getId_estadoSolicitud());
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cambio correcto de estado", null));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al cambiar el estado", null));
+		}
+		
+		return "";	
+	}
 
 }
