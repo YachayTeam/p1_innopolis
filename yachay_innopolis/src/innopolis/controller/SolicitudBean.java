@@ -40,6 +40,8 @@ public class SolicitudBean {
 	private Date h_inicio;
 	private Date h_fin;
 	private List<SelectItem> select;
+	//Cambio estados
+	private Integer id_estadoSolicitud;
 	
 	//Detalles
 	private Integer id_recurso;
@@ -176,9 +178,21 @@ public class SolicitudBean {
 		return select;
 	}
 	
+	public Integer getId_estadoSolicitud() {
+		return id_estadoSolicitud;
+	}
+	
+	public void setId_estadoSolicitud(Integer id_estadoSolicitud) {
+		this.id_estadoSolicitud = id_estadoSolicitud;
+	}
+	
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
 		try {
+			//Modificacion de Horas
+			setHorainicio(this.fechaAtiempo(getH_inicio()));
+			setHorafin(this.fechaAtiempo(getH_fin()));
+			//SolicitudTemporal
 			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), getFecha(), getHorafin(), getHorainicio()); 
 			id_recurso=0; 
 			capacidad_recurso=0;
@@ -275,5 +289,8 @@ public class SolicitudBean {
 		Time resp = new Time(Integer.parseInt(array[0]), Integer.parseInt(array[1]), 00);
 		return resp;	
 	}
+	
+	//-----------------------------APROBADOR------------------------------------------------------//
+	
 
 }
