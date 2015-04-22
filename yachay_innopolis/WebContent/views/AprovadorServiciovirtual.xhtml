@@ -38,8 +38,8 @@
 			</p:column>
 			<p:column headerText="MODIFICAR">
 				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.Cargarregistros(reg)}" ></p:commandButton>
-				<p:commandButton icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2">
-				</p:commandButton>
+				<p:commandButton icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2"></p:commandButton>
+				<a href="mailto:#{reg.correo}?&amp;subject=correodeyachay@yachay.gob.ec&amp;body=El%20usuario%20#{reg.apellidos}%20con%20nombres%20#{reg.nombres}%20,%20se%20analizo%20su%20peticion%20de%20registro%20y%20fue%20#{reg.tipoestado.nombreestado}">Enviar Notificacion</a>
 			</p:column>
 		</p:dataTable>
 		<br/>

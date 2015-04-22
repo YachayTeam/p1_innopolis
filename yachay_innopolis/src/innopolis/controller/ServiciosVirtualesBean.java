@@ -126,6 +126,7 @@ public class ServiciosVirtualesBean {
 		this.tiposervicio = tiposervicio;
 	}
 
+	
 	//metodo para asignar el TipoServicio al registro
 	public String asignarTiposerv(){
 		managerservirt.asignarTiposerv(tiposervicio.getIdTp());	
@@ -249,5 +250,7 @@ public class ServiciosVirtualesBean {
 					tiposervicio = new Tiposervicio();
 					idSvr=0;
 					return "AprovadorServiciovirtual";					
-				}
+				}		
+				
+				
 		}
