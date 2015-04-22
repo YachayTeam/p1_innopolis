@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Tipos Recursos</title>
+</h:head>
+<body>
+<h:form id="form1" style="width: 933px; ">
+	<p:growl id="message" showDetail="true" />
+	<p:panel id="panel1"  header="Registro de Tipos de Recursos">
+		<p:panelGrid columns="2" >
+			<h:outputText value="TIPO *"/>
+			<p:inputText required="true" id="tipo" value="#{recursotipoBean.tipo}" requiredMessage="Requerido"></p:inputText>
+			<p:commandButton update="panel1 :form2:panel2 message" value="Insertar" action="#{recursotipoBean.crearNuevoRecursoTipo}"></p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+<hr />
+<h:form id="form2">
+	<p:panel id="panel2" header="Lista de Tipo de Recursos">
+		<p:dataTable id="dt" paginator="true" rows="25"  value="#{recursotipoBean.listado}" var="lu">
+			<p:column headerText="TIPO">
+				<h:outputText value="#{lu.tipo}"></h:outputText>
+			</p:column>
+			<p:column headerText="EDITAR">
+				<p:commandButton icon="ui-icon-pencil" action="#{recursotipoBean.cargarDatosRecTipo(lu)}"></p:commandButton>
+    		</p:column>			
+		</p:dataTable>			
+	</p:panel>
+</h:form>
+</body>
+</html>
