@@ -39,6 +39,7 @@ public class ServiciosVirtualesBean {
 		managerservirt = new ManagerRecursosVirtuales();
 		tiposervicio = new Tiposervicio();
 		
+		
 	}
 	public Integer getIdestado() {
 		return idestado;

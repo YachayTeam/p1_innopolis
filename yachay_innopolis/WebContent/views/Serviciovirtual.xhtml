@@ -20,7 +20,11 @@
 			<h:outputText value="NOMBRES*"/>
 			<p:inputText required="true" id="nombres" value="#{serviciosVirtualesBean.nombres}" requiredMessage="Requerido"></p:inputText>			
 			<h:outputText value="CORREO*"/>
-			<p:inputText required="true" id="correo" value="#{serviciosVirtualesBean.correo}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText required="true" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{serviciosVirtualesBean.correo}">
+			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+			</p:inputText>
+			<p:watermark for="correo" value="Dirección de correo *" />
+			<p:message for="correo" />
 			<h:outputText value="TEMA*"/>
 			<p:inputTextarea required="true" id="tema" value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido"></p:inputTextarea>
 			<h:outputText value="SERVICIO*"/>
@@ -33,10 +37,8 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>					
-			<p:commandButton value="Registrarme" action="#{serviciosVirtualesBean.crearRegistroServ}"  onclick="PF('dlg1').show();"></p:commandButton>			
-			<p:button href="http://www.google.com" value="Volver" />
-			<p:dialog header="Información" widgetVar="dlg1" modal="true" height="100">
-    		<h:outputText value="Su peticion de registro sera analizado y se le enviara un mensaje al correo." /></p:dialog>
+			<p:commandButton value="Registrarme" action="#{serviciosVirtualesBean.crearRegistroServ}"></p:commandButton>			
+			<p:button href="http://10.1.0.153" value="Volver" />			
 		</p:panelGrid>
 	</p:panel>
 </h:form>

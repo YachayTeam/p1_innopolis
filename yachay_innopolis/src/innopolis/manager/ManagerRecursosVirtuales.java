@@ -12,6 +12,7 @@ public class ManagerRecursosVirtuales {
 	//Registro Temporal
 	private static Tiposervicio tiposerv;
 	private static Tipoestado tipoesta;
+	int p=0;
 			
 	public ManagerRecursosVirtuales()
 	{
@@ -156,9 +157,10 @@ public class ManagerRecursosVirtuales {
 	}
 	
 	 //desactivar y activar Recurso
+	
 		public String cambioDisEstado(Integer id) throws Exception{
 			List<Tipoestado> lista= findAllTipoEstado();
-			int p=0;
+			
 			String h="";
 			for (Tipoestado ta: lista){
 				if (ta.getIdEstado().equals(id)){
