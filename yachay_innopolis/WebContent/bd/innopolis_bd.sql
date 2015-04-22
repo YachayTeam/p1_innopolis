@@ -100,6 +100,8 @@ create table PUBLIC.SOLICICABECERA (
    ID_SOLEST            INT4                 null,
    DIRECCION            TEXT                 null,
    ACTIVIDAD            TEXT                 null,
+   OBJETIVO             TEXT                 null,
+   JUSTIFICACION        TEXT                 null,
    FECHA                DATE                 null,
    HORAINICIO           TIME                 null,
    HORAFIN              TIME                 null,
@@ -152,6 +154,16 @@ create table PUBLIC.TIPOSERVICIO (
    ID_TP                INT4                 not null,
    NOMBRE_SERVICIO      VARCHAR(60)          null,
    constraint PK_TIPOSERVICIO primary key (ID_TP)
+);
+
+/*==============================================================*/
+/* Table: CONTADORES                                            */
+/*==============================================================*/
+create table CONTADORES (
+   ID_CONTADOR          INT4                 not null,
+   TIPO                 VARCHAR(100)         null,
+   VALOR                INT4                 null,
+   constraint PK_CONTADORES primary key (ID_CONTADOR)
 );
 
 alter table EVENTOS
@@ -278,7 +290,7 @@ ALTER TABLE recursotipo
    ALTER TABLE soliciestado
    ALTER COLUMN id_solest SET DEFAULT nextval('seq_soliciestado');
    
-   CREATE SEQUENCE public.seq_solicicabecera
+   /*CREATE SEQUENCE public.seq_solicicabecera
    INCREMENT 1
    START 1;
    
@@ -289,7 +301,7 @@ ALTER TABLE solicicabecera
 ALTER TABLE solicicabecera
   ADD CONSTRAINT fk_solicica_reference_solicies FOREIGN KEY (id_solest)
       REFERENCES soliciestado (id_solest) MATCH SIMPLE
-      ON UPDATE RESTRICT ON DELETE RESTRICT;
+      ON UPDATE RESTRICT ON DELETE RESTRICT;*/
       
       CREATE SEQUENCE public.seq_solicidetalle
    INCREMENT 1
@@ -361,3 +373,12 @@ ALTER TABLE serviciosvirtregis
    START 1;
 ALTER TABLE recursodisponible
    ALTER COLUMN id_recdisponible SET DEFAULT nextval('seq_recursos_disponibles');
+
+CREATE SEQUENCE public.seq_contadores
+   INCREMENT 1
+   START 1;
+
+ALTER TABLE contadores
+   ALTER COLUMN id_contador SET DEFAULT nextval('seq_contadores');
+
+insert into contadores values (default, 'solicitud cabecera',0);

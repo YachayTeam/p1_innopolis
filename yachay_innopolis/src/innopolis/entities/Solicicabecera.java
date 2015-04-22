@@ -17,8 +17,6 @@ public class Solicicabecera implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SOLICICABECERA_IDSOLCAB_GENERATOR", sequenceName="SEQ_SOLICICABECERA", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SOLICICABECERA_IDSOLCAB_GENERATOR")
 	@Column(name="id_solcab")
 	private Integer idSolcab;
 
@@ -32,6 +30,10 @@ public class Solicicabecera implements Serializable {
 	private Time horafin;
 
 	private Time horainicio;
+
+	private String justificacion;
+
+	private String objetivo;
 
 	//bi-directional many-to-one association to Evento
 	@OneToMany(mappedBy="solicicabecera")
@@ -95,6 +97,22 @@ public class Solicicabecera implements Serializable {
 
 	public void setHorainicio(Time horainicio) {
 		this.horainicio = horainicio;
+	}
+
+	public String getJustificacion() {
+		return this.justificacion;
+	}
+
+	public void setJustificacion(String justificacion) {
+		this.justificacion = justificacion;
+	}
+
+	public String getObjetivo() {
+		return this.objetivo;
+	}
+
+	public void setObjetivo(String objetivo) {
+		this.objetivo = objetivo;
 	}
 
 	public List<Evento> getEventos() {
