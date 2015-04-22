@@ -151,7 +151,31 @@ private ManagerDAO mDAO;
 		 			}
 		 		
 	// ------SOLICITUDES-------
-	//Disponibilidad Libre y Activo
+	//CONTADOR TABLA AUXILIAR
+	public int getContadorSolicitud() throws Exception{
+		int contSolicitud = 0;
+		Contadores cont = null;
+		try {
+			cont = (Contadores) mDAO.findById(Contadores.class, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Revise el parametro 'contontador solicitud': "+e.getMessage());
+		}
+		contSolicitud = cont.getValor();
+		return contSolicitud;
+	}
+	
+	public void actualizarContadorSolicitud(int valor) throws Exception{
+		Contadores cont = null;
+		try {
+			cont = (Contadores) mDAO.findById(Contadores.class, 1);
+			cont.setValor(valor);
+			mDAO.actualizar(cont);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Error al actualizar el parametro 'contontador solicitud': "+e.getMessage());
+		}
+	}
 	
 	//SolicitudEstado
 	@SuppressWarnings("unchecked")
@@ -217,18 +241,44 @@ private ManagerDAO mDAO;
 	//Guardar Solicitud Temporal
 	public void guardarSolicitudTemporal(Solicicabecera solicitud) throws Exception{
 		
-		if(soliTemp==null)
+		if(solicitud==null)
 			throw new Exception("Debe crear una solicitud primero.");
-		if(soliTemp.getSolicidetalles()==null || soliTemp.getSolicidetalles().size()==0)
+		if(solicitud.getSolicidetalles()==null || solicitud.getSolicidetalles().size()==0)
 			throw new Exception("Debe ingresar los recursos en la solicitud.");
 		
-		for(Solicidetalle det : soliTemp.getSolicidetalles()){
+		//Agregar contador
+		int contSolicitud; 
+		contSolicitud = this.getContadorSolicitud();
+		contSolicitud++;
+		solicitud.setIdSolcab(contSolicitud);
+		
+		//ARRAY PARA RECURSOS ACTIVOS
+		ArrayList<Recursosactivo> listRecursos = new ArrayList<Recursosactivo>();
+		
+		//DETALLES
+		for(Solicidetalle det : solicitud.getSolicidetalles()){
 			//Combinamos la relacion bidireccional
-			det.setSolicicabecera(soliTemp);
+			det.setSolicicabecera(solicitud);
+			//Agregamos al listado de recursos activos
+			Recursosactivo recAct = new Recursosactivo();
+			recAct.setIdSolicitud(contSolicitud);
+			recAct.setFecha(solicitud.getFecha());
+			recAct.setHoraInicio(solicitud.getHorainicio());
+			recAct.setHoraFin(solicitud.getHorafin());
+			recAct.setIdRecurso(det.getRecurso().getIdRecurso());
+			listRecursos.add(recAct);
 		}
 		
 		//Insertamos los datosa la bdd
-		mDAO.insertar(soliTemp);
+		mDAO.insertar(solicitud);
+		
+		//INSERTAR EN TABLA AYUDA
+		for (Recursosactivo recursosactivo : listRecursos) {
+			mDAO.insertar(recursosactivo);
+		}		
+		
+		//actualizamos los parametros contadores
+		actualizarContadorSolicitud(contSolicitud);
 		
 		soliTemp = null;
 	}
