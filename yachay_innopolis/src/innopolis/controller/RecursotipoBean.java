@@ -76,4 +76,8 @@ public class RecursotipoBean {
 		return resp;
 	}
 	
+	public String cancelarModificacion(){
+		setTipo("");setIdRectipo(0);
+		return "rectipo";
+	}
 }
