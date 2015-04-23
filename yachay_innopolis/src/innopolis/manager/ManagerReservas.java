@@ -315,6 +315,36 @@ private ManagerDAO mDAO;
 	public void eliminarRecursoSolicitado(Long id_tabla) throws Exception{
 		mDAO.eliminar(Recursosactivo.class, id_tabla);
 	}
+	
+	//Busca recurso por ID SOL Y REC
+	public Recursosactivo findByIdSoliciYRecurso(Integer idSolicitud, Integer idRecurso){
+		Recursosactivo resp = null;
+		List<Recursosactivo> list = findAllRecursosSolicitados();
+		for (Recursosactivo recursosactivo : list) {
+			if(recursosactivo.getIdSolicitud()==idSolicitud && recursosactivo.getIdRecurso() == idRecurso){
+				resp = recursosactivo;
+			}
+		}
+		return resp;
+	}
+	
+	//Agregar Quitar LISTADO DE RECURSOS a Tabla Auxiliar
+	public void agregarListaRecursoActivo(List<Recurso> listado,Integer id_solicitud) throws Exception{
+		Solicicabecera solicitud = findSolicitudCabeceraById(id_solicitud);
+		
+		for (Recurso recurso : listado) {
+			insertarRecursoSolicitado(id_solicitud, solicitud.getFecha(), solicitud.getHorainicio(), solicitud.getHorafin(), recurso.getIdRecurso());
+		}
+	}
+	
+	public void quitarListaRecursoActivo(List<Recurso> listado, Integer id_solicitud) throws Exception{
+		for (Recurso recurso : listado) {
+			Recursosactivo recAct = findByIdSoliciYRecurso(id_solicitud, recurso.getIdRecurso());
+			if(recAct!=null){
+				eliminarRecursoSolicitado(recAct.getIdRecact());
+			}
+		}
+	}
 				
 	//RECURSOS LIBRES --> REVISAR
 	//HORA FIN NECESITO PARA CALCULAR LA PROXIMA HORA INICIO
@@ -413,14 +443,27 @@ private ManagerDAO mDAO;
 		return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
 	}
  	 	
- 	//Cambio de estados
-	//Pide Id Estado, Busca estado y lo cambia dentro de la solicitud seleccionada
-	public void cambiarEstadoSolicitud(Integer id_solicitud, Integer id_estado) throws Exception{
-		Soliciestado estado = this.findSolicitudEstadoByID(id_estado);
-		Solicicabecera solicitud = this.findSolicitudCabeceraById(id_solicitud);
-		solicitud.setSoliciestado(estado);
-		mDAO.actualizar(solicitud);
-	}
+	//Cambio de estados
+		//Pide Id Estado, Busca estado y lo cambia dentro de la solicitud seleccionada
+		public void cambiarEstadoSolicitud(Integer id_solicitud, Integer id_estado) throws Exception{
+			Soliciestado estado = this.findSolicitudEstadoByID(id_estado);
+			Solicicabecera solicitud = this.findSolicitudCabeceraById(id_solicitud);
+			solicitud.setSoliciestado(estado);
+			mDAO.actualizar(solicitud);
+			//LISTADO
+			ArrayList<Recurso> listRec = new ArrayList<Recurso>();
+			for (Solicidetalle det : solicitud.getSolicidetalles()) {
+				listRec.add(det.getRecurso());
+			}
+			//Al cambiar de pendiente a negado borra recursos de RecursoActivo
+			if(estado.equals("negado")){
+				quitarListaRecursoActivo(listRec, id_solicitud);
+		    //Al cambiar de negado a aprobado agrega recursos a RecusroActivo
+			}else if(solicitud.getSoliciestado().getEstado().equals("negado") && estado.equals("aprobado")){
+				agregarListaRecursoActivo(listRec, id_solicitud);		
+			}
+		}
+		
  	
  	//Modificacion de Solicitudes
 	//SOLO TOMO EN CUENTA AGREGAR Y QUITAR RECURSOS
