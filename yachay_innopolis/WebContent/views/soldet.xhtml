@@ -17,7 +17,7 @@
 				<h:outputText value="Recursos:" />
 				<h:panelGroup>  
 					<p:selectOneMenu  value="#{solicitudBean.id_recurso}">
-						<f:selectItem  itemLabel="Seleccione un producto..!!" itemValue="-1" />
+						<f:selectItem  itemLabel="Seleccione un recurso..!!" itemValue="-1" />
 						<f:selectItems value="#{solicitudBean.select}" />
 						<p:ajax
 							listener="#{solicitudBean.asignarRecLibre()}">

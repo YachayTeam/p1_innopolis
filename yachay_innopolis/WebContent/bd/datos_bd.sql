@@ -1,14 +1,13 @@
 /**********RECURSOS**********/
-insert into recursotipo values (default, 'virtual');
-insert into recursotipo  values (default, 'fisico');
-insert into recursotipo  values (default, 'sala');
+insert into recursotipo values (1, 'fisico');
+insert into recursotipo  values (2, 'sala');
 
-insert into recursodisponible values (default, 'Activado');
-insert into recursodisponible values (default, 'Desactivado');
+insert into recursodisponible values (1, 'Activado');
+insert into recursodisponible values (2, 'Desactivado');
 
-insert into recurso values (default, 3, 1, 'Fab-Lab', 20, 'Descripcion fab-lab', 'Yachay',null);
-insert into recurso values (default, 3, 1, 'Sala Samsung', 10, 'Descripcion samsung', 'Yachay',null);
-insert into recurso values (default, 3, 1, 'Cafetería', 15, 'Descripcion cafetería', 'Yachay',null);
+insert into recurso values (1, 2, 1, 'Fab-Lab', 20, 'Descripcion fab-lab', 'Yachay',null);
+insert into recurso values (2, 2, 1, 'Sala Samsung', 10, 'Descripcion samsung', 'Yachay',null);
+insert into recurso values (3, 2, 1, 'Cafetería', 15, 'Descripcion cafetería', 'Yachay',null);
 
 /**********SOLICITUD**********/
 
