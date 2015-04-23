@@ -10,11 +10,8 @@ import java.util.List;
 import innopolis.entities.Recurso;
 import innopolis.entities.Solicicabecera;
 import innopolis.entities.Solicidetalle;
+import innopolis.entities.Soliciestado;
 import innopolis.manager.ManagerReservas;
-
-
-
-
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -44,6 +41,7 @@ public class SolicitudBean {
 	private Integer id_estadoSolicitud;
 	//Cambios solicitud
 	private List<Solicidetalle> listDetalles;
+	private Soliciestado estadoSol;
 	
 	//Detalles
 	private Integer id_recurso;
@@ -196,6 +194,14 @@ public class SolicitudBean {
 		this.listDetalles = listDetalles;
 	}
 	
+	public Soliciestado getEstadoSol() {
+		return estadoSol;
+	}
+	
+	public void setEstadoSol(Soliciestado estadoSol) {
+		this.estadoSol = estadoSol;
+	}
+	
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
 		String resp="";
@@ -325,6 +331,7 @@ public class SolicitudBean {
 		horainicio = solicitud.getHorainicio();
 		horafin = solicitud.getHorafin();
 		listDetalles = solicitud.getSolicidetalles();
+		estadoSol = solicitud.getSoliciestado();
 		return ""; //falta poner xhtml
 	}
 
