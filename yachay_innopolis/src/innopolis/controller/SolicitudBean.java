@@ -198,6 +198,7 @@ public class SolicitudBean {
 	
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
+		String resp="";
 		try {
 			//Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(getH_inicio()));
@@ -209,10 +210,11 @@ public class SolicitudBean {
 			solicitudCabTmpGuardada=false;
 			//Cargar Listado----
 			select = this.getlistaRecursosLibres();
+			resp="soldet";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al crear la solicitud."));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
 		}
-		return "soldet";
+		return resp;
 	}
 	
 	public String insertarDetalleSolicitud(){
