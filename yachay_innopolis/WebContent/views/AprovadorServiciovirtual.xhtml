@@ -12,8 +12,8 @@
 <h:form id="form2">
 	<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Registrados">
-		<p:dataTable id="dt" value="#{serviciosVirtualesBean.listRegServi}" rows="10" var="reg" 
-		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+		<p:dataTable id="dt" value="#{serviciosVirtualesBean.listRegServi}" rows="10" var="reg"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                  paginator="true">
 			<p:column  headerText="CEDULA">
 				<h:outputText value="#{reg.cedula}"></h:outputText>
@@ -39,13 +39,13 @@
 			<p:column headerText="MODIFICAR" exportable="false">
 				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.Cargarregistros(reg)}" ></p:commandButton>
 				<p:commandButton icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2"></p:commandButton>
-				<a href="mailto:#{reg.correo}?subject=Notificación de Centro de Emprendimiento&amp;body=El%20usuario%20#{reg.apellidos}%20con%20nombres%20#{reg.nombres}%20,%20se%20analizo%20su%20peticion%20para%20ingresar%20a%20#{reg.tiposervicio.nombreServicio}%20,%20su%20registro%20fue%20#{reg.tipoestado.nombreestado}">Enviar Notificación</a>
+				<a href="mailto:#{reg.correo}?subject=Notificacion de Centro de Emprendimiento&amp;body=El%20usuario%20#{reg.apellidos}%20con%20nombres%20#{reg.nombres}%20,%20se%20analizo%20su%20peticion%20para%20ingresar%20a%20#{reg.tiposervicio.nombreServicio}%20,%20su%20registro%20fue%20#{reg.tipoestado.nombreestado}">Enviar Notificación</a>
 			</p:column>
 		</p:dataTable>
 		<br/>
 		<h:commandLink>
-		<p:commandButton value="Importar"></p:commandButton>
-        <p:dataExporter type="xls" target="dt" fileName="Lista"  update="dt"/>
+		<p:commandButton value="Importar" ></p:commandButton>
+        <p:dataExporter type="xls" target="dt" fileName="Lista"/>
     	</h:commandLink>			    
 	</p:panel>
 </h:form>

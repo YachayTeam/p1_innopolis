@@ -1,5 +1,6 @@
 package innopolis.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,8 @@ import javax.faces.model.SelectItem;
 
 @SessionScoped
 @ManagedBean
-public class ServiciosVirtualesBean {
+public class ServiciosVirtualesBean implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private ManagerRecursosVirtuales managerservirt;
 	private Integer idSvr;
 	private Integer idestado;
@@ -34,7 +36,7 @@ public class ServiciosVirtualesBean {
 	private List<Tipoestado> tipoestli;
 	
 
-	public ServiciosVirtualesBean()
+	public ServiciosVirtualesBean()  
 	{
 		managerservirt = new ManagerRecursosVirtuales();
 		tiposervicio = new Tiposervicio();
