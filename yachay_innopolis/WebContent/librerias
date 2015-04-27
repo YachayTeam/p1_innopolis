@@ -1,0 +1,15 @@
+commons-collections4-4.0
+commons-lang3-3.4
+el-api-2.2
+gson-2.3.1
+itext-4.2.1
+javax.servlet-api-3.1.0
+jsf-api-2.2.10
+jsf-impl-2.2.10
+junit-4.12
+mail
+poi-3.11
+poi-ooxml-3.11
+postgresql-9.2-1004.jdbc4
+primefaces-5.1
+primefaces-extensions-3.0.0
