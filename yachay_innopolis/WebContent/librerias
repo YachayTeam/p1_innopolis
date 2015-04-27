@@ -7,7 +7,7 @@ javax.servlet-api-3.1.0
 jsf-api-2.2.10
 jsf-impl-2.2.10
 junit-4.12
-mail
+mail-1.4.7
 poi-3.11
 poi-ooxml-3.11
 postgresql-9.2-1004.jdbc4
