@@ -197,7 +197,7 @@ public class ServiciosVirtualesBean implements Serializable{
 		tema= serv.getTema();
 		tipoestado= serv.getTipoestado();
 		tiposervicio= serv.getTiposervicio();
-		return "modservedi";
+		return "";
 				
 		}
 		//metodo para mostrar los TiposServicio

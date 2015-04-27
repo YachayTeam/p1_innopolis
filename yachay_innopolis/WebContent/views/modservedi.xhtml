@@ -9,26 +9,25 @@
 <title>ServiciosVirtuales</title>
 </h:head>
 <body>
-<h:form id="form1" style="width: 60%; ">
+<h:form id="form1" style="width: 100%; ">
 	<p:growl id="message" showDetail="true" />
 	<p:panel id="panel1"  header="Edicion de Registro">
 		<p:panelGrid columns="2" >
 		<h:outputText value="CEDULA"/>
-			<p:inputText  id="ced" value="#{serviciosVirtualesBean.cedula}" ></p:inputText>
+			<h:outputText   id="ced" value="#{serviciosVirtualesBean.cedula}" ></h:outputText>
 			<h:outputText value="APELLIDOS"/>
-			<p:inputText  id="ape" value="#{serviciosVirtualesBean.apellidos}" ></p:inputText>
+			<h:outputText  id="ape" value="#{serviciosVirtualesBean.apellidos}" ></h:outputText>
 			<h:outputText value="NOMBRES"/>
-			<p:inputText  id="correo" value="#{serviciosVirtualesBean.nombres}" ></p:inputText>			
+			<h:outputText id="correo" value="#{serviciosVirtualesBean.nombres}" ></h:outputText>			
 			<h:outputText value="CORREO"/>
-			<p:inputText  id="nom" value="#{serviciosVirtualesBean.correo}" ></p:inputText>
+			<h:outputText  id="nom" value="#{serviciosVirtualesBean.correo}" ></h:outputText>
 			<h:outputText value="TEMA"/>
-			<p:inputTextarea id="tema"   value="#{serviciosVirtualesBean.tema}" ></p:inputTextarea>
+			<h:outputText id="tema"   value="#{serviciosVirtualesBean.tema}" ></h:outputText>
 			<h:outputText value="SERVICIO"/>
 			<h:outputText  id="ser" readonly="true" value="#{serviciosVirtualesBean.tiposervicio.nombreServicio}"></h:outputText>
 			<h:outputText value="ESTADO"/>
-			<h:outputText  id="est" readonly="true" value="#{serviciosVirtualesBean.tipoestado.nombreestado}"></h:outputText>				
-			<p:commandButton value="Actualizar" action="#{serviciosVirtualesBean.actualizarRegistro}"></p:commandButton>
-			<p:commandButton update="panel1 message" value="Cancelar" icon="ui-icon-close" action="#{serviciosVirtualesBean.irRecurso}"></p:commandButton>
+			<h:outputText  id="est" readonly="true" value="#{serviciosVirtualesBean.tipoestado.nombreestado}"></h:outputText>										
+			<p:commandButton update="panel1 message" value="Volver" icon="ui-icon-close" action="#{serviciosVirtualesBean.irRecurso}"></p:commandButton>
 		</p:panelGrid>
 	</p:panel>
 </h:form>

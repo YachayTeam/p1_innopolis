@@ -37,7 +37,7 @@
 			<h:outputText value="#{reg.tipoestado.nombreestado}"></h:outputText>
 			</p:column>
 			<p:column headerText="MODIFICAR" exportable="false">
-				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.Cargarregistros(reg)}" ></p:commandButton>
+				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.Cargarregistros(reg)}"  onclick="PF('dlg2').show();"></p:commandButton>
 				<p:commandButton icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2"></p:commandButton>
 				<a href="mailto:#{reg.correo}?subject=Notificacion de Centro de Emprendimiento&amp;body=El%20usuario%20#{reg.apellidos}%20con%20nombres%20#{reg.nombres}%20,%20se%20analizo%20su%20peticion%20para%20ingresar%20a%20#{reg.tiposervicio.nombreServicio}%20,%20su%20registro%20fue%20#{reg.tipoestado.nombreestado}">Enviar Notificación</a>
 			</p:column>
@@ -49,5 +49,31 @@
     	</h:commandLink>			    
 	</p:panel>
 </h:form>
+<p:dialog header="Revision" widgetVar="dlg2" modal="true" height="100%" >
+    <h:form id="form1" style="width: 100%;" >
+	<p:growl id="message" showDetail="true" />
+	<p:panel id="panel1"  header="Revicion de Registro">
+		<p:panelGrid columns="2" >
+		<h:outputText value="CEDULA"/>
+			<h:outputText   id="ced" value="#{serviciosVirtualesBean.cedula}" ></h:outputText>
+			<h:outputText value="APELLIDOS"/>
+			<h:outputText  id="ape" value="#{serviciosVirtualesBean.apellidos}" ></h:outputText>
+			<h:outputText value="NOMBRES"/>
+			<h:outputText id="correo" value="#{serviciosVirtualesBean.nombres}" ></h:outputText>			
+			<h:outputText value="CORREO"/>
+			<h:outputText  id="nom" value="#{serviciosVirtualesBean.correo}" ></h:outputText>
+			<h:outputText value="TEMA"/>
+			<h:outputText id="tema"   value="#{serviciosVirtualesBean.tema}" ></h:outputText>
+			<h:outputText value="SERVICIO"/>
+			<h:outputText  id="ser" readonly="true" value="#{serviciosVirtualesBean.tiposervicio.nombreServicio}"></h:outputText>
+			<h:outputText value="ESTADO"/>
+			<h:outputText  id="est" readonly="true" value="#{serviciosVirtualesBean.tipoestado.nombreestado}"></h:outputText>										
+			<p:commandButton update="panel1 message" value="Volver" icon="ui-icon-close" onclick="PF('dlg2').close();"></p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+</p:dialog>	
+
+
 </body>
 </html>
