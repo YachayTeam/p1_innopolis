@@ -444,28 +444,72 @@ private ManagerDAO mDAO;
 	}
  	 	
 	//Cambio de estados
-		//Pide Id Estado, Busca estado y lo cambia dentro de la solicitud seleccionada
-		public void cambiarEstadoSolicitud(Integer id_solicitud, Integer id_estado) throws Exception{
-			Soliciestado estado = this.findSolicitudEstadoByID(id_estado);
-			Solicicabecera solicitud = this.findSolicitudCabeceraById(id_solicitud);
-			solicitud.setSoliciestado(estado);
-			mDAO.actualizar(solicitud);
-			//LISTADO
-			ArrayList<Recurso> listRec = new ArrayList<Recurso>();
-			for (Solicidetalle det : solicitud.getSolicidetalles()) {
-				listRec.add(det.getRecurso());
-			}
-			//Al cambiar de pendiente a negado borra recursos de RecursoActivo
-			if(estado.equals("negado")){
-				quitarListaRecursoActivo(listRec, id_solicitud);
-		    //Al cambiar de negado a aprobado agrega recursos a RecusroActivo
-			}else if(solicitud.getSoliciestado().getEstado().equals("negado") && estado.equals("aprobado")){
-				agregarListaRecursoActivo(listRec, id_solicitud);		
+	//Pide Id Estado, Busca estado y lo cambia dentro de la solicitud seleccionada
+	public void cambiarEstadoSolicitud(Integer id_solicitud, Integer id_estado) throws Exception{
+		Soliciestado estado = this.findSolicitudEstadoByID(id_estado);
+		Solicicabecera solicitud = this.findSolicitudCabeceraById(id_solicitud);
+		solicitud.setSoliciestado(estado);
+		mDAO.actualizar(solicitud);
+		//LISTADO
+		ArrayList<Recurso> listRec = new ArrayList<Recurso>();
+		for (Solicidetalle det : solicitud.getSolicidetalles()) {
+			listRec.add(det.getRecurso());
+		}
+		//Al cambiar de pendiente a negado borra recursos de RecursoActivo
+		if(estado.equals("negado")){
+			quitarListaRecursoActivo(listRec, id_solicitud);
+	    //Al cambiar de negado a aprobado agrega recursos a RecusroActivo
+		}else if(solicitud.getSoliciestado().getEstado().equals("negado") && estado.equals("aprobado")){
+			agregarListaRecursoActivo(listRec, id_solicitud);		
+		}
+	}
+	
+	//SolicitudDetalle por id_solicitud
+	@SuppressWarnings("unchecked")
+	public List<Solicidetalle> findAllDetallesSolicitud(){
+		return mDAO.findAll(Solicidetalle.class);
+	}
+	
+	public void eliminarSoliciDetalleByID(Integer id_detalle) throws Exception{
+		mDAO.eliminar(Solicidetalle.class, id_detalle);
+	}
+	
+	public void insertarSoliciDatalle(Solicidetalle detalle) throws Exception{
+		mDAO.insertar(detalle);
+	}
+	
+	public ArrayList<Solicidetalle> findDetallesSolicitud(Integer id_solicitud){
+		List<Solicidetalle> todo = findAllDetallesSolicitud();
+		ArrayList<Solicidetalle> resp = new ArrayList<Solicidetalle>();
+		for (Solicidetalle solicidetalle : todo) {
+			if(solicidetalle.getSolicicabecera().getIdSolcab()==id_solicitud){
+				resp.add(solicidetalle);
 			}
 		}
-		
- 	
- 	//Modificacion de Solicitudes
+		return resp;
+	}
+
+	//Modificacion de Solicitudes
 	//SOLO TOMO EN CUENTA AGREGAR Y QUITAR RECURSOS
+	public void editarDetallesSolicitud(Integer id_solicitud, ArrayList<Solicidetalle> agregados, ArrayList<Solicidetalle> eliminados) throws Exception{
+		ArrayList<Solicidetalle> actual = findDetallesSolicitud(id_solicitud);
+		Solicicabecera sol = findSolicitudCabeceraById(id_solicitud);
+		//ELIMINAR
+		for (Solicidetalle solicidetalle : actual) {
+			for (Solicidetalle eliminado : eliminados) {
+				if(solicidetalle.getIdSoldet().equals(eliminado.getIdSoldet())){
+					eliminarSoliciDetalleByID(solicidetalle.getIdSoldet());
+					//Tabla Extra
+					eliminarRecursoSolicitado(findByIdSoliciYRecurso(id_solicitud, solicidetalle.getRecurso().getIdRecurso()).getIdRecact());
+				}
+			}
+		}
+		//AGREGAR
+		for (Solicidetalle detalle : agregados) {
+			insertarSoliciDatalle(detalle);
+			//Tabla extra
+			insertarRecursoSolicitado(id_solicitud, sol.getFecha(), sol.getHorainicio(), sol.getHorafin(), detalle.getRecurso().getIdRecurso());
+		}		
+	}
 
 }
