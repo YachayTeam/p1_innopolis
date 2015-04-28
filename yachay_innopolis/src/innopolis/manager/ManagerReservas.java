@@ -511,5 +511,12 @@ private ManagerDAO mDAO;
 			insertarRecursoSolicitado(id_solicitud, sol.getFecha(), sol.getHorainicio(), sol.getHorafin(), detalle.getRecurso().getIdRecurso());
 		}		
 	}
+	
+	//MODIFICAR ESTADO SOLICITUD
+	public void aprobarSolicitudMOD(Integer id_solicitud) throws Exception{
+		Solicicabecera sol = findSolicitudCabeceraById(id_solicitud);
+		sol.setSoliciestado(findSolicitudEstadoByID(3));//VER SOL ESTADO APROBADO
+		mDAO.actualizar(sol);
+	}
 
 }

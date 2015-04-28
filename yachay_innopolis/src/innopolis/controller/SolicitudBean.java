@@ -42,6 +42,10 @@ public class SolicitudBean {
 	//Cambios solicitud
 	private List<Solicidetalle> listDetalles;
 	private Soliciestado estadoSol;
+	private Integer id_sol;
+	//+/- Detalles
+	private ArrayList<Solicidetalle> list_mas;
+	private ArrayList<Solicidetalle> list_menos;
 	
 	//Detalles
 	private Integer id_recurso;
@@ -202,6 +206,14 @@ public class SolicitudBean {
 		this.estadoSol = estadoSol;
 	}
 	
+	public Integer getId_sol() {
+		return id_sol;
+	}
+	
+	public void setId_sol(Integer id_sol) {
+		this.id_sol = id_sol;
+	}
+	
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
 		String resp="";
@@ -334,5 +346,40 @@ public class SolicitudBean {
 		estadoSol = solicitud.getSoliciestado();
 		return ""; //falta poner xhtml
 	}
-
+	
+	//Agregar quitar detalle
+	public void agregarDetalle(){
+		try {
+			Solicidetalle  det = new Solicidetalle();
+			det.setSolicicabecera(manager.findSolicitudCabeceraById(getId_sol()));
+			det.setCapacidad(getcapacidad_recurso());
+			det.setRecurso(manager.findRecursoByID(getId_recurso()));
+			listDetalles.add(det);
+			list_mas.add(det);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No se pudo agregar el recurso", null));
+		}
+	}
+	
+	public void quitarDetalle(Solicidetalle detalle){
+		try {
+			listDetalles.remove(detalle);
+			list_menos.add(detalle);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No se pudo quitar el recurso", null));
+		}
+	}
+	
+	//guardar detalles
+	public String finalizarSolicitudED(){
+		String resp="";
+		try {
+			manager.editarDetallesSolicitud(id_sol, list_mas, list_menos);
+			
+			resp = "";//FALTA DONDE VA XHTML
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Edicion errónea", null));
+		}
+		return resp; 
+	}
 }
