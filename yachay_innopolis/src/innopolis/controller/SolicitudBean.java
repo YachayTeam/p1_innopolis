@@ -375,7 +375,7 @@ public class SolicitudBean {
 		String resp="";
 		try {
 			manager.editarDetallesSolicitud(id_sol, list_mas, list_menos);
-			
+			manager.aprobarSolicitudMOD(id_sol);
 			resp = "";//FALTA DONDE VA XHTML
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Edicion errónea", null));
