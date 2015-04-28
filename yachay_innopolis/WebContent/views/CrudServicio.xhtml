@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Servicios Virtuales</title>
+</h:head>
+<body>
+<h:form id="form1" style="width: 933px; ">
+	<p:growl id="message" showDetail="true" />
+	<p:panel id="panel1"  header="Ingreso de Servicios Virtuales">
+		<p:panelGrid columns="2" >
+			<h:outputText value="Servicios *"/>
+			<p:inputText required="true" id="tipo" value="#{serviciosVirtualesBean.nomservicio}" requiredMessage="Requerido"></p:inputText>
+			<p:commandButton update="panel1 :form2:panel2 message" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}"></p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+<hr />
+<h:form id="form2">
+	<p:panel id="panel2" header="Lista de Servicios Virtuales">
+		<p:dataTable id="dt" paginator="true" rows="10" value="#{serviciosVirtualesBean.listServicios}" var="ser">
+			<p:column headerText="SERVICIOS">
+				<h:outputText value="#{ser.nombreServicio}"></h:outputText>
+			</p:column>
+			<p:column headerText="EDITAR">
+				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.cargarDatostiposerv(ser)}"></p:commandButton>				
+    		</p:column>			
+		</p:dataTable><br></br>
+		<p:commandButton value="Volver" action="#{serviciosVirtualesBean.irAprovador}"></p:commandButton>		
+	</p:panel>
+</h:form>
+</body>
+</html>

@@ -25,7 +25,7 @@ public class ServiciosVirtualesBean implements Serializable{
 	private Integer idestado;
 	private Integer idservi;
 	private Tipoestado tipoestado;
-	private Tiposervicio tiposervicio;
+	private Tiposervicio tiposervicio;	
 	private String apellidos;
 	private int cedula;
 	private String correo;
@@ -34,14 +34,14 @@ public class ServiciosVirtualesBean implements Serializable{
 	private List<Serviciosvirtregi> liservicioreg;
 	private List<Tiposervicio> tiposervli;
 	private List<Tipoestado> tipoestli;
+	private String nomservicio;
 	
 
 	public ServiciosVirtualesBean()  
 	{
 		managerservirt = new ManagerRecursosVirtuales();
 		tiposervicio = new Tiposervicio();
-		
-		
+				
 	}
 	public Integer getIdestado() {
 		return idestado;
@@ -143,6 +143,17 @@ public class ServiciosVirtualesBean implements Serializable{
 	public List<Serviciosvirtregi> getListRegServi(){
 			return managerservirt.findAllRServiciosVirtuales();
 		}
+	
+	public List<Tiposervicio> getListServicios(){
+			return managerservirt.findAllTipoServicio();
+		
+	}
+	public String getNomservicio() {
+		return nomservicio;
+	}
+	public void setNomservicio(String nomservicio) {
+		this.nomservicio = nomservicio;
+	}
 	//accion para invocar el manager y crear registro
 	public String crearRegistroServ(){
 		try {
@@ -187,6 +198,7 @@ public class ServiciosVirtualesBean implements Serializable{
 		
 	}
 
+	//metodo para cargar la lista de servicios virtuales
 		public String Cargarregistros(Serviciosvirtregi serv)
 		{
 		idSvr= serv.getIdSvr();
@@ -197,10 +209,30 @@ public class ServiciosVirtualesBean implements Serializable{
 		tema= serv.getTema();
 		tipoestado= serv.getTipoestado();
 		tiposervicio= serv.getTiposervicio();
-		return "";
+		return "modservedi";
 				
 		}
-		//metodo para mostrar los TiposServicio
+		//--crear nuevo servicio
+		public String crearNuevoTipoServicio(){
+			try {
+				tiposervicio = null;
+				managerservirt.insertarTipoServicio(getNomservicio());						
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Creado correctamente",null));
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al ingresar nuevo tipo",null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
+			}
+			return "";
+		}
+		
+		//cargar  servicios
+		public String cargarDatostiposerv(Tiposervicio  tiposerv){
+			idservi= tiposerv.getIdTp();
+			nomservicio= tiposerv.getNombreServicio();					
+			return "editarserv";
+		}
+				
+		//metodo para listar los TiposServicio
 		public List<SelectItem> getListaTiposerv(){
 				List<SelectItem> listadoTS=new ArrayList<SelectItem>();
 				List<Tiposervicio> listadoServicio=managerservirt.findAllTipoServicio();
@@ -233,11 +265,32 @@ public class ServiciosVirtualesBean implements Serializable{
 					}
 					return "";
 				}
-		//------ traslados--------
 				
-				public String irRecurso(){
+				
+				//accion para modificar los servicios
+				public String ActualizarServicio(){
+					String resp ="";
+					try {
+					managerservirt.editartiposervicio(getIdservi(),getNomservicio());
+					setNomservicio("");
+					setIdservi(0);		
+					resp = "CrudServicio";
 					FacesContext context = FacesContext.getCurrentInstance();
-			        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cancelado!", "Actualizacion Cancelada"));
+			        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Servicio Actualizado ") );
+						}
+					catch (Exception e) {
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
+					}
+					return resp;
+					
+				}
+
+				
+				//------ Envios paginas--------
+				
+				public String irAprovador(){
+					FacesContext context = FacesContext.getCurrentInstance();			       
 			      //limpiamos los datos
 			        cedula=0;
 					nombres="";
@@ -254,6 +307,20 @@ public class ServiciosVirtualesBean implements Serializable{
 					idSvr=0;
 					return "AprovadorServiciovirtual";					
 				}		
+				
+				public String irAprovadorpag(){			   
+					FacesContext context = FacesContext.getCurrentInstance();			       
+				      //limpiamos los datos				        
+						try {
+							tiposervicio = managerservirt.findServicioTipoByID(1);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} // numero id del estado q quieres q sea;
+						tiposervicio = new Tiposervicio();
+						idSvr=0;
+					return "CrudServicio";					
+				}
 				
 				
 		}

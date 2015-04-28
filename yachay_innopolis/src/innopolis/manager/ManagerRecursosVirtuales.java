@@ -1,12 +1,15 @@
 package innopolis.manager;
 
+import java.io.Serializable;
 import java.util.List;
 
 import innopolis.controller.ServiciosVirtualesBean;
 import innopolis.entities.*;
 
-public class ManagerRecursosVirtuales {
+public class ManagerRecursosVirtuales implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	private ManagerDAO mDAO;
 	
 	//Registro Temporal
@@ -138,11 +141,11 @@ public class ManagerRecursosVirtuales {
 	}
 	
 	//editar los tipos de servicio
-	public void editartiposervicio(int id_Tp, String nombreServicio)
+	public void editartiposervicio(int id_Tpser, String nombreServicio)
 	{
 		try
 		{
-			Tiposervicio ts = this.findServicioTipoByID(id_Tp);
+			Tiposervicio ts = this.findServicioTipoByID(id_Tpser);
 			ts.setNombreServicio(nombreServicio);
 			mDAO.actualizar(ts);
 		} catch (Exception e) {

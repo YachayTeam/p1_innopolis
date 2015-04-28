@@ -1,6 +1,7 @@
 package innopolis.manager;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,7 +15,8 @@ import javax.persistence.Query;
  * @author mrea
  *
  */
-public class ManagerDAO {
+public class ManagerDAO implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private static EntityManagerFactory factory;
 	private static EntityManager em;
 
@@ -326,6 +328,5 @@ public class ManagerDAO {
 	public static EntityManager getEntityManager() {
 		return em;
 	}
-	//asadasasada
 
 }
