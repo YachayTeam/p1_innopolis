@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Inscripciones</title>
+</h:head>
+<body>
+<p:panel header="Datos de Inscripciones">
+<h:outputText value="#{eventosBean.nombre}" style="font-weight: bold"/>
+<h:outputText value="#{eventosBean.descripcion}" />
+<h:outputText value="#{eventosBean.fechaI}" />
+<h:outputText value="#{eventosBean.fechaF}" />
+<h:outputText value="#{eventosBean.costo}" />
+<h:outputText value="#{eventosBean.lugar}"/>
+			<p:panelGrid columns="2">
+				<h:outputText value="Descripci&oacute;n" style="font-weight: bold"/>
+				<h:inputText value="#{inscripcionesBean.descripcion}"></h:inputText>
+			    <h:outputText value="Pago:" />
+					<p:fileUpload value="#{inscripcionesBean.file}" mode="simple"
+						skinSimple="true" />		
+				<p:commandButton action="#{inscripcionesBean.accionInsertarInscripciones}" value="Inscribirme" /> 
+			</p:panelGrid>
+		</p:panel>
+
+</body>
+</html>

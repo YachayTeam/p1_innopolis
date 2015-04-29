@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Gesti&oacute;n Tipo de Eventos</title>
+</h:head>
+<body>
+	<h:form id="form1">
+		<p:growl id="message" showDetail="true" />
+		<p:panel id="panel1" header="Tipo de Eventos">
+			<p:panelGrid columns="2">
+				<h:outputText value="TIPO DE EVENTO" />
+				<p:inputText required="true" id="nom"
+					value="#{tipoeventosBean.tipo}" requiredMessage="Requerido"></p:inputText>
+				<h:outputText value="DESCRIPCION" />
+				<p:inputTextarea rows="5" autoResize="true" required="false"
+					id="des" value="#{tipoeventosBean.descripcion}"
+					requiredMessage="Requerido"></p:inputTextarea>
+				<p:commandButton update="panel1 :form2:panel2 message"
+					value="Insertar"
+					action="#{tipoeventosBean.accioninsertarTipoEvento}"></p:commandButton>
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+	<hr />
+	<h:form id="form2">
+		<p:dialog id="dialogo" header="ACTUALIZACION" widgetVar="dlg2"
+			modal="true" showEffect="clip" hideEffect="clip">
+			<p:panelGrid columns="2">
+				<h:outputText value="TIPO DE EVENTO" />
+				<p:inputText value="#{tipoeventosBean.tipo}" />
+				<h:outputText value="DESCRIPCION" />
+				<p:inputTextarea autoResize="true"
+					value="#{tipoeventosBean.descripcion}" />
+				<p:commandButton value="Actualizar"
+					action="#{tipoeventosBean.accionActualizarTipoEvento}"
+					onclick="PF('dlg2').close();" />
+				<p:commandButton value="Cancelar" onclick="PF('dlg2').close();" />
+			</p:panelGrid>
+		</p:dialog>
+		<p:growl id="message2" showDetail="true" />
+		<p:panel id="panel2" header="Tipo de Eventos">
+			<p:dataTable id="dt" paginator="true" rows="25"
+				value="#{tipoeventosBean.listaTipoevento}" var="lu">
+				<p:column id="f1" filterBy="#{lu.tipo}" headerText="TIPO DE EVENTO">
+					<h:outputText value="#{lu.tipo}"></h:outputText>
+				</p:column>
+				<p:column headerText="DESCRIPCION">
+					<h:outputText value="#{lu.descripcion}"></h:outputText>
+				</p:column>
+				<p:column headerText="ADMINISTRAR">
+					<p:commandButton icon="ui-icon-pencil" title="Icon Only"
+						action="#{tipoeventosBean.accionCargarTipoEvento(lu)}"
+						update=":form2:dialogo :form2:message2"
+						oncomplete="PF('dlg2').show()" />
+					<p:commandButton
+						action="#{tipoeventosBean.accionEliminarTipoEvento(lu)}"
+						icon="ui-icon-trash" title="Eliminar ICON"
+						update=":form2:panel2 :form2:message2" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</body>
+</html>

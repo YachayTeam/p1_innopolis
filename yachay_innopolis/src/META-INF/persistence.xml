@@ -19,7 +19,7 @@
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/innopolis"/>
 			<property name="javax.persistence.jdbc.user" value="postgres"/>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-			<property name="javax.persistence.jdbc.password" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="admin"/>
 		</properties>
 	</persistence-unit>
 </persistence>

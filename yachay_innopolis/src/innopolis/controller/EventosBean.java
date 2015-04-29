@@ -33,6 +33,7 @@ public class EventosBean implements Serializable {
 	private ManagerInnopolis minnopolis = new ManagerInnopolis();
 	private Integer idEvento;
 	private Integer idTipoEvento;
+	private Integer idSolCabecera;
 	private String nombre;
 	private String descripcion;
 	private Double costo = 0.00;
@@ -166,7 +167,8 @@ public class EventosBean implements Serializable {
 		evento.setLugar(lugar);
 
 		try {
-			evento.setTipoevento(minnopolis.findTipoEventoById(4));
+			evento.setTipoevento(minnopolis.findTipoEventoById(1));
+			//evento.setSolicicabecera(minnopolis.findSolicitudCabeceraById(idSolCabecera));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
