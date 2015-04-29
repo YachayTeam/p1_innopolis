@@ -344,6 +344,8 @@ public class SolicitudBean {
 		horafin = solicitud.getHorafin();
 		listDetalles = solicitud.getSolicidetalles();
 		estadoSol = solicitud.getSoliciestado();
+		//Cargar Listado----
+		select = this.getlistaRecursosLibres();
 		return ""; //falta poner xhtml
 	}
 	
