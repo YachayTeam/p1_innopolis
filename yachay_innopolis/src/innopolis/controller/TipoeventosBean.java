@@ -7,11 +7,12 @@ import innopolis.entities.Tipoevento;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
 
+@SessionScoped
 @ManagedBean
-@RequestScoped
 public class TipoeventosBean {
 	private ManagerInnopolis minnopolis = new ManagerInnopolis();
 	private Integer id_tipoevento;
@@ -45,7 +46,7 @@ public class TipoeventosBean {
 	public List<Tipoevento> getlistaTipoevento() {
 		return minnopolis.findAllTipoEventos();
 	}
-
+	
 	public String accioninsertarTipoEvento() {
 		Tipoevento tipoEvento = new Tipoevento();
 		tipoEvento.setTipo(tipo);
@@ -54,17 +55,16 @@ public class TipoeventosBean {
 			minnopolis.insertarTipoEvento(tipoEvento);
 			id_tipoevento = null;
 			tipo = null;
-			tipoEvento = null;
+			descripcion = null;
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(e.getMessage()));
 			e.printStackTrace();
 		}
-		return "";
+		return "se ingreso";
 	}
 
 	public String accionEliminarTipoEvento(Tipoevento t) {
-
 		try {
 			minnopolis.eliminarTipoEvento(t.getIdTipoEvento());
 		} catch (Exception e) {
