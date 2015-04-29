@@ -1,7 +1,10 @@
 package innopolis.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -26,13 +29,11 @@ public class Evento implements Serializable {
 
 	private String descripcion;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_f")
-	private Date fechaF;
+	private Timestamp fechaF;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_i")
-	private Date fechaI;
+	private Timestamp fechaI;
 
 	private String imagen;
 
@@ -81,19 +82,19 @@ public class Evento implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Date getFechaF() {
+	public Timestamp getFechaF() {
 		return this.fechaF;
 	}
 
-	public void setFechaF(Date fechaF) {
+	public void setFechaF(Timestamp fechaF) {
 		this.fechaF = fechaF;
 	}
 
-	public Date getFechaI() {
+	public Timestamp getFechaI() {
 		return this.fechaI;
 	}
 
-	public void setFechaI(Date fechaI) {
+	public void setFechaI(Timestamp fechaI) {
 		this.fechaI = fechaI;
 	}
 

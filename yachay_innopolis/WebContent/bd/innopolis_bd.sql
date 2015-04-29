@@ -11,8 +11,8 @@ create table PUBLIC.EVENTOS (
    NOMBRE               VARCHAR(50)          null,
    DESCRIPCION          VARCHAR(100)         null,
    IMAGEN               VARCHAR(100)         null,
-   FECHA_I              DATE                 null,
-   FECHA_F              DATE                 null,
+   FECHA_I              timestamp without time zone                 null,
+   FECHA_F              timestamp without time zone                 null,
    COSTO                MONEY                null,
    LUGAR                VARCHAR(100)         null,
    constraint PK_EVENTOS primary key (ID_EVENTO)

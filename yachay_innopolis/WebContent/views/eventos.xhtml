@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Innopolis</title>
+			<link rel="shortcut icon" type="image/png"
+				href="#{request.contextPath}/images/favicon.png" />
+		</f:facet>
+
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+		<ui:insert name="head"></ui:insert>
+
+		<script type="text/javascript">
+			$(function() {
+				$('.sidebar a').hover(function() {
+					$(this).toggleClass('ui-state-hover');
+				})
+			});
+		</script>
+
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push([ '_setAccount', 'UA-12200033-3' ]);
+			_gaq.push([ '_trackPageview' ]);
+
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+						: 'http://www')
+						+ '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	</h:head>
+
+	<h:body>
+		<div id="header" class="ui-widget ui-widget-header">
+			<div id="content">
+				<div class="post">
+					<ui:insert name="content">
+						<p:dataTable var="even" value="Calendario de eventos"
+							reflow="true">
+							<p:column headerText="Calendario">
+								<h:form id="form">
+									<p:growl id="messages" showDetail="true" />
+									<p:schedule id="schedule" value="#{eventosBean.eventModel}"
+										widgetVar="myschedule" locale="es">
+										<p:ajax event="dateSelect"
+											listener="#{eventosBean.onDateSelect}" update="eventDetails"
+											oncomplete="PF('eventDialog').show()" />
+										<p:ajax event="eventSelect"
+											listener="#{eventosBean.onEventSelect}" update="eventDetails"
+											oncomplete="PF('eventDialog').show()" />
+										<p:ajax event="eventMove"
+											listener="#{eventosBean.onEventMove}" update="messages" />
+										<p:ajax event="eventResize"
+											listener="#{eventosBean.onEventResize}" update="messages" />
+									</p:schedule>
+									<p:dialog widgetVar="eventDialog" header="Detalles del Evento"
+										showEffect="clip" hideEffect="clip">
+										<h:panelGrid id="eventDetails" columns="2">
+											<h:outputLabel for="title" value="Evento:" />
+											<p:inputText id="title" value="#{eventosBean.event.title}"
+												required="true" />
+											<h:outputLabel for="from" value="Inicio:" />
+											<p:inputMask id="from" value="#{eventosBean.event.startDate}"
+												mask="99/99/9999 00:00:00">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+											</p:inputMask>
+											<h:outputLabel for="to" value="Fin:" />
+											<p:inputMask id="to" value="#{eventosBean.event.endDate}"
+												mask="99/99/9999 00:00:00">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+											</p:inputMask>
+											<p:commandButton type="reset" value="Reset" />
+											<p:commandButton value="Inscribeme!!!" type="button"
+												onclick="PF('dlg2').show();" />
+										</h:panelGrid>
+									</p:dialog>
+								</h:form>
+
+							</p:column>
+							<p:column headerText="Eventos">
+								<p:dataTable id="dt" paginator="true" rows="25"
+									value="#{eventosBean.listaEventos}" var="lu" reflow="true">
+									<p:column id="f1" filterBy="#{lu.nombre}" headerText="EVENTO">
+										<h:outputText value="#{lu.nombre}"></h:outputText>
+									</p:column>
+									<p:column headerText="FECHA">
+										<h:outputText value="#{lu.fechaI}"></h:outputText>
+									</p:column>
+									<p:column headerText="DETALLES">
+										<p:commandButton
+											action="#{eventosBean.accionCargarEvento2(lu)}"
+											icon="ui-icon-pencil" title="Icon Only" />
+
+									</p:column>
+								</p:dataTable>
+							</p:column>
+						</p:dataTable>
+
+
+
+
+
+
+
+					</ui:insert>
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<ui:insert name="status">
+			<p:ajaxStatus
+				style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
+				<f:facet name="start">
+					<p:graphicImage value="/images/loading.gif" />
+				</f:facet>
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus>
+		</ui:insert>
+
+		<ui:insert name="highlight">
+			<script language="javascript"
+				src="#{request.contextPath}/syntaxhighlighter/scripts/sh.js"></script>
+			<script language="javascript">
+				SyntaxHighlighter.all();
+			</script>
+		</ui:insert>
+		<script type="text/javascript">
+			PrimeFaces.locales['es'] = {
+				closeText : 'Cerrar',
+				prevText : 'Anterior',
+				nextText : 'Siguiente',
+				monthNames : [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+						'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+						'Noviembre', 'Diciembre' ],
+				monthNamesShort : [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+						'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+				dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles',
+						'Jueves', 'Viernes', 'Sábado' ],
+				dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie',
+						'Sab' ],
+				dayNamesMin : [ 'D', 'L', 'M', 'X', 'J', 'V', 'S' ],
+				weekHeader : 'Semana',
+				firstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : false,
+				yearSuffix : '',
+				timeOnlyTitle : 'Sólo hora',
+				timeText : 'Tiempo',
+				hourText : 'Hora',
+				minuteText : 'Minuto',
+				secondText : 'Segundo',
+				currentText : 'Fecha actual',
+				ampm : false,
+				month : 'Mes',
+				week : 'Semana',
+				day : 'Día',
+				allDayText : 'Todo el día'
+			};
+		</script>
+		<style type="text/css">
+.value {
+	width: 1000px;
+}
+</style>
+	</h:body>
+</f:view>
+</html>
