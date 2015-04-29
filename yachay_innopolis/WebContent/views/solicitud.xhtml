@@ -7,7 +7,7 @@
 	xmlns:pe="http://primefaces.org/ui/extensions">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Solicitud de Recursos</title>
+	<title>Ver Solicitud de Recursos</title>
 </h:head>
 <body>
 	<p:panel id="panel1">
@@ -15,95 +15,72 @@
 		<p:panel header="Datos de Solicitud">
 			<p:panelGrid columns="2">
 				<h:outputText value="Direcci&oacute;n" style="font-weight: bold"/>
-				<h:inputText value="#{solicitudBean.direccion}"></h:inputText>
+				<h:outputText value="#{solicitudBean.direccion}"></h:outputText>
 				<h:outputText value="Actividad" style="font-weight: bold"/>
-				<h:inputTextarea value="#{solicitudBean.actividad}"></h:inputTextarea>
+				<h:outputTextarea value="#{solicitudBean.actividad}"></h:outputTextarea>
+				<h:outputText value="Objetivo" style="font-weight: bold"/>
+				<p:outputTextarea value="#{solicitudBean.objetivo}"></p:outputTextarea>
+				<h:outputText value="Justifocaci&oacute;n" style="font-weight: bold"/>
+				<p:outputTextarea value="#{solicitudBean.justificacion}"></p:outputTextarea>
 				<h:outputText value="Fecha de solicitud:" style="font-weight: bold" />
-				<p:calendar id="fecha" value="#{solicitudBean.fecha}" pattern="dd/MM/yyyy" mask="true" />
-				<h:outputText value="Seleccione Horario:" style="font-weight: bold" />
-				<pe:timePicker value="#{solicitudBean.horainicio}" timeSeparator="-" startHours="8" endHours="18"  
-                   startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
-                   showDeselectButton="true" rows="3"  style="width:70px;" 
-                   widgetVar="customTimeWidget" label="Hora Inicio"/> 			
-				<p:commandButton action="#{solicitudBean.crearNuevaSolicitud}" value="Crear Solicitud" /> <!--update=":form3" /-->
+				<h:outputText id="fecha" value="#{solicitudBean.fecha}" pattern="dd/MM/yyyy" />
+				<h:outputText value="Hora inicio:" style="font-weight: bold" /> 
+				<h:outputText value="#{solicitudBean.horainicio}" pattern="HH:mm"/> 
+				<h:outputText value="Hora fin:" style="font-weight: bold" /> 
+				<h:outputText value="#{solicitudBean.horafin}" pattern="HH:mm"/>			
 			</p:panelGrid>
 		</p:panel>
 	</h:form>
-	<!-- h:form id="form3">
+	<h:form id="form3" >
 		<p:panel header="Detalle de recursos">
 			<p:panelGrid columns="5" border="1">
-				<h:outputText value="Producto:" />
-				<h:selectOneMenu value="#{facturacionBean.codigoProducto}">
-					<f:selectItem itemLabel="Seleccione un producto..." itemValue="-1" />
-					<f:selectItems value="#{facturacionBean.listaProductosSI}" />
-				</h:selectOneMenu>
-				<h:outputText value="Cantidad:" />
-				<h:inputText value="#{facturacionBean.cantidadProducto}" />
-				<p:commandButton value="adicionar"
-					action="#{facturacionBean.insertarDetalle}" update="form3"
+				<h:outputText value="Recursos:" />
+				<h:panelGroup>  
+					<p:selectOneMenu  value="#{solicitudBean.id_recurso}">
+						<f:selectItem  itemLabel="Seleccione un recurso..!!" itemValue="-1" />
+						<f:selectItems value="#{solicitudBean.select}" />
+						<p:ajax
+							listener="#{solicitudBean.asignarRecLibre()}">
+						</p:ajax>
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputText value="Capacidad Necesaria:" />
+				<p:inputText value="#{solicitudBean.capacidad_recurso}"></p:inputText>
+				<p:commandButton value="Adicionar"
+					action="#{solicitudBean.agregarDetalle}" update="form3"
 					icon="ui-icon-plusthick" />
 			</p:panelGrid>
 			<p:messages></p:messages>
-			<p:dataTable value="#{facturacionBean.facturaCabTmp.detalles}"
-				var="d" id="tablaFacturaDets">
+			<p:dataTable value="#{solicitudBean.listDetalles}"
+				var="d" id="tablarecursosDets">
 				<f:facet name="header">
-					<h:outputText value="Detalle de productos:" />
+					<h:outputText value="Detalle de Recursos:" />
 				</f:facet>
 				<p:column>
 					<f:facet name="header">QUITAR</f:facet>
-					<p:commandButton  actionListener="#{facturacionBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-wrench "/> 
+					<p:commandButton  actionListener="#{solicitudBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-closethick"/> 
 				</p:column>
 				<p:column>
 					<f:facet name="header">
-					CODIGO
+					Nombre
 				</f:facet>
-					<h:outputText value="#{d.producto.idProd}" />
+					<h:outputText value="#{d.recurso.nombre}" />
 				</p:column>
 				<p:column>
 					<f:facet name="header">
-					PRODUCTO
+					Descripcion
 				</f:facet>
-					<h:outputText value="#{d.producto.nombre}" />
+					<h:outputText value="#{d.recurso.descripcion}" />
 				</p:column>
 				<p:column>
 					<f:facet name="header">
-					DESCRIPCION
+					Capacidad
 				</f:facet>
-					<h:outputText value="#{d.producto.descripcion}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-					P/U
-				</f:facet>
-					<h:outputText value="#{d.precioVenta}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-					CANT
-				</f:facet>
-					<h:outputText value="#{d.cantidad}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-					SUBTOTAL
-				</f:facet>
-					<h:outputText value="#{d.precioVenta * d.cantidad}" />
-					<f:facet name="footer">
-						<h:panelGrid columns="2"
-							style="font-weight: bold; text-align:right">
-							<h:outputText value="IVA:" />
-							<h:outputText value="12%"></h:outputText>
-							<h:outputText value="TOTAL:" />
-							<h:outputText value="#{facturacionBean.facturaCabTmp.total}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
-									currencySymbol="$" />
-							</h:outputText>
-						</h:panelGrid>
-					</f:facet>
+					<h:outputText value="#{d.capacidad}" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>
-	</h:form -->
+	</h:form>
 	</p:panel>
 </body>
 </html>
