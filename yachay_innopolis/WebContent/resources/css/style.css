@@ -31,6 +31,17 @@ body{
 	margin-right: auto;
 } 
 
+#img1{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+} 
+
+.dc { 
+	margin:0 auto 0 auto;
+	width: 50%; 
+}
+
 
 .div3{
 	clear:both;

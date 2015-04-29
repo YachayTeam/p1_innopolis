@@ -6,10 +6,24 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet library="css" name="style.css" />
 <title>Tipos Recursos</title>
 </h:head>
 <body>
-<h:form id="form1" style="width: 933px; ">
+<h:form>  
+    <p:menubar>
+        <p:menuitem value="Recursos" action="#{recursosBean.irRec}" icon="ui-icon-clipboard" />
+        <p:menuitem value="Tipo_Recurso" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
+        <f:facet name="options">
+            <p:commandButton type="button" value="Salir" icon="ui-icon-home" />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<div class="dc">
+<hr/>
+<h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage>
+<hr/>
+<h:form id="form1" >
 	<p:growl id="message" showDetail="true" />
 	<p:panel id="panel1"  header="Registro de Tipos de Recursos">
 		<p:panelGrid columns="2" >
@@ -19,7 +33,7 @@
 		</p:panelGrid>
 	</p:panel>
 </h:form>
-<hr />
+<hr/>
 <h:form id="form2">
 	<p:panel id="panel2" header="Lista de Tipo de Recursos">
 		<p:dataTable id="dt" paginator="true" rows="25"  value="#{recursotipoBean.listado}" var="lu">
@@ -32,5 +46,6 @@
 		</p:dataTable>			
 	</p:panel>
 </h:form>
+</div>
 </body>
 </html>

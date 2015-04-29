@@ -222,6 +222,14 @@ public class RecursosBean {
 					return "recurso";					
 				}
 				
+				public String irRec(){
+					return "recurso";
+				}
+				
+				public String irTrecurso(){
+					return "rectipo";
+				}
+				
 			
 	
 }

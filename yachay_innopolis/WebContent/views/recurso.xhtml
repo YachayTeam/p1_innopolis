@@ -12,11 +12,10 @@
 <body>
 <h:form>  
     <p:menubar>
-        <p:menuitem value="Recurso" url="http://www.primefaces.org" icon="ui-icon-clipboard" />
-        <p:menuitem value="Tipo_Recurso" url="http://www.primefaces.org" icon="ui-icon-pencil" />
+        <p:menuitem value="Recursos" action="#{recursosBean.irRec}" icon="ui-icon-clipboard" />
+        <p:menuitem value="Tipo_Recurso" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
         <f:facet name="options">
-            <p:inputText style="margin-right:10px" placeholder="Search"/>
-            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
+            <p:commandButton type="button" value="Salir" icon="ui-icon-home" />
         </f:facet>
     </p:menubar>
 </h:form>
