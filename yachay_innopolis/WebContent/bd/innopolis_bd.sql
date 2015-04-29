@@ -13,7 +13,7 @@ create table PUBLIC.EVENTOS (
    IMAGEN               VARCHAR(100)         null,
    FECHA_I              timestamp without time zone                 null,
    FECHA_F              timestamp without time zone                 null,
-   COSTO                MONEY                null,
+   COSTO                NUMERIC                null,
    LUGAR                VARCHAR(100)         null,
    constraint PK_EVENTOS primary key (ID_EVENTO)
 );
