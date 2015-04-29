@@ -9,8 +9,16 @@
 <title>ServiciosVirtuales</title>
 </h:head>
 <body>
-
-<h:form id="form2" style="width: 933px; ">
+<h:form>  
+    <p:menubar>        
+        <f:facet name="options">
+            <p:inputText style="margin-right:10px" placeholder="Search"/>
+            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<h:form id="form2" >
 	<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2"  header="Registro de Servicios Virtuales">
 		<p:panelGrid columns="2" >

@@ -6,10 +6,22 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet library="css" name="styleser.css" />
 <title>Servicios Virtuales</title>
 </h:head>
 <body>
-<h:form id="form1" style="width: 933px; ">
+<h:form>  
+    <p:menubar>
+        <p:menuitem value="Servicio Virtual" action="#{serviciosVirtualesBean.irAprovador}" icon="ui-icon-clipboard" />        
+        <f:facet name="options">
+            <p:inputText style="margin-right:10px" placeholder="Search"/>
+            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<div class="div2">
+<h:form id="form1">
 	<p:growl id="message" showDetail="true" />
 	<p:panel id="panel1"  header="Ingreso de Servicios Virtuales">
 		<p:panelGrid columns="2" >
@@ -19,19 +31,26 @@
 		</p:panelGrid>
 	</p:panel>
 </h:form>
+</div>
+<div class="div2">
+<h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage>
+</div>
 <hr />
+<div class="div1">
 <h:form id="form2">
 	<p:panel id="panel2" header="Lista de Servicios Virtuales">
 		<p:dataTable id="dt" paginator="true" rows="10" value="#{serviciosVirtualesBean.listServicios}" var="ser">
-			<p:column headerText="SERVICIOS">
+			<p:column headerText="Servicios">
 				<h:outputText value="#{ser.nombreServicio}"></h:outputText>
 			</p:column>
-			<p:column headerText="EDITAR">
-				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.cargarDatostiposerv(ser)}"></p:commandButton>				
+			<p:column headerText="Modificar">
+				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.cargarDatostiposerv(ser)}"></p:commandButton>
+				<p:commandButton icon="ui-icon-closethick" actionListener="#{serviciosVirtualesBean.EliminarServicio(ser)}" update=":form2" />				
     		</p:column>			
 		</p:dataTable><br></br>
 		<p:commandButton value="Volver" action="#{serviciosVirtualesBean.irAprovador}"></p:commandButton>		
 	</p:panel>
 </h:form>
+</div>
 </body>
 </html>

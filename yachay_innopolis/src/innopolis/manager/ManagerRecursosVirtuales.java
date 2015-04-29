@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import innopolis.controller.ServiciosVirtualesBean;
+import innopolis.controller.TiposervicioBean;
 import innopolis.entities.*;
 
 public class ManagerRecursosVirtuales implements Serializable{
@@ -153,6 +154,11 @@ public class ManagerRecursosVirtuales implements Serializable{
 			e.printStackTrace();
 			}				
 	}
+	
+	public void eliminarServicio(Integer id_servicio) throws Exception {
+		mDAO.eliminar(Tiposervicio.class, id_servicio);
+	}
+	
 	// listar todos los registros 
 	@SuppressWarnings("unchecked")
 	public List<ManagerRecursosVirtuales> findAllRecurso(){
@@ -194,6 +200,8 @@ public class ManagerRecursosVirtuales implements Serializable{
 			mDAO.actualizar(ser);
 			return h;
 			}
+		
+		
 	
 }
 
