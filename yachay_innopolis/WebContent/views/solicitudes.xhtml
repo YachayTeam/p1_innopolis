@@ -19,11 +19,13 @@
 				<h:outputText value="#{sol.actividad}"></h:outputText>
     		</p:column>
     		<p:column headerText="Fecha">
-				<h:outputText value="#{sol.fecha}" pattern="dd/MM/yyyy"></h:outputText>
+				<h:outputText value="#{sol.fecha}">
+					<f:convertDateTime pattern="dd/MM/yyyy"/>
+				</h:outputText>
     		</p:column>	
     		<p:column headerText="Horario">
-				De&nbsp;<h:outputText value="#{sol.horainicio}" pattern="HH:mm"></h:outputText>&nbsp;a&nbsp;
-				<h:outputText value="#{sol.horafin}" pattern="HH:mm"></h:outputText>
+				De&nbsp;<h:outputText value="#{sol.horainicio}"><f:convertDateTime pattern="HH:mm"/></h:outputText>&nbsp;a&nbsp;
+				<h:outputText value="#{sol.horafin}"><f:convertDateTime pattern="HH:mm"/></h:outputText>
     		</p:column>
     		<p:column headerText="Recursos">
     			<h:dataTable value="#{sol.solicidetalles}" var="rec">
@@ -36,11 +38,11 @@
     			<h:outputText value="#{sol.soliciestado.estado}"></h:outputText>
     		</p:column>
     		<p:column headerText="Aprobaci&oacute;n">
-    			<p:commandButton icon="ui-icon-circle-check" action="#{solicitudBean.aprobarEstado(sol)}" update="panel"></p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton icon="ui-icon-circle-close" action="#{solicitudBean.negarEstado(sol)}" update="panel"></p:commandButton>
+    			<p:commandButton icon="ui-icon-circle-check" action="#{solicitudBean.aprobarEstado(sol)}" update=":form:panel"></p:commandButton>&nbsp;&nbsp;
+    			<p:commandButton icon="ui-icon-circle-close" action="#{solicitudBean.negarEstado(sol)}" update=":form:panel"></p:commandButton>
     		</p:column>
     		<p:column headerText="Edici&oacute;n">
-    			<p:commandButton icon="fa fa-edit" action="#{solicitudBean.cargarDatosSolicitud(sol)}"></p:commandButton>
+    			<p:commandButton icon="ui-icon-pencil" action="#{solicitudBean.cargarDatosSolicitud(sol)}"></p:commandButton>
     		</p:column>				
 		</p:dataTable>			
 	</p:panel>
