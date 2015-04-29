@@ -37,8 +37,6 @@ public class SolicitudBean {
 	private Date h_inicio;
 	private Date h_fin;
 	private List<SelectItem> select;
-	//Cambio estados
-	private Integer id_estadoSolicitud;
 	//Cambios solicitud
 	private List<Solicidetalle> listDetalles;
 	private Soliciestado estadoSol;
@@ -182,14 +180,6 @@ public class SolicitudBean {
 		return select;
 	}
 	
-	public Integer getId_estadoSolicitud() {
-		return id_estadoSolicitud;
-	}
-	
-	public void setId_estadoSolicitud(Integer id_estadoSolicitud) {
-		this.id_estadoSolicitud = id_estadoSolicitud;
-	}
-	
 	public List<Solicidetalle> getListDetalles() {
 		return listDetalles;
 	}
@@ -322,9 +312,22 @@ public class SolicitudBean {
 	
 	//-----------------------------APROBADOR------------------------------------------------------//
 	//Tomar el id de estado general id_estadoSolicitud
-	public String cambiarEstado(Solicicabecera solicitud){
+	public String aprobarEstado(Solicicabecera solicitud){
 		try {
-			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), getId_estadoSolicitud());
+			Soliciestado estado = manager.findSolicitudEstadoByID(3);//APROBADO
+			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cambio correcto de estado", null));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al cambiar el estado", null));
+		}
+		
+		return "";	
+	}
+	
+	public String negarEstado(Solicicabecera solicitud){
+		try {
+			Soliciestado estado = manager.findSolicitudEstadoByID(4);//NEGADO
+			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cambio correcto de estado", null));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al cambiar el estado", null));

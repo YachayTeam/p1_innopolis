@@ -242,38 +242,38 @@ private ManagerDAO mDAO;
 	}
 	
 	//Guardar Solicitud Temporal
-	public void guardarSolicitudTemporal(Solicicabecera solicitud) throws Exception{
+	public void guardarSolicitudTemporal(Solicicabecera soliTmp) throws Exception{
 		
-		if(solicitud==null)
+		if(soliTmp==null)
 			throw new Exception("Debe crear una solicitud primero.");
-		if(solicitud.getSolicidetalles()==null || solicitud.getSolicidetalles().size()==0)
+		if(soliTmp.getSolicidetalles()==null || soliTmp.getSolicidetalles().size()==0)
 			throw new Exception("Debe ingresar los recursos en la solicitud.");
 		
 		//Agregar contador
 		int contSolicitud; 
 		contSolicitud = this.getContadorSolicitud();
 		contSolicitud++;
-		solicitud.setIdSolcab(contSolicitud);
+		soliTmp.setIdSolcab(contSolicitud);
 		
 		//ARRAY PARA RECURSOS ACTIVOS
 		ArrayList<Recursosactivo> listRecursos = new ArrayList<Recursosactivo>();
 		
 		//DETALLES
-		for(Solicidetalle det : solicitud.getSolicidetalles()){
+		for(Solicidetalle det : soliTmp.getSolicidetalles()){
 			//Combinamos la relacion bidireccional
-			det.setSolicicabecera(solicitud);
+			det.setSolicicabecera(soliTmp);
 			//Agregamos al listado de recursos activos
 			Recursosactivo recAct = new Recursosactivo();
 			recAct.setIdSolicitud(contSolicitud);
-			recAct.setFecha(solicitud.getFecha());
-			recAct.setHoraInicio(solicitud.getHorainicio());
-			recAct.setHoraFin(solicitud.getHorafin());
+			recAct.setFecha(soliTmp.getFecha());
+			recAct.setHoraInicio(soliTmp.getHorainicio());
+			recAct.setHoraFin(soliTmp.getHorafin());
 			recAct.setIdRecurso(det.getRecurso().getIdRecurso());
 			listRecursos.add(recAct);
 		}
 		
 		//Insertamos los datosa la bdd
-		mDAO.insertar(solicitud);
+		mDAO.insertar(soliTmp);
 		
 		//INSERTAR EN TABLA AYUDA
 		for (Recursosactivo recursosactivo : listRecursos) {
@@ -283,7 +283,7 @@ private ManagerDAO mDAO;
 		//actualizamos los parametros contadores
 		actualizarContadorSolicitud(contSolicitud);
 		
-		soliTemp = null;
+		soliTmp = null;
 	}
 	
 	//Recurso ya Añadido
@@ -443,10 +443,9 @@ private ManagerDAO mDAO;
 		return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
 	}
  	 	
-	//Cambio de estados
+ 	//Cambio de estados
 	//Pide Id Estado, Busca estado y lo cambia dentro de la solicitud seleccionada
-	public void cambiarEstadoSolicitud(Integer id_solicitud, Integer id_estado) throws Exception{
-		Soliciestado estado = this.findSolicitudEstadoByID(id_estado);
+	public void cambiarEstadoSolicitud(Integer id_solicitud, Soliciestado estado) throws Exception{
 		Solicicabecera solicitud = this.findSolicitudCabeceraById(id_solicitud);
 		solicitud.setSoliciestado(estado);
 		mDAO.actualizar(solicitud);
@@ -462,6 +461,7 @@ private ManagerDAO mDAO;
 		}else if(solicitud.getSoliciestado().getEstado().equals("negado") && estado.equals("aprobado")){
 			agregarListaRecursoActivo(listRec, id_solicitud);		
 		}
+		
 	}
 	
 	//SolicitudDetalle por id_solicitud
@@ -488,8 +488,8 @@ private ManagerDAO mDAO;
 		}
 		return resp;
 	}
-
-	//Modificacion de Solicitudes
+	
+ 	//Modificacion de Solicitudes
 	//SOLO TOMO EN CUENTA AGREGAR Y QUITAR RECURSOS
 	public void editarDetallesSolicitud(Integer id_solicitud, ArrayList<Solicidetalle> agregados, ArrayList<Solicidetalle> eliminados) throws Exception{
 		ArrayList<Solicidetalle> actual = findDetallesSolicitud(id_solicitud);
@@ -518,5 +518,6 @@ private ManagerDAO mDAO;
 		sol.setSoliciestado(findSolicitudEstadoByID(3));//VER SOL ESTADO APROBADO
 		mDAO.actualizar(sol);
 	}
+	
 
 }
