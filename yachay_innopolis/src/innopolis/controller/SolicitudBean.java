@@ -349,6 +349,7 @@ public class SolicitudBean {
 		estadoSol = solicitud.getSoliciestado();
 		//Cargar Listado----
 		select = this.getlistaRecursosLibres();
+		System.out.println("CARGA SOL "+actividad);
 		return ""; //falta poner xhtml
 	}
 	
