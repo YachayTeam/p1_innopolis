@@ -211,14 +211,19 @@ public class SolicitudBean {
 			//Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(getH_inicio()));
 			setHorafin(this.fechaAtiempo(getH_fin()));
-			//SolicitudTemporal
-			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), getFecha(), getHorafin(), getHorainicio()); 
-			id_recurso=0; 
-			capacidad_recurso=0;
-			solicitudCabTmpGuardada=false;
-			//Cargar Listado----
-			select = this.getlistaRecursosLibres();
-			resp="soldet";
+			if(getHorafin().getTime()>=getHorainicio().getTime()){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
+			}else{
+				//SolicitudTemporal
+				solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), getFecha(), getHorafin(), getHorainicio()); 
+				id_recurso=0; 
+				capacidad_recurso=0;
+				solicitudCabTmpGuardada=false;
+				//Cargar Listado----
+				select = this.getlistaRecursosLibres();
+				resp="soldet";
+			}
+			
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
 		}
