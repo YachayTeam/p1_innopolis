@@ -10,7 +10,7 @@
 <title>Servicios Virtuales</title>
 </h:head>
 <body>
-<h:form>  
+<h:form> 
     <p:menubar>
         <p:menuitem value="Servicio Virtual" action="#{serviciosVirtualesBean.irAprovador}" icon="ui-icon-clipboard" />        
         <f:facet name="options">
@@ -22,11 +22,12 @@
 <hr/>
 <div class="div2">
 <h:form id="form1">	
+<p:growl id="message" showDetail="true" /> 
 	<p:panel id="panel1"  header="Ingreso de Servicios Virtuales">
 		<p:panelGrid columns="2" >
 			<h:outputText value="Servicios *"/>
 			<p:inputText required="true" id="tipo" value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
-			<p:commandButton update="panel1 :form2:panel2" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}"></p:commandButton>
+			<p:commandButton update="panel1 :form2:panel2 message" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}"></p:commandButton>
 		</p:panelGrid>
 	</p:panel>
 </h:form>
@@ -37,7 +38,7 @@
 <hr />
 <div class="div1">
 <h:form id="form2">
-
+<p:growl id="message1" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Servicios Virtuales">
 		<p:dataTable id="dt" paginator="true" rows="10" value="#{serviciosVirtualesBean.listServicios}" var="ser">
 			<p:column headerText="Servicios Virtuales">
@@ -51,16 +52,16 @@
     		</p:column>			
 		</p:dataTable><br></br>
 		<p:commandButton value="Volver" action="#{serviciosVirtualesBean.irAprovador}"></p:commandButton>		
-	</p:panel>
-	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Servicio" showEffect="clip" hideEffect="clip">
+	</p:panel>				
+</h:form>
+</div>
+<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Servicio" showEffect="clip" hideEffect="clip">
 	<p:panelGrid columns="2" >
 			<h:outputText value="Nombre Servicio"/>
 			<p:inputText required="true" id="Nom" value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
 			<p:commandButton  value="Actualizar" action="#{serviciosVirtualesBean.ActualizarServicio}" icon="ui-icon-refresh" onclick="PF('dlg1').close();" ></p:commandButton>
 			<p:commandButton value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();" action="#{serviciosVirtualesBean.irAprovadorpag}"></p:commandButton>
 	</p:panelGrid>
-</p:dialog>			
-</h:form>
-</div>
+	</p:dialog>
 </body>
 </html>
