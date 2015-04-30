@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import innopolis.controller.ServiciosVirtualesBean;
+import innopolis.controller.TiposervicioBean;
 import innopolis.entities.*;
 
 public class ManagerRecursosVirtuales implements Serializable{
