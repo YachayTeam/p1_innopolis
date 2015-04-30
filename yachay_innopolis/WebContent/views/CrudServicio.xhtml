@@ -47,21 +47,22 @@
 			<p:column headerText="Modificar">
 			<p:commandButton  icon="ui-icon-pencil">
 				<p:ajax listener="#{serviciosVirtualesBean.cargarDatostiposerv(ser)}" oncomplete="PF('dlg1').show();"  update=":form2:panel2" />
-			</p:commandButton>
+			</p:commandButton>			
 				<p:commandButton icon="ui-icon-closethick" actionListener="#{serviciosVirtualesBean.EliminarServicio(ser)}" update=":form2" />				
     		</p:column>			
-		</p:dataTable><br></br>
-		<p:commandButton value="Volver" action="#{serviciosVirtualesBean.irAprovador}"></p:commandButton>		
-	</p:panel>				
-</h:form>
-</div>
-<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Servicio" showEffect="clip" hideEffect="clip">
+		</p:dataTable>		
+	<br></br>
+		<p:commandButton value="Volver" action="#{serviciosVirtualesBean.irAprovador}"></p:commandButton>
+		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Servicio" showEffect="clip" hideEffect="clip">
 	<p:panelGrid columns="2" >
 			<h:outputText value="Nombre Servicio"/>
 			<p:inputText required="true" id="Nom" value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
-			<p:commandButton  value="Actualizar" action="#{serviciosVirtualesBean.ActualizarServicio}" icon="ui-icon-refresh" onclick="PF('dlg1').close();" ></p:commandButton>
-			<p:commandButton value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();" action="#{serviciosVirtualesBean.irAprovadorpag}"></p:commandButton>
+			<p:commandButton  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{serviciosVirtualesBean.ActualizarServicio}"></p:commandButton>
+			<p:commandButton action="#{serviciosVirtualesBean.irAprovadorpag}" value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();"></p:commandButton>
 	</p:panelGrid>
-	</p:dialog>
+	</p:dialog>		
+	</p:panel>				
+</h:form>
+</div>
 </body>
 </html>
