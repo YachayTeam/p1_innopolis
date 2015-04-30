@@ -351,8 +351,7 @@ public class SolicitudBean {
 		estadoSol = solicitud.getSoliciestado();
 		//Cargar Listado----
 		select = this.getlistaRecursosLibres();
-		System.out.println("CARGA SOL "+actividad);
-		return "editsol"; //falta poner xhtml
+		return "editsol?faces-redirect=true";
 	}
 	
 	//Agregar quitar detalle
