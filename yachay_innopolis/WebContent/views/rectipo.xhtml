@@ -35,15 +35,29 @@
 </h:form>
 <hr/>
 <h:form id="form2">
+<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Tipo de Recursos">
 		<p:dataTable id="dt" paginator="true" rows="25"  value="#{recursotipoBean.listado}" var="lu">
 			<p:column headerText="TIPO">
 				<h:outputText value="#{lu.tipo}"></h:outputText>
 			</p:column>
 			<p:column headerText="EDITAR">
-				<p:commandButton icon="ui-icon-pencil" action="#{recursotipoBean.cargarDatosRecTipo(lu)}"></p:commandButton>
+				<p:commandButton icon="ui-icon-pencil">
+				<p:ajax listener="#{recursotipoBean.cargarDatosRecTipo(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+				</p:commandButton>
     		</p:column>			
-		</p:dataTable>			
+		</p:dataTable>
+		
+	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Recurso" showEffect="clip" hideEffect="clip">
+	<p:panelGrid columns="2" >
+			<h:outputText value="IDENTIFICACI&Oacute;N"/>
+			<h:outputText value="#{recursotipoBean.idRectipo}" ></h:outputText>
+			<h:outputText value="TIPO *"/>
+			<p:inputText required="false" id="can" value="#{recursotipoBean.tipo}" requiredMessage="Requerido"></p:inputText>
+			<p:commandButton update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-refresh" action="#{recursotipoBean.modificarRecursoTipo}"></p:commandButton>
+			<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursotipoBean.cancelarModificacion}"></p:commandButton>
+		</p:panelGrid>
+</p:dialog>			
 	</p:panel>
 </h:form>
 </div>
