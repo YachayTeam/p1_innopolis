@@ -11,9 +11,9 @@ create table PUBLIC.EVENTOS (
    NOMBRE               VARCHAR(50)          null,
    DESCRIPCION          VARCHAR(100)         null,
    IMAGEN               VARCHAR(100)         null,
-   FECHA_I              timestamp without time zone                 null,
-   FECHA_F              timestamp without time zone                 null,
-   COSTO                NUMERIC                null,
+   FECHA_I              DATE                 null,
+   FECHA_F              DATE                 null,
+   COSTO                MONEY                null,
    LUGAR                VARCHAR(100)         null,
    constraint PK_EVENTOS primary key (ID_EVENTO)
 );
@@ -285,7 +285,7 @@ ALTER TABLE recursotipo
    
    CREATE SEQUENCE public.seq_soliciestado
    INCREMENT 1
-   START 1;
+   START 5;
    
    ALTER TABLE soliciestado
    ALTER COLUMN id_solest SET DEFAULT nextval('seq_soliciestado');
@@ -370,7 +370,7 @@ ALTER TABLE serviciosvirtregis
 
   CREATE SEQUENCE public.seq_recursos_disponibles
    INCREMENT 1
-   START 1;
+   START 3;
 ALTER TABLE recursodisponible
    ALTER COLUMN id_recdisponible SET DEFAULT nextval('seq_recursos_disponibles');
 
