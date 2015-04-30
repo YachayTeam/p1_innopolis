@@ -211,7 +211,7 @@ public class SolicitudBean {
 			//Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(getH_inicio()));
 			setHorafin(this.fechaAtiempo(getH_fin()));
-			if(getHorafin().getTime()>=getHorainicio().getTime()){
+			if(getHorafin().getTime()<=getHorainicio().getTime()){
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
 			}else{
 				//SolicitudTemporal
@@ -223,7 +223,6 @@ public class SolicitudBean {
 				select = this.getlistaRecursosLibres();
 				resp="soldet";
 			}
-			
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
 		}
