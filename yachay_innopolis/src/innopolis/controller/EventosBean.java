@@ -34,7 +34,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
 
-import org.apache.myfaces.custom.fileupload.UploadedFile;
+//import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
@@ -333,7 +333,7 @@ public class EventosBean implements Serializable {
 	}
 	
 	//IMAGEN
-	  private UploadedFile uploadedFile;
+	  //private UploadedFile uploadedFile;
 	    private String fileName;
 
 	    // Actions ------------------------------------------------------------------------------------
@@ -346,8 +346,8 @@ public class EventosBean implements Serializable {
 	    //    System.out.println("File size: " + uploadedFile.getSize() + " bytes");
 
 	        // Prepare filename prefix and suffix for an unique filename in upload folder.
-	        String prefix = FilenameUtils.getBaseName(uploadedFile.getName());
-	        String suffix = FilenameUtils.getExtension(uploadedFile.getName());
+	        //String prefix = FilenameUtils.getBaseName(uploadedFile.getName());
+	        //String suffix = FilenameUtils.getExtension(uploadedFile.getName());
 	        
 	        // Prepare file and outputstream.
 	        File file = null;
@@ -355,9 +355,9 @@ public class EventosBean implements Serializable {
 	        
 	        try {
 	            // Create file with unique name in upload folder and write to it.
-	            file = File.createTempFile(prefix + "_", "." + suffix, new File("c:/imagen"));
+	            //file = File.createTempFile(prefix + "_", "." + suffix, new File("c:/imagen"));
 	            output = new FileOutputStream(file);
-	            IOUtils.copy(uploadedFile.getInputStream(), output);
+	            //IOUtils.copy(uploadedFile.getInputStream(), output);
 	            fileName = file.getName();
 
 	            // Show succes message.
@@ -381,7 +381,7 @@ public class EventosBean implements Serializable {
 
 	    // Getters ------------------------------------------------------------------------------------
 
-	    public UploadedFile getUploadedFile() {
+	    /*public UploadedFile getUploadedFile() {
 	        return uploadedFile;
 	    }
 
@@ -393,5 +393,5 @@ public class EventosBean implements Serializable {
 
 	    public void setUploadedFile(UploadedFile uploadedFile) {
 	        this.uploadedFile = uploadedFile;
-	    }
+	    }*/
 }
