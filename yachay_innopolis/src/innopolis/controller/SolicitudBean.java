@@ -397,4 +397,27 @@ public class SolicitudBean {
 		}
 		return resp; 
 	}
+	
+	//-------traslados
+			public String irsolres(){
+				String r="";
+				if (solicitudCabTem.getSolicidetalles().size()>0){
+					r="solres";
+					System.out.print(r);
+				}
+				else{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar Recursos", null));
+					System.out.print(r);
+				}
+				return r; 
+			}
+			
+			public String irsolcab(){
+				return "solcab"; 
+			}
+			
+			public String irsoldet(){
+				return "soldet"; 
+			}
+
 }
