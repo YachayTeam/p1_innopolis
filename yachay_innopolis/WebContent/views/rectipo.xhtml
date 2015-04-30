@@ -37,7 +37,7 @@
 <h:form id="form2">
 <p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Tipo de Recursos">
-		<p:dataTable id="dt" paginator="true" rows="25"  value="#{recursotipoBean.listado}" var="lu">
+		<p:dataTable id="dt" paginator="true" rows="4"  value="#{recursotipoBean.listado}" var="lu">
 			<p:column headerText="TIPO">
 				<h:outputText value="#{lu.tipo}"></h:outputText>
 			</p:column>
