@@ -270,6 +270,7 @@ public class SolicitudBean {
 		try {
 			manager.guardarSolicitudTemporal(solicitudCabTem);
 			solicitudCabTmpGuardada=true;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Su solicitud fue enviada espere el SMS de confirmacion."));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
 		}
