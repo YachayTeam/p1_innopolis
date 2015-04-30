@@ -8,13 +8,21 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Solicitud de Recursos</title>
+	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
 <body>
+<p:steps styleClass="custom">
+    <p:menuitem value="Cabecera de Solicitud" />
+    <p:menuitem value="Insercion de Detalles" />
+    <p:menuitem value="Resumen de Solicitud" />
+</p:steps>
+<br/>
+	<p:growl id="message" showDetail="true" />
 	<h:form id="form2">
 		<p:panel header="Datos de Solicitud">
 			<p:panelGrid columns="2">
 				<h:outputText value="Direcci&oacute;n" style="font-weight: bold"/>
-				<p:inputText value="#{solicitudBean.direccion}"></p:inputText>
+				<p:inputText required="true" value="#{solicitudBean.direccion}" requiredMessage="Campo Direccion Requerida"></p:inputText>
 				<h:outputText value="Actividad" style="font-weight: bold"/>
 				<p:inputTextarea value="#{solicitudBean.actividad}"></p:inputTextarea>
 				<h:outputText value="Objetivo" style="font-weight: bold"/>
@@ -22,18 +30,18 @@
 				<h:outputText value="Justifocaci&oacute;n" style="font-weight: bold"/>
 				<p:inputTextarea value="#{solicitudBean.justificacion}"></p:inputTextarea>
 				<h:outputText value="Fecha de solicitud:" style="font-weight: bold" />
-				<p:calendar id="fecha" value="#{solicitudBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
-				<h:outputText value="Hora Inicioq para Recurso:" style="font-weight: bold" />
-				<pe:timePicker value="#{solicitudBean.h_inicio}" timeSeparator="-" startHours="8" endHours="18"  
+				<p:calendar required="true" requiredMessage="Campo Calendario Requerida" id="fecha" value="#{solicitudBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
+				<h:outputText value="Hora Inicio para Recurso:" style="font-weight: bold" />
+				<pe:timePicker required="true" requiredMessage="Campo Hora Inicio Requerida" value="#{solicitudBean.h_inicio}" timeSeparator="-" startHours="8" endHours="18"  
                    startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
                    showDeselectButton="true" rows="3"  style="width:70px;" 
                    widgetVar="customTimeWidget1" label="Hora Inicio"/>
                  <h:outputText value="Hora Fin para Recurso:" style="font-weight: bold" />
-				<pe:timePicker value="#{solicitudBean.h_fin}" timeSeparator="-" startHours="8" endHours="18"  
+				<pe:timePicker required="true" requiredMessage="Campo Hora Fin Requerida" value="#{solicitudBean.h_fin}" timeSeparator="-" startHours="8" endHours="18"  
                    startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
                    showDeselectButton="true" rows="3"  style="width:70px;" 
                    widgetVar="customTimeWidget2" label="Hora Inicio"/>  			
-				<p:commandButton action="#{solicitudBean.crearNuevaSolicitud}" value="Siguiente" /> <!--update=":form3" /-->
+				<p:commandButton update="message" icon="ui-icon-circle-arrow-e" action="#{solicitudBean.crearNuevaSolicitud}" value="Siguiente" /> <!--update=":form3" /-->
 			</p:panelGrid>
 		</p:panel>
 	</h:form>

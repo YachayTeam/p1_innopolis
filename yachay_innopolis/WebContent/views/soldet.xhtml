@@ -8,8 +8,15 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Solicitud de Recursos</title>
+	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
 <body>
+<p:steps activeIndex="1" styleClass="custom">
+    <p:menuitem value="Cabecera de Solicitud" />
+    <p:menuitem value="Insercion de Detalles" />
+    <p:menuitem value="Resumen de Solicitud" />
+</p:steps>
+<br/>
 	<p:panel id="panel1">
 	<h:form id="form3" >
 		<p:panel header="Detalle de recursos">
@@ -56,14 +63,17 @@
 					<f:facet name="header">
 					Capacidad
 				</f:facet>
-					<h:outputText value="#{d.recurso.capacidad}" />
+					<h:outputText value="#{d.capacidad}" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>
 	</h:form>
-	<p:commandButton value="Enviar Solicitud"
-					action="#{solicitudBean.guardarSolicitud}" update="form3"
-					icon="ui-icon-plusthick" />
+	<p:commandButton value="Atras"
+					action="#{solicitudBean.irsolcab}" update="form3"
+					icon="ui-icon-circle-arrow-w" />
+	<p:commandButton value="Siguiente"
+					action="#{solicitudBean.irsolres}" update="form3"
+					icon="ui-icon-circle-arrow-e" />
 	</p:panel>
 </body>
 </html>
