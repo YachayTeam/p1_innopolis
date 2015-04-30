@@ -351,6 +351,9 @@ public class SolicitudBean {
 		estadoSol = solicitud.getSoliciestado();
 		//Cargar Listado----
 		select = this.getlistaRecursosLibres();
+		//Listas
+		list_mas = new ArrayList<Solicidetalle>();
+		list_menos = new ArrayList<Solicidetalle>();
 		return "editsol?faces-redirect=true";
 	}
 	
