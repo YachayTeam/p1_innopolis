@@ -30,7 +30,7 @@
 		<p:dataTable id="dt" value="#{serviciosVirtualesBean.listRegServi}" rows="10" var="reg"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                  paginator="true">
-			<p:column  headerText="CEDULA">
+			<p:column  headerText="C&Eacute;DULA">
 				<h:outputText value="#{reg.cedula}"></h:outputText>
 			</p:column>
 			<p:column  headerText="APELLIDOS">
@@ -53,7 +53,8 @@
 			</p:column>
 			<p:column headerText="MODIFICAR" exportable="false">
 				<p:commandButton icon="ui-icon-pencil" action="#{serviciosVirtualesBean.Cargarregistros(reg)}"  ></p:commandButton>
-				<p:commandButton icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2"></p:commandButton>
+				<p:commandButton icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2"></p:commandButton>				
+				<p:commandButton icon="ui-icon-mail-closed" action="#{serviciosVirtualesBean.enviarmensaje(reg)}"  ></p:commandButton>
 				<a href="mailto:#{reg.correo}?subject=Notificacion de Centro de Emprendimiento&amp;body=El%20usuario%20#{reg.apellidos}%20con%20nombres%20#{reg.nombres}%20,%20se%20analizo%20su%20peticion%20para%20ingresar%20a%20#{reg.tiposervicio.nombreServicio}%20,%20su%20registro%20fue%20#{reg.tipoestado.nombreestado}">Enviar Notificación</a>
 			</p:column>
 		</p:dataTable>

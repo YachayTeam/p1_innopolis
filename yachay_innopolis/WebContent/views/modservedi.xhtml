@@ -6,26 +6,26 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>ServiciosVirtuales</title>
+<title>Servicios Virtuales</title>
 </h:head>
 <body>
 <h:form id="form1" style="width: 100%; ">
 	<p:growl id="message" showDetail="true" />
-	<p:panel id="panel1"  header="Edicion de Registro">
+	<p:panel id="panel1"  header="Edición de Registro">
 		<p:panelGrid columns="2" >
-		<h:outputText value="CEDULA"/>
+		<h:outputText value="C&eacute;dula"/>
 			<h:outputText   id="ced" value="#{serviciosVirtualesBean.cedula}" ></h:outputText>
-			<h:outputText value="APELLIDOS"/>
+			<h:outputText value="Apellidos"/>
 			<h:outputText  id="ape" value="#{serviciosVirtualesBean.apellidos}" ></h:outputText>
-			<h:outputText value="NOMBRES"/>
+			<h:outputText value="Nombres"/>
 			<h:outputText id="correo" value="#{serviciosVirtualesBean.nombres}" ></h:outputText>			
-			<h:outputText value="CORREO"/>
+			<h:outputText value="Correo"/>
 			<h:outputText  id="nom" value="#{serviciosVirtualesBean.correo}" ></h:outputText>
-			<h:outputText value="TEMA"/>
+			<h:outputText value="Tema"/>
 			<h:outputText id="tema"   value="#{serviciosVirtualesBean.tema}" ></h:outputText>
-			<h:outputText value="SERVICIO"/>
+			<h:outputText value="Servicio"/>
 			<h:outputText  id="ser" readonly="true" value="#{serviciosVirtualesBean.tiposervicio.nombreServicio}"></h:outputText>
-			<h:outputText value="ESTADO"/>
+			<h:outputText value="Estado"/>
 			<h:outputText  id="est" readonly="true" value="#{serviciosVirtualesBean.tipoestado.nombreestado}"></h:outputText>										
 			<p:commandButton update="panel1 message" value="Volver" icon="ui-icon-close" action="#{serviciosVirtualesBean.irAprovador}"></p:commandButton>
 		</p:panelGrid>

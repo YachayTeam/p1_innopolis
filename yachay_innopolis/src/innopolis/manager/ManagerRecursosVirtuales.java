@@ -2,9 +2,18 @@ package innopolis.manager;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import innopolis.controller.ServiciosVirtualesBean;
-import innopolis.controller.TiposervicioBean;
 import innopolis.entities.*;
 
 public class ManagerRecursosVirtuales implements Serializable{
@@ -201,6 +210,45 @@ public class ManagerRecursosVirtuales implements Serializable{
 			return h;
 			}
 		
+		
+	////METODO DE ENVIO DE CORREO
+		public boolean sendMail(String origen,String clave,String destinatario, String asunto, String mensaje) throws Exception{
+	        try
+	        {
+	            Properties props = new Properties();
+	            props.put("mail.smtp.host", "smtp.gmail.com");
+	            props.setProperty("mail.smtp.starttls.enable", "true");
+	            props.setProperty("mail.smtp.port", "587");
+	            props.setProperty("mail.smtp.user", origen);
+	            props.setProperty("mail.smtp.auth", "true");
+
+	            Session session = Session.getDefaultInstance(props, null);
+	            BodyPart texto = new MimeBodyPart();
+	            texto.setText(mensaje);
+
+	            MimeMultipart multiParte = new MimeMultipart();
+	            multiParte.addBodyPart(texto);
+
+	            MimeMessage message = new MimeMessage(session);
+	            message.setFrom(new InternetAddress(origen));
+	            message.addRecipient(
+	                Message.RecipientType.TO,
+	                new InternetAddress(destinatario));
+	                message.setSubject(asunto);
+	            message.setContent(multiParte);
+
+	            Transport t = session.getTransport("smtp");
+	            t.connect(origen, clave);
+	            t.sendMessage(message, message.getAllRecipients());
+	            t.close();
+	            return true;
+	        }
+	        catch (Exception e)
+	        {
+	            e.printStackTrace();
+	            return false;
+	        }        
+	    }
 		
 	
 }

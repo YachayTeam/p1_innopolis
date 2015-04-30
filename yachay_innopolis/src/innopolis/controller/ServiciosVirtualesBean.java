@@ -324,4 +324,18 @@ public class ServiciosVirtualesBean implements Serializable{
 					idSvr=0;
 				return "CrudServicio";					
 		}	
+		
+		
+		//correo
+		//Tomar el id de estado general id_estadoSolicitud
+		public String enviarmensaje(Serviciosvirtregi serv){
+			try {									
+				managerservirt.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", serv.getCorreo(), "Notificación de Centro de Emprendimiento","El usuario con apellido "+serv.getApellidos()+" con nombre "+serv.getNombres()+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+".");				
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo", null));
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar correo", null));
+			}
+			
+			return "";	
+		}		
 }

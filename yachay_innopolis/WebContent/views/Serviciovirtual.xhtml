@@ -22,7 +22,7 @@
 	<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2"  header="Registro de Servicios Virtuales">
 		<p:panelGrid columns="2" >
-		<h:outputText value="CEDULA*"/>
+		<h:outputText value="C&Eacute;DULA*"/>
 			<p:inputText required="true" id="cedula" value="#{serviciosVirtualesBean.cedula}" maxlength="10" requiredMessage="Requerido Cedula 10 Digitos">
 			<f:validateLength minimum="10"/>
 			</p:inputText>
@@ -57,7 +57,7 @@
 	</p:panel>
 </h:form>
 <p:dialog header="Informacion" modal="true"  widgetVar="dlg1" minHeight="40">
-    		     <h:outputText value="Su peticion sera procesada y notificada por correo" /><br/>
+    		     <h:outputText value="Su petición sera procesada y notificada por correo" /><br/>
     			 <p:button value="Volver" href="http://www.google.com"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
 		    </p:dialog>
 </body>

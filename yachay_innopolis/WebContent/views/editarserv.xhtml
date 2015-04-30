@@ -25,9 +25,9 @@
 </div>
 <h:form id="form1">
 	<p:growl id="message" showDetail="true" />
-	<p:panel id="panel1"  header="Edicion de Servicio Virtual">
+	<p:panel id="panel1"  header="Edición de Servicio Virtual">
 		<p:panelGrid columns="2" >
-		<h:outputText value="NOMBRE Servicio"/>
+		<h:outputText value="Nombre Servicio"/>
 			<p:inputText required="true" id="NOM" value="#{serviciosVirtualesBean.nomservicio}" requiredMessage="Requerido"></p:inputText>
 			<p:commandButton update="message" value="Actualizar" icon="ui-icon-refresh" action="#{serviciosVirtualesBean.ActualizarServicio}"></p:commandButton>
 			<p:commandButton value="Volver" action="#{serviciosVirtualesBean.irAprovadorpag}"></p:commandButton>
