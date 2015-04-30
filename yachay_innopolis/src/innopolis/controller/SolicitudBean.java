@@ -318,10 +318,11 @@ public class SolicitudBean {
 	//-----------------------------APROBADOR------------------------------------------------------//
 	//Tomar el id de estado general id_estadoSolicitud
 	public String aprobarEstado(Solicicabecera solicitud){
+		 String j="Le informamos que la solicitud de: "+solicitud.getActividad()+" ,fue aprobada para la fecha:"+solicitud.getFecha().toString();
 		try {
 			Soliciestado estado = manager.findSolicitudEstadoByID(3);//APROBADO
 			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
-			manager.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", "Le informamos que su solicitud de recursos SI fue Aprobada");
+			manager.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", j);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cambio correcto de estado", null));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al cambiar el estado", null));
@@ -331,10 +332,11 @@ public class SolicitudBean {
 	}
 	
 	public String negarEstado(Solicicabecera solicitud){
+		String j="Le informamos que la solicitud de: "+solicitud.getActividad()+" ,fue negada para la fecha:"+solicitud.getFecha().toString();
 		try {
 			Soliciestado estado = manager.findSolicitudEstadoByID(4);//NEGADO
 			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
-			manager.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", "Le informamos que su solicitud de recursos NO fue Aprobada");
+			manager.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", j);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cambio correcto de estado", null));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al cambiar el estado", null));
