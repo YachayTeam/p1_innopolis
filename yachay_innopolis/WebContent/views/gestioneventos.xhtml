@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+xmlns:t="http://myfaces.apache.org/tomahawk">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Gesti&oacute;n de Eventos</title>
@@ -30,21 +31,27 @@
 				<p:selectOneRadio id="console" value="#{eventosBean.pago}">
 					<f:selectItem itemLabel="SI" itemValue="si" />
 					<f:selectItem itemLabel="NO" itemValue="no" />
-					<p:ajax process="console" update="form1" />
+					<p:ajax process="console" update="panel_costo panel_costo1" />
 				</p:selectOneRadio>
-				<h:outputText value="Costo" rendered="#{eventosBean.pago eq 'si'}" />
-				<p:inputText id="costo" value="#{eventosBean.costo}"
-					rendered="#{eventosBean.pago eq 'si'}" />
+				<p:panel id="panel_costo">
+					<h:outputText value="Costo" rendered="#{eventosBean.pago eq 'si'}" />
+				</p:panel>
+				<p:panel id="panel_costo1">
+					<p:inputText id="costo" value="#{eventosBean.costo}"
+						rendered="#{eventosBean.pago eq 'si'}" />
+				</p:panel>
 				<h:outputText value="LUGAR" />
 				<p:inputTextarea autoResize="true" required="false" id="lug"
 					value="#{eventosBean.lugar}" requiredMessage="Requerido" />
 				<p:outputLabel value="Tipo de Eventos" />
 				<h:panelGroup>
 					<h:selectOneMenu id="pad2" value="#{eventosBean.idTipoEvento}">
-						<f:selectItem itemLabel="Seleccione" itemValue="1" />
-						<f:selectItems Value="#{eventosBean.listaTipoEvento}" />
+						<f:selectItem itemLabel="Seleccione" itemValue="0" />
+						<f:selectItems value="#{eventosBean.listaTipoEvento}" />
 					</h:selectOneMenu>
 				</h:panelGroup>
+				 <h:outputLabel for="file" value="Select file" />
+                    <t:inputFileUpload id="file" value="#{eventosBean.uploadedFile}" required="true" />
 				<p:commandButton update="panel1 :form2:panel2 message"
 					value="Insertar" action="#{eventosBean.accionInsertarEvento}" />
 			</p:panelGrid>
