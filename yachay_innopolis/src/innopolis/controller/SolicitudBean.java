@@ -340,6 +340,7 @@ public class SolicitudBean {
 	
 	//CargarSolicitud
 	public String cargarDatosSolicitud(Solicicabecera solicitud){
+		id_sol = solicitud.getIdSolcab();
 		direccion = solicitud.getDireccion();
 		actividad = solicitud.getActividad();
 		objetivo = solicitud.getObjetivo();
