@@ -212,10 +212,12 @@ public class SolicitudBean {
 			//Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(getH_inicio()));
 			setHorafin(this.fechaAtiempo(getH_fin()));
-			if(getHorafin().getTime()<=getHorainicio().getTime()){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
-			}else if(!Validacion.fechaMayorIgual(getFecha())){
+			if(!Validacion.fechaMayorIgual(getFecha())){	
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual.", null));
+			}else if(getHorafin().getTime()<=getHorainicio().getTime()){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
+			}else if(!Validacion.horaMayorIgual(getHorainicio()) || !Validacion.horaMayorIgual(getHorafin())){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La hora de solicitud no debe ser menor a la actual.", null));
 			}else{
 				//SolicitudTemporal
 				solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), getFecha(), getHorafin(), getHorainicio()); 
