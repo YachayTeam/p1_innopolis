@@ -166,8 +166,7 @@ public class EventosBean implements Serializable {
 		this.event = event;
 	}
 	
-	@PostConstruct
-	public void init() {
+	/*public void init() {
 		eventModel = new DefaultScheduleModel();
 		List<Evento> listEventos = getListaEventos();
 		for (Evento evento : listEventos) {

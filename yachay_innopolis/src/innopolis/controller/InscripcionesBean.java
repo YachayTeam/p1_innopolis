@@ -67,7 +67,7 @@ public class InscripcionesBean {
 		return minnopolis.findAllInscripciones();
 	}
 	
-	public String accionInsertarInscripciones()
+	/*public String accionInsertarInscripciones()
 	{
 		Inscripcione insc= new Inscripcione();
 		insc.setIdUsuario(idUsuario);
@@ -151,5 +151,5 @@ public class InscripcionesBean {
 			FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-
+*/
 }

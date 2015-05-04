@@ -173,9 +173,9 @@ private ManagerDAO mDAO;
 	//CONTADOR TABLA AUXILIAR
 	public int getContadorSolicitud() throws Exception{
 		int contSolicitud = 0;
-		Contadores cont = null;
+		Contadore cont = null;
 		try {
-			cont = (Contadores) mDAO.findById(Contadores.class, 1);
+			cont = (Contadore) mDAO.findById(Contadore.class, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Revise el parametro 'contontador solicitud': "+e.getMessage());
@@ -185,9 +185,9 @@ private ManagerDAO mDAO;
 	}
 	
 	public void actualizarContadorSolicitud(int valor) throws Exception{
-		Contadores cont = null;
+		Contadore cont = null;
 		try {
-			cont = (Contadores) mDAO.findById(Contadores.class, 1);
+			cont = (Contadore) mDAO.findById(Contadore.class, 1);
 			cont.setValor(valor);
 			mDAO.actualizar(cont);
 		} catch (Exception e) {
@@ -290,7 +290,7 @@ private ManagerDAO mDAO;
 			mDAO.insertar(recursosactivo);
 		}		
 		
-		//actualizamos los parametros contadores
+		//actualizamos los parametros Contadore
 		actualizarContadorSolicitud(contSolicitud);
 		
 		soliTmp = null;

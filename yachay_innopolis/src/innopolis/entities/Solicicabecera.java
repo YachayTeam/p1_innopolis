@@ -35,6 +35,8 @@ public class Solicicabecera implements Serializable {
 
 	private String objetivo;
 
+	private String sms;
+
 	//bi-directional many-to-one association to Evento
 	@OneToMany(mappedBy="solicicabecera")
 	private List<Evento> eventos;
@@ -113,6 +115,14 @@ public class Solicicabecera implements Serializable {
 
 	public void setObjetivo(String objetivo) {
 		this.objetivo = objetivo;
+	}
+
+	public String getSms() {
+		return this.sms;
+	}
+
+	public void setSms(String sms) {
+		this.sms = sms;
 	}
 
 	public List<Evento> getEventos() {

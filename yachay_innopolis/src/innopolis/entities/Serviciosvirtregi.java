@@ -28,6 +28,8 @@ public class Serviciosvirtregi implements Serializable {
 
 	private String nombres;
 
+	private String sms;
+
 	private String tema;
 
 	//bi-directional many-to-one association to Tipoestado
@@ -81,6 +83,14 @@ public class Serviciosvirtregi implements Serializable {
 
 	public void setNombres(String nombres) {
 		this.nombres = nombres;
+	}
+
+	public String getSms() {
+		return this.sms;
+	}
+
+	public void setSms(String sms) {
+		this.sms = sms;
 	}
 
 	public String getTema() {

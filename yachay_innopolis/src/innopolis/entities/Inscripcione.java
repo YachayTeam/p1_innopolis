@@ -21,7 +21,9 @@ public class Inscripcione implements Serializable {
 	@Column(name="id_inscripcion")
 	private Integer idInscripcion;
 
-	private String descripcion;
+	private String apellido;
+
+	private String correo;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_inscripcion")
@@ -32,6 +34,10 @@ public class Inscripcione implements Serializable {
 
 	@Column(name="imagen_pago")
 	private String imagenPago;
+
+	private String nombre;
+
+	private String observacion;
 
 	//bi-directional many-to-one association to Evento
 	@ManyToOne
@@ -49,12 +55,20 @@ public class Inscripcione implements Serializable {
 		this.idInscripcion = idInscripcion;
 	}
 
-	public String getDescripcion() {
-		return this.descripcion;
+	public String getApellido() {
+		return this.apellido;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getCorreo() {
+		return this.correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 
 	public Date getFechaInscripcion() {
@@ -79,6 +93,22 @@ public class Inscripcione implements Serializable {
 
 	public void setImagenPago(String imagenPago) {
 		this.imagenPago = imagenPago;
+	}
+
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getObservacion() {
+		return this.observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 
 	public Evento getEvento() {

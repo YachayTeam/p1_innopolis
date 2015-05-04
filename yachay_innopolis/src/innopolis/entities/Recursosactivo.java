@@ -17,7 +17,7 @@ public class Recursosactivo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RECURSOSACTIVOS_IDRECACT_GENERATOR", sequenceName="SEQ_RECURSOACTIVO", allocationSize=1)
+	@SequenceGenerator(name="RECURSOSACTIVOS_IDRECACT_GENERATOR", sequenceName="SEQ_RECURSOSACTIVO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSOSACTIVOS_IDRECACT_GENERATOR")
 	@Column(name="id_recact")
 	private long idRecact;
