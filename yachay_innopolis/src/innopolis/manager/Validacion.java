@@ -1,5 +1,8 @@
 package innopolis.manager;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class Validacion {
@@ -19,5 +22,14 @@ public class Validacion {
 	}
 	
 	//FECHA MAYOR IGUAL Q HOY
+	public static boolean fechaMayorIgual(Date fecha_propuesta){
+		boolean resp = false;
+		Date fecha_actual = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		if ( fecha_propuesta.after(fecha_actual) || dateFormat.format(fecha_actual).equals(dateFormat.format(fecha_propuesta)) ){
+			resp = true;
+		}
+		return resp;
+	}
 
 }

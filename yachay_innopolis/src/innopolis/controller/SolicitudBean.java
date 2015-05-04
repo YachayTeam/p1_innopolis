@@ -12,6 +12,7 @@ import innopolis.entities.Solicicabecera;
 import innopolis.entities.Solicidetalle;
 import innopolis.entities.Soliciestado;
 import innopolis.manager.ManagerReservas;
+import innopolis.manager.Validacion;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -213,6 +214,8 @@ public class SolicitudBean {
 			setHorafin(this.fechaAtiempo(getH_fin()));
 			if(getHorafin().getTime()<=getHorainicio().getTime()){
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
+			}else if(!Validacion.fechaMayorIgual(getFecha())){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual.", null));
 			}else{
 				//SolicitudTemporal
 				solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), getFecha(), getHorafin(), getHorainicio()); 
