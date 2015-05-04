@@ -4,8 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-xmlns:t="http://myfaces.apache.org/tomahawk">
+	xmlns:pe="http://primefaces.org/ui/extensions">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Gesti&oacute;n de Eventos</title>
@@ -51,9 +50,7 @@ xmlns:t="http://myfaces.apache.org/tomahawk">
 					</h:selectOneMenu>
 				</h:panelGroup>
 				 <h:outputLabel for="file" value="Select file" />
-                    <t:inputFileUpload id="file" value="#{eventosBean.uploadedFile}" required="true" />
-				<p:commandButton update="panel1 :form2:panel2 message"
-					value="Insertar" action="#{eventosBean.accionInsertarEvento}" />
+                 
 			</p:panelGrid>
 		</p:panel>
 	</h:form>
