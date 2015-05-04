@@ -1,6 +1,44 @@
+drop table CONTADORES;
+
+drop table PUBLIC.EVENTOS;
+
+drop table PUBLIC.INSCRIPCIONES;
+
+drop table PUBLIC.RECURSO;
+
+drop table PUBLIC.RECURSODISPONIBLE;
+
+drop table RECURSOSACTIVOS;
+
+drop table PUBLIC.RECURSOTIPO;
+
+drop table PUBLIC.SERVICIOSVIRTREGIS;
+
+drop table PUBLIC.SOLICICABECERA;
+
+drop table PUBLIC.SOLICIDETALLE;
+
+drop table PUBLIC.SOLICIESTADO;
+
+drop table PUBLIC.TIPOESTADO;
+
+drop table PUBLIC.TIPOEVENTO;
+
+drop table PUBLIC.TIPOSERVICIO;
+
 /*==============================================================*/
 /* User: PUBLIC                                                 */
 /*==============================================================*/
+/*==============================================================*/
+/* Table: CONTADORES                                            */
+/*==============================================================*/
+create table CONTADORES (
+   ID_CONTADOR          INT4                 not null,
+   TIPO                 TEXT                 null,
+   VALOR                INT4                 null,
+   constraint PK_CONTADORES primary key (ID_CONTADOR)
+);
+
 /*==============================================================*/
 /* Table: EVENTOS                                               */
 /*==============================================================*/
@@ -8,13 +46,12 @@ create table PUBLIC.EVENTOS (
    ID_EVENTO            INT4                 not null,
    ID_SOLCAB            INT4                 null,
    ID_TIPO_EVENTO       INT4                 null,
-   NOMBRE               VARCHAR(50)          null,
-   DESCRIPCION          VARCHAR(100)         null,
-   IMAGEN               VARCHAR(100)         null,
-   FECHA_I              DATE                 null,
-   FECHA_F              DATE                 null,
-   COSTO                MONEY                null,
-   LUGAR                VARCHAR(100)         null,
+   NOMBRE               TEXT                 null,
+   DESCRIPCION          TEXT                 null,
+   IMAGEN               TEXT                 null,
+   FECHA                DATE                 null,
+   COSTO                FLOAT4               null,
+   LUGAR                TEXT                 null,
    constraint PK_EVENTOS primary key (ID_EVENTO)
 );
 
@@ -25,9 +62,12 @@ create table PUBLIC.INSCRIPCIONES (
    ID_INSCRIPCION       INT4                 not null,
    ID_EVENTO            INT4                 null,
    ID_USUARIO           INT4                 null,
-   IMAGEN_PAGO          VARCHAR(100)         null,
+   IMAGEN_PAGO          TEXT                 null,
    FECHA_INSCRIPCION    DATE                 null,
-   DESCRIPCION          VARCHAR(100)         null,
+   OBSERVACION          TEXT                 null,
+   NOMBRE               TEXT                 null,
+   APELLIDO             TEXT                 null,
+   CORREO               TEXT                 null,
    constraint PK_INSCRIPCIONES primary key (ID_INSCRIPCION)
 );
 
@@ -38,7 +78,7 @@ create table PUBLIC.RECURSO (
    ID_RECURSO           INT4                 not null,
    ID_RECTIPO           INT4                 null,
    ID_RECDISPONIBLE     INT4                 null,
-   NOMBRE               VARCHAR(200)         null,
+   NOMBRE               TEXT                 null,
    CAPACIDAD            INT4                 null,
    DESCRIPCION          TEXT                 null,
    LUGAR                TEXT                 null,
@@ -73,7 +113,7 @@ create table RECURSOSACTIVOS (
 /*==============================================================*/
 create table PUBLIC.RECURSOTIPO (
    ID_RECTIPO           INT4                 not null,
-   TIPO                 VARCHAR(100)         null,
+   TIPO                 TEXT                 null,
    constraint PK_RECURSOTIPO primary key (ID_RECTIPO)
 );
 
@@ -85,10 +125,11 @@ create table PUBLIC.SERVICIOSVIRTREGIS (
    ID_TP                INT4                 null,
    ID_ESTADO            INT4                 null,
    CEDULA               INT4                 null,
-   NOMBRES              VARCHAR(60)          null,
-   APELLIDOS            VARCHAR(60)          null,
-   CORREO               VARCHAR(254)         null,
-   TEMA                 VARCHAR(254)         null,
+   NOMBRES              TEXT                 null,
+   APELLIDOS            TEXT                 null,
+   CORREO               TEXT                 null,
+   TEMA                 TEXT                 null,
+   SMS                  TEXT                 null,
    constraint PK_SERVICIOSVIRTREGIS primary key (ID_SVR)
 );
 
@@ -105,6 +146,7 @@ create table PUBLIC.SOLICICABECERA (
    FECHA                DATE                 null,
    HORAINICIO           TIME                 null,
    HORAFIN              TIME                 null,
+   SMS                  TEXT                 null,
    constraint PK_SOLICICABECERA primary key (ID_SOLCAB)
 );
 
@@ -124,7 +166,7 @@ create table PUBLIC.SOLICIDETALLE (
 /*==============================================================*/
 create table PUBLIC.SOLICIESTADO (
    ID_SOLEST            INT4                 not null,
-   ESTADO               VARCHAR(100)         null,
+   ESTADO               TEXT                 null,
    constraint PK_SOLICIESTADO primary key (ID_SOLEST)
 );
 
@@ -133,7 +175,7 @@ create table PUBLIC.SOLICIESTADO (
 /*==============================================================*/
 create table PUBLIC.TIPOESTADO (
    ID_ESTADO            INT4                 not null,
-   NOMBREESTADO         VARCHAR(60)          null,
+   NOMBREESTADO         TEXT                 null,
    constraint PK_TIPOESTADO primary key (ID_ESTADO)
 );
 
@@ -142,8 +184,8 @@ create table PUBLIC.TIPOESTADO (
 /*==============================================================*/
 create table PUBLIC.TIPOEVENTO (
    ID_TIPO_EVENTO       INT4                 not null,
-   TIPO                 VARCHAR(25)          null,
-   DESCRIPCION          VARCHAR(100)         null,
+   TIPO                 TEXT                 null,
+   DESCRIPCION          TEXT                 null,
    constraint PK_TIPOEVENTO primary key (ID_TIPO_EVENTO)
 );
 
@@ -152,18 +194,8 @@ create table PUBLIC.TIPOEVENTO (
 /*==============================================================*/
 create table PUBLIC.TIPOSERVICIO (
    ID_TP                INT4                 not null,
-   NOMBRE_SERVICIO      VARCHAR(60)          null,
+   NOMBRE_SERVICIO      TEXT                 null,
    constraint PK_TIPOSERVICIO primary key (ID_TP)
-);
-
-/*==============================================================*/
-/* Table: CONTADORES                                            */
-/*==============================================================*/
-create table CONTADORES (
-   ID_CONTADOR          INT4                 not null,
-   TIPO                 VARCHAR(100)         null,
-   VALOR                INT4                 null,
-   constraint PK_CONTADORES primary key (ID_CONTADOR)
 );
 
 alter table EVENTOS
@@ -215,10 +247,8 @@ alter table SOLICIDETALLE
    add constraint FK_SOLICIDE_REFERENCE_SOLICICA foreign key (ID_SOLCAB)
       references SOLICICABECERA (ID_SOLCAB)
       on delete restrict on update restrict;
-
-
-
-      
+	  
+	  
 /*==============================================================*/
 /* SECUENCIAS                                           */
 /*==============================================================*/
