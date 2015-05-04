@@ -26,6 +26,7 @@ public class ManagerRecursosVirtuales implements Serializable{
 	private static Tiposervicio tiposerv;
 	private static Tipoestado tipoesta;
 	int p=0;
+	String h="";
 			
 	public ManagerRecursosVirtuales()
 	{
@@ -165,7 +166,18 @@ public class ManagerRecursosVirtuales implements Serializable{
 	}
 	
 	public void eliminarServicio(Integer id_servicio) throws Exception {
+		try
+		{
+		  Tiposervicio tpser = findServicioTipoByID(id_servicio);
+		  if(tpser.getServiciosvirtregis().isEmpty())
 		mDAO.eliminar(Tiposervicio.class, id_servicio);
+		  else 
+		  throw new Exception("No se elminio");
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
 	}
 	
 	// listar todos los registros 
@@ -214,7 +226,7 @@ public class ManagerRecursosVirtuales implements Serializable{
 	////METODO DE ENVIO DE CORREO
 		public boolean sendMail(String origen,String clave,String destinatario, String asunto, String mensaje) throws Exception{
 	        try
-	        {
+	        {	        	
 	            Properties props = new Properties();
 	            props.put("mail.smtp.host", "smtp.gmail.com");
 	            props.setProperty("mail.smtp.starttls.enable", "true");
@@ -241,11 +253,13 @@ public class ManagerRecursosVirtuales implements Serializable{
 	            t.connect(origen, clave);
 	            t.sendMessage(message, message.getAllRecipients());
 	            t.close();
+	            h="Enviado correctamente la notificacion";
 	            return true;
 	        }
 	        catch (Exception e)
-	        {
+	        {	        	
 	            e.printStackTrace();
+	            h="Error al  enviar la notificacion";
 	            return false;
 	        }        
 	    }

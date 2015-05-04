@@ -56,8 +56,9 @@
 				<p:ajax listener="#{serviciosVirtualesBean.Cargarregistros(reg)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
 				</p:commandButton>
 				<p:commandButton icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2"></p:commandButton>				
-				<p:commandButton icon="ui-icon-mail-closed" action="#{serviciosVirtualesBean.enviarmensaje(reg)}"  ></p:commandButton>
-				<a href="mailto:#{reg.correo}?subject=Notificacion de Centro de Emprendimiento&amp;body=El%20usuario%20#{reg.apellidos}%20con%20nombres%20#{reg.nombres}%20,%20se%20analizo%20su%20peticion%20para%20ingresar%20a%20#{reg.tiposervicio.nombreServicio}%20,%20su%20registro%20fue%20#{reg.tipoestado.nombreestado}">Enviar Notificación</a>
+				<p:commandButton  icon="ui-icon-mail-closed">
+				<p:ajax listener="#{serviciosVirtualesBean.enviarmensaje(reg)}"  update=":form2:panel2 :form2:message2" oncomplete="PF('dlg2').show();" />
+				</p:commandButton>			
 			</p:column>
 		</p:dataTable>
 		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Información" showEffect="clip" hideEffect="clip">
@@ -78,7 +79,11 @@
 			<h:outputText  id="est" readonly="true" value="#{serviciosVirtualesBean.tipoestado.nombreestado}"></h:outputText>											
 			<p:commandButton value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2" action="#{serviciosVirtualesBean.irAprovador}"></p:commandButton>
 		</p:panelGrid>
-		</p:dialog>			
+		</p:dialog>		
+		<p:dialog header="Información" modal="true" closable="false"  widgetVar="dlg2" minHeight="40"  showEffect="clip" hideEffect="clip">
+    		     <h:outputText value="La notifación al correo se ha enviado correctamente" /><br/>
+    			 <p:commandButton value="Volver" icon="ui-icon-close"   onclick="PF('dlg2').close();"  update=":form2:panel2"/>
+		    </p:dialog>			
 		<br/>
 		<h:outputText value="Exportar Listado:    "/><br/>    
 		<h:commandLink>

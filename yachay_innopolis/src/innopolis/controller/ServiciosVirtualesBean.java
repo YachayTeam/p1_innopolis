@@ -161,7 +161,7 @@ public class ServiciosVirtualesBean implements Serializable{
 			tema="";
 			apellidos="";
 			tipoestado = managerservirt.findEstadoTipoByID(1); // numero id del estado q quieres q sea
-			tiposervicio = null;
+			tiposervicio = new Tiposervicio();
 			idSvr=null;
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Registro Almacenado ") );

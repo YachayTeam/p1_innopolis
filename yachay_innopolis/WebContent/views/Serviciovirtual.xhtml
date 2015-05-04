@@ -22,25 +22,25 @@
 	<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2"  header="Registro de Servicios Virtuales">
 		<p:panelGrid columns="2" >
-		<h:outputText value="C&Eacute;DULA*"/>
+		<h:outputText value="C&eacute;dula*"/>
 			<p:inputText required="true" id="cedula" value="#{serviciosVirtualesBean.cedula}" maxlength="10" requiredMessage="Requerido Cedula 10 Digitos">
 			<f:validateLength minimum="10"/>
 			</p:inputText>
-			<h:outputText value="APELLIDOS*"/>
+			<h:outputText value="Apellidos"/>
 			<p:inputText required="true" id="apellidos" value="#{serviciosVirtualesBean.apellidos}" requiredMessage="Requerido Apellidos"></p:inputText>
-			<h:outputText value="NOMBRES*"/>
+			<h:outputText value="Nombres*"/>
 			<p:inputText required="true" id="nombres" value="#{serviciosVirtualesBean.nombres}" requiredMessage="Requerido Nombres"></p:inputText>			
-			<h:outputText value="CORREO*"/>
+			<h:outputText value="Correo*"/>
 			<p:inputText required="true" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{serviciosVirtualesBean.correo}">
 			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			</p:inputText>
 			<p:watermark for="correo" value="Dirección de correo *" />
 			<p:message for="correo" />
-			<h:outputText value="TEMA*"/>
+			<h:outputText value="Tema*"/>
 			<p:inputTextarea required="true" id="tema" value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido Tema">
 			<f:validateLength minimum="20"/>
 			</p:inputTextarea>
-			<h:outputText value="SERVICIO*"/>
+			<h:outputText value="Servicio*"/>
 			<h:panelGroup>  
 					<p:selectOneMenu required="true" value="#{serviciosVirtualesBean.tiposervicio.idTp}"  requiredMessage="Requerido Servicio">
 						<f:selectItem  itemLabel="Seleccione Servicio" itemValue=""  />
