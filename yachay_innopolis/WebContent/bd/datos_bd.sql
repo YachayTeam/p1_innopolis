@@ -17,9 +17,9 @@ INSERT INTO soliciestado VALUES (2, 'finalizado');
 INSERT INTO soliciestado VALUES (3, 'aprobado');
 INSERT INTO soliciestado VALUES (4, 'negado');
 
-INSERT INTO solicicabecera VALUES (1, 1, 'ojon', 'ojos', 'ojos', 'ojos', '2015-07-07', '12:00', '15:00');
-INSERT INTO solicicabecera VALUES (2, 1, 'ojon', 'ojos', 'ojos', 'ojos', '2015-07-07', '12:00', '15:00');
-INSERT INTO solicicabecera VALUES (3, 1, 'ojon', 'ojos', 'ojos', 'ojos', '2015-07-07', '12:00', '15:00');
+INSERT INTO solicicabecera VALUES (1, 1, 'ojon', 'ojos', 'ojos', 'ojos', '2015-07-07', '12:00', '15:00','no notificado');
+INSERT INTO solicicabecera VALUES (2, 1, 'ojon', 'ojos', 'ojos', 'ojos', '2015-07-07', '12:00', '15:00','no notificado');
+INSERT INTO solicicabecera VALUES (3, 1, 'ojon', 'ojos', 'ojos', 'ojos', '2015-07-07', '12:00', '15:00','no notificado');
 
 INSERT INTO solicidetalle VALUES (default, 1, 1, 20);
 INSERT INTO solicidetalle VALUES (default, 2, 2, 200);
