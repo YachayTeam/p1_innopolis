@@ -54,12 +54,16 @@
 			<p:column id="f4" filterBy="#{reg.sms}" headerText="NOTIFICADO">
 			<h:outputText value="#{reg.sms}"></h:outputText>
 			</p:column>
-			<p:column headerText="MODIFICAR" exportable="false">
-				<p:commandButton  icon="ui-icon-pencil">
+			<p:column headerText="OPCIONES" exportable="false">
+				<p:commandButton  icon="ui-icon-pencil" id="track">
+				<p:tooltip id="toolTipTrack1" for="track" value="Botón para observar la Información del Registro" trackMouse="true" />
 				<p:ajax listener="#{serviciosVirtualesBean.Cargarregistros(reg)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
 				</p:commandButton>
-				<p:commandButton icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2"></p:commandButton>				
-				<p:commandButton  icon="ui-icon-mail-closed">
+				<p:commandButton id="trackcambio" icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2">
+				<p:tooltip id="toolTipTrack2" for="trackcambio" value="Botón para Cambiar el Estado" trackMouse="true" />
+				</p:commandButton>				
+				<p:commandButton  icon="ui-icon-mail-closed" id="trackenvio">
+				<p:tooltip id="toolTipTrack3" for="trackenvio" value="Botón para Enviar una Notificación" trackMouse="true" />
 				<p:ajax listener="#{serviciosVirtualesBean.enviarmensaje(reg)}" oncomplete="PF('dlg2').show();"  update=":form2:panel2 :form2:message2"/>
 				</p:commandButton>			
 			</p:column>
@@ -92,11 +96,15 @@
 		<br/>
 		<h:outputText value="Exportar Listado:    "/><br/>    
 		<h:commandLink>
-		<p:commandButton value="Excel" icon="ui-icon-calculator" ></p:commandButton>
+		<p:commandButton value="Excel" icon="ui-icon-calculator" id="trackimporte">
+		<p:tooltip id="toolTipTrack4" for="trackimporte" value="Botón para Importar la Tabla Formato Excel" trackMouse="true" />
+		</p:commandButton>
         <p:dataExporter type="xls" target="dt" fileName="Lista"/>
     	</h:commandLink>
     	<h:commandLink>
-		<p:commandButton value="PDF" icon="ui-icon-document"  ></p:commandButton>
+		<p:commandButton value="PDF" icon="ui-icon-document" id="trackimportp">
+		<p:tooltip id="toolTipTrack5" for="trackimportp" value="Botón para Importar la Tabla Formato PDF" trackMouse="true" />
+		</p:commandButton>
         <p:dataExporter type="pdf" target="dt" fileName="Lista"/>
     	</h:commandLink>    	    	
 	</p:panel>

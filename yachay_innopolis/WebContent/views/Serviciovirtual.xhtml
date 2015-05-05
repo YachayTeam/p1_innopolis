@@ -50,9 +50,12 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>							
-			<p:commandButton value="Registrarme" action="#{serviciosVirtualesBean.crearRegistroServ}" update=":form2:panel2 :form2:message2"  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').show();">
+			<p:commandButton id="trackregistrar" value="Registrarme" action="#{serviciosVirtualesBean.crearRegistroServ}" update=":form2:panel2 :form2:message2"  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').show();">
+			<p:tooltip id="toolTipTrac1" for="trackregistrar" value="Botón para Registrarse al Servicio" trackMouse="true" />
 			</p:commandButton>				
-			<p:button href="http://www.google.com" value="Volver" />			
+			<p:button id="trackvolver1" href="http://www.google.com" value="Volver">
+			<p:tooltip id="toolTipTrac2" for="trackvolver1" value="Botón para Volver Innopolis" trackMouse="true" />
+			</p:button>			
 		</p:panelGrid>
 	</p:panel>
 </h:form>
