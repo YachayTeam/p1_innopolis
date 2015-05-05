@@ -25,15 +25,23 @@
 	<p:growl id="message" showDetail="true" />
 	<p:panel id="panel1"  header="Registro de Recursos">
 		<p:panelGrid styleClass="pg1" columns="2" >
-			<h:outputText value="NOMBRE*"/>
-			<p:inputText styleClass="t" required="true" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido"></p:inputText>
-			<h:outputText value="CAPACIDAD"/>
-			<p:inputText styleClass="t" required="false" id="can" value="#{recursosBean.capacidad}" requiredMessage="Requerido"></p:inputText>
-			<h:outputText value="DESCRIPCION"/>
-			<p:inputTextarea styleClass="t" required="false" id="des" value="#{recursosBean.descripcion}" requiredMessage="Requerido"></p:inputTextarea>
-			<h:outputText value="LUGAR"/>
-			<p:inputText styleClass="t" required="false" id="lug" value="#{recursosBean.lugar}" requiredMessage="Requerido"></p:inputText>
-			<h:outputText value="TIPO_RECURSO"/>
+			<h:outputText value="NOMBRE *"/>
+			<p:inputText styleClass="t" required="true" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
+			<h:outputText value="CAPACIDAD *"/>
+			<p:inputText styleClass="t" required="true" id="can" value="#{recursosBean.capacidad}" requiredMessage="Requerido" validatorMessage="Numeros entre 1 y 1000">
+				<f:validateLongRange minimum="1" maximum="1000"/>
+			</p:inputText>
+			<h:outputText value="DESCRIPCION *"/>
+			<p:inputTextarea styleClass="t" required="false" id="des" value="#{recursosBean.descripcion}" requiredMessage="Requerido" validatorMessage="No debe contener caracteres especiales">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9]+"/>
+			</p:inputTextarea>
+			<h:outputText value="LUGAR *"/>
+			<p:inputText styleClass="t" required="false" id="lug" value="#{recursosBean.lugar}" requiredMessage="Requerido" validatorMessage="No debe contener caracteres especiales">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9]+"/>
+			</p:inputText>
+			<h:outputText value="TIPO_RECURSO *"/>
 			<h:panelGroup>  
 					<p:selectOneMenu styleClass="t" value="#{recursosBean.rt}">
 						<f:selectItem  itemLabel="Seleccione...!!!!" itemValue="-1" />
@@ -82,15 +90,23 @@
 		
 <p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Recurso" showEffect="clip" hideEffect="clip">
 	<p:panelGrid columns="2" >
-			<h:outputText value="NOMBRE*"/>
-			<p:inputText required="false" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido"></p:inputText>
-			<h:outputText value="CAPACIDAD"/>
-			<p:inputText required="false" id="can" value="#{recursosBean.capacidad}" requiredMessage="Requerido"></p:inputText>
-			<h:outputText value="DESCRIPCION"/>
-			<p:inputTextarea required="false" id="des" value="#{recursosBean.descripcion}" requiredMessage="Requerido"></p:inputTextarea>
-			<h:outputText value="LUGAR"/>
-			<p:inputText required="false" id="lug" value="#{recursosBean.lugar}" requiredMessage="Requerido"></p:inputText>
-			<h:outputText value="TIPO_RECURSO"/>
+			<h:outputText value="NOMBRE *"/>
+			<p:inputText required="false" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
+			<h:outputText value="CAPACIDAD *"/>
+			<p:inputText required="false" id="can" value="#{recursosBean.capacidad}" requiredMessage="Requerido" validatorMessage="Numeros entre 1 y 1000">
+				<f:validateLongRange minimum="1" maximum="1000"/>
+			</p:inputText>
+			<h:outputText value="DESCRIPCION *"/>
+			<p:inputTextarea required="false" id="des" value="#{recursosBean.descripcion}" requiredMessage="Requerido"  validatorMessage="No debe contener caracteres especiales">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9]+"/>
+		    </p:inputTextarea>
+			<h:outputText value="LUGAR *"/>
+			<p:inputText required="false" id="lug" value="#{recursosBean.lugar}" requiredMessage="Requerido" validatorMessage="No debe contener caracteres especiales">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9]+"/>
+			</p:inputText>
+			<h:outputText value="TIPO_RECURSO *"/>
 			<h:panelGroup>  
 					<p:selectOneMenu value="#{recursosBean.rt}">
 						<f:selectItem  itemLabel="Seleccione...!!!!" itemValue="-1" />
@@ -101,7 +117,7 @@
 					</p:selectOneMenu>
 			</h:panelGroup>
 			<p:commandButton update="message2" value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{recursosBean.actualizarRecurso}"></p:commandButton>
-				<p:commandButton update=":form2:panel2" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursosBean.irRecurso}"></p:commandButton>
+			<p:commandButton update=":form2:panel2" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursosBean.irRecurso}"></p:commandButton>
 		</p:panelGrid>
 </p:dialog>		
 	</p:panel>	

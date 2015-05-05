@@ -38,6 +38,7 @@ public class RecursosBean {
 	
 	public RecursosBean(){
 		manager = new ManagerReservas();
+		imagen = "";
 	}
 	
 	public Integer getIdRecurso() {
@@ -108,127 +109,117 @@ public class RecursosBean {
 		return manager.findAllRecurso();
 	}
 
-		//accion para invocar el manager y crear recurso
-		public String crearRecurso(){
+	//accion para invocar el manager y crear recurso
+	public String crearRecurso(){
+		if(getRt().equals(-1) || getRt().equals(0) || getRd()==null){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Seleccione tipo recurso",null));
+		}else{
 			try {
 				manager.insertarRecurso(capacidad, descripcion, lugar, nombre, imagen);
 				//reiniciamos datos (limpiamos el formulario)
-				capacidad=null;
-				descripcion="";
-				lugar="";
-				nombre="";
-				imagen="";
-				rd=1;
-				rt=0;
-				FacesContext context = FacesContext.getCurrentInstance();
-		        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Recurso Almacenado ") );
+				capacidad=0;descripcion="";lugar="";nombre="";imagen="";rd=1;rt=0;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registrado..!!!",  "Recurso Almacenado ") );
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al crear recurso",null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
 			};
-			return "recurso";
 		}
+		return "";
+	}
 		
-		//metodo para mostrar los RecursosTipos en Recursos
-				public List<SelectItem> getListaRecTipo(){
-					List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-					List<Recursotipo> listadoRecursos=manager.findAllTipoRecurso();
-					
-					for(Recursotipo t:listadoRecursos){
-						SelectItem item=new SelectItem(t.getIdRectipo(),t.getTipo());
-						listadoSI.add(item);
-					}
-					return listadoSI;
-				}
+	//metodo para mostrar los RecursosTipos en Recursos
+	public List<SelectItem> getListaRecTipo(){
+		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+		List<Recursotipo> listadoRecursos=manager.findAllTipoRecurso();
+		
+		for(Recursotipo t:listadoRecursos){
+			SelectItem item=new SelectItem(t.getIdRectipo(),t.getTipo());
+			listadoSI.add(item);
+		}
+		return listadoSI;
+	}
+
+	//metodo para asignar el RecursoTipo al Recurso
+	public String asignarRecTipo(){
+		manager.asignarRecursoTipo(rt);
+		return "";
+	}
 	
-				//metodo para asignar el RecursoTipo al Recurso
-				public String asignarRecTipo(){
-					manager.asignarRecursoTipo(rt);
-					return "";
-				}
-				
-				//metodo para mostrar los RecursosDisponibles en Recursos
-				public List<SelectItem> getListaRecDisponibles(){
-					List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-					List<Recursodisponible> listadoRecursos=manager.findAllRecursoDisponibles();
-					
-					for(Recursodisponible t:listadoRecursos){
-						SelectItem item=new SelectItem(t.getIdRecdisponible(),t.getDisponible());
-						listadoSI.add(item);
-					}
-					return listadoSI;
-				}
+	//metodo para mostrar los RecursosDisponibles en Recursos
+	public List<SelectItem> getListaRecDisponibles(){
+		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+		List<Recursodisponible> listadoRecursos=manager.findAllRecursoDisponibles();
+		
+		for(Recursodisponible t:listadoRecursos){
+			SelectItem item=new SelectItem(t.getIdRecdisponible(),t.getDisponible());
+			listadoSI.add(item);
+		}
+		return listadoSI;
+	}
+
+	//metodo para asignar el RecursoDisponible al Recurso
+	public String asignarRecDisponible(){
+		manager.asignarRecursoDisponible(rd);
+		return "";
+	}
 	
-				//metodo para asignar el RecursoDisponible al Recurso
-				public String asignarRecDisponible(){
-					manager.asignarRecursoDisponible(rd);
-					return "";
-				}
-				
-				//accion para cargar los datos en el formulario
-				public String cargarRecursos(Recurso t){
-					idRecurso=t.getIdRecurso();
-					capacidad=t.getCapacidad();
-					nombre= t.getNombre();
-					lugar=t.getLugar();
-					descripcion=t.getDescripcion();
-					imagen=t.getImagen();
-					rt=t.getRecursotipo().getIdRectipo();
-					return "modrecurso";
-				}
-				
-				//accion para modificar los recursos
-				public String actualizarRecurso(){
-					manager.editarRecurso(idRecurso, capacidad, descripcion, lugar, nombre);
-					//limpiamos los datos
-					capacidad=null;
-					descripcion="";
-					lugar="";
-					nombre="";
-					imagen="";
-					rd=1;
-					rt=0;
-					FacesContext context = FacesContext.getCurrentInstance();
-			        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
-					return "recurso";
-					
-				}
-				
-				//activar y desactivar
-				public String cambiarEstado(Recurso r){
-					try {
-						FacesContext context = FacesContext.getCurrentInstance();
-				        context.addMessage(null, new FacesMessage("INFORMACION",manager.cambioDisRecurso(r.getIdRecurso())));
-						
-					} catch (Exception e) {
-						System.out.println(e.getMessage());
-					}
-					return "";
-				}
-				
-				//------ traslados--------
-				
-				public String irRecurso(){
-					FacesContext context = FacesContext.getCurrentInstance();
-			        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cancelado!", "Actualizacion Cancelada"));
-			      //limpiamos los datos
-					capacidad=null;
-					descripcion="";
-					lugar="";
-					nombre="";
-					imagen="";
-					rd=1;
-					rt=0;
-					return "recurso";					
-				}
-				
-				public String irRec(){
-					return "recurso";
-				}
-				
-				public String irTrecurso(){
-					return "rectipo";
-				}
+	//accion para cargar los datos en el formulario
+	public String cargarRecursos(Recurso t){
+		idRecurso=t.getIdRecurso();
+		capacidad=t.getCapacidad();
+		nombre= t.getNombre();
+		lugar=t.getLugar();
+		descripcion=t.getDescripcion();
+		imagen=t.getImagen();
+		rt=t.getRecursotipo().getIdRectipo();
+		return "";
+	}
+	
+	//accion para modificar los recursos
+	public String actualizarRecurso(){
+		manager.editarRecurso(idRecurso, capacidad, descripcion, lugar, nombre);
+		//limpiamos los datos
+		capacidad=0;descripcion="";lugar="";nombre="";imagen="";rd=1;rt=0;
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
+		return "";
+		
+	}
+	
+	//activar y desactivar
+	public String cambiarEstado(Recurso r){
+		try {
+			FacesContext context = FacesContext.getCurrentInstance();
+	        context.addMessage(null, new FacesMessage("INFORMACION",manager.cambioDisRecurso(r.getIdRecurso())));
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "";
+	}
+	
+	//------ traslados--------
+	
+	public String irRecurso(){
+		FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cancelado!", "Actualizacion Cancelada"));
+      //limpiamos los datos
+		capacidad=0;
+		descripcion="";
+		lugar="";
+		nombre="";
+		imagen="";
+		rd=1;
+		rt=0;
+		return "";					
+	}
+	
+	public String irRec(){
+		return "recurso";
+	}
+	
+	public String irTrecurso(){
+		return "rectipo";
+	}
 				
 			
 	
