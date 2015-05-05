@@ -22,13 +22,21 @@
 		<p:panel header="Datos de Solicitud">
 			<p:panelGrid columns="2">
 				<h:outputText value="Direcci&oacute;n" style="font-weight: bold"/>
-				<p:inputText required="true" value="#{solicitudBean.direccion}" requiredMessage="Campo Direccion Requerida"></p:inputText>
+				<p:inputText required="true" value="#{solicitudBean.direccion}" requiredMessage="Campo Direccion Requerida" validatorMessage="No debe contener caracteres especiales">
+					<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9]+"/>
+				</p:inputText>
 				<h:outputText value="Actividad" style="font-weight: bold"/>
-				<p:inputTextarea value="#{solicitudBean.actividad}"></p:inputTextarea>
+				<p:inputTextarea value="#{solicitudBean.actividad}" validatorMessage="No debe contener caracteres especiales">
+					<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9]+"/>
+				</p:inputTextarea>
 				<h:outputText value="Objetivo" style="font-weight: bold"/>
-				<p:inputTextarea value="#{solicitudBean.objetivo}"></p:inputTextarea>
+				<p:inputTextarea value="#{solicitudBean.objetivo}" validatorMessage="No debe contener caracteres especiales">
+					<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9]+"/>
+				</p:inputTextarea>
 				<h:outputText value="Justificaci&oacute;n" style="font-weight: bold"/>
-				<p:inputTextarea value="#{solicitudBean.justificacion}"></p:inputTextarea>
+				<p:inputTextarea value="#{solicitudBean.justificacion}" validatorMessage="No debe contener caracteres especiales">
+					<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9]+"/>
+				</p:inputTextarea>
 				<h:outputText value="Fecha de solicitud:" style="font-weight: bold" />
 				<p:calendar required="true" requiredMessage="Campo Calendario Requerida" id="fecha" value="#{solicitudBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
 				<h:outputText value="Hora Inicio para Recurso:" style="font-weight: bold" />

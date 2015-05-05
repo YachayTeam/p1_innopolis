@@ -28,7 +28,9 @@
 	<p:panel id="panel1"  header="Registro de Tipos de Recursos">
 		<p:panelGrid columns="2" >
 			<h:outputText value="TIPO *"/>
-			<p:inputText required="true" id="tipo" value="#{recursotipoBean.tipo}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText required="true" id="tipo" value="#{recursotipoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
 			<p:commandButton update="panel1 :form2:panel2 message" value="Insertar" action="#{recursotipoBean.crearNuevoRecursoTipo}"></p:commandButton>
 		</p:panelGrid>
 	</p:panel>
@@ -53,7 +55,9 @@
 			<h:outputText value="IDENTIFICACI&Oacute;N"/>
 			<h:outputText value="#{recursotipoBean.idRectipo}" ></h:outputText>
 			<h:outputText value="TIPO *"/>
-			<p:inputText required="false" id="can" value="#{recursotipoBean.tipo}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText required="false" id="can" value="#{recursotipoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
 			<p:commandButton update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-refresh" action="#{recursotipoBean.modificarRecursoTipo}"></p:commandButton>
 			<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursotipoBean.cancelarModificacion}"></p:commandButton>
 		</p:panelGrid>

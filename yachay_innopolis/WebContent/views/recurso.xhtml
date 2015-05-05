@@ -90,6 +90,8 @@
 		
 <p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Recurso" showEffect="clip" hideEffect="clip">
 	<p:panelGrid columns="2" >
+			<h:outputText value="ID"/>
+			<h:outputText value="#{recursosBean.idRecurso}"></h:outputText>
 			<h:outputText value="NOMBRE *"/>
 			<p:inputText required="false" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
