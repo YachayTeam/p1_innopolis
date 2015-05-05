@@ -33,11 +33,32 @@ public class Validacion {
 		return resp;
 	}
 	
+	//FECHA IGUAL PARA COMPARAR HORAS
+	public static boolean fechaIgualActual(Date fecha_propuesta){
+		boolean resp = false;
+		Date fecha_actual = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		if (dateFormat.format(fecha_actual).equals(dateFormat.format(fecha_propuesta))){
+			resp = true;
+		}
+		return resp;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static Time fechaAtiempo(Date fecha){
+		DateFormat dateFormatH = new SimpleDateFormat("HH:mm");
+		String hora = dateFormatH.format(fecha).toString();
+		String [] array = hora.split(":");
+		Time resp = new Time(Integer.parseInt(array[0]), Integer.parseInt(array[1]), 00);
+		return resp;	
+	}
+	
 	//HORA MAYOR IGUAL QUE HORA ACTUAL
 	public static boolean horaMayorIgual(Time hora){
 		boolean resp = false;
 		Date fecha_actual = new Date();
-		if(hora.getTime()>=fecha_actual.getTime()){
+		Time tiempo_actual = fechaAtiempo(fecha_actual); 
+		if(hora.getTime()>=tiempo_actual.getTime()){
 			resp = true;
 		}
 		return resp;

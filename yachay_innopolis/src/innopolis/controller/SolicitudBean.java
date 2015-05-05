@@ -221,19 +221,11 @@ public class SolicitudBean {
 			//Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(getH_inicio()));
 			setHorafin(this.fechaAtiempo(getH_fin()));
-			if(!Validacion.isOnlyString(getDireccion())){	
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La dirección solo debe contener letras.", null));
-			}else if(!Validacion.isOnlyStringDescription(getActividad())){	
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La actividad posee caracteres especiales", null));
-			}else if(!Validacion.isOnlyStringDescription(getObjetivo())){	
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "El objetivo posee caracteres especiales", null));
-			}else if(!Validacion.isOnlyStringDescription(getJustificacion())){	
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La justificacion posee caracteres especiales", null));
-			}else if(!Validacion.fechaMayorIgual(getFecha())){	
+			if(!Validacion.fechaMayorIgual(getFecha())){	
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual.", null));
 			}else if(getHorafin().getTime()<=getHorainicio().getTime()){
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
-			}else if(!Validacion.horaMayorIgual(getHorainicio()) || !Validacion.horaMayorIgual(getHorafin())){
+			}else if(Validacion.fechaIgualActual(getFecha()) && (!Validacion.horaMayorIgual(getHorainicio()) || !Validacion.horaMayorIgual(getHorafin()))){
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La hora de solicitud no debe ser menor a la actual.", null));
 			}else{
 				//SolicitudTemporal

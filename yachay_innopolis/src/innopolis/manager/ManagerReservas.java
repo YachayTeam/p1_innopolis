@@ -27,120 +27,120 @@ private ManagerDAO mDAO;
 	private Solicicabecera soliTemp;
 	
 	//Almacenar tipos y estados
-			private static Recursotipo rt;
-			private static Recursodisponible rd;
-			private static Recurso r;
+	private static Recursotipo rt;
+	private static Recursodisponible rd;
+	private static Recurso r;
 		
-		public ManagerReservas()
-		{
-			mDAO= new ManagerDAO();
-		}
-		
-		// ------RECURSOS-------
-		
-		// listar todos los recursos 
-		@SuppressWarnings("unchecked")
-		public List<Recurso> findAllRecurso(){
-			return mDAO.findAll(Recurso.class);
-		}
-		
-		// listar todos los RecursosDisponibles 
-		@SuppressWarnings("unchecked")
-		public List<Recursodisponible> findAllRecursoDisponibles(){
-			return mDAO.findAll(Recursodisponible.class);		
-		}
-					
-	   //buscar recurso por ID
-		public Recurso findRecursoByID(Integer id_recurso) throws Exception{
-			return (Recurso) mDAO.findById(Recurso.class, id_recurso);
-		}
-		
-		//buscar RecursoDisponible por ID
-		public Recursodisponible findRecursoDisponibleByID(Integer id_rec_disponible) throws Exception{
-			return (Recursodisponible) mDAO.findById(Recursodisponible.class, id_rec_disponible);
-		}
-		
-		//insertar los recursos
-		public void insertarRecurso(Integer capacidad, String descripcion, String lugar, String nombre, String imagen ) throws Exception{
-			Recurso r = new Recurso();
+	public ManagerReservas()
+	{
+		mDAO= new ManagerDAO();
+	}
+	
+	// ------RECURSOS-------
+	
+	// listar todos los recursos 
+	@SuppressWarnings("unchecked")
+	public List<Recurso> findAllRecurso(){
+		return mDAO.findAll(Recurso.class);
+	}
+	
+	// listar todos los RecursosDisponibles 
+	@SuppressWarnings("unchecked")
+	public List<Recursodisponible> findAllRecursoDisponibles(){
+		return mDAO.findAll(Recursodisponible.class);		
+	}
+				
+   //buscar recurso por ID
+	public Recurso findRecursoByID(Integer id_recurso) throws Exception{
+		return (Recurso) mDAO.findById(Recurso.class, id_recurso);
+	}
+	
+	//buscar RecursoDisponible por ID
+	public Recursodisponible findRecursoDisponibleByID(Integer id_rec_disponible) throws Exception{
+		return (Recursodisponible) mDAO.findById(Recursodisponible.class, id_rec_disponible);
+	}
+	
+	//insertar los recursos
+	public void insertarRecurso(Integer capacidad, String descripcion, String lugar, String nombre, String imagen ) throws Exception{
+		Recurso r = new Recurso();
+		r.setCapacidad(capacidad);
+		r.setDescripcion(descripcion);
+		r.setLugar(lugar);
+		r.setNombre(nombre);
+		r.setImagen(imagen);
+		r.setRecursotipo(rt);
+		r.setRecursodisponible(this.findRecursoDisponibleByID(1));
+		mDAO.insertar(r);
+	}
+	
+	//editar los recursos
+	public void editarRecurso(Integer idRecurso, Integer capacidad, String descripcion, String lugar, String nombre){
+		try {
+			Recurso r = this.findRecursoByID(idRecurso);
 			r.setCapacidad(capacidad);
 			r.setDescripcion(descripcion);
 			r.setLugar(lugar);
 			r.setNombre(nombre);
-			r.setImagen(imagen);
 			r.setRecursotipo(rt);
-			r.setRecursodisponible(this.findRecursoDisponibleByID(1));
-			mDAO.insertar(r);
+			mDAO.actualizar(r);
+		} catch (Exception e) {
+			System.out.println("Error_mod_recurso");
+			e.printStackTrace();
 		}
-		
-		//editar los recursos
-		public void editarRecurso(Integer idRecurso, Integer capacidad, String descripcion, String lugar, String nombre){
-			try {
-				Recurso r = this.findRecursoByID(idRecurso);
-				r.setCapacidad(capacidad);
-				r.setDescripcion(descripcion);
-				r.setLugar(lugar);
-				r.setNombre(nombre);
-				r.setRecursotipo(rt);
-				mDAO.actualizar(r);
-			} catch (Exception e) {
-				System.out.println("Error_mod_recurso");
-				e.printStackTrace();
+	}
+	
+	//metodo para asignar el RecursoTipo al Recurso
+ 	public Recursotipo asignarRecursoTipo(Integer idRecTipo) {
+ 		try {
+			rt=findRecursoTipoByID(idRecTipo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		return rt;
+	}
+ 	
+ 	 	
+ 	 //metodo para asignar el RecursoDisponible al Recurso
+ 	public Recursodisponible asignarRecursoDisponible(Integer idRecDisponible) {
+ 		try {
+			rd=findRecursoDisponibleByID(idRecDisponible);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		return rd;
+	}
+ 	 	
+ 	 //desactivar y activar Recurso
+	public String cambioDisRecurso(Integer id) throws Exception{
+		List<Recursosactivo> lista= findAllRecursosSolicitados();
+		int p=0;
+		String h="";
+		for (Recursosactivo ra: lista){
+			if (ra.getIdRecurso().equals(id)){
+				p=1;
 			}
 		}
-		
-		//metodo para asignar el RecursoTipo al Recurso
-	 	public Recursotipo asignarRecursoTipo(Integer idRecTipo) {
-	 		try {
-				rt=findRecursoTipoByID(idRecTipo);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	 		return rt;
-		}
-	 	
-	 	 	
-	 	 //metodo para asignar el RecursoDisponible al Recurso
- 	 	public Recursodisponible asignarRecursoDisponible(Integer idRecDisponible) {
- 	 		try {
-				rd=findRecursoDisponibleByID(idRecDisponible);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
- 	 		return rd;
- 		}
-	 	 	
-	 	 //desactivar y activar Recurso
- 		public String cambioDisRecurso(Integer id) throws Exception{
-			List<Recursosactivo> lista= findAllRecursosSolicitados();
-			int p=0;
-			String h="";
-			for (Recursosactivo ra: lista){
-				if (ra.getIdRecurso().equals(id)){
-					p=1;
-				}
-			}
-				Recurso r = findRecursoByID(id);
-	 			Recursodisponible t= new Recursodisponible();
-				if(r.getRecursodisponible().getDisponible().equals("Activado") && p==0){
-					t.setIdRecdisponible(2);
-					t.setDisponible("Desactivado");
-					r.setRecursodisponible(t);
-					h="Estado del recurso modificado";
-	 			}
-				else if(r.getRecursodisponible().getDisponible().equals("Activado") && p==1) {
-					h="Recurso ocupado no puede ser modificado";
-	 			}
-				else if(r.getRecursodisponible().getDisponible().equals("Desactivado")){
-					t.setIdRecdisponible(1);
-					t.setDisponible("Activado");
-					r.setRecursodisponible(t);
-					h="Estado del recurso modificado";
-	 			}
-				mDAO.actualizar(r);
-				return h;
+			Recurso r = findRecursoByID(id);
+ 			Recursodisponible t= new Recursodisponible();
+			if(r.getRecursodisponible().getDisponible().equals("Activado") && p==0){
+				t.setIdRecdisponible(2);
+				t.setDisponible("Desactivado");
+				r.setRecursodisponible(t);
+				h="Estado del recurso modificado";
+ 			}
+			else if(r.getRecursodisponible().getDisponible().equals("Activado") && p==1) {
+				h="Recurso ocupado no puede ser modificado";
+ 			}
+			else if(r.getRecursodisponible().getDisponible().equals("Desactivado")){
+				t.setIdRecdisponible(1);
+				t.setDisponible("Activado");
+				r.setRecursodisponible(t);
+				h="Estado del recurso modificado";
+ 			}
+			mDAO.actualizar(r);
+			return h;
 	}
 	 		
     //Tipos Recursos
