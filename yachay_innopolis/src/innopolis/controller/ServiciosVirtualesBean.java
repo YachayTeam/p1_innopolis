@@ -31,6 +31,7 @@ public class ServiciosVirtualesBean implements Serializable{
 	private String correo;
 	private String nombres;
 	private String tema;
+	private String sms;
 	private List<Serviciosvirtregi> liservicioreg;
 	private List<Tiposervicio> tiposervli;
 	private List<Tipoestado> tipoestli;
@@ -41,7 +42,15 @@ public class ServiciosVirtualesBean implements Serializable{
 		managerservirt = new ManagerRecursosVirtuales();
 		tiposervicio = new Tiposervicio();
 				
+	}	
+	public String getSms() {
+		return sms;
 	}
+
+	public void setSms(String sms) {
+		this.sms = sms;
+	}
+
 	public Integer getIdestado() {
 		return idestado;
 	}
@@ -153,13 +162,14 @@ public class ServiciosVirtualesBean implements Serializable{
 	//metodo para crear registros
 	public String crearRegistroServ(){
 		try {
-			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo);
+			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo,sms);
 			//reiniciamos datos (limpiamos el formulario)
 			cedula=0;
 			nombres="";
+			apellidos="";
 			correo="";
 			tema="";
-			apellidos="";
+			sms="";			
 			tipoestado = managerservirt.findEstadoTipoByID(1); // numero id del estado q quieres q sea
 			tiposervicio = new Tiposervicio();
 			idSvr=null;
@@ -174,13 +184,14 @@ public class ServiciosVirtualesBean implements Serializable{
 	
 	//metodo para modificar los registros
 	public String actualizarRegistro(){
-		managerservirt.editarserviciovirtual(idSvr, new Integer(cedula), nombres, apellidos, tema, correo, tipoestado.getIdEstado(), tiposervicio.getIdTp());
+		managerservirt.editarserviciovirtual(idSvr, new Integer(cedula), nombres, apellidos, tema, correo, tipoestado.getIdEstado(), tiposervicio.getIdTp(),sms);
 		//limpiamos los datos
 		cedula=0;
 		nombres="";
 		correo="";
 		tema="";
 		apellidos="";
+		sms="";
 		try {
 			tipoestado = managerservirt.findEstadoTipoByID(1);
 		} catch (Exception e) {
@@ -205,6 +216,7 @@ public class ServiciosVirtualesBean implements Serializable{
 		tema= serv.getTema();
 		tipoestado= serv.getTipoestado();
 		tiposervicio= serv.getTiposervicio();
+		sms = serv.getSms(); 
 		return "modservedi";
 	}
 		
@@ -267,6 +279,7 @@ public class ServiciosVirtualesBean implements Serializable{
 		//metodo para cambiar el estado del registro
 		public String cambiarEstado(Serviciosvirtregi ser){
 			try {
+					managerservirt.cambioSMS(ser.getIdSvr());
 					FacesContext context = FacesContext.getCurrentInstance();
 		        	context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioDisEstado(ser.getIdSvr())));
 				} catch (Exception e) {
@@ -329,8 +342,9 @@ public class ServiciosVirtualesBean implements Serializable{
 		//correo
 		//Tomar el id de estado general id_estadoSolicitud
 		public String enviarmensaje(Serviciosvirtregi serv){
-			try {									
-				managerservirt.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", serv.getCorreo(), "Notificación de Centro de Emprendimiento","El usuario con apellido "+serv.getApellidos()+" con nombre "+serv.getNombres()+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+".");				
+			try {				
+				managerservirt.cambioSMSenvio(serv.getIdSvr());
+				managerservirt.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", serv.getCorreo(), "Notificación de Centro de Emprendimiento","El usuario con apellido "+serv.getApellidos()+" con nombre "+serv.getNombres()+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+".");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo", null));
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar correo", null));
@@ -338,4 +352,21 @@ public class ServiciosVirtualesBean implements Serializable{
 			
 			return "";	
 		}		
+		
+		//metodo para deshabilitar botones
+		 private boolean disable;
+
+		    public void MainTable()
+		    {
+		        disable = false;
+		    }
+		    public boolean isDisable()
+		    {
+		        return disable;
+		    }
+
+		    public void setDisable(boolean disable)
+		    {
+		        this.disable = disable;
+		    }
 }

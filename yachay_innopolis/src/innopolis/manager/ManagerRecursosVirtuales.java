@@ -90,13 +90,14 @@ public class ManagerRecursosVirtuales implements Serializable{
 					return (Tipoestado) mDAO.findById(Tipoestado.class, id_Ep);
 				}
 //insertar los serviciosvirtuales
-		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo) throws Exception{
+		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo, String sms) throws Exception{
 			Serviciosvirtregi svt = new Serviciosvirtregi();
 		    svt.setCedula(cedula);
 		    svt.setNombres(nombres);
 		    svt.setApellidos(apellidos);
 			svt.setCorreo(correo);
 			svt.setTema(tema);
+			svt.setSms("No Notificado");
 			//svt.setTipoestado(tipoesta);
 			svt.setTipoestado(this.EstadoByID(1));
 			svt.setTiposervicio(tiposerv);
@@ -118,7 +119,7 @@ public class ManagerRecursosVirtuales implements Serializable{
 	}
 
 	//editar los serviciosvirtuales
-	public void editarserviciovirtual(Integer id_Srv,Integer cedula, String nombres, String apellidos, String tema,String correo,Integer id_Estado, Integer id_serv){
+	public void editarserviciovirtual(Integer id_Srv,Integer cedula, String nombres, String apellidos, String tema,String correo,Integer id_Estado, Integer id_serv, String sms){
 		try{
 		Serviciosvirtregi svt = this.ServicioVirtualByID(id_Srv);
 	    svt.setCedula(cedula);
@@ -126,6 +127,7 @@ public class ManagerRecursosVirtuales implements Serializable{
 	    svt.setApellidos(apellidos);
 		svt.setCorreo(correo);
 		svt.setTema(tema);
+		svt.setSms(sms);
 		//svt.setTipoestado(tipoesta);
 		//svt.setTiposervicio(tiposerv);
 		svt.setTiposervicio(this.findServicioTipoByID(1));
@@ -186,8 +188,47 @@ public class ManagerRecursosVirtuales implements Serializable{
 		return mDAO.findAll(ServiciosVirtualesBean.class);
 	}
 	
-	 //desactivar y activar Recurso
+	//metodo para enviar el estado del mensaje si se envio
+	public String cambioSMSenvio(Integer id_Srv)  throws Exception{		
+		try
+		{
+			h="";
+			Serviciosvirtregi svt = this.ServicioVirtualByID(id_Srv);
+			if(svt.getSms().equals("No Notificado"))	
+			{
+				svt.setSms("Notificado");				
+				h="El usuario a sido notificado por correo";		
+			}
+			else if(svt.getSms().equals("Notificado"))
+			{
+				
+				h="Ya se ha enviado al correo la notificación";
+			}
+		}
+		catch (Exception e)
+		{
+			throw new Exception("No se envio el mensaje");	
+		}					
+		return h;
+	}
 	
+	public void cambioSMS(Integer id_Srv)  throws Exception{		
+		try
+		{
+			Serviciosvirtregi svt = this.ServicioVirtualByID(id_Srv);
+			if(svt.getSms().equals("Notificado"))	
+			{
+				svt.setSms("No Notificado");				
+				
+			}
+		}
+		catch (Exception e)
+		{
+			throw new Exception("error");	
+		}	
+	}
+	
+	 //desactivar y activar Recurso	
 		public String cambioDisEstado(Integer id) throws Exception{
 			List<Tipoestado> lista= findAllTipoEstado();
 			
@@ -197,7 +238,7 @@ public class ManagerRecursosVirtuales implements Serializable{
 					p=1;
 				}
 			}
-				Serviciosvirtregi ser = ServicioVirtualByID(id);
+			Serviciosvirtregi ser = ServicioVirtualByID(id);
  			Tipoestado est = new Tipoestado();
  			
 			if(ser.getTipoestado().getNombreestado().equals("Pendiente")){

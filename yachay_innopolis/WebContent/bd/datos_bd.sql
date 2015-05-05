@@ -10,6 +10,19 @@ insert into recurso values (default, 3, 1, 'Fab-Lab', 20, 'Descripcion fab-lab',
 insert into recurso values (default, 3, 1, 'Sala Samsung', 10, 'Descripcion samsung', 'Yachay',null);
 insert into recurso values (default, 3, 1, 'Cafetería', 15, 'Descripcion cafetería', 'Yachay',null);
 
+/**********Servicios Virtuales**********/
+
+insert into tiposervicio values (default, 'Global Entrepreur Program');
+insert into tiposervicio  values (default, 'Bluemix');
+insert into tiposervicio  values (default, 'IaaS para Emprendedores');
+
+insert into tipoestado values (default, 'Pendiente');
+insert into tipoestado values (default, 'Aprobado');
+insert into tipoestado values (default, 'Negado');
+
+insert into serviciosvirtregis values (default, 1, 1, 1002646659, 'luis', 'correa', 'luiscorrea1988@hotmail.com','estudiosnsdjsndjsndjsndjsndsj',' No Notificado');
+
+
 /**********SOLICITUD**********/
 
 INSERT INTO soliciestado VALUES (1, 'pendiente');
