@@ -210,7 +210,8 @@ private ManagerDAO mDAO;
 	public Solicicabecera crearSolicitudTmp(String direccion, String actividad, String objetivo, String justificacion,Date fecha, Time horafin, Time horainicio) throws Exception{
 		soliTemp=new Solicicabecera();
 		soliTemp.setActividad(actividad);soliTemp.setDireccion(direccion);
-		soliTemp.setObjetivo(objetivo);soliTemp.setJustificacion(justificacion);soliTemp.setFecha(fecha);
+		soliTemp.setObjetivo(objetivo);soliTemp.setJustificacion(justificacion);
+		soliTemp.setSms("sin notificar");soliTemp.setFecha(fecha);
 		soliTemp.setHorainicio(horainicio);soliTemp.setHorafin(horafin);
 		//OJO ESTADOS
 		soliTemp.setSoliciestado(findSolicitudEstadoByID(1));//1 Pendiente
@@ -526,6 +527,13 @@ private ManagerDAO mDAO;
 	public void aprobarSolicitudMOD(Integer id_solicitud) throws Exception{
 		Solicicabecera sol = findSolicitudCabeceraById(id_solicitud);
 		sol.setSoliciestado(findSolicitudEstadoByID(3));//VER SOL ESTADO APROBADO
+		mDAO.actualizar(sol);
+	}
+	
+	//NOTIFICAR SOLICITUD
+	public void notificarSolicitud(Integer id_solicitud) throws Exception{
+		Solicicabecera sol = findSolicitudCabeceraById(id_solicitud);
+		sol.setSms("notificada");
 		mDAO.actualizar(sol);
 	}
 	

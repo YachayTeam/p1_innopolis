@@ -31,6 +31,7 @@ public class SolicitudBean {
 	private String actividad;
 	private String justificacion;
 	private String objetivo;
+	private String notificacion;
 	private Date fecha; 
 	private Time horafin; 
 	private Time horainicio;
@@ -135,6 +136,14 @@ public class SolicitudBean {
 	
 	public void setJustificacion(String justificacion) {
 		this.justificacion = justificacion;
+	}
+	
+	public String getNotificacion() {
+		return notificacion;
+	}
+	
+	public void setNotificacion(String notificacion) {
+		this.notificacion = notificacion;
 	}
 
 	public Date getFecha() {
@@ -275,7 +284,7 @@ public class SolicitudBean {
 		try {
 			manager.guardarSolicitudTemporal(solicitudCabTem);
 			solicitudCabTmpGuardada=true;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Su solicitud fue enviada espere el SMS de confirmacion."));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Su solicitud fue enviada espere el correo de confirmacion."));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
 		}
@@ -323,11 +332,9 @@ public class SolicitudBean {
 	//-----------------------------APROBADOR------------------------------------------------------//
 	//Tomar el id de estado general id_estadoSolicitud
 	public String aprobarEstado(Solicicabecera solicitud){
-		 String j="Le informamos que la solicitud de: "+solicitud.getActividad()+" ,fue aprobada para la fecha:"+solicitud.getFecha().toString();
 		try {
 			Soliciestado estado = manager.findSolicitudEstadoByID(3);//APROBADO
 			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
-			manager.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", j);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cambio correcto de estado", null));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al cambiar el estado", null));
@@ -337,17 +344,32 @@ public class SolicitudBean {
 	}
 	
 	public String negarEstado(Solicicabecera solicitud){
-		String j="Le informamos que la solicitud de: "+solicitud.getActividad()+" ,fue negada para la fecha:"+solicitud.getFecha().toString();
 		try {
 			Soliciestado estado = manager.findSolicitudEstadoByID(4);//NEGADO
 			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
-			manager.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", j);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cambio correcto de estado", null));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al cambiar el estado", null));
 		}
 		
 		return "";	
+	}
+	
+	public String notificarSolicitud(Solicicabecera solicitud){
+		//Si el estado es pendiente o finalizado no se puede notificar
+		if(solicitud.getSoliciestado().getEstado().equals("finalizado") || solicitud.getSoliciestado().getEstado().equals("pendiente")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La solicitud debe estar aprobada o negada para realizar una notificacion", null));
+		}else{
+			String mensaje="Le informamos que la solicitud de: "+solicitud.getActividad()+" ,fue "+solicitud.getSoliciestado().getEstado()+" para la fecha:"+solicitud.getFecha().toString();
+			try {
+				manager.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", mensaje);
+				manager.notificarSolicitud(solicitud.getIdSolcab());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar notificacion", null));
+			}
+		}
+		return "";
 	}
 	
 	//CargarSolicitud
@@ -357,6 +379,7 @@ public class SolicitudBean {
 		actividad = solicitud.getActividad();
 		objetivo = solicitud.getObjetivo();
 		justificacion = solicitud.getJustificacion();
+		notificacion = solicitud.getSms();
 		fecha = solicitud.getFecha();
 		horainicio = solicitud.getHorainicio();
 		horafin = solicitud.getHorafin();
@@ -407,25 +430,25 @@ public class SolicitudBean {
 	}
 	
 	//-------traslados
-			public String irsolres(){
-				String r="";
-				if (solicitudCabTem.getSolicidetalles().size()>0){
-					r="solres";
-					System.out.print(r);
-				}
-				else{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar Recursos", null));
-					System.out.print(r);
-				}
-				return r; 
-			}
-			
-			public String irsolcab(){
-				return "solcab"; 
-			}
-			
-			public String irsoldet(){
-				return "soldet"; 
-			}
+	public String irsolres(){
+		String r="";
+		if (solicitudCabTem.getSolicidetalles().size()>0){
+			r="solres";
+			System.out.print(r);
+		}
+		else{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar Recursos", null));
+			System.out.print(r);
+		}
+		return r; 
+	}
+	
+	public String irsolcab(){
+		return "solcab"; 
+	}
+	
+	public String irsoldet(){
+		return "soldet"; 
+	}
 
 }
