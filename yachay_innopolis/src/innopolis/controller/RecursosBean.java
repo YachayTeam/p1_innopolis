@@ -201,7 +201,7 @@ public class RecursosBean {
 	
 	public String irRecurso(){
 		FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cancelado!", "Actualizacion Cancelada"));
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelado!", "Actualizacion Cancelada"));
       //limpiamos los datos
 		capacidad=0;
 		descripcion="";

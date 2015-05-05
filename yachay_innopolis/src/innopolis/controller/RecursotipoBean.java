@@ -58,26 +58,23 @@ public class RecursotipoBean {
 	public String cargarDatosRecTipo(Recursotipo tipo){
 		setIdRectipo(tipo.getIdRectipo());
 		setTipo(tipo.getTipo());
-		return "editrectipo";
+		return "";
 	} 
 	
 	public String modificarRecursoTipo(){
-		String resp ="";
-		
 		try {
 			manager.editarRecursoTipo(getIdRectipo(), getTipo());
 			setTipo("");setIdRectipo(0);
-			resp = "rectipo";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar tipo de recurso",null));
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
 		}
 		
-		return resp;
+		return "";
 	}
 	
 	public String cancelarModificacion(){
 		setTipo("");setIdRectipo(0);
-		return "rectipo";
+		return "";
 	}
 }
