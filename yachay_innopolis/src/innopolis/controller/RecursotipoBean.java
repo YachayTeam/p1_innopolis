@@ -1,5 +1,6 @@
 package innopolis.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -12,7 +13,10 @@ import innopolis.manager.ManagerReservas;
 
 @ManagedBean
 @SessionScoped
-public class RecursotipoBean {
+public class RecursotipoBean implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	private ManagerReservas manager;
 	
 	private Integer idRectipo;

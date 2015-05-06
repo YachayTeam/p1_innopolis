@@ -1,5 +1,6 @@
 package innopolis.controller;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +23,10 @@ import javax.faces.model.SelectItem;
 
 @SessionScoped
 @ManagedBean
-public class SolicitudBean {
+public class SolicitudBean implements Serializable{
+
+	private static final long serialVersionUID = 12L;
+
 	private ManagerReservas manager;
 	
 	//Atributo de solicitud

@@ -5,6 +5,7 @@ import innopolis.entities.Recursodisponible;
 import innopolis.entities.Recursotipo;
 import innopolis.manager.ManagerReservas;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,10 @@ import javax.faces.model.SelectItem;
 
 @SessionScoped
 @ManagedBean
-public class RecursosBean {
+public class RecursosBean implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	private ManagerReservas manager;
 	
 	private Integer idRecurso;

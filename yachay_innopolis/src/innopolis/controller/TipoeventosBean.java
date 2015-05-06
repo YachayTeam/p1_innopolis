@@ -1,19 +1,20 @@
 package innopolis.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import innopolis.manager.ManagerInnopolis;
 import innopolis.entities.Tipoevento;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
 
 @SessionScoped
 @ManagedBean
-public class TipoeventosBean {
+public class TipoeventosBean implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private ManagerInnopolis minnopolis = new ManagerInnopolis();
 	private Integer id_tipoevento;
 	private String tipo;

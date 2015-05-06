@@ -1,12 +1,15 @@
 package innopolis.controller;
 
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 @SessionScoped
 @ManagedBean
-public class TiposervicioBean {
+public class TiposervicioBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Integer idTp;
 	private String nombreServicio;
 	

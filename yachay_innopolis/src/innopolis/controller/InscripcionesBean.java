@@ -1,5 +1,6 @@
 package innopolis.controller;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,10 @@ import org.primefaces.model.UploadedFile;
 
 @SessionScoped
 @ManagedBean
-public class InscripcionesBean {
+public class InscripcionesBean implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
 	private ManagerInnopolis minnopolis = new ManagerInnopolis();
 	
 	private Integer idInscripcion;
