@@ -2,7 +2,7 @@ package innopolis.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 
 /**
@@ -25,9 +25,10 @@ public class Inscripcione implements Serializable {
 
 	private String correo;
 
-	@Temporal(TemporalType.DATE)
+	private Integer estado;
+
 	@Column(name="fecha_inscripcion")
-	private Date fechaInscripcion;
+	private Timestamp fechaInscripcion;
 
 	@Column(name="id_usuario")
 	private Integer idUsuario;
@@ -71,11 +72,19 @@ public class Inscripcione implements Serializable {
 		this.correo = correo;
 	}
 
-	public Date getFechaInscripcion() {
+	public Integer getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(Integer estado) {
+		this.estado = estado;
+	}
+
+	public Timestamp getFechaInscripcion() {
 		return this.fechaInscripcion;
 	}
 
-	public void setFechaInscripcion(Date fechaInscripcion) {
+	public void setFechaInscripcion(Timestamp fechaInscripcion) {
 		this.fechaInscripcion = fechaInscripcion;
 	}
 

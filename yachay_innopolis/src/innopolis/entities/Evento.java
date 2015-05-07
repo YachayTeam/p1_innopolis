@@ -22,6 +22,8 @@ public class Evento implements Serializable {
 	@Column(name="id_evento")
 	private Integer idEvento;
 
+	private Integer cantidad;
+
 	private float costo;
 
 	private String descripcion;
@@ -58,6 +60,14 @@ public class Evento implements Serializable {
 
 	public void setIdEvento(Integer idEvento) {
 		this.idEvento = idEvento;
+	}
+
+	public Integer getCantidad() {
+		return this.cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	public float getCosto() {

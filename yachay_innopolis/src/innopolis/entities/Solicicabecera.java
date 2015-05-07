@@ -22,6 +22,8 @@ public class Solicicabecera implements Serializable {
 
 	private String actividad;
 
+	private Integer capacidad;
+
 	private String direccion;
 
 	@Temporal(TemporalType.DATE)
@@ -47,7 +49,7 @@ public class Solicicabecera implements Serializable {
 	private Soliciestado soliciestado;
 
 	//bi-directional many-to-one association to Solicidetalle
-	@OneToMany(mappedBy="solicicabecera", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="solicicabecera", cascade = CascadeType.ALL)
 	private List<Solicidetalle> solicidetalles;
 
 	public Solicicabecera() {
@@ -67,6 +69,14 @@ public class Solicicabecera implements Serializable {
 
 	public void setActividad(String actividad) {
 		this.actividad = actividad;
+	}
+
+	public Integer getCapacidad() {
+		return this.capacidad;
+	}
+
+	public void setCapacidad(Integer capacidad) {
+		this.capacidad = capacidad;
 	}
 
 	public String getDireccion() {

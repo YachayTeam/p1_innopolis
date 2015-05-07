@@ -52,6 +52,7 @@ create table PUBLIC.EVENTOS (
    FECHA                DATE                 null,
    COSTO                FLOAT4               null,
    LUGAR                TEXT                 null,
+   CANTIDAD             INT4                 null,
    constraint PK_EVENTOS primary key (ID_EVENTO)
 );
 
@@ -63,11 +64,12 @@ create table PUBLIC.INSCRIPCIONES (
    ID_EVENTO            INT4                 null,
    ID_USUARIO           INT4                 null,
    IMAGEN_PAGO          TEXT                 null,
-   FECHA_INSCRIPCION    DATE                 null,
+   FECHA_INSCRIPCION    TIMESTAMP            null,
    OBSERVACION          TEXT                 null,
    NOMBRE               TEXT                 null,
    APELLIDO             TEXT                 null,
    CORREO               TEXT                 null,
+   ESTADO               INT2                 null,
    constraint PK_INSCRIPCIONES primary key (ID_INSCRIPCION)
 );
 
@@ -147,6 +149,7 @@ create table PUBLIC.SOLICICABECERA (
    HORAINICIO           TIME                 null,
    HORAFIN              TIME                 null,
    SMS                  TEXT                 null,
+   CAPACIDAD            INT4                 null,
    constraint PK_SOLICICABECERA primary key (ID_SOLCAB)
 );
 
