@@ -6,10 +6,13 @@ import innopolis.manager.ManagerEvento;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
@@ -133,11 +136,6 @@ public class InscripcionBean implements Serializable{
 	}
 
 
-	public void setEvento(Evento evento) {
-		this.evento = evento;
-	}
-
-
 	public Integer getId_evento() {
 		return id_evento;
 	}
@@ -153,6 +151,27 @@ public class InscripcionBean implements Serializable{
 		return listadoInscripciones;
 	}
 
+	public String inscribirse(){
+		String resp ="";
+		try {
+			if(getImagenPago()==null){
+				setImagenPago("sin_pago.jpg");
+			}
+			if(getObservacion()==null){
+				setObservacion("sin observacion");
+			}
+			//FECHA Y HORA ACTUAL
+			Calendar fecha_hora = Calendar.getInstance();
+			setFechaInscripcion( new Timestamp(fecha_hora.getTimeInMillis()));
+			//Ingreso
+			managerEv.insertarInscripcion(getFechaInscripcion(), 0, getNombre(), getApellido(), getCorreo(), 0, getImagenPago(), getObservacion());
+			resp="";//Enviar a un resumen de inscripcion o pagina de exito
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al intentar inscribirse al evento", null));
+		}
+		return resp;
+	}
+	
 	
 	
 	
