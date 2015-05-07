@@ -25,7 +25,7 @@ public class Inscripcione implements Serializable {
 
 	private String correo;
 
-	private Integer estado;
+	private String estado;
 
 	@Column(name="fecha_inscripcion")
 	private Timestamp fechaInscripcion;
@@ -39,6 +39,8 @@ public class Inscripcione implements Serializable {
 	private String nombre;
 
 	private String observacion;
+
+	private String sms;
 
 	//bi-directional many-to-one association to Evento
 	@ManyToOne
@@ -72,11 +74,11 @@ public class Inscripcione implements Serializable {
 		this.correo = correo;
 	}
 
-	public Integer getEstado() {
+	public String getEstado() {
 		return this.estado;
 	}
 
-	public void setEstado(Integer estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
@@ -118,6 +120,14 @@ public class Inscripcione implements Serializable {
 
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
+	}
+
+	public String getSms() {
+		return this.sms;
+	}
+
+	public void setSms(String sms) {
+		this.sms = sms;
 	}
 
 	public Evento getEvento() {

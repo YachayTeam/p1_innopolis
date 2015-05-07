@@ -69,7 +69,8 @@ create table PUBLIC.INSCRIPCIONES (
    NOMBRE               TEXT                 null,
    APELLIDO             TEXT                 null,
    CORREO               TEXT                 null,
-   ESTADO               INT2                 null,
+   ESTADO               TEXT                 null,
+   SMS                  TEXT                 null,
    constraint PK_INSCRIPCIONES primary key (ID_INSCRIPCION)
 );
 

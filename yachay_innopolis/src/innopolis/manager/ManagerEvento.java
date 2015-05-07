@@ -148,34 +148,35 @@ public class ManagerEvento {
 
  	// ------Inscripciones-------
 
- 	// listar todas las inscripciones
- 	@SuppressWarnings("unchecked")
- 	public List<Inscripcione> findAllInscripciones() {
- 		return mDAO.findAll(Inscripcione.class);
- 	}
+	// listar todas las inscripciones
+	@SuppressWarnings("unchecked")
+	public List<Inscripcione> findAllInscripciones() {
+		return mDAO.findAll(Inscripcione.class);
+	}
 
- 	// buscar incripciones por ID
- 	public Inscripcione findInscripcionesByID(Integer id_inscrip) throws Exception {
- 		return (Inscripcione) mDAO.findById(Inscripcione.class, id_inscrip);
- 	}
- 	
- 	public void insertarInscripcion(Timestamp fechaInscripcion, Integer idUsuario, String nombre, String apellido, String correo, Integer estado, String imagenPago, String observacion) throws Exception{
- 		Inscripcione ins = new Inscripcione();
- 		ins.setFechaInscripcion(fechaInscripcion);
- 		ins.setIdUsuario(idUsuario);ins.setNombre(nombre);ins.setApellido(apellido);ins.setCorreo(correo);
- 		ins.setEvento(eventoInscripcion);ins.setEstado(estado);ins.setImagenPago(imagenPago);ins.setObservacion(observacion);
- 		mDAO.insertar(ins);
- 	}
- 	
- 	public void modificarInscripcion(Integer id_ins, Integer estado) throws Exception{
- 		Inscripcione i = findInscripcionesByID(id_ins);
- 		i.setEstado(estado);
- 		mDAO.actualizar(i);
- 	}
- 	
- 	public String seleccionEventoAinscribirse(Evento evento){
- 		eventoInscripcion = evento;
- 		return "frm_ins?faces-redirect=true";
- 	}
+	// buscar incripciones por ID
+	public Inscripcione findInscripcionesByID(Integer id_inscrip) throws Exception {
+		return (Inscripcione) mDAO.findById(Inscripcione.class, id_inscrip);
+	}
+	
+	public void insertarInscripcion(Timestamp fechaInscripcion, Integer idUsuario, String nombre, String apellido, String correo, String imagenPago, String observacion) throws Exception{
+		Inscripcione ins = new Inscripcione();
+		ins.setFechaInscripcion(fechaInscripcion);
+		ins.setIdUsuario(idUsuario);ins.setNombre(nombre);ins.setApellido(apellido);ins.setCorreo(correo);
+		ins.setEvento(eventoInscripcion);ins.setEstado("sin aprobar");ins.setSms("sin notificar");
+		ins.setImagenPago(imagenPago);ins.setObservacion(observacion);
+		mDAO.insertar(ins);
+	}
+	
+	public void modificarInscripcion(Integer id_ins, String estado) throws Exception{
+		Inscripcione i = findInscripcionesByID(id_ins);
+		i.setEstado(estado);
+		mDAO.actualizar(i);
+	}
+	
+	public String seleccionEventoAinscribirse(Evento evento){
+		eventoInscripcion = evento;
+		return "frm_ins?faces-redirect=true";
+	}
 
 }

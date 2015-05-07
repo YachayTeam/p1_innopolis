@@ -164,7 +164,7 @@ public class InscripcionBean implements Serializable{
 			Calendar fecha_hora = Calendar.getInstance();
 			setFechaInscripcion( new Timestamp(fecha_hora.getTimeInMillis()));
 			//Ingreso
-			managerEv.insertarInscripcion(getFechaInscripcion(), 0, getNombre(), getApellido(), getCorreo(), 0, getImagenPago(), getObservacion());
+			managerEv.insertarInscripcion(getFechaInscripcion(), 0, getNombre(), getApellido(), getCorreo(), getImagenPago(), getObservacion());
 			resp="";//Enviar a un resumen de inscripcion o pagina de exito
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al intentar inscribirse al evento", null));
@@ -172,7 +172,15 @@ public class InscripcionBean implements Serializable{
 		return resp;
 	}
 	
-	
+	public String aprobarInscrito(Inscripcione inscripcion){
+		try {
+			managerEv.modificarInscripcion(inscripcion.getIdInscripcion(), "aprobada");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Aprobacion Exitosa", null));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al aprobar inscripcion", null));
+		}
+		return "";
+	}
 	
 	
 }

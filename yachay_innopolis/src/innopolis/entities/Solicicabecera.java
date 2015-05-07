@@ -49,7 +49,7 @@ public class Solicicabecera implements Serializable {
 	private Soliciestado soliciestado;
 
 	//bi-directional many-to-one association to Solicidetalle
-	@OneToMany(mappedBy="solicicabecera", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="solicicabecera", cascade=CascadeType.ALL)
 	private List<Solicidetalle> solicidetalles;
 
 	public Solicicabecera() {
