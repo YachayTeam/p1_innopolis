@@ -1,5 +1,6 @@
 package innopolis.manager;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -144,17 +145,31 @@ public class ManagerEvento {
  		return te;
 	}
 
-	// ------Inscripciones-------
+    // ------Inscripciones-------
 
 	// listar todas las inscripciones
 	@SuppressWarnings("unchecked")
 	public List<Inscripcione> findAllInscripciones() {
 		return mDAO.findAll(Inscripcione.class);
 	}
-
+	
 	// buscar incripciones por ID
-	public Inscripcione InscripcionesByID(Integer id_inscrip) throws Exception {
+	public Inscripcione findInscripcionesByID(Integer id_inscrip) throws Exception {
 		return (Inscripcione) mDAO.findById(Inscripcione.class, id_inscrip);
+	}
+	
+	public void insertarInscripcion(Timestamp fechaInscripcion, Integer idUsuario, String nombre, String apellido, String correo, Evento evento, Integer estado, String imagenPago, String observacion) throws Exception{
+		Inscripcione ins = new Inscripcione();
+		ins.setFechaInscripcion(fechaInscripcion);
+		ins.setIdUsuario(idUsuario);ins.setNombre(nombre);ins.setApellido(apellido);ins.setCorreo(correo);
+		ins.setEvento(evento);ins.setEstado(estado);ins.setImagenPago(imagenPago);ins.setObservacion(observacion);
+		mDAO.insertar(ins);
+	}
+	
+	public void modificarInscripcion(Integer id_ins, Integer estado) throws Exception{
+		Inscripcione i = findInscripcionesByID(id_ins);
+		i.setEstado(estado);
+		mDAO.actualizar(i);
 	}
 
 }
