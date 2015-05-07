@@ -3,6 +3,7 @@ package innopolis.controller;
 import innopolis.entities.Evento;
 import innopolis.entities.Inscripcione;
 import innopolis.manager.ManagerEvento;
+import innopolis.manager.ManagerReservas;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -20,6 +21,7 @@ public class InscripcionBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private ManagerEvento managerEv;
+	private ManagerReservas managerReserv;
 	
 	private Integer idInscripcion;
 	private String apellido;
@@ -38,6 +40,7 @@ public class InscripcionBean implements Serializable{
 	
 	public InscripcionBean() {
 		managerEv=new ManagerEvento();
+		managerReserv=new ManagerReservas();
 	}
 
 
@@ -170,6 +173,22 @@ public class InscripcionBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al intentar inscribirse al evento", null));
 		}
 		return resp;
+	}
+	
+	public String notificarInscripcion(Inscripcione inscripcion){
+		if(inscripcion.getSms().equals("notificada")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion ya fue notificacion", null));
+		}else{
+			String mensaje="Le informamos que la inscripcion de: "+inscripcion.getEvento().getNombre()+" ,fue "+inscripcion.getEstado();
+			try {
+				managerReserv.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", mensaje);
+				managerEv.notificarInscripcion(inscripcion.getIdInscripcion(), "notificada");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar notificacion", null));
+			}
+		}
+		return "";
 	}
 	
 	public String aprobarInscrito(Inscripcione inscripcion){

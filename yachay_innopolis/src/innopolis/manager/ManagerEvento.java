@@ -178,5 +178,11 @@ public class ManagerEvento {
 		eventoInscripcion = evento;
 		return "frm_ins?faces-redirect=true";
 	}
+	
+	public void notificarInscripcion(Integer id_ins, String notificacion) throws Exception{
+		Inscripcione i = findInscripcionesByID(id_ins);
+		i.setSms(notificacion);
+		mDAO.actualizar(i);
+	}
 
 }
