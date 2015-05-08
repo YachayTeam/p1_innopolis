@@ -134,7 +134,7 @@ public class ManagerRecursosVirtuales implements Serializable{
 		svt.setTipoestado(this.asignarTipoest(id_Estado));
 		mDAO.actualizar(svt);
 		} catch (Exception e) {
-			System.out.println("Error_mod_recurso");
+			System.out.println("Error_mod_servicio");
 			e.printStackTrace();
 		}
 	}
@@ -167,6 +167,7 @@ public class ManagerRecursosVirtuales implements Serializable{
 			}				
 	}
 	
+	//metdodo eliminar servicio
 	public void eliminarServicio(Integer id_servicio) throws Exception {
 		try
 		{
