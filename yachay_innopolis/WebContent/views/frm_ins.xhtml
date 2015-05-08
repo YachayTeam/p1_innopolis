@@ -20,12 +20,15 @@
 				<h:outputText value="Correo" style="font-weight: bold"/>
 				<p:inputText value="#{inscripcionBean.correo}"></p:inputText>
 				<h:outputText value="Imagen de Pago" style="font-weight: bold"/>
-				<p:fileUpload mode="advanced" dragDropSupport="false" update=":form:message :form:imagen" sizeLimit="100000" 
-    		allowTypes="/(\.|\/)(jpe?g)$/" fileUploadListener="#{inscripcionBean.ImagenServ}" />
-    			<h:outputText value="Preview imagen" style="font-weight: bold"/>
-				<p:graphicImage id="imagen" value="/imgevent/#{inscripcionBean.imagenPago}"></p:graphicImage>
+				<p:fileUpload mode="advanced" dragDropSupport="false" update=":form:message :form:imagen" 
+					sizeLimit="3145728" fileLimit="1" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"
+					uploadLabel="Subir" label="Seleccionar" fileUploadListener="#{inscripcionBean.ImagenServ}" />
+    			<h:outputText value="Vista previa" style="font-weight: bold"/>
+				<p:graphicImage id="imagen" value="/imgevent/#{inscripcionBean.imagenPago}" width="300" height="300" />
 				<h:outputText value="Observaciones" style="font-weight: bold"/>
-				<p:inputTextarea value="#{inscripcionBean.observacion}"></p:inputTextarea>
+				<p:inputTextarea value="#{inscripcionBean.observacion}" rows="5" cols="40" autoResize="false"></p:inputTextarea>
+				<p:commandButton value="Inscribirse" action="#{inscripcionBean.inscribirse}"></p:commandButton>
+				<p:commandButton value="Cancelar" action="#{inscripcionBean.cancelarIns}"></p:commandButton>
 			</p:panelGrid>
 		</p:panel>
 	</h:form>

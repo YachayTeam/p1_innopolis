@@ -198,6 +198,10 @@ public class InscripcionBean implements Serializable{
 		return resp;
 	}
 	
+	public String cancelarIns(){
+		return "calendario?faces-redirect=true";
+	}
+	
 	public String notificarInscripcion(Inscripcione inscripcion){
 		if(inscripcion.getSms().equals("notificada")){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion ya fue notificacion", null));
