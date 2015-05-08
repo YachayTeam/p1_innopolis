@@ -5,6 +5,11 @@ import innopolis.entities.Inscripcione;
 import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerReservas;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -14,6 +19,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
+import org.primefaces.event.FileUploadEvent;
 
 @ManagedBean
 @SessionScoped
@@ -207,5 +215,70 @@ public class InscripcionBean implements Serializable{
 		return "";
 	}
 	
-	
+	/*/ metodo para guardar la imagen en el servidor
+		public void ImagenServ(FileUploadEvent event) throws IOException {
+			file = event.getFile();
+			InputStream inputStream = null;
+			OutputStream outputStream = null;
+
+			if (file != null) {
+				try {
+					// Tomar PAD REAL
+					ServletContext servletContext = (ServletContext) FacesContext
+							.getCurrentInstance().getExternalContext().getContext();
+					String carpetaImagenes = (String) servletContext
+							.getRealPath(File.separatorChar + "imgevent");
+					System.out.println("PAD------> " + carpetaImagenes);
+					System.out.println("name------> " + getImagen());
+
+					outputStream = new FileOutputStream(new File(carpetaImagenes
+							+ File.separatorChar + getImagen() + ".jpg"));
+					inputStream = file.getInputstream();
+
+					int read = 0;
+					byte[] bytes = new byte[1024];
+
+					while ((read = inputStream.read(bytes)) != -1) {
+						outputStream.write(bytes, 0, read);
+					}
+
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"Correcto:", "Carga correcta"));
+
+				} catch (Exception e) {
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
+									"no se pudo subir la imagen"));
+					e.printStackTrace();
+				} finally {
+					if (inputStream != null) {
+						inputStream.close();
+					}
+
+					if (outputStream != null) {
+						outputStream.close();
+					}
+				}
+			} else {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
+								"no se pudo seleccionar la imagen"));
+			}
+		}
+
+		// metodo para poner el nombre a la imagen
+		public void asignarNombreImg() {
+			if (getNombre().trim().isEmpty()) {
+				System.out.println("Vacio");
+			} else {
+				setImagen(getNombre());
+				System.out.println(getImagen());
+			}
+
+		}
+	*/
 }
