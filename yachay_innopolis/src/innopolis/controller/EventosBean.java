@@ -698,5 +698,11 @@ public class EventosBean implements Serializable {
 	public void onEventSelect(SelectEvent selectEvent) {
 		event = (ScheduleEvent) selectEvent.getObject();
 	}
+	
+	//IR A INSCRIPCION
+	public String irInscripcion(){
+		manager.seleccionEventoAinscribirse((Evento) event.getData());
+		return "frm_ins?faces-redirect=true";
+	} 
 
 }

@@ -196,9 +196,9 @@ public class ManagerEvento {
 		mDAO.actualizar(i);
 	}
 	
-	public String seleccionEventoAinscribirse(Evento evento){
+	public void seleccionEventoAinscribirse(Evento evento){
 		eventoInscripcion = evento;
-		return "frm_ins?faces-redirect=true";
+		System.out.println("Evento "+evento.getNombre());
 	}
 	
 	public void notificarInscripcion(Integer id_ins, String notificacion) throws Exception{
