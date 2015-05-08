@@ -203,7 +203,7 @@ public class ManagerEvento {
 		List<Inscripcione> listado = inscritosXEvento(event);
 		int cont = 0;
 		for (Inscripcione inscripcione : listado) {
-			if(inscripcione.getEstado().equals("aprobado")){
+			if(inscripcione.getEstado().equals("aprobada")){
 				cont++;
 			}
 		}	
