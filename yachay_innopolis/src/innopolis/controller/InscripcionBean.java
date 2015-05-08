@@ -181,7 +181,7 @@ public class InscripcionBean implements Serializable{
 		}else{
 			String mensaje="Le informamos que la inscripcion de: "+inscripcion.getEvento().getNombre()+" ,fue "+inscripcion.getEstado();
 			try {
-				managerReserv.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", mensaje);
+				managerReserv.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Inscripcion YACHAY/INNOPOLIS  ", mensaje);
 				managerEv.notificarInscripcion(inscripcion.getIdInscripcion(), "notificada");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
 			} catch (Exception e) {
@@ -193,8 +193,13 @@ public class InscripcionBean implements Serializable{
 	
 	public String aprobarInscrito(Inscripcione inscripcion){
 		try {
-			managerEv.modificarInscripcion(inscripcion.getIdInscripcion(), "aprobada");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Aprobacion Exitosa", null));
+			Evento ev = inscripcion.getEvento();
+			if(managerEv.superaInscritosEvento(ev)){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Evento ya supera inscritos", null));
+			}else{
+				managerEv.modificarInscripcion(inscripcion.getIdInscripcion(), "aprobada");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Aprobacion Exitosa", null));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al aprobar inscripcion", null));
 		}

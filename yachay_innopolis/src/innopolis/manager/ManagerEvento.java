@@ -186,17 +186,28 @@ public class ManagerEvento {
 	}
 	
 	//VALIDAR INSCRIPCIONES
-	public Integer cuantosInscritos(Evento event){
+	public List<Inscripcione> inscritosXEvento(Evento ev){
 		List<Inscripcione> todas = findAllInscripciones();
 		List<Inscripcione> listado = findAllInscripciones();
 		
 		for (Inscripcione inscripcione : todas) {
-			if(inscripcione.getEvento().getIdEvento()!=event.getIdEvento()){
+			if(inscripcione.getEvento().getIdEvento()!=ev.getIdEvento()){
 				listado.remove(inscripcione);
 			}
 		}
 		
-		return listado.size();
+		return listado;
+	}
+	
+	public Integer cuantosInscritos(Evento event){
+		List<Inscripcione> listado = inscritosXEvento(event);
+		int cont = 0;
+		for (Inscripcione inscripcione : listado) {
+			if(inscripcione.getEstado().equals("aprobado")){
+				cont++;
+			}
+		}	
+		return cont;
 	}
 	
 	public boolean superaInscritosEvento(Evento evento){
@@ -209,5 +220,6 @@ public class ManagerEvento {
 		
 		return resp;
 	}
+
 
 }
