@@ -60,7 +60,7 @@
 					<p:outputLabel id="ca" value="#{eventosBean.event.data.cantidad}"/>
 
 					<p:commandButton id="addButton" value="Inscribete....!!!!!"
-						actionListener="#{eventosBean.irInscripcion}"
+						action="#{eventosBean.irInscripcion}"
 						oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
 				</h:panelGrid>
 			</p:dialog>

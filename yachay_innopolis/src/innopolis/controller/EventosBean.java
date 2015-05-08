@@ -41,6 +41,7 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 @ManagedBean
 public class EventosBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private ManagerEvento manager;
 	private ManagerReservas manager1;
 	private Integer idEvento;
