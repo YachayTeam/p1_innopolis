@@ -184,5 +184,30 @@ public class ManagerEvento {
 		i.setSms(notificacion);
 		mDAO.actualizar(i);
 	}
+	
+	//VALIDAR INSCRIPCIONES
+	public Integer cuantosInscritos(Evento event){
+		List<Inscripcione> todas = findAllInscripciones();
+		List<Inscripcione> listado = findAllInscripciones();
+		
+		for (Inscripcione inscripcione : todas) {
+			if(inscripcione.getEvento().getIdEvento()!=event.getIdEvento()){
+				listado.remove(inscripcione);
+			}
+		}
+		
+		return listado.size();
+	}
+	
+	public boolean superaInscritosEvento(Evento evento){
+		boolean resp = false;
+		
+		int inscritos = cuantosInscritos(evento);
+		if(inscritos>evento.getCantidad()){
+			resp = true;
+		}
+		
+		return resp;
+	}
 
 }
