@@ -1,31 +1,3 @@
-drop table CONTADORES;
-
-drop table PUBLIC.EVENTOS;
-
-drop table PUBLIC.INSCRIPCIONES;
-
-drop table PUBLIC.RECURSO;
-
-drop table PUBLIC.RECURSODISPONIBLE;
-
-drop table RECURSOSACTIVOS;
-
-drop table PUBLIC.RECURSOTIPO;
-
-drop table PUBLIC.SERVICIOSVIRTREGIS;
-
-drop table PUBLIC.SOLICICABECERA;
-
-drop table PUBLIC.SOLICIDETALLE;
-
-drop table PUBLIC.SOLICIESTADO;
-
-drop table PUBLIC.TIPOESTADO;
-
-drop table PUBLIC.TIPOEVENTO;
-
-drop table PUBLIC.TIPOSERVICIO;
-
 /*==============================================================*/
 /* User: PUBLIC                                                 */
 /*==============================================================*/
@@ -202,6 +174,39 @@ create table PUBLIC.TIPOSERVICIO (
    constraint PK_TIPOSERVICIO primary key (ID_TP)
 );
 
+/*==============================================================*/
+/* Table: TIPOLOGIN                                             */
+/*==============================================================*/
+create table TIPOLOGIN (
+   ID_TIPOLOGIN         INT4                 not null,
+   TIPOLOGIN            TEXT                 null,
+   DESCRIPCION          TEXT                 null,
+   constraint PK_TIPOLOGIN primary key (ID_TIPOLOGIN)
+);
+
+/*==============================================================*/
+/* Table: TIPOUSR                                               */
+/*==============================================================*/
+create table TIPOUSR (
+   ID_TIPUSR            INT4                 not null,
+   ID_TIPOLOGIN         INT4                 null,
+   ID_USR               INT4                 null,
+   constraint PK_TIPOUSR primary key (ID_TIPUSR)
+);
+
+/*==============================================================*/
+/* Table: USUARIO                                               */
+/*==============================================================*/
+create table USUARIO (
+   ID_USR               INT4                 not null,
+   NOMBRE               TEXT                 null,
+   APELLIDO             TEXT                 null,
+   CORREO               TEXT                 null,
+   ALIAS                TEXT                 null,
+   PASSWORD             TEXT                 null,
+   constraint PK_USUARIO primary key (ID_USR)
+);
+
 alter table EVENTOS
    add constraint FK_EVENTOS_REFERENCE_SOLICICA foreign key (ID_SOLCAB)
       references SOLICICABECERA (ID_SOLCAB)
@@ -251,12 +256,22 @@ alter table SOLICIDETALLE
    add constraint FK_SOLICIDE_REFERENCE_SOLICICA foreign key (ID_SOLCAB)
       references SOLICICABECERA (ID_SOLCAB)
       on delete restrict on update restrict;
+      
+alter table TIPOUSR
+   add constraint FK_TIPOUSR_REFERENCE_TIPOLOGI foreign key (ID_TIPOLOGIN)
+      references TIPOLOGIN (ID_TIPOLOGIN)
+      on delete restrict on update restrict;
+
+alter table TIPOUSR
+   add constraint FK_TIPOUSR_REFERENCE_USUARIO foreign key (ID_USR)
+      references USUARIO (ID_USR)
+      on delete restrict on update restrict;
 	  
 	  
 /*==============================================================*/
 /* SECUENCIAS                                           */
 /*==============================================================*/
-       CREATE SEQUENCE public.seq_recurso
+  CREATE SEQUENCE public.seq_recurso
    INCREMENT 1
    START 1;
    
@@ -414,5 +429,41 @@ CREATE SEQUENCE public.seq_contadores
 
 ALTER TABLE contadores
    ALTER COLUMN id_contador SET DEFAULT nextval('seq_contadores');
+   
+CREATE SEQUENCE public.seq_usuario
+   INCREMENT 1
+   START 1
+   MINVALUE 1;
+   
+ALTER TABLE usuario
+   ALTER COLUMN id_usr SET DEFAULT nextval('seq_usuario');
+
+CREATE SEQUENCE public.seq_tipousr
+   INCREMENT 1
+   START 1
+   MINVALUE 1;
+
+ALTER TABLE tipousr
+   ALTER COLUMN id_tipusr SET DEFAULT nextval('seq_tipousr');
+ALTER TABLE tipousr
+  DROP CONSTRAINT fk_tipousr_reference_tipologi;
+ALTER TABLE tipousr
+  DROP CONSTRAINT fk_tipousr_reference_usuario;
+ALTER TABLE tipousr
+  ADD CONSTRAINT fk_tipousr_reference_tipologi FOREIGN KEY (id_tipologin)
+      REFERENCES tipologin (id_tipologin) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE tipousr
+  ADD CONSTRAINT fk_tipousr_reference_usuario FOREIGN KEY (id_usr)
+      REFERENCES usuario (id_usr) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+      
+CREATE SEQUENCE public.seq_tipologin
+   INCREMENT 1
+   START 1
+   MINVALUE 1;
+
+ALTER TABLE tipologin
+   ALTER COLUMN id_tipologin SET DEFAULT nextval('seq_tipologin');
 
 insert into contadores values (default, 'solicitud cabecera',0);
