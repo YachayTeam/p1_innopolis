@@ -193,18 +193,27 @@ create table TIPOUSR (
    ID_USR               INT4                 null,
    constraint PK_TIPOUSR primary key (ID_TIPUSR)
 );
-
 /*==============================================================*/
 /* Table: USUARIO                                               */
 /*==============================================================*/
 create table USUARIO (
    ID_USR               INT4                 not null,
+   ID_TIPOESTADOUSR     INT4                 null,
    NOMBRE               TEXT                 null,
    APELLIDO             TEXT                 null,
    CORREO               TEXT                 null,
    ALIAS                TEXT                 null,
    PASSWORD             TEXT                 null,
    constraint PK_USUARIO primary key (ID_USR)
+);
+
+/*==============================================================*/
+/* Table: TIPOESTADOUSR                                         */
+/*==============================================================*/
+create table TIPOESTADOUSR (
+   ID_TIPOESTADOUSR     INT4                 not null,
+   NOMBREESTADO         TEXT                 null,
+   constraint PK_TIPOESTADOUSR primary key (ID_TIPOESTADOUSR)
 );
 
 alter table EVENTOS
@@ -266,7 +275,11 @@ alter table TIPOUSR
    add constraint FK_TIPOUSR_REFERENCE_USUARIO foreign key (ID_USR)
       references USUARIO (ID_USR)
       on delete restrict on update restrict;
-	  
+      
+alter table USUARIO
+   add constraint FK_USUARIO_REFERENCE_TIPOESTA foreign key (ID_TIPOESTADOUSR)
+      references TIPOESTADOUSR (ID_TIPOESTADOUSR)
+      on delete restrict on update restrict;
 	  
 /*==============================================================*/
 /* SECUENCIAS                                           */
