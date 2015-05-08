@@ -2,7 +2,6 @@ package innopolis.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -15,7 +14,7 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="USUARIO_IDUSR_GENERATOR", sequenceName="SEQ_USUARIO", allocationSize=1)
+	@SequenceGenerator(name="USUARIO_IDUSR_GENERATOR", sequenceName="SEQ_USUARIO")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USUARIO_IDUSR_GENERATOR")
 	@Column(name="id_usr")
 	private Integer idUsr;
@@ -30,9 +29,10 @@ public class Usuario implements Serializable {
 
 	private String password;
 
-	//bi-directional many-to-one association to Tipousr
-	@OneToMany(mappedBy="usuario")
-	private List<Tipousr> tipousrs;
+	//bi-directional many-to-one association to Tipoestadousr
+	@ManyToOne
+	@JoinColumn(name="id_tipoestadousr")
+	private Tipoestadousr tipoestadousr;
 
 	public Usuario() {
 	}
@@ -85,26 +85,12 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
-	public List<Tipousr> getTipousrs() {
-		return this.tipousrs;
+	public Tipoestadousr getTipoestadousr() {
+		return this.tipoestadousr;
 	}
 
-	public void setTipousrs(List<Tipousr> tipousrs) {
-		this.tipousrs = tipousrs;
-	}
-
-	public Tipousr addTipousr(Tipousr tipousr) {
-		getTipousrs().add(tipousr);
-		tipousr.setUsuario(this);
-
-		return tipousr;
-	}
-
-	public Tipousr removeTipousr(Tipousr tipousr) {
-		getTipousrs().remove(tipousr);
-		tipousr.setUsuario(null);
-
-		return tipousr;
+	public void setTipoestadousr(Tipoestadousr tipoestadousr) {
+		this.tipoestadousr = tipoestadousr;
 	}
 
 }
