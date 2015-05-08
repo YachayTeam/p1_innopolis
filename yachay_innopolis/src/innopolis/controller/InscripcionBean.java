@@ -41,6 +41,7 @@ public class InscripcionBean implements Serializable{
 	public InscripcionBean() {
 		managerEv=new ManagerEvento();
 		managerReserv=new ManagerReservas();
+		imagenPago = "sin_pago.jpg";
 	}
 
 
@@ -157,9 +158,9 @@ public class InscripcionBean implements Serializable{
 	public String inscribirse(){
 		String resp ="";
 		try {
-			if(getImagenPago()==null){
+			/*if(getImagenPago()==null){
 				setImagenPago("sin_pago.jpg");
-			}
+			}*/
 			if(getObservacion()==null){
 				setObservacion("sin observacion");
 			}

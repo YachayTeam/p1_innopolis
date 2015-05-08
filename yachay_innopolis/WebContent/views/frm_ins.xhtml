@@ -5,8 +5,26 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"> 
 
-<h:head></h:head> 
+<h:head>
+	<title>Inscripci&oacute;n</title>
+</h:head> 
 <body> 
-
+	<h:form id="form">
+		<p:growl id="message" showDetail="true" />
+		<p:panel header="Datos de Inscripci&oacute;n">
+			<p:panelGrid columns="2">
+				<h:outputText value="Nombre" style="font-weight: bold"/>
+				<p:inputText value="#{inscripcionBean.nombre}"></p:inputText>
+				<h:outputText value="Apellido" style="font-weight: bold"/>
+				<p:inputText value="#{inscripcionBean.apellido}"></p:inputText>
+				<h:outputText value="Correo" style="font-weight: bold"/>
+				<p:inputText value="#{inscripcionBean.correo}"></p:inputText>
+				<h:outputText value="Imagen de Pago" style="font-weight: bold"/>
+				<p:graphicImage value="/resources/img/#{inscripcionBean.imagenPago}"></p:graphicImage>
+				<h:outputText value="Observaciones" style="font-weight: bold"/>
+				<p:inputTextarea value="#{inscripcionBean.observacion}"></p:inputTextarea>
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
 </body> 
 </html>
