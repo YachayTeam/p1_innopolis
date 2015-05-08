@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Solicitud de Recursos</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<body>
+<p:steps styleClass="custom">
+    <p:menuitem value="Cabecera de Solicitud" />
+    <p:menuitem value="Insercion de Detalles" />
+    <p:menuitem value="Resumen de Solicitud" />
+</p:steps>
+<br/>
+	<p:growl id="message" showDetail="true" />
+	<h:form id="form2">
+		<p:panel header="Datos de Solicitud">
+			<p:panelGrid columns="2">
+				<h:outputText value="Direcci&oacute;n" style="font-weight: bold"/>
+				<p:inputText required="true" value="#{eventosBean.direccion}" requiredMessage="Campo Direccion Requerida"></p:inputText>
+				<h:outputText value="Actividad" style="font-weight: bold"/>
+				<p:inputTextarea value="#{eventosBean.actividad}"></p:inputTextarea>
+				<h:outputText value="Objetivo" style="font-weight: bold"/>
+				<p:inputTextarea value="#{eventosBean.objetivo}"></p:inputTextarea>
+				<h:outputText value="Justifocaci&oacute;n" style="font-weight: bold"/>
+				<p:inputTextarea value="#{eventosBean.justificacion}"></p:inputTextarea>
+				<h:outputText value="Fecha de solicitud:" style="font-weight: bold" />
+				<p:calendar required="true" requiredMessage="Campo Calendario Requerida" id="fecha" value="#{eventosBean.fecha}" disabled="true" pattern="yyyy-MM-dd" mask="true" />
+				<h:outputText value="Hora Inicio para Recurso:" style="font-weight: bold" />
+				<pe:timePicker required="true" requiredMessage="Campo Hora Inicio Requerida" value="#{eventosBean.h_inicio}" timeSeparator="-" startHours="8" endHours="18"  
+                   startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
+                   showDeselectButton="true" rows="3"  style="width:70px;" 
+                   widgetVar="customTimeWidget1" label="Hora Inicio"/>
+                 <h:outputText value="Hora Fin para Recurso:" style="font-weight: bold" />
+				<pe:timePicker required="true" requiredMessage="Campo Hora Fin Requerida" value="#{eventosBean.h_fin}" timeSeparator="-" startHours="8" endHours="18"  
+                   startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
+                   showDeselectButton="true" rows="3"  style="width:70px;" 
+                   widgetVar="customTimeWidget2" label="Hora Inicio"/>  			
+				<p:commandButton update="message" icon="ui-icon-circle-arrow-e" action="#{eventosBean.crearNuevaSolicitud}" value="Siguiente" /> <!--update=":form3" /-->
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+</body>
+</html>
