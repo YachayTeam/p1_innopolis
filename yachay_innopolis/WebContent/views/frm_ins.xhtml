@@ -20,7 +20,10 @@
 				<h:outputText value="Correo" style="font-weight: bold"/>
 				<p:inputText value="#{inscripcionBean.correo}"></p:inputText>
 				<h:outputText value="Imagen de Pago" style="font-weight: bold"/>
-				<p:graphicImage value="/imgevent/#{inscripcionBean.imagenPago}"></p:graphicImage>
+				<p:fileUpload mode="advanced" dragDropSupport="false" update=":form:message :form:imagen" sizeLimit="100000" 
+    		allowTypes="/(\.|\/)(jpe?g)$/" fileUploadListener="#{inscripcionBean.ImagenServ}" />
+    			<h:outputText value="Preview imagen" style="font-weight: bold"/>
+				<p:graphicImage id="imagen" value="/imgevent/#{inscripcionBean.imagenPago}"></p:graphicImage>
 				<h:outputText value="Observaciones" style="font-weight: bold"/>
 				<p:inputTextarea value="#{inscripcionBean.observacion}"></p:inputTextarea>
 			</p:panelGrid>

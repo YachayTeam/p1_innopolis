@@ -244,15 +244,15 @@ public class InscripcionBean implements Serializable{
 						.getRealPath(File.separatorChar + "imgevent");
 				
 				//AsignacionDeNombreImagen
-				DateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
-				String nombre_img = Math.random()+"_"+dateFormat.format(new Date());
+				DateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
+				String nombre_img = "img_"+dateFormat.format(new Date())+".jpg";
 				setImagenPago(nombre_img);
 				
 				System.out.println("PAD------> " + carpetaImagenes);
 				System.out.println("name------> " + getImagenPago());
 
 				outputStream = new FileOutputStream(new File(carpetaImagenes
-						+ File.separatorChar + getImagenPago() + ".jpg"));
+						+ File.separatorChar + getImagenPago()));
 				inputStream = file.getInputstream();
 
 				int read = 0;
