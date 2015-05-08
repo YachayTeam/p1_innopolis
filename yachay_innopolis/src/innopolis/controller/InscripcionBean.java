@@ -12,7 +12,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -22,6 +25,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 @ManagedBean
 @SessionScoped
@@ -45,6 +49,8 @@ public class InscripcionBean implements Serializable{
 	private Integer id_evento;
 	private List<Inscripcione> listadoInscripciones;
 	
+	//Imagenes
+	private UploadedFile file;
 	
 	public InscripcionBean() {
 		managerEv=new ManagerEvento();
@@ -162,6 +168,14 @@ public class InscripcionBean implements Serializable{
 		listadoInscripciones = managerEv.findAllInscripciones();
 		return listadoInscripciones;
 	}
+	
+	public UploadedFile getFile() {
+		return file;
+	}
+	
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
 
 	public String inscribirse(){
 		String resp ="";
@@ -215,70 +229,65 @@ public class InscripcionBean implements Serializable{
 		return "";
 	}
 	
-	/*/ metodo para guardar la imagen en el servidor
-		public void ImagenServ(FileUploadEvent event) throws IOException {
-			file = event.getFile();
-			InputStream inputStream = null;
-			OutputStream outputStream = null;
+	// metodo para guardar la imagen en el servidor
+	public void ImagenServ(FileUploadEvent event) throws IOException {
+		file = event.getFile();
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
 
-			if (file != null) {
-				try {
-					// Tomar PAD REAL
-					ServletContext servletContext = (ServletContext) FacesContext
-							.getCurrentInstance().getExternalContext().getContext();
-					String carpetaImagenes = (String) servletContext
-							.getRealPath(File.separatorChar + "imgevent");
-					System.out.println("PAD------> " + carpetaImagenes);
-					System.out.println("name------> " + getImagen());
+		if (file != null) {
+			try {
+				// Tomar PAD REAL
+				ServletContext servletContext = (ServletContext) FacesContext
+						.getCurrentInstance().getExternalContext().getContext();
+				String carpetaImagenes = (String) servletContext
+						.getRealPath(File.separatorChar + "imgevent");
+				
+				//AsignacionDeNombreImagen
+				DateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
+				String nombre_img = Math.random()+"_"+dateFormat.format(new Date());
+				setImagenPago(nombre_img);
+				
+				System.out.println("PAD------> " + carpetaImagenes);
+				System.out.println("name------> " + getImagenPago());
 
-					outputStream = new FileOutputStream(new File(carpetaImagenes
-							+ File.separatorChar + getImagen() + ".jpg"));
-					inputStream = file.getInputstream();
+				outputStream = new FileOutputStream(new File(carpetaImagenes
+						+ File.separatorChar + getImagenPago() + ".jpg"));
+				inputStream = file.getInputstream();
 
-					int read = 0;
-					byte[] bytes = new byte[1024];
+				int read = 0;
+				byte[] bytes = new byte[1024];
 
-					while ((read = inputStream.read(bytes)) != -1) {
-						outputStream.write(bytes, 0, read);
-					}
-
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO,
-									"Correcto:", "Carga correcta"));
-
-				} catch (Exception e) {
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-									"no se pudo subir la imagen"));
-					e.printStackTrace();
-				} finally {
-					if (inputStream != null) {
-						inputStream.close();
-					}
-
-					if (outputStream != null) {
-						outputStream.close();
-					}
+				while ((read = inputStream.read(bytes)) != -1) {
+					outputStream.write(bytes, 0, read);
 				}
-			} else {
+
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Correcto:", "Carga correcta"));
+
+			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-								"no se pudo seleccionar la imagen"));
-			}
-		}
+								"no se pudo subir la imagen"));
+				e.printStackTrace();
+			} finally {
+				if (inputStream != null) {
+					inputStream.close();
+				}
 
-		// metodo para poner el nombre a la imagen
-		public void asignarNombreImg() {
-			if (getNombre().trim().isEmpty()) {
-				System.out.println("Vacio");
-			} else {
-				setImagen(getNombre());
-				System.out.println(getImagen());
+				if (outputStream != null) {
+					outputStream.close();
+				}
 			}
-
+		} else {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
+							"no se pudo seleccionar la imagen"));
 		}
-	*/
+	}
+	
 }
