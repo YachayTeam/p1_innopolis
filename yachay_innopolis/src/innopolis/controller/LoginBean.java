@@ -1,17 +1,20 @@
 package innopolis.controller;
 
+import innopolis.entities.Tipoestadousr;
 import innopolis.entities.Tipologin;
 import innopolis.entities.Tipousr;
 import innopolis.entities.Usuario;
 import innopolis.manager.ManagerLogin;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 
 @SessionScoped
@@ -22,6 +25,7 @@ public class LoginBean implements Serializable{
 	private ManagerLogin managerlogin;
 	private Tipologin tipologin;
 	private Tipousr tipousuario;
+	private Tipoestadousr tipoestusr;
 	
 	private Integer idUsr;
 	private Integer id_tipologin;
@@ -38,9 +42,9 @@ public class LoginBean implements Serializable{
 	private List<Usuario> usuarioli;
 	private List<Tipologin> tipologinli;
 	private List<Tipousr> tipousrli;
+	private List<Tipoestadousr> tipoestusrli;
 	
-	
-	public LoginBean()  
+		public LoginBean()  
 	{
 		managerlogin = new ManagerLogin();
 		tipologin = new Tipologin();
@@ -150,6 +154,18 @@ public class LoginBean implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	public Tipoestadousr getTipoestusr() {
+		return tipoestusr;
+	}
+	public void setTipoestusr(Tipoestadousr tipoestusr) {
+		this.tipoestusr = tipoestusr;
+	}
+	public List<Tipoestadousr> getTipoestusrli() {
+		return tipoestusrli;
+	}
+	public void setTipoestusrli(List<Tipoestadousr> tipoestusrli) {
+		this.tipoestusrli = tipoestusrli;
+	}
 
 
 	//metodo para crear usuarios
@@ -163,6 +179,7 @@ public class LoginBean implements Serializable{
 				correo="";
 				password="";					
 				idUsr=null;
+				tipoestusr = managerlogin.EstadoByID(1);
 				FacesContext context = FacesContext.getCurrentInstance();
 		        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Usuario Almacenado") );
 			} catch (Exception e) {
@@ -174,7 +191,7 @@ public class LoginBean implements Serializable{
 	
 	//metodo para modificar los usuarios
 		public String actualizarRegistro(){
-			managerlogin.editarusuario(idUsr, alias, apellido, correo, nombre, password);
+			managerlogin.editarusuario(idUsr, alias, apellido, correo, nombre, password, tipoestusr.getIdTipoestadousr());
 			//limpiamos los datos
 			alias="";
 			nombre="";
@@ -182,6 +199,12 @@ public class LoginBean implements Serializable{
 			apellido="";
 			password="";
 			idUsr=null;
+			try {
+				tipoestusr = managerlogin.EstadoByID(1);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Usuario Actualizado ") );
 			return "AprovadorServiciovirtual";
@@ -195,6 +218,7 @@ public class LoginBean implements Serializable{
 			apellido= usr.getApellido();
 			correo= usr.getCorreo();
 			password=usr.getPassword(); 
+			tipoestusr= usr.getTipoestadousr();
 			return "modusr";
 		}
 			
@@ -244,6 +268,15 @@ public class LoginBean implements Serializable{
 					return "";
 				}
 	
-		
+	//metodo para mostrar los TiposEstado
+		public List<SelectItem> getListaTipoestadousr(){
+			List<SelectItem> listadoTEU=new ArrayList<SelectItem>();
+			List<Tipoestadousr> listadoEstadoU=managerlogin.findAllTipoEstadousr();
+				for(Tipoestadousr t:listadoEstadoU){
+					SelectItem item=new SelectItem(t.getIdTipoestadousr(),t.getNombreestado());
+					listadoTEU.add(item);
+				}
+					return listadoTEU;
+		}
 	
 }
