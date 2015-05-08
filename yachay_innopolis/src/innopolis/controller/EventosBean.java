@@ -682,7 +682,6 @@ public class EventosBean implements Serializable {
 		for (Evento e : actual()) {
 			event = new DefaultScheduleEvent(e.getNombre(), e.getFecha(),
 					e.getFecha(), e);
-			System.out.print(event.isAllDay());
 			eventModel.addEvent(event);
 		}
 	}
