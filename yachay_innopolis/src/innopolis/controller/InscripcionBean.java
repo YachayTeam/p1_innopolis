@@ -191,7 +191,8 @@ public class InscripcionBean implements Serializable{
 			setFechaInscripcion( new Timestamp(fecha_hora.getTimeInMillis()));
 			//Ingreso
 			managerEv.insertarInscripcion(getFechaInscripcion(), 0, getNombre(), getApellido(), getCorreo(), getImagenPago(), getObservacion());
-			resp="";//Enviar a un resumen de inscripcion o pagina de exito
+			setNombre("");setApellido("");setCorreo("");setObservacion("");setImagenPago("sin_pago.jpg");
+			resp="calendario?faces-redirect=true";//Enviar a un resumen de inscripcion o pagina de exito
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al intentar inscribirse al evento", null));
 		}
@@ -199,6 +200,7 @@ public class InscripcionBean implements Serializable{
 	}
 	
 	public String cancelarIns(){
+		setNombre("");setApellido("");setCorreo("");setObservacion("");setImagenPago("sin_pago.jpg");
 		return "calendario?faces-redirect=true";
 	}
 	
