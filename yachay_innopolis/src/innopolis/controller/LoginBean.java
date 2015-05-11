@@ -48,7 +48,8 @@ public class LoginBean implements Serializable{
 	{
 		managerlogin = new ManagerLogin();
 		tipologin = new Tipologin();
-		tipousuario = new Tipousr();			
+		tipousuario = new Tipousr();	
+		tipoestusr = new Tipoestadousr();
 	}	
 	
 	
@@ -166,7 +167,16 @@ public class LoginBean implements Serializable{
 	public void setTipoestusrli(List<Tipoestadousr> tipoestusrli) {
 		this.tipoestusrli = tipoestusrli;
 	}
-
+	
+	//metodo para listar los registros
+		public List<Usuario> getListRegServi(){
+				return managerlogin.findAllUsuarios();
+			}
+		
+	//metodo para listar los servicios
+		public List<Tipologin> getListTipoLogin(){
+				return managerlogin.findAllTipoLogin();
+		}
 
 	//metodo para crear usuarios
 	public String crearUsuario(){
@@ -207,7 +217,7 @@ public class LoginBean implements Serializable{
 			} 
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Usuario Actualizado ") );
-			return "AprovadorServiciovirtual";
+			return "AdministracionUsuarios";
 		}
 
 	//metodo para cargar la lista de usuarios
@@ -217,6 +227,7 @@ public class LoginBean implements Serializable{
 			nombre= usr.getNombre();
 			apellido= usr.getApellido();
 			correo= usr.getCorreo();
+			alias=usr.getAlias();
 			password=usr.getPassword(); 
 			tipoestusr= usr.getTipoestadousr();
 			return "modusr";
@@ -244,7 +255,7 @@ public class LoginBean implements Serializable{
 			id_tipologin=null;			
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Tipologin Actualizado ") );
-			return "AprovadorServiciovirtual";
+			return "AdministracionUsuarios";
 			}
 		
       //metodo para cargar la lista de tipologin
@@ -278,5 +289,52 @@ public class LoginBean implements Serializable{
 				}
 					return listadoTEU;
 		}
+		
+		
+		//metodo para cambiar el estado del usuarios
+				public String cambiarEstado(Usuario usr){
+					try {
+							managerlogin.cambioDisEstadousr(usr.getIdUsr());						
+							FacesContext context = FacesContext.getCurrentInstance();
+				        	context.addMessage(null, new FacesMessage("INFORMACION",managerlogin.cambioDisEstadousr(usr.getIdUsr())));
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
+						}
+					return "";
+				}
+		//------ Envios paginas--------//				
+				public String irAprovador(){								       
+			      //limpiamos los datos
+			        nombre="";
+			        apellido="";
+					correo="";
+					alias="";
+					password="";		
+					try {
+						tipologin = managerlogin.TipoLoginByID(1);						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} // numero id del estado q quieres q sea;	
+							tipousr = new Tipousr();
+							id_tipousr=0;							
+					return "AdministracionUsuarios";					
+				}
+		
+				public String irAprovadorpag(){		   
+					//limpiamos los datos				        
+							try {
+								tipologin = managerlogin.TipoLoginByID(1);
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} // numero id del estado q quieres q sea;
+							tipologin = new Tipologin();						
+							id_tipousr=0;						
+							return "Crudtipologin";					
+					}	
+					
+		
+		
 	
 }

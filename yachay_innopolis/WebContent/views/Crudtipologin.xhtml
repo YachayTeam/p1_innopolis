@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet library="css" name="styleser.css" />
+<title>Servicios Virtuales</title>
+</h:head>
+<body>
+<h:form> 
+    <p:menubar>
+        <p:menuitem value="Administración Usuarios" action="#{loginBean.irAprovador}" icon="ui-icon-clipboard" />        
+        <f:facet name="options">
+            <p:inputText style="margin-right:10px" placeholder="Search"/>
+            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<div class="div2">
+<h:form id="form1">	
+<p:growl id="message" showDetail="true" /> 
+	<p:panel id="panel1"  header="Ingreso de Tipos de Logeo">
+		<p:panelGrid columns="2" >
+			<h:outputText value="Tipo *"/>
+			<p:inputText required="true" id="tipo" value="#{loginBean.nomtipologin}"></p:inputText>
+			<h:outputText value="Descripción *"/>
+			<p:inputText required="true" id="des" value="#{loginBean.descripcion}"></p:inputText>
+			<p:commandButton id="trackingre" update="panel1 :form2:panel2 message" value="Insertar" action="#{loginBean.crearTipoLogin}">
+			<p:tooltip id="toolTipTrac" for="trackingre" value="Botón para Agregar un Tipo" trackMouse="true" />
+			</p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+</div>
+<div class="div2">
+<h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage>
+</div>
+<hr />
+<div class="div1">
+<h:form id="form2">
+<p:growl id="message1" showDetail="true" />
+	<p:panel id="panel2" header="Lista de Tipos de Logeo">
+		<p:dataTable id="dt" paginator="true" rows="10" value="#{loginBean.listTipoLogin}" var="ser">
+			<p:column headerText="Tipos">
+				<h:outputText value="#{ser.nomtipologin}"></h:outputText>
+			</p:column>
+			<p:column headerText="Descripción">
+				<h:outputText value="#{ser.nomtipologin}"></h:outputText>
+			</p:column>
+			<p:column headerText="Modificar">
+			<p:commandButton id="trackedi"  icon="ui-icon-pencil">
+				<p:tooltip id="toolTipTrac1" for="trackedi" value="Botón para Editar el Tipo" trackMouse="true" />
+				<p:ajax listener="#{loginBean.Cargartipologin(ser)}" oncomplete="PF('dlg1').show();"  update=":form2:panel2" />
+			</p:commandButton>			
+				<p:commandButton id="trackeli" icon="ui-icon-closethick" actionListener="#{loginBean.Eliminartipologin(ser)}" update=":form2">
+				<p:tooltip id="toolTipTrac2" for="trackeli" value="Botón para Eliminar el Tipo" trackMouse="true" />				
+    		</p:commandButton>			
+    		</p:column>			
+		</p:dataTable>		
+	<br></br>
+		<p:commandButton id="trackvolver1" value="Volver" action="#{loginBean.irAprovador}">
+		<p:tooltip id="toolTipTrac3" for="trackvolver1" value="Botón para Regresar a Lista de Usuarios" trackMouse="true" />
+		</p:commandButton>
+		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Tipo" showEffect="clip" hideEffect="clip">
+	<p:panelGrid columns="2" >
+			<h:outputText value="Nombre Tipo"/>
+			<p:inputText required="true" id="Nom" value="#{loginBean.nomtipologin}"></p:inputText>
+			<h:outputText value="Descripción"/>
+			<p:inputText required="true" id="Desc" value="#{loginBean.descripcion}"></p:inputText>
+			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarTipologin}">
+			<p:tooltip id="toolTipTrac4" for="trackactu" value="Botón para Aceptar la Edición" trackMouse="true" />
+			</p:commandButton>
+			<p:commandButton id="trackvolver" action="#{loginBean.irAprovadorpag}" value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();">
+			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Regresar a Lista de Tipos" trackMouse="true" />
+			</p:commandButton>
+	</p:panelGrid>
+	</p:dialog>		
+	</p:panel>				
+</h:form>
+</div>
+</body>
+</html>

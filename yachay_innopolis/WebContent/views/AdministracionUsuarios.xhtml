@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet library="css" name="styleser.css" />
+<title>Servicios Virtuales</title>
+</h:head>
+<body>
+<h:form>  
+    <p:menubar>
+        <p:menuitem value="Administrar Tipos de Logeo" action="#{loginBean.irAprovadorpag}" icon="ui-icon-clipboard" />        
+        <f:facet name="options">
+            <p:inputText style="margin-right:10px" placeholder="Search"/>
+            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<div class="div4">
+<h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage>
+</div>
+<div class="div1">
+<h:form id="form2">
+		<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2" header="Lista de Registrados">
+		<p:dataTable id="dt" value="#{loginBean.listRegServi}" rows="10" var="reg"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                 paginator="true">			
+			<p:column  headerText="APELLIDOS">
+				<h:outputText value="#{reg.apellido}"></h:outputText>
+			</p:column>			
+			<p:column headerText="NOMBRES">
+				<h:outputText value="#{reg.nombre}"></h:outputText>
+			</p:column>
+			<p:column headerText="CORREO">
+				<h:outputText value="#{reg.correo}"></h:outputText>
+			</p:column>
+			<p:column headerText="ALIAS">
+			<h:outputText value="#{reg.alias}"></h:outputText>
+			</p:column>
+			<p:column headerText="PASSWORD">
+			<h:outputText value="#{reg.password}"></h:outputText>
+			</p:column>
+			<p:column id="f3" filterBy="#{reg.tipoestadousr.nombreestado}" headerText="ESTADO">
+			<h:outputText value="#{reg.tipoestadousr.nombreestado}"></h:outputText>
+			</p:column>
+			<p:column headerText="OPCIONES" exportable="false">
+				<p:commandButton  icon="ui-icon-pencil" id="track">
+				<p:tooltip id="toolTipTrack1" for="track" value="Botón para observar la Información del Registro" trackMouse="true" />
+				<p:ajax listener="#{loginBean.Cargarusuarios(reg)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+				</p:commandButton>
+				<p:commandButton id="trackcambio" icon="ui-icon-refresh" actionListener="#{loginBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2">
+				<p:tooltip id="toolTipTrack2" for="trackcambio" value="Botón para Cambiar el Estado" trackMouse="true" />
+				</p:commandButton>				
+				<p:commandButton  icon="ui-icon-mail-closed" id="trackenvio">
+				<p:tooltip id="toolTipTrack3" for="trackenvio" value="Botón para Enviar una Notificación" trackMouse="true" />
+				<p:ajax listener="#{serviciosVirtualesBean.enviarmensaje(reg)}" oncomplete="PF('dlg2').show();"  update=":form2:panel2 :form2:message2"/>
+				</p:commandButton>			
+			</p:column>
+		</p:dataTable>
+		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Información" showEffect="clip" hideEffect="clip">
+		<p:panelGrid columns="2" >
+		<h:outputText value="Apellido"/>
+			<h:outputText   id="ape" value="#{loginBean.apellido}" ></h:outputText>
+			<h:outputText value="Nombre"/>
+			<h:outputText  id="nom" value="#{loginBean.nombre}" ></h:outputText>
+			<h:outputText value="Correo"/>
+			<h:outputText id="correo" value="#{loginBean.correo}" ></h:outputText>			
+			<h:outputText value="Alias"/>
+			<h:outputText  id="alias" value="#{loginBean.alias}" ></h:outputText>
+			<h:outputText value="Password"/>
+			<h:outputText id="pass"   value="#{loginBean.password}" ></h:outputText>
+			<h:outputText  id="est" readonly="true" value="#{loginBean.tipoestusr.nombreestado}"></h:outputText>	
+			<h:outputText value="Notificación"/>										
+			<p:commandButton value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2 :form2:message2" action="#{loginBean.irAprovador}"></p:commandButton>
+		</p:panelGrid>
+		</p:dialog>		
+		<p:dialog header="Información" modal="true" closable="false"  widgetVar="dlg2" minHeight="40"  showEffect="clip" hideEffect="clip">
+    		     <h:outputText value="La notifación al correo se ha enviado correctamente" /><br/>
+    			 <p:commandButton value="Volver" icon="ui-icon-close"   onclick="PF('dlg2').close();"  update=":form2:panel2 :form2:message2"/>
+		    </p:dialog>			
+		<br/>
+		<h:outputText value="Exportar Listado:    "/><br/>    
+		<h:commandLink>
+		<p:commandButton value="Excel" icon="ui-icon-calculator" id="trackimporte">
+		<p:tooltip id="toolTipTrack4" for="trackimporte" value="Botón para Importar la Tabla Formato Excel" trackMouse="true" />
+		</p:commandButton>
+        <p:dataExporter type="xls" target="dt" fileName="Lista"/>
+    	</h:commandLink>
+    	<h:commandLink>
+		<p:commandButton value="PDF" icon="ui-icon-document" id="trackimportp">
+		<p:tooltip id="toolTipTrack5" for="trackimportp" value="Botón para Importar la Tabla Formato PDF" trackMouse="true" />
+		</p:commandButton>
+        <p:dataExporter type="pdf" target="dt" fileName="Lista"/>
+    	</h:commandLink>    	    	
+	</p:panel>
+</h:form>
+</div>
+</body>
+</html>
