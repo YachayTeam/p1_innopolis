@@ -204,37 +204,7 @@ public class InscripcionBean implements Serializable{
 		return "calendario?faces-redirect=true";
 	}
 	
-	public String notificarInscripcion(Inscripcione inscripcion){
-		if(inscripcion.getSms().equals("notificada")){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion ya fue notificacion", null));
-		}else{
-			String mensaje="Le informamos que la inscripcion de: "+inscripcion.getEvento().getNombre()+" ,fue "+inscripcion.getEstado();
-			try {
-				managerReserv.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Inscripcion YACHAY/INNOPOLIS  ", mensaje);
-				managerEv.notificarInscripcion(inscripcion.getIdInscripcion(), "notificada");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar notificacion", null));
-			}
-		}
-		return "";
-	}
-	
-	public String aprobarInscrito(Inscripcione inscripcion){
-		try {
-			Evento ev = inscripcion.getEvento();
-			if(managerEv.superaInscritosEvento(ev)){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Evento ya supera inscritos", null));
-			}else{
-				managerEv.modificarInscripcion(inscripcion.getIdInscripcion(), "aprobada");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Aprobacion Exitosa", null));
-			}
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al aprobar inscripcion", null));
-		}
-		return "";
-	}
-	
+		
 	// metodo para guardar la imagen en el servidor
 	public void ImagenServ(FileUploadEvent event) throws IOException {
 		file = event.getFile();
@@ -296,5 +266,55 @@ public class InscripcionBean implements Serializable{
 							"no se pudo seleccionar la imagen"));
 		}
 	}
+	
+	//-----------------------------APROBADOR------------------------------------------------------//
+	
+	public String notificarInscripcion(Inscripcione inscripcion){
+		if(inscripcion.getEstado().equals("aprobada") && inscripcion.getSms().equals("notificada")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion ya fue aprobada y notificada", null));
+		}else if(inscripcion.getEstado().equals("sin aprobar")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion no ha sido aprobada o negada para poder notificarla", null));
+		}else{
+			String mensaje="Le informamos que la inscripcion de: "+inscripcion.getEvento().getNombre()+" ,fue "+inscripcion.getEstado();
+			try {
+				managerReserv.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Inscripcion YACHAY/INNOPOLIS  ", mensaje);
+				managerEv.notificarInscripcion(inscripcion.getIdInscripcion(), "notificada");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar notificacion", null));
+			}
+		}
+		return "";
+	}
+	
+	public String aprobarInscrito(Inscripcione inscripcion){
+		try {
+			Evento ev = inscripcion.getEvento();
+			if(managerEv.superaInscritosEvento(ev)){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Evento ya supera inscritos", null));
+			}else{
+				managerEv.modificarInscripcion(inscripcion.getIdInscripcion(), "aprobada");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Aprobacion Exitosa", null));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al aprobar inscripcion", null));
+		}
+		return "";
+	}
+	
+	public String negarInscrito(Inscripcione inscripcion){
+		if(inscripcion.getEstado().equals("aprobada") && inscripcion.getSms().equals("notificada")){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion ya fue aprobada y notificada, no se puede negar", null));
+		}else{
+			try {
+				managerEv.modificarInscripcion(inscripcion.getIdInscripcion(), "negada");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Inscripcion negada", null));
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al negar inscripcion", null));
+			}
+		}
+		return "";
+	}
+	
 	
 }
