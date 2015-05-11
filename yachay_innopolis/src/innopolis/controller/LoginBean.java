@@ -36,7 +36,7 @@ public class LoginBean implements Serializable{
 	private String correo;
 	private String nombre;
 	private String password;
-	private String nomtipologin;
+	private String nomtipolog;
 	private String descripcion;
 	
 	private List<Usuario> usuarioli;
@@ -143,11 +143,11 @@ public class LoginBean implements Serializable{
 	public void setTipousrli(List<Tipousr> tipousrli) {
 		this.tipousrli = tipousrli;
 	}	
-	public String getNomtipologin() {
-		return nomtipologin;
+	public String getNomtipolog() {
+		return nomtipolog;
 	}
-	public void setNomtipologin(String nomtipologin) {
-		this.nomtipologin = nomtipologin;
+	public void setNomtipolog(String nomtipolog) {
+		this.nomtipolog = nomtipolog;
 	}
 	public String getDescripcion() {
 		return descripcion;
@@ -200,21 +200,21 @@ public class LoginBean implements Serializable{
 		}
 	
 	//metodo para modificar los usuarios
-		public String actualizarRegistro(){
+		public String actualizarusuario(){
 			managerlogin.editarusuario(idUsr, alias, apellido, correo, nombre, password, tipoestusr.getIdTipoestadousr());
 			//limpiamos los datos
 			alias="";
 			nombre="";
 			correo="";			
 			apellido="";
-			password="";
-			idUsr=null;
+			password="";			
 			try {
 				tipoestusr = managerlogin.EstadoByID(1);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
+			idUsr=null;
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Usuario Actualizado ") );
 			return "AdministracionUsuarios";
@@ -237,7 +237,7 @@ public class LoginBean implements Serializable{
 		public String crearTipoLogin(){
 			try {
 			    	tipologin = null;			    	
-					managerlogin.insertarTipologin(getNomtipologin(), getDescripcion());			    						
+					managerlogin.insertarTipologin(getNomtipolog(), getDescripcion());			    						
 			    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Creado correctamente",null));
 			    } catch (Exception e) {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al ingresar nuevo tipo",null));
@@ -248,20 +248,32 @@ public class LoginBean implements Serializable{
 		
 		//metodo para modificar los usuarios
 		public String actualizarTipologin(){
-			managerlogin.editartipologin(id_tipologin, nomtipologin, descripcion);			
-			//limpiamos los datos
-			descripcion="";
-			nomtipologin="";
-			id_tipologin=null;			
-			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Tipologin Actualizado ") );
-			return "AdministracionUsuarios";
+			String resp ="";
+			try {
+				managerlogin.editartipologin(getId_tipologin(),getNomtipolog(),getDescripcion());				
+				//id_tipologin=null;
+				//nomtipolog="";
+				//descripcion="";
+				setNomtipolog("");
+				setDescripcion("");
+				setId_tipologin(0);		
+				resp = "Crudtipologin";
+				FacesContext context = FacesContext.getCurrentInstance();
+		        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Tipo login Actualizado ") );
+				}
+			catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
 			}
+		return resp;
+			
+		}		
+		
 		
       //metodo para cargar la lista de tipologin
 		public String Cargartipologin(Tipologin tplog)
 			{
-			nomtipologin= tplog.getTipologin();
+			nomtipolog= tplog.getTipologin();
 			descripcion=  tplog.getDescripcion();	
 			return "modtipolog";
 		}
@@ -293,14 +305,13 @@ public class LoginBean implements Serializable{
 		
 		//metodo para cambiar el estado del usuarios
 				public String cambiarEstado(Usuario usr){
-					try {
-							managerlogin.cambioDisEstadousr(usr.getIdUsr());						
+					try {													
 							FacesContext context = FacesContext.getCurrentInstance();
 				        	context.addMessage(null, new FacesMessage("INFORMACION",managerlogin.cambioDisEstadousr(usr.getIdUsr())));
 						} catch (Exception e) {
 							System.out.println(e.getMessage());
 						}
-					return "";
+					return "AdministracionUsuarios";
 				}
 		//------ Envios paginas--------//				
 				public String irAprovador(){								       
@@ -333,8 +344,4 @@ public class LoginBean implements Serializable{
 							id_tipousr=0;						
 							return "Crudtipologin";					
 					}	
-					
-		
-		
-	
 }

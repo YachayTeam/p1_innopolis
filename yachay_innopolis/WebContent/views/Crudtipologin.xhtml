@@ -7,7 +7,7 @@
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <h:outputStylesheet library="css" name="styleser.css" />
-<title>Servicios Virtuales</title>
+<title>Manejador Tipo Login</title>
 </h:head>
 <body>
 <h:form> 
@@ -26,9 +26,13 @@
 	<p:panel id="panel1"  header="Ingreso de Tipos de Logeo">
 		<p:panelGrid columns="2" >
 			<h:outputText value="Tipo *"/>
-			<p:inputText required="true" id="tipo" value="#{loginBean.nomtipologin}"></p:inputText>
+			<p:inputText styleClass="t" required="true" id="tipo" value="#{loginBean.nomtipolog}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
 			<h:outputText value="Descripción *"/>
-			<p:inputText required="true" id="des" value="#{loginBean.descripcion}"></p:inputText>
+			<p:inputText styleClass="t" required="true" id="descrip" value="#{loginBean.descripcion}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
 			<p:commandButton id="trackingre" update="panel1 :form2:panel2 message" value="Insertar" action="#{loginBean.crearTipoLogin}">
 			<p:tooltip id="toolTipTrac" for="trackingre" value="Botón para Agregar un Tipo" trackMouse="true" />
 			</p:commandButton>
@@ -46,18 +50,19 @@
 	<p:panel id="panel2" header="Lista de Tipos de Logeo">
 		<p:dataTable id="dt" paginator="true" rows="10" value="#{loginBean.listTipoLogin}" var="ser">
 			<p:column headerText="Tipos">
-				<h:outputText value="#{ser.nomtipologin}"></h:outputText>
+				<h:outputText value="#{ser.tipologin}"></h:outputText>
 			</p:column>
 			<p:column headerText="Descripción">
-				<h:outputText value="#{ser.nomtipologin}"></h:outputText>
+				<h:outputText value="#{ser.descripcion}"></h:outputText>
 			</p:column>
 			<p:column headerText="Modificar">
 			<p:commandButton id="trackedi"  icon="ui-icon-pencil">
 				<p:tooltip id="toolTipTrac1" for="trackedi" value="Botón para Editar el Tipo" trackMouse="true" />
 				<p:ajax listener="#{loginBean.Cargartipologin(ser)}" oncomplete="PF('dlg1').show();"  update=":form2:panel2" />
 			</p:commandButton>			
-				<p:commandButton id="trackeli" icon="ui-icon-closethick" actionListener="#{loginBean.Eliminartipologin(ser)}" update=":form2">
-				<p:tooltip id="toolTipTrac2" for="trackeli" value="Botón para Eliminar el Tipo" trackMouse="true" />				
+			<p:commandButton  icon="ui-icon-closethick">
+				<p:tooltip  value="Botón para Eliminar el Tipo" trackMouse="true" />				
+				<p:ajax listener="#{loginBean.Eliminartipologin(ser)}" update=":form2:panel2" />
     		</p:commandButton>			
     		</p:column>			
 		</p:dataTable>		
@@ -68,10 +73,10 @@
 		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Tipo" showEffect="clip" hideEffect="clip">
 	<p:panelGrid columns="2" >
 			<h:outputText value="Nombre Tipo"/>
-			<p:inputText required="true" id="Nom" value="#{loginBean.nomtipologin}"></p:inputText>
+			<p:inputText id="Nombretipo" value="#{loginBean.nomtipolog}"></p:inputText>
 			<h:outputText value="Descripción"/>
-			<p:inputText required="true" id="Desc" value="#{loginBean.descripcion}"></p:inputText>
-			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarTipologin}">
+			<p:inputText id="Descripcion" value="#{loginBean.descripcion}"></p:inputText>
+			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();" update=":form2:panel2"  actionListener="#{loginBean.actualizarTipologin}">
 			<p:tooltip id="toolTipTrac4" for="trackactu" value="Botón para Aceptar la Edición" trackMouse="true" />
 			</p:commandButton>
 			<p:commandButton id="trackvolver" action="#{loginBean.irAprovadorpag}" value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();">

@@ -7,7 +7,7 @@
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <h:outputStylesheet library="css" name="styleser.css" />
-<title>Servicios Virtuales</title>
+<title>Administración de Usuarios</title>
 </h:head>
 <body>
 <h:form>  
@@ -56,33 +56,36 @@
 				<p:commandButton id="trackcambio" icon="ui-icon-refresh" actionListener="#{loginBean.cambiarEstado(reg)}" update=":form2:panel2 :form2:message2">
 				<p:tooltip id="toolTipTrack2" for="trackcambio" value="Botón para Cambiar el Estado" trackMouse="true" />
 				</p:commandButton>				
-				<p:commandButton  icon="ui-icon-mail-closed" id="trackenvio">
-				<p:tooltip id="toolTipTrack3" for="trackenvio" value="Botón para Enviar una Notificación" trackMouse="true" />
-				<p:ajax listener="#{serviciosVirtualesBean.enviarmensaje(reg)}" oncomplete="PF('dlg2').show();"  update=":form2:panel2 :form2:message2"/>
-				</p:commandButton>			
 			</p:column>
 		</p:dataTable>
 		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Información" showEffect="clip" hideEffect="clip">
 		<p:panelGrid columns="2" >
 		<h:outputText value="Apellido"/>
-			<h:outputText   id="ape" value="#{loginBean.apellido}" ></h:outputText>
+			<p:inputText required="false" id="ape" value="#{loginBean.apellido}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>			
 			<h:outputText value="Nombre"/>
-			<h:outputText  id="nom" value="#{loginBean.nombre}" ></h:outputText>
+			<p:inputText required="false" id="nom" value="#{loginBean.nombre}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
 			<h:outputText value="Correo"/>
-			<h:outputText id="correo" value="#{loginBean.correo}" ></h:outputText>			
+			<p:inputText required="false" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{loginBean.correo}">
+			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+			</p:inputText>			
 			<h:outputText value="Alias"/>
-			<h:outputText  id="alias" value="#{loginBean.alias}" ></h:outputText>
+			<p:inputText required="false" id="alias" value="#{loginBean.alias}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>			
 			<h:outputText value="Password"/>
-			<h:outputText id="pass"   value="#{loginBean.password}" ></h:outputText>
-			<h:outputText  id="est" readonly="true" value="#{loginBean.tipoestusr.nombreestado}"></h:outputText>	
-			<h:outputText value="Notificación"/>										
+			<p:inputText required="false" id="pass" value="#{loginBean.password}" requiredMessage="Requerido" validatorMessage="Ingrese el password">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
+			<h:outputText value="Estado"/>
+			<h:outputText  id="est" readonly="true" value="#{loginBean.tipoestusr.nombreestado}"></h:outputText>
+			<p:commandButton update="message2" value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarusuario}"></p:commandButton>													
 			<p:commandButton value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2 :form2:message2" action="#{loginBean.irAprovador}"></p:commandButton>
 		</p:panelGrid>
-		</p:dialog>		
-		<p:dialog header="Información" modal="true" closable="false"  widgetVar="dlg2" minHeight="40"  showEffect="clip" hideEffect="clip">
-    		     <h:outputText value="La notifación al correo se ha enviado correctamente" /><br/>
-    			 <p:commandButton value="Volver" icon="ui-icon-close"   onclick="PF('dlg2').close();"  update=":form2:panel2 :form2:message2"/>
-		    </p:dialog>			
+		</p:dialog>					
 		<br/>
 		<h:outputText value="Exportar Listado:    "/><br/>    
 		<h:commandLink>

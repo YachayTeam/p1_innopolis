@@ -16,6 +16,7 @@ public class ManagerLogin implements Serializable{
 	
 	//Registro Temporal
 		private static Tipoestadousr tipoestadousr;
+		private static Tipologin tipologin;
 		int p=0;
 		String h="";
 	
@@ -54,7 +55,7 @@ public class ManagerLogin implements Serializable{
 	//editar los usuarios
 			public void editarusuario(Integer id_usr,String alias, String apellido, String correo,String nombre, String password,Integer id_Estadousr){
 				try{
-					Usuario usr = new Usuario(); 
+					Usuario usr = this.UsuarioByID(id_usr); 
 					usr.setAlias(alias);
 				    usr.setApellido(apellido);
 				    usr.setCorreo(correo);
@@ -69,12 +70,12 @@ public class ManagerLogin implements Serializable{
 			}
 
 	//editar los tipologin
-			public void editartipologin(Integer id_tipologin,String tipologinnom, String descripcion){
-				try{
-					Tipologin tipologin = new Tipologin();
-					tipologin.setTipologin(tipologinnom);
-					tipologin.setDescripcion(descripcion);
-					
+			public void editartipologin(Integer id_tipologin,String nomtipolog, String descripcion)
+			{
+				try{					
+					Tipologin tipologin = this.TipoLoginByID(id_tipologin);
+					tipologin.setTipologin(nomtipolog);
+					tipologin.setDescripcion(descripcion);					
 					mDAO.actualizar(tipologin);
 				} catch (Exception e) {
 					System.out.println("Error_mod_tipologin");
@@ -131,7 +132,7 @@ public class ManagerLogin implements Serializable{
 			public void eliminarTipologin(Integer id_tipologin) throws Exception {
 				try
 				{
-				  Tipologin tipologin = TipoLoginByID(id_tipologin);				  
+				  tipologin = TipoLoginByID(id_tipologin);				  
 				  if(tipologin.getTipousrs().isEmpty())
 				mDAO.eliminar(Tipologin.class, id_tipologin);
 				  else 
