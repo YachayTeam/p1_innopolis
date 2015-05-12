@@ -234,7 +234,7 @@ public class LoginBean implements Serializable{
 	
 	//metodo para modificar los usuarios
 		public String actualizarusuario(){
-			//managerlogin.editarusuario(idUsr, alias, apellido, correo, nombre, password, tipoestusr.getIdTipoestadousr());
+			//managerlogin.editarusuario(idUsr, correo, password, arrayTipoLogin);
 			//limpiamos los datos
 			alias="";
 			nombre="";
@@ -283,7 +283,7 @@ public class LoginBean implements Serializable{
 		public String actualizarTipologin(){
 			String resp ="";
 			try {
-				managerlogin.editartipologin(id_tipologin,descripcion,nomtipolog);				
+				managerlogin.editartipologin(getId_tipologin(),descripcion,nomtipolog);				
 				id_tipologin=null;
 				descripcion="";
 			    nomtipolog="";				
@@ -396,7 +396,7 @@ public class LoginBean implements Serializable{
 	
 	//metodo para asignar el TipoServicio al registro
 		public String asignarTipoLogin(){
-			//managerlogin.asignarTipologin(tipologin.getIdTipologin());			
+			managerlogin.asignarTipologin(tipologin.getIdTipologin());			
 				return "";
 			}
 }
