@@ -36,7 +36,7 @@
             <h:outputLabel value="Indique si Tipo: " />
             <h:panelGroup>  
 					<p:selectOneMenu required="true" value="#{loginBean.tipologin.idTipologin}" requiredMessage="Requerido Servicio">
-						<f:selectItem  itemLabel="Seleccione el Tipo" de ingreso itemValue=""/>
+						<f:selectItem  itemLabel="Seleccione Tipo" itemValue="-1"/>
 						<f:selectItems value="#{loginBean.listaTipoLogin}"  />
 						<p:ajax
 							listener="#{loginBean.asignarTipoLogin}">
