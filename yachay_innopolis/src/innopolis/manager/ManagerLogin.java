@@ -7,6 +7,7 @@ import innopolis.entities.Tipousr;
 import innopolis.entities.Usuario;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerLogin implements Serializable{
@@ -17,7 +18,7 @@ public class ManagerLogin implements Serializable{
 	
 	//Registro Temporal
 		private static Tipoestadousr tipoestadousr;
-		private static Tipologin tipologin1;
+		private static Tipologin tipologin;
 		int p=0;
 		String h="";
 	
@@ -112,20 +113,84 @@ public class ManagerLogin implements Serializable{
 	}			
 			
 	//editar los usuarios FALTA
-	public void editarusuario(Integer id_usr,String alias, String apellido, String correo,String nombre, String password,Integer id_Estadousr){
-		try{
-			Usuario usr = this.UsuarioByID(id_usr); 
-			usr.setAlias(alias);
-		    usr.setApellido(apellido);
-		    usr.setCorreo(correo);
-		    usr.setNombre(nombre);
-		    usr.setPassword(password);
-		    usr.setTipoestadousr(this.asignarTipoestusr(id_Estadousr));
-		    mDAO.actualizar(usr);
-		} catch (Exception e) {
-			System.out.println("Error_mod_usuario");
-			e.printStackTrace();
+	public void editarusuario(Integer id_usr, String correo, String password, Integer[] listTipo) throws Exception{
+		Usuario usr = this.UsuarioByID(id_usr); ;
+		usr.setCorreo(correo);;
+		usr.setPassword(password);
+		mDAO.actualizar(usr);
+		
+		//Actualizar tipos usuarios eliminar diferente, añadir nuevos
+	    //tomo actuales
+		List<Tipousr> listado = findAllTipoUsrXUser(id_usr);
+		Integer[] actuales = new Integer[listado.size()];
+		actuales = listado.toArray(actuales);
+		//Saco listas
+		ArrayList<Integer> menos = noExisteAenB(actuales, listTipo);
+		for (Integer id_menos : menos) {
+			mDAO.eliminar(Tipousr.class, findByUsrTipo(id_usr, id_menos).getIdTipusr());
 		}
+		
+		ArrayList<Integer> mas = noExisteAenB(listTipo, actuales);
+		for (Integer id_mas : mas) {
+			insertarTipoUsr(usr, TipoLoginByID(id_mas));
+		}    
+		    
+	}
+	
+	//Comparaciones
+	public ArrayList<Integer> noExisteAenB(Integer[] a, Integer[] b){
+		ArrayList<Integer> resp = new ArrayList<Integer>();
+		int val = 0;
+		for (Integer int_a : a) {
+			for (Integer int_b : b) {
+				if(int_a==int_b){
+					val = 0;
+					break;
+				}else{
+					val = int_a;
+				}
+			}
+			if(val!=0){
+				resp.add(int_a);
+			}
+		}
+		return resp;
+	}
+	
+	//Buscar tipousr
+	public Tipousr findByUsrTipo(Integer id_usr, Integer id_tipo){
+		Tipousr resp = null;
+		List<Tipousr> listado = findAllTipoUsr();
+		for (Tipousr tipousr : listado) {
+			if(tipousr.getUsuario().getIdUsr().equals(id_usr) && tipousr.getTipologin().getTipologin().equals(id_tipo)){
+				resp = tipousr;
+				break;
+			}
+		}
+		return resp;
+	}
+	
+	//Lista x Usuario
+	public List<Tipousr> findAllTipoUsrXUser(Integer id_usr){
+		List<Tipousr> listado = findAllTipoUsr();
+		List<Tipousr> todos = findAllTipoUsr();
+			for (Tipousr tipousr : todos) {
+				if(!tipousr.getIdTipusr().equals(id_usr)){
+					listado.remove(tipousr);
+				}
+			}
+		return listado;
+	}
+
+	
+	
+	public Integer[] tiposDeUsuario(Integer id_usr){
+		ArrayList<Integer> resp = new ArrayList<Integer>();
+		List<Tipousr> lista = findAllTipoUsrXUser(id_usr);
+		for (Tipousr tipousr : lista) {
+			resp.add(tipousr.getIdTipusr());
+		}
+		return (Integer[]) resp.toArray();
 	}
 
 	//editar los tipologin
@@ -191,8 +256,8 @@ public class ManagerLogin implements Serializable{
 	public void eliminarTipologin(Integer id_tipologin) throws Exception {
 		try
 		{
-		  tipologin1 = TipoLoginByID(id_tipologin);				  
-		  if(tipologin1.getTipousrs().isEmpty())
+		  tipologin = TipoLoginByID(id_tipologin);				  
+		  if(tipologin.getTipousrs().isEmpty())
 		mDAO.eliminar(Tipologin.class, id_tipologin);
 		  else 
 		  throw new Exception("No se elminio");
@@ -213,19 +278,6 @@ public class ManagerLogin implements Serializable{
 		}
  		return tipoestadousr;
 	}
- 	
-	//metodo para asignar el Tiposervicio al registro
- 	public Tipologin asignarTipologin(Integer idtipologin) {
- 		try {
- 			tipologin1 = TipoLoginByID(idtipologin);			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
- 		return tipologin1;
-	}
- 	
- 	
 	
 	//desactivar y activar estado	
 	public String cambioDisEstadousr(Integer id) throws Exception{
@@ -240,15 +292,21 @@ public class ManagerLogin implements Serializable{
 		Usuario usr = UsuarioByID(id);				
 		Tipoestadousr tipestusr = new Tipoestadousr();
 		
-		if(usr.getTipoestadousr().getNombreestado().equals("Activado")){
+		if(usr.getTipoestadousr().getNombreestado().equals("Pendiente")){
 			tipestusr.setIdTipoestadousr(2);
-			tipestusr.setNombreestado("Desactivado");				
+			tipestusr.setNombreestado("Aprobado");				
 			usr.setTipoestadousr(tipestusr);				
 			h="Estado del Registro Modificado";
 		}
-		else if(usr.getTipoestadousr().getNombreestado().equals("Desactivado")){
-			tipestusr.setIdTipoestadousr(1);
-			tipestusr.setNombreestado("Activado");				
+		else if(usr.getTipoestadousr().getNombreestado().equals("Aprobado")){
+			tipestusr.setIdTipoestadousr(3);
+			tipestusr.setNombreestado("Negado");				
+			usr.setTipoestadousr(tipestusr);				
+			h="Estado del Registro Modificado";
+		}
+		else if(usr.getTipoestadousr().getNombreestado().equals("Negado")){
+			tipestusr.setIdTipoestadousr(2);
+			tipestusr.setNombreestado("Aprobado");				
 			usr.setTipoestadousr(tipestusr);				
 			h="Estado del Registro Modificado";
 		}
