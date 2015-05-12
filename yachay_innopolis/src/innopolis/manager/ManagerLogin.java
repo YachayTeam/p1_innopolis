@@ -70,13 +70,13 @@ public class ManagerLogin implements Serializable{
 			}
 
 	//editar los tipologin
-			public void editartipologin(Integer id_tipologin,String nomtipolog, String descripcion)
+			public void editartipologin(Integer id_tipologin,String descripcion, String nomtipolog)
 			{
 				try{					
-					Tipologin tipologin = this.TipoLoginByID(id_tipologin);
-					tipologin.setTipologin(nomtipolog);
-					tipologin.setDescripcion(descripcion);					
-					mDAO.actualizar(tipologin);
+					Tipologin tl = this.TipoLoginByID(id_tipologin);
+					tl.setTipologin(descripcion);
+					tl.setDescripcion(nomtipolog);					
+					mDAO.actualizar(tl);
 				} catch (Exception e) {
 					System.out.println("Error_mod_tipologin");
 					e.printStackTrace();

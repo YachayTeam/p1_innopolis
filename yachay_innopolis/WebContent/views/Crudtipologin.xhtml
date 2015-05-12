@@ -76,7 +76,7 @@
 			<p:inputText id="Nombretipo" value="#{loginBean.nomtipolog}"></p:inputText>
 			<h:outputText value="Descripción"/>
 			<p:inputText id="Descripcion" value="#{loginBean.descripcion}"></p:inputText>
-			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();" update=":form2:panel2"  actionListener="#{loginBean.actualizarTipologin}">
+			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarTipologin}">
 			<p:tooltip id="toolTipTrac4" for="trackactu" value="Botón para Aceptar la Edición" trackMouse="true" />
 			</p:commandButton>
 			<p:commandButton id="trackvolver" action="#{loginBean.irAprovadorpag}" value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();">

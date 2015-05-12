@@ -236,7 +236,7 @@ public class ServiciosVirtualesBean implements Serializable{
 		//metodo cargar todos los tiposervicios
 		public String cargarDatostiposerv(Tiposervicio  tiposerv){
 			idservi= tiposerv.getIdTp();
-			nomservicio= tiposerv.getNombreServicio();					
+			nomservicio= tiposerv.getNombreServicio();
 			return "editarserv";
 		}
 				

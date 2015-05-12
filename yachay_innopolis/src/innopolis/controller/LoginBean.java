@@ -250,16 +250,16 @@ public class LoginBean implements Serializable{
 		public String actualizarTipologin(){
 			String resp ="";
 			try {
-				managerlogin.editartipologin(getId_tipologin(),getNomtipolog(),getDescripcion());				
-				//id_tipologin=null;
-				//nomtipolog="";
-				//descripcion="";
-				setNomtipolog("");
-				setDescripcion("");
-				setId_tipologin(0);		
-				resp = "Crudtipologin";
+				managerlogin.editartipologin(id_tipologin,descripcion,nomtipolog);				
+				id_tipologin=null;
+				descripcion="";
+			    nomtipolog="";				
+				//setNomtipolog("");
+				//setDescripcion("");
+				//setId_tipologin(0);				
 				FacesContext context = FacesContext.getCurrentInstance();
 		        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Tipo login Actualizado ") );
+		        resp = "Crudtipologin";
 				}
 			catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));
