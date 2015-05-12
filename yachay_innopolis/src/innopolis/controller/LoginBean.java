@@ -209,6 +209,29 @@ public class LoginBean implements Serializable{
 			return "pagina";
 		}
 	
+	//metodo para registrar usuarios
+		public String registrarUsr(){
+				try {
+					managerlogin.registrarUsuario(alias, apellido, correo, nombre, password);
+					//reiniciamos datos (limpiamos el formulario)
+					alias="";				
+					nombre="";
+					apellido="";
+					correo="";
+					password="";					
+					idUsr=null;
+					tipoestusr = managerlogin.EstadoByID(1);
+					FacesContext context = FacesContext.getCurrentInstance();
+			        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Usuario Almacenado") );
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				};
+				return "pagina";
+			}
+	
+	
+	
 	//metodo para modificar los usuarios
 		public String actualizarusuario(){
 			managerlogin.editarusuario(idUsr, alias, apellido, correo, nombre, password, tipoestusr.getIdTipoestadousr());

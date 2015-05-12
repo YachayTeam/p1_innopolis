@@ -227,21 +227,15 @@ public class ManagerLogin implements Serializable{
 		Usuario usr = UsuarioByID(id);				
 		Tipoestadousr tipestusr = new Tipoestadousr();
 		
-		if(usr.getTipoestadousr().getNombreestado().equals("Pendiente")){
+		if(usr.getTipoestadousr().getNombreestado().equals("Activado")){
 			tipestusr.setIdTipoestadousr(2);
-			tipestusr.setNombreestado("Aprobado");				
+			tipestusr.setNombreestado("Desactivado");				
 			usr.setTipoestadousr(tipestusr);				
 			h="Estado del Registro Modificado";
 		}
-		else if(usr.getTipoestadousr().getNombreestado().equals("Aprobado")){
-			tipestusr.setIdTipoestadousr(3);
-			tipestusr.setNombreestado("Negado");				
-			usr.setTipoestadousr(tipestusr);				
-			h="Estado del Registro Modificado";
-		}
-		else if(usr.getTipoestadousr().getNombreestado().equals("Negado")){
-			tipestusr.setIdTipoestadousr(2);
-			tipestusr.setNombreestado("Aprobado");				
+		else if(usr.getTipoestadousr().getNombreestado().equals("Desactivado")){
+			tipestusr.setIdTipoestadousr(1);
+			tipestusr.setNombreestado("Activado");				
 			usr.setTipoestadousr(tipestusr);				
 			h="Estado del Registro Modificado";
 		}

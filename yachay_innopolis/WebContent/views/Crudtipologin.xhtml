@@ -59,11 +59,7 @@
 			<p:commandButton id="trackedi"  icon="ui-icon-pencil">
 				<p:tooltip id="toolTipTrac1" for="trackedi" value="Botón para Editar el Tipo" trackMouse="true" />
 				<p:ajax listener="#{loginBean.Cargartipologin(ser)}" oncomplete="PF('dlg1').show();"  update=":form2:panel2" />
-			</p:commandButton>			
-			<p:commandButton  icon="ui-icon-closethick">
-				<p:tooltip  value="Botón para Eliminar el Tipo" trackMouse="true" />				
-				<p:ajax listener="#{loginBean.Eliminartipologin(ser)}" update=":form2:panel2" />
-    		</p:commandButton>			
+			</p:commandButton>						
     		</p:column>			
 		</p:dataTable>		
 	<br></br>

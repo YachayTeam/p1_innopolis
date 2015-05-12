@@ -45,3 +45,14 @@ INSERT INTO recursosactivos VALUES (default, 1, '2015-07-07', '12:00', '15:00', 
 
 update contadores set valor=4 where id_contador=1;
 
+
+/**********Usuarios**********/
+
+insert into tipoestadousr values (default, 'Activado');
+insert into tipoestadousr values (default, 'Desactivado');
+
+insert into tipologin values (default, 'Adminsitrador','Administrador');
+insert into tipologin values (default, 'Emprendedor','emprende');
+insert into tipologin values (default, 'Aprobador','Aprueba');
+insert into tipologin values (default, 'General','General');
+

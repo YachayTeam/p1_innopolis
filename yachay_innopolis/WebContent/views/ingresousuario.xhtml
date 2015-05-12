@@ -40,7 +40,7 @@
 			<p:inputText required="true" id="pass" value="#{loginBean.password}" requiredMessage="Requerida contraseña">
 			<f:validateLength minimum="5"/>
 			</p:inputText>						
-			<p:commandButton id="trackregistrar" value="Registrarme" action="#{loginBean.crearUsuario}" update=":form2:panel2 :form2:message2"  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').show();">
+			<p:commandButton id="trackregistrar" value="Registrarme" action="#{loginBean.registrarUsr}" update=":form2:panel2 :form2:message2">
 			<p:tooltip id="toolTipTrac1" for="trackregistrar" value="Botón para Registrarse" trackMouse="true" />
 			</p:commandButton>				
 			<p:button id="trackvolver1" href="http://www.google.com" value="Volver">
@@ -49,9 +49,5 @@
 		</p:panelGrid>
 	</p:panel>
 </h:form>
-<p:dialog header="Información" modal="true" closable="false"  widgetVar="dlg1" minHeight="40"  showEffect="clip" hideEffect="clip">
-    		     <h:outputText value="Su petición sera procesada y notificada por correo" /><br/>
-    			 <p:button value="Volver" href="http://www.google.com"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
-		    </p:dialog>
 </body>
 </html>
