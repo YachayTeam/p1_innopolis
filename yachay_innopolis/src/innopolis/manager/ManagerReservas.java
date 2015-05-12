@@ -178,7 +178,7 @@ private ManagerDAO mDAO;
 			cont = (Contadore) mDAO.findById(Contadore.class, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("Revise el parametro 'contontador solicitud': "+e.getMessage());
+			throw new Exception("Revise el parametro 'contador solicitud': "+e.getMessage());
 		}
 		contSolicitud = cont.getValor();
 		return contSolicitud;
@@ -192,7 +192,7 @@ private ManagerDAO mDAO;
 			mDAO.actualizar(cont);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("Error al actualizar el parametro 'contontador solicitud': "+e.getMessage());
+			throw new Exception("Error al actualizar el parametro 'contador solicitud': "+e.getMessage());
 		}
 	}
 	
