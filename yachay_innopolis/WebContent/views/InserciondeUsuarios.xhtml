@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Insercion de usuarios</title>
+</h:head>
+<body>
+<h:form>  
+    <p:menubar>        
+        <f:facet name="options">
+            <p:inputText style="margin-right:10px" placeholder="Search"/>
+            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<h:form id="form2" >
+	<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2"  header="Ingreso de Usuarios">
+		<p:panelGrid columns="2" >
+			<h:outputText value="Apellidos*"/>
+			<p:inputText required="true" id="apellidos" value="#{loginBean.apellido}" requiredMessage="Requerido Apellidos"></p:inputText>
+			<h:outputText value="Nombres*"/>
+			<p:inputText required="true" id="nombres" value="#{loginBean.nombre}" requiredMessage="Requerido Nombres"></p:inputText>			
+			<h:outputText value="Correo*"/>
+			<p:inputText required="true" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{loginBean.correo}">
+			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+			</p:inputText>
+			<p:watermark for="correo" value="Dirección de correo *" />
+			<p:message for="correo" />
+			<h:outputText value="Alias*"/>
+			<p:inputText required="true" id="alias" value="#{loginBean.alias}" requiredMessage="Requerido alias">
+			<f:validateLength minimum="5"/>
+			</p:inputText>
+			<h:outputText value="Contraseña*"/>
+			<p:inputText required="true" id="pass" value="#{loginBean.password}" requiredMessage="Requerida contraseña">
+			<f:validateLength minimum="5"/>
+			</p:inputText>		
+			<h:outputText value="Grid:" />
+     	   	<p:selectManyCheckbox required="false"  id="grid" value="#{loginBean.arrayTipoLogin}" layout="grid" columns="3">
+            	<f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
+      	  	</p:selectManyCheckbox>				
+			<p:commandButton id="trackregistrar" value="Registrarme" action="#{loginBean.crearUsuario}" update=":form2:panel2 :form2:message2">
+			<p:tooltip id="toolTipTrac1" for="trackregistrar" value="Botón para Registrarse" trackMouse="true" />
+			</p:commandButton>				
+			<p:button id="trackvolver1" href="http://www.google.com" value="Volver">
+			<p:tooltip id="toolTipTrac2" for="trackvolver1" value="Botón para Volver Innopolis" trackMouse="true" />
+			</p:button>								
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+</body>
+</html>

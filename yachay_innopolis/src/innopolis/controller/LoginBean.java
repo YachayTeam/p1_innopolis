@@ -44,6 +44,8 @@ public class LoginBean implements Serializable{
 	private List<Tipousr> tipousrli;
 	private List<Tipoestadousr> tipoestusrli;
 	
+	private int[] arrayTipoLogin;
+	
 		public LoginBean()  
 	{
 		managerlogin = new ManagerLogin();
@@ -168,6 +170,14 @@ public class LoginBean implements Serializable{
 		this.tipoestusrli = tipoestusrli;
 	}
 	
+	public int[] getArrayTipoLogin() {
+		return arrayTipoLogin;
+	}
+	
+	public void setArrayTipoLogin(int[] arrayTipoLogin) {
+		this.arrayTipoLogin = arrayTipoLogin;
+	}
+	
 	//metodo para listar los registros
 		public List<Usuario> getListRegServi(){
 				return managerlogin.findAllUsuarios();
@@ -181,7 +191,7 @@ public class LoginBean implements Serializable{
 	//metodo para crear usuarios
 	public String crearUsuario(){
 			try {
-				//managerlogin.insertarusuarios(alias, apellido, correo, nombre, password);
+				managerlogin.insertarusuarios(alias, apellido, correo, nombre, password, arrayTipoLogin);
 				//reiniciamos datos (limpiamos el formulario)
 				alias="";				
 				nombre="";
@@ -301,6 +311,19 @@ public class LoginBean implements Serializable{
 				}
 					return listadoTEU;
 		}
+	
+	
+	//metodo para mostrar los TiposEstado
+	public List<SelectItem> getListaTipoLogin(){
+		List<SelectItem> listadoTEU=new ArrayList<SelectItem>();
+		List<Tipologin> listadoEstadoU=managerlogin.findAllTipoLogin();
+			for(Tipologin t:listadoEstadoU){
+				SelectItem item=new SelectItem(t.getIdTipologin(),t.getTipologin());
+				listadoTEU.add(item);
+			}
+				return listadoTEU;
+	}
+
 		
 		
 		//metodo para cambiar el estado del usuarios
@@ -343,5 +366,11 @@ public class LoginBean implements Serializable{
 							tipologin = new Tipologin();						
 							id_tipousr=0;						
 							return "Crudtipologin";					
-					}	
+					}
+	public String prueba(){
+		for (int element : arrayTipoLogin) {
+			System.out.println(element);
+		}
+		return "";
+	}
 }
