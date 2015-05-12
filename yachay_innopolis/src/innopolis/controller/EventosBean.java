@@ -66,16 +66,27 @@ public class EventosBean implements Serializable {
 
 	// temporales
 	private Evento eventotemp;
+	private Boolean esave;
 	private boolean eTem;
 
 	public EventosBean() {
 		manager = new ManagerEvento();
 		manager1 = new ManagerReservas();
 		select = getlistaRecursos();
+		esave=false;
+		imagen="300.jpg";
 	}
 
 	public ScheduleModel getEventModel() {
 		return eventModel;
+	}
+
+	public Boolean isEsave() {
+		return esave;
+	}
+
+	public void setEsave(Boolean esave) {
+		this.esave = esave;
 	}
 
 	public void setEventModel(ScheduleModel eventModel) {
@@ -216,12 +227,13 @@ public class EventosBean implements Serializable {
 			nombre = "";
 			descripcion = "";
 			lugar = "";
-			imagen = "";
+			imagen = "300.jpg";
 			fecha = null;
 			costo = 0;
 			cantidad = 0;
 			sc = 0;
 			te = 0;
+			esave=false;
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Registrado..!!!",
 					"Evento Creado "));
@@ -237,6 +249,10 @@ public class EventosBean implements Serializable {
 
 	// metodo para ir a solicitud y guardar el evento en un temporal
 	public String irSolicitud() {
+		if (esave==true){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("El evento ya cuenta con una solicitud."));
+			return "";
+		}else{
 		try {
 			eventotemp = manager.crearEventoTmp(nombre, descripcion, lugar,
 					imagen, fecha, costo, cantidad);
@@ -244,6 +260,7 @@ public class EventosBean implements Serializable {
 			System.out.print("ir a solicitud no creo el evento temporal");
 		}
 		return "solcab2?faces-redirect=true";
+	}
 	}
 
 	// este metodo me almacena el evento temporal en la base de datos
@@ -277,7 +294,7 @@ public class EventosBean implements Serializable {
 				System.out.println("name------> " + getImagen());
 
 				outputStream = new FileOutputStream(new File(carpetaImagenes
-						+ File.separatorChar + getImagen() + ".jpg"));
+						+ File.separatorChar + getImagen()));
 				inputStream = file.getInputstream();
 
 				int read = 0;
@@ -320,7 +337,8 @@ public class EventosBean implements Serializable {
 		if (getNombre().trim().isEmpty()) {
 			System.out.println("Vacio");
 		} else {
-			setImagen(getNombre());
+			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyy_HHmm");
+			setImagen("img_"+getNombre()+dateFormat.format(new Date())+".jpg");
 			System.out.println(getImagen());
 		}
 
@@ -560,6 +578,7 @@ public class EventosBean implements Serializable {
 		}
 
 		try {
+			esave=true;
 			manager1.guardarSolicitudTemporal(solicitudCabTem);
 			manager.asignarSolcab(solicitudCabTem.getIdSolcab());
 			solicitudCabTmpGuardada = true;
@@ -682,6 +701,7 @@ public class EventosBean implements Serializable {
 		for (Evento e : actual()) {
 			event = new DefaultScheduleEvent(e.getNombre(), e.getFecha(),
 					e.getFecha(), e);
+			System.out.print(event.isAllDay());
 			eventModel.addEvent(event);
 		}
 	}
@@ -698,11 +718,5 @@ public class EventosBean implements Serializable {
 	public void onEventSelect(SelectEvent selectEvent) {
 		event = (ScheduleEvent) selectEvent.getObject();
 	}
-	
-	//IR A INSCRIPCION
-	public String irInscripcion(){
-		manager.seleccionEventoAinscribirse((Evento) event.getData());
-		return "frm_ins?faces-redirect=true";
-	} 
 
 }
