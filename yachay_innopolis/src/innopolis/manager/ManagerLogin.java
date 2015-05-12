@@ -33,7 +33,7 @@ public class ManagerLogin implements Serializable{
 	    usr.setCorreo(correo);
 	    usr.setNombre(nombre);
 	    usr.setPassword(password);
-	    usr.setTipoestadousr(this.EstadoByID(1));//Toma Pendiente 
+	    usr.setTipoestadousr(this.EstadoByID(1));//Toma Activado 
 	    //Asignar ID USR
 	    int contadorUsuario = this.getContUsr();
 	    contadorUsuario++;
@@ -72,6 +72,27 @@ public class ManagerLogin implements Serializable{
 			e.printStackTrace();
 			throw new Exception("Error al actualizar el contador 'usuario': "+e.getMessage());
 		}
+	}
+	
+	//REGISTRARSE
+	public void registrarUsuario(String alias, String apellido, String correo,String nombre, String password) throws Exception{
+		Usuario usr = new Usuario(); 
+		usr.setAlias(alias);
+	    usr.setApellido(apellido);
+	    usr.setCorreo(correo);
+	    usr.setNombre(nombre);
+	    usr.setPassword(password);
+	    usr.setTipoestadousr(this.EstadoByID(1));//Toma Activado 
+	    //Asignar ID USR
+	    int contadorUsuario = this.getContUsr();
+	    contadorUsuario++;
+	    usr.setIdUsr(contadorUsuario);
+	    //Insertar USUARIO
+		mDAO.insertar(usr);
+		//Actualiza el contador
+		this.actualizarContadorUSR(contadorUsuario);
+		//insertar ROL
+		this.insertarTipoUsr(usr, (Tipologin) mDAO.findById(Tipologin.class, 4));
 	}
 	
 	//insertar tipologin
