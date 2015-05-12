@@ -26,7 +26,7 @@ public class ManagerLogin implements Serializable{
 	}
 		
 	//insertar los usuarios
-	public void insertarusuarios(String alias, String apellido, String correo,String nombre, String password, List<Tipologin> listadoLogin) throws Exception{
+	public void insertarusuarios(String alias, String apellido, String correo,String nombre, String password, int[] listadoLogin) throws Exception{
 	    Usuario usr = new Usuario(); 
 		usr.setAlias(alias);
 	    usr.setApellido(apellido);
@@ -43,8 +43,8 @@ public class ManagerLogin implements Serializable{
 		//Actualiza el contador
 		this.actualizarContadorUSR(contadorUsuario);
 		//Asignar ROLES
-		for (Tipologin tipologin : listadoLogin) {
-			this.insertarTipoUsr(usr, tipologin);
+		for (int i : listadoLogin) {
+			this.insertarTipoUsr(usr, TipoLoginByID(i));
 		}
 	}
 	
