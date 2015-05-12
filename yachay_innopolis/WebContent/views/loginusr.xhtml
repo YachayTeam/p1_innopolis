@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet library="css" name="styleser.css" />
+<title>Administración de Usuarios</title>
+</h:head>
+<body>
+<h:form>  
+    <p:menubar>
+        <p:menuitem value="Administrar Tipos de Logeo" action="#{loginBean.irAprovadorpag}" icon="ui-icon-clipboard" />        
+        <f:facet name="options">
+            <p:inputText style="margin-right:10px" placeholder="Search"/>
+            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<div class="div4">
+<h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage>
+</div>
+<div class="div1">
+<h:form id="form2" >
+		<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2" header="Ingreso al Sistema">		
+		<h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel for="alias" value="Alias:" />
+            <p:inputText id="alias" value="#{loginBean.alias}" required="true" label="alias" />
+ 
+            <h:outputLabel for="password" value="Password:" />
+            <p:password id="password" value="#{loginBean.password}" required="true" label="password" />
+            <h:outputLabel value="Indique si Tipo: " />
+            <h:panelGroup>  
+					<p:selectOneMenu required="true" value="#{loginBean.tipologin.idTipologin}" requiredMessage="Requerido Servicio">
+						<f:selectItem  itemLabel="Seleccione el Tipo" de ingreso itemValue=""/>
+						<f:selectItems value="#{loginBean.listaTipoLogin}"  />
+						<p:ajax
+							listener="#{loginBean.asignarTipoLogin}">
+						</p:ajax>
+					</p:selectOneMenu>
+			</h:panelGroup>		 
+            <f:facet name="footer">
+                <p:commandButton value="Login" actionListener="#{userLoginView.login}"
+                                 oncomplete="handleLoginRequest(xhr, status, args)" />
+            </f:facet>  
+        </h:panelGrid>
+		    	    	
+	</p:panel>
+</h:form>
+</div>
+</body>
+</html>

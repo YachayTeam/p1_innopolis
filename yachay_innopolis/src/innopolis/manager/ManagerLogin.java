@@ -17,7 +17,7 @@ public class ManagerLogin implements Serializable{
 	
 	//Registro Temporal
 		private static Tipoestadousr tipoestadousr;
-		private static Tipologin tipologin;
+		private static Tipologin tipologin1;
 		int p=0;
 		String h="";
 	
@@ -191,8 +191,8 @@ public class ManagerLogin implements Serializable{
 	public void eliminarTipologin(Integer id_tipologin) throws Exception {
 		try
 		{
-		  tipologin = TipoLoginByID(id_tipologin);				  
-		  if(tipologin.getTipousrs().isEmpty())
+		  tipologin1 = TipoLoginByID(id_tipologin);				  
+		  if(tipologin1.getTipousrs().isEmpty())
 		mDAO.eliminar(Tipologin.class, id_tipologin);
 		  else 
 		  throw new Exception("No se elminio");
@@ -213,6 +213,19 @@ public class ManagerLogin implements Serializable{
 		}
  		return tipoestadousr;
 	}
+ 	
+	//metodo para asignar el Tiposervicio al registro
+ 	public Tipologin asignarTipologin(Integer idtipologin) {
+ 		try {
+ 			tipologin1 = TipoLoginByID(idtipologin);			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		return tipologin1;
+	}
+ 	
+ 	
 	
 	//desactivar y activar estado	
 	public String cambioDisEstadousr(Integer id) throws Exception{

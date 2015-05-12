@@ -209,7 +209,7 @@ public class LoginBean implements Serializable{
 			return "pagina";
 		}
 	
-	//metodo para registrar usuarios
+	//metodo para registrar usuariosexternos a la funcionalidad
 		public String registrarUsr(){
 				try {
 					managerlogin.registrarUsuario(alias, apellido, correo, nombre, password);
@@ -345,10 +345,7 @@ public class LoginBean implements Serializable{
 				listadoTEU.add(item);
 			}
 				return listadoTEU;
-	}
-
-		
-		
+	}		
 		//metodo para cambiar el estado del usuarios
 				public String cambiarEstado(Usuario usr){
 					try {													
@@ -396,4 +393,10 @@ public class LoginBean implements Serializable{
 		}
 		return "";
 	}
+	
+	//metodo para asignar el TipoServicio al registro
+		public String asignarTipoLogin(){
+			managerlogin.asignarTipologin(tipologin.getIdTipologin());			
+				return "";
+			}
 }
