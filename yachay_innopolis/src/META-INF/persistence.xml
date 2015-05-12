@@ -15,9 +15,9 @@
 		<class>innopolis.entities.Tipoestado</class>
 		<class>innopolis.entities.Tipoevento</class>
 		<class>innopolis.entities.Tiposervicio</class>
+		<class>innopolis.entities.Tipoestadousr</class>
 		<class>innopolis.entities.Tipologin</class>
 		<class>innopolis.entities.Tipousr</class>
-		<class>innopolis.entities.Tipoestadousr</class>
 		<class>innopolis.entities.Usuario</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/innopolis"/>

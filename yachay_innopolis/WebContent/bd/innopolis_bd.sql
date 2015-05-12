@@ -443,13 +443,13 @@ CREATE SEQUENCE public.seq_contadores
 ALTER TABLE contadores
    ALTER COLUMN id_contador SET DEFAULT nextval('seq_contadores');
    
-CREATE SEQUENCE public.seq_usuario
+CREATE SEQUENCE public.seq_tipoestadousr
    INCREMENT 1
    START 1
    MINVALUE 1;
    
-ALTER TABLE usuario
-   ALTER COLUMN id_usr SET DEFAULT nextval('seq_usuario');
+ALTER TABLE tipoestadousr
+   ALTER COLUMN id_tipoestadousr SET DEFAULT nextval('seq_tipoestadousr');
 
 CREATE SEQUENCE public.seq_tipousr
    INCREMENT 1
@@ -480,3 +480,4 @@ ALTER TABLE tipologin
    ALTER COLUMN id_tipologin SET DEFAULT nextval('seq_tipologin');
 
 insert into contadores values (default, 'solicitud cabecera',0);
+insert into contadores values (default, 'usuario',0);

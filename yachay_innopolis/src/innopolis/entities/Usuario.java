@@ -2,6 +2,7 @@ package innopolis.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -14,8 +15,6 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="USUARIO_IDUSR_GENERATOR", sequenceName="SEQ_USUARIO", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USUARIO_IDUSR_GENERATOR")
 	@Column(name="id_usr")
 	private Integer idUsr;
 
@@ -28,6 +27,10 @@ public class Usuario implements Serializable {
 	private String nombre;
 
 	private String password;
+
+	//bi-directional many-to-one association to Tipousr
+	@OneToMany(mappedBy="usuario")
+	private List<Tipousr> tipousrs;
 
 	//bi-directional many-to-one association to Tipoestadousr
 	@ManyToOne
@@ -83,6 +86,28 @@ public class Usuario implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Tipousr> getTipousrs() {
+		return this.tipousrs;
+	}
+
+	public void setTipousrs(List<Tipousr> tipousrs) {
+		this.tipousrs = tipousrs;
+	}
+
+	public Tipousr addTipousr(Tipousr tipousr) {
+		getTipousrs().add(tipousr);
+		tipousr.setUsuario(this);
+
+		return tipousr;
+	}
+
+	public Tipousr removeTipousr(Tipousr tipousr) {
+		getTipousrs().remove(tipousr);
+		tipousr.setUsuario(null);
+
+		return tipousr;
 	}
 
 	public Tipoestadousr getTipoestadousr() {
