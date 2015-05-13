@@ -9,7 +9,7 @@ body{
 
 .div1{
 	float: left;
-	width: 50%;
+	width: 100%;
 }
 
 .pg1{
@@ -22,7 +22,7 @@ body{
 
 .div2{
 	float: left;
-	width:50%;
+	width:100%;
 }
 
 .div2 #img1{

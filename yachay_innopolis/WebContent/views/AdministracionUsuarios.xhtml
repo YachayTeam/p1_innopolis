@@ -33,18 +33,16 @@
 			<h:outputText value="Nombres*"/>
 			<p:inputText required="true" id="nombres" value="#{loginBean.nombre}" requiredMessage="Requerido Nombres"></p:inputText>			
 			<h:outputText value="Correo*"/>
-			<p:inputText required="true" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{loginBean.correo}">
+			<p:inputText required="true" id="correo" validatorMessage="Formato de correo invalido" value="#{loginBean.correo}" requiredMessage="Por favor Ingrese su Correo." >
 			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			</p:inputText>
-			<p:watermark for="correo" value="Dirección de correo *" />
-			<p:message for="correo" />
 			<h:outputText value="Alias*"/>
 			<p:inputText required="true" id="alias" value="#{loginBean.alias}" requiredMessage="Requerido alias">
-			<f:validateLength minimum="5"/>
+			<f:validateLength minimum="3"/>
 			</p:inputText>
 			<h:outputText value="Contraseña*"/>
 			<p:inputText required="true" id="pass" value="#{loginBean.password}" requiredMessage="Requerida contraseña">
-			<f:validateLength minimum="5"/>
+			<f:validateLength minimum="3"/>
 			</p:inputText>		
 			<h:outputText value="Seleccione tipo:" />
      	   	<p:selectManyCheckbox required="false"  id="grid" value="#{loginBean.arrayTipoLogin}" layout="grid" columns="3">
@@ -60,7 +58,7 @@
 	</p:panel>
 </h:form>
 </div>
-<div class="div1">
+<div class="div2">
 <h:form id="form2">
 		<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Registrados">
@@ -81,7 +79,7 @@
 			</p:column>
 			<p:column headerText="PASSWORD">
 			<h:outputText value="#{reg.password}"></h:outputText>
-			</p:column>
+			</p:column>	
 			<p:column id="f3" filterBy="#{reg.tipoestadousr.nombreestado}" headerText="ESTADO">
 			<h:outputText value="#{reg.tipoestadousr.nombreestado}"></h:outputText>
 			</p:column>
@@ -96,27 +94,41 @@
 			</p:column>
 		</p:dataTable>
 		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Información" showEffect="clip" hideEffect="clip">
-		<p:panelGrid columns="2" >
-		<h:outputText value="Apellido: "/>
+		<p:panelGrid columns="3" >
+			<h:outputText value="Apellido: "/>
 			<h:outputText value="#{loginBean.apellido}"></h:outputText>
+			<h:outputText value=""/>
 			<h:outputText value="Nombre: "/>
 			<h:outputText value="#{loginBean.nombre}"></h:outputText>
+			<h:outputText value=""/>
 			<h:outputText value="Correo: "/>
 			<p:inputText required="false" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{loginBean.correo}">
 			<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			</p:inputText>			
+			<h:outputText value=""/>
 			<h:outputText value="Alias: "/>
 			<h:outputText value="#{loginBean.alias}"></h:outputText>
+			<h:outputText value=""/>
 			<h:outputText value="Password: "/>
 			<p:inputText required="false" id="pass" value="#{loginBean.password}" requiredMessage="Requerido" validatorMessage="Ingrese el password">
-				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
-			<h:outputText value="Seleccione tipo:" />
-     	   	<p:selectManyCheckbox required="false"  id="grid" value="#{loginBean.arrayTipoLogin}" layout="grid" columns="3">
-            	<f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
-      	  	</p:selectManyCheckbox>
+			<h:outputText value=""/>
+			<h:outputText value="Seleccione tipo: " for="advanced"/>      		 
+            <p:selectOneListbox id="advanced" required="true"  value="#{loginBean.arrayTipoLogin}">
+            <f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
+        	</p:selectOneListbox>  
+            <p:selectOneListbox id="advanced1" required="true"  value="#{loginBean.arrayTipoLogin}">
+            <f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
+        	</p:selectOneListbox>        	
+        	<p:commandButton id="trackcambioadd" value="add" action="#{loginBean.crearUsuario}">
+			<p:tooltip id="toolTipTrac7" for="trackcambioadd" value="Botón para Agregar" trackMouse="true" />
+			</p:commandButton>
+			<p:commandButton id="trackcambiodel" value="del" action="#{loginBean.crearUsuario}">
+			<p:tooltip id="toolTipTrac6" for="trackcambiodel" value="Botón para Agregar" trackMouse="true" />
+			</p:commandButton>	 
 			<h:outputText value="Estado: "/>
-			<h:outputText  id="est" readonly="true" value="#{loginBean.tipoestusr.nombreestado}"></h:outputText>
+			<h:outputText  id="est" readonly="true" value="#{loginBean.tipoestusr.nombreestado}"></h:outputText><br/>
 			<p:commandButton update="message2" value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarusuario}"></p:commandButton>													
 			<p:commandButton value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2 :form2:message2" action="#{loginBean.irAprovador}"></p:commandButton>
 		</p:panelGrid>

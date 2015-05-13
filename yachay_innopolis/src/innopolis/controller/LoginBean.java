@@ -411,6 +411,4 @@ public class LoginBean implements Serializable{
 			//limpiamos los datos			
 					return "ingresousuario";					
 		}
-		
-		
 }

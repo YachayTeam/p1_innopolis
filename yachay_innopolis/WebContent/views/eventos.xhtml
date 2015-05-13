@@ -22,26 +22,30 @@
 </h:form>
 <hr/>
 <div class="div1">
-<h:form id="form1">
+<h:form id="form2">
 	<p:growl id="message" showDetail="true" />
-	<p:panel id="panel1"  header="Registro de Eventos">
-		<p:panelGrid styleClass="pg1" columns="2" >
+	<p:panel id="panel2"  header="Registro de Eventos">
+		<p:panelGrid  columns="2" >
 			<h:outputText value="NOMBRE*:"/>
-			<p:inputText styleClass="t" required="true" id="nom" value="#{eventosBean.nombre}" requiredMessage="Requerido">
+			<p:inputText styleClass="t" required="true" id="nom" value="#{eventosBean.nombre}" requiredMessage="Requerido nombre">
 				<p:ajax  listener="#{eventosBean.asignarNombreImg}" />
 			</p:inputText>
 			<h:outputText value="DESCRIPCION:"/>
-			<p:inputTextarea styleClass="t" required="false" id="can" value="#{eventosBean.descripcion}" requiredMessage="Requerido"></p:inputTextarea>
+			<p:inputTextarea styleClass="t" required="true" id="can" value="#{eventosBean.descripcion}" requiredMessage="Requerido Descripcion">
+			<f:validateLength minimum="10"/>
+			</p:inputTextarea>
 			<h:outputText value="DIRECCION:"/>
-			<p:inputText styleClass="t" required="false" id="des" value="#{eventosBean.lugar}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText styleClass="t" required="true" id="des" value="#{eventosBean.lugar}" requiredMessage="Requerido Dirección"></p:inputText>
 			<h:outputText value="COSTO:"/>
-			<p:inputText styleClass="t" required="false" id="lug" value="#{eventosBean.costo}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText styleClass="t" required="true" id="lug" value="#{eventosBean.costo}" requiredMessage="Requerido Costo">
+			<f:validateLength minimum="1"/>
+			</p:inputText>
 			<h:outputText value="FECHA*:"/>
-			<p:calendar required="true" requiredMessage="Campo Requerido" id="fecha" value="#{eventosBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
+			<p:calendar required="true" requiredMessage="Requerido Fecha" id="fecha" value="#{eventosBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
 			<h:outputText value="TIPO EVENTO:"/>
 			<h:panelGroup>  
-					<p:selectOneMenu styleClass="t" value="#{eventosBean.te}">
-						<f:selectItem  itemLabel="Seleccione...!!!!" itemValue="-1" />
+					<p:selectOneMenu required="true" styleClass="t" value="#{eventosBean.te}" requiredMessage="Requerido Evento">
+						<f:selectItem  itemLabel="Seleccione...!!!!" itemValue="" />
 						<f:selectItems value="#{eventosBean.listaEveTipo}" />
 						<p:ajax
 							listener="#{eventosBean.asignarTipoeve()}">
@@ -49,15 +53,17 @@
 					</p:selectOneMenu>
 			</h:panelGroup>
 			<h:outputText value="CAPACIDAD:"/>
-			<p:inputText styleClass="t" required="false" id="cap" value="#{eventosBean.cantidad}" requiredMessage="Requerido"></p:inputText>
+			<p:inputText styleClass="t" required="true" id="cap" value="#{eventosBean.cantidad}" requiredMessage="Requerido Capacidad">
+			<f:validateLength minimum="1"/>
+			</p:inputText>
 			<h:outputText value="IMAGEN:"/>
-			 <p:fileUpload mode="advanced" dragDropSupport="false" update=":form1:message :form1:imagen" sizeLimit="100000" 
+			 <p:fileUpload mode="advanced" dragDropSupport="true" update=":form2:message :form2:imagen" sizeLimit="100000" 
     		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/>
    			 <h:outputText value="VISTA PREVIA:"/>
    			 <p:graphicImage id="imagen" value="/imgevent/#{eventosBean.imagen}" width="150" height="150" />
-   			 <p:commandButton style="width:100%" update="panel1 message" value="Guardar Evento" action="#{eventosBean.crearEvento}">
+   			 <p:commandButton style="width:100%" update="panel2 message" value="Guardar Evento" action="#{eventosBean.crearEvento}">
    			 </p:commandButton>
-   			 <p:commandButton style="width:100%" update="panel1 message" value="Crear Solicitud para el Evento" action="#{eventosBean.irSolicitud}">
+   			 <p:commandButton style="width:100%" update="panel2 message" value="Crear Solicitud para el Evento" action="#{eventosBean.irSolicitud}">
    			 </p:commandButton>
 		</p:panelGrid>
 	</p:panel>

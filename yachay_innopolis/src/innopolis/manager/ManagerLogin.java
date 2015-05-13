@@ -181,8 +181,6 @@ public class ManagerLogin implements Serializable{
 			}
 		return listado;
 	}
-
-	
 	
 	public Integer[] tiposDeUsuario(Integer id_usr){
 		ArrayList<Integer> resp = new ArrayList<Integer>();
@@ -194,18 +192,19 @@ public class ManagerLogin implements Serializable{
 	}
 
 	//editar los tipologin
-	public void editartipologin(Integer id_tipologin,String descripcion, String nomtipolog)
+	public void editartipologin(Integer id_tl,String descripcion, String tipologin) throws Exception
 	{
 		try{					
-			Tipologin tl = TipoLoginByID(id_tipologin);
-			tl.setDescripcion(descripcion);
-			tl.setTipologin(nomtipolog);					
+			Tipologin tl = TipoLoginByID(id_tl);
+			tl.setTipologin(tipologin);
+			tl.setDescripcion(descripcion);						
 			mDAO.actualizar(tl);
 		} catch (Exception e) {
 			System.out.println("Error_mod_tipologin");
 			e.printStackTrace();
 		}
-	}			
+	}	
+	
 			
 	// listar todos los usuarios 
 	@SuppressWarnings("unchecked")
@@ -317,6 +316,5 @@ public class ManagerLogin implements Serializable{
 		}
 		mDAO.actualizar(usr);
 		return h;
-		}
-				
+		}				
 }
