@@ -411,4 +411,56 @@ public class LoginBean implements Serializable{
 			//limpiamos los datos			
 					return "ingresousuario";					
 		}
+		
+		public List<Tipologin> out(){
+			List<Tipologin> u = new ArrayList<Tipologin>();
+			List<Tipologin> a = managerlogin.findAllTipoLogin();
+			for (Integer e : arrayTipoLogin){
+				for (Tipologin t : a) {
+					if (e==t.getIdTipologin()){
+						u.add(t);
+					}
+				}
+			}
+			return u;
+			
+		}
+		
+		public List<Tipologin> in(){
+			List<Tipologin> u = new ArrayList<Tipologin>();
+			List<Tipologin> a = managerlogin.findAllTipoLogin();
+			for (Tipologin e : a){
+				int r = 0;
+				for (Tipologin t : out()) {
+					if (t.getIdTipologin()==e.getIdTipologin()){
+						r=1;
+					}
+				}
+				if (r==0){
+					u.add(e);
+				}
+			}
+			return u;	
+		}
+		
+		
+				public List<SelectItem> getListlibre(){
+					List<SelectItem> listadoTEU=new ArrayList<SelectItem>();
+					List<Tipologin> listadoEstadoU=in();
+						for(Tipologin t:listadoEstadoU){
+							SelectItem item=new SelectItem(t.getIdTipologin(),t.getTipologin());
+							listadoTEU.add(item);
+						}
+							return listadoTEU;
+				}
+		
+				public List<SelectItem> getListocupado(){
+					List<SelectItem> listadoTEU=new ArrayList<SelectItem>();
+					List<Tipologin> listadoEstadoU=out();
+						for(Tipologin t:listadoEstadoU){
+							SelectItem item=new SelectItem(t.getIdTipologin(),t.getTipologin());
+							listadoTEU.add(item);
+						}
+							return listadoTEU;
+				}
 }
