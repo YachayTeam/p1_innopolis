@@ -406,10 +406,11 @@ public class LoginBean implements Serializable{
 			}
 		
 		//------ Envios paginas--------//				
-		public String irRegistropag(){		   
+		public String irRegistropag()
+		{		   
 			//limpiamos los datos			
 					return "ingresousuario";					
-			}
+		}
 		
 		
 }

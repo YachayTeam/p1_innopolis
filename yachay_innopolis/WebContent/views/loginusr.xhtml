@@ -20,7 +20,7 @@
 </h:form>
 <hr/>
 <div class="div4">
-<h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage>
+<!-- h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
 </div>
 <div class="div1">
 <h:form id="form2" >
@@ -41,14 +41,13 @@
 							listener="#{loginBean.asignarTipoLogin}">
 						</p:ajax>
 					</p:selectOneMenu>
-			</h:panelGroup>		 
-            
-                <p:commandButton value="Login" actionListener="#{userLoginView.login}"
+			</h:panelGroup>            
+            <p:commandButton value="Login" actionListener="#{userLoginView.login}"
                                  oncomplete="handleLoginRequest(xhr, status, args)" />
-                                 
-           		 <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Registrarse" >
-				<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Registrarse" trackMouse="true" />
-				</p:commandButton>
+            
+            <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Volver">
+			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Regresar a Registro" trackMouse="true" />
+			</p:commandButton>
             
         </h:panelGrid>		    	    	
 	</p:panel>
