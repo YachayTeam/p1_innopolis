@@ -27,7 +27,7 @@
 				<p:inputTextarea value="#{eventosBean.actividad}"></p:inputTextarea>
 				<h:outputText value="Objetivo" style="font-weight: bold"/>
 				<p:inputTextarea value="#{eventosBean.objetivo}"></p:inputTextarea>
-				<h:outputText value="Justifocaci&oacute;n" style="font-weight: bold"/>
+				<h:outputText value="Justificaci&oacute;n" style="font-weight: bold"/>
 				<p:inputTextarea value="#{eventosBean.justificacion}"></p:inputTextarea>
 				<h:outputText value="Fecha de solicitud:" style="font-weight: bold" />
 				<p:calendar required="true" requiredMessage="Campo Calendario Requerida" id="fecha" value="#{eventosBean.fecha}" disabled="true" pattern="yyyy-MM-dd" mask="true" />
@@ -40,8 +40,9 @@
 				<pe:timePicker required="true" requiredMessage="Campo Hora Fin Requerida" value="#{eventosBean.h_fin}" timeSeparator="-" startHours="8" endHours="18"  
                    startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
                    showDeselectButton="true" rows="3"  style="width:70px;" 
-                   widgetVar="customTimeWidget2" label="Hora Inicio"/>  			
-				<p:commandButton update="message" icon="ui-icon-circle-arrow-e" action="#{eventosBean.crearNuevaSolicitud}" value="Siguiente" /> <!--update=":form3" /-->
+                   widgetVar="customTimeWidget2" label="Hora Inicio"/> 
+                <p:commandButton update="" icon="ui-icon-circle-arrow-w" action="#{eventosBean.irevento}" value="Regresar" /> 			
+				<p:commandButton update="message" icon="ui-icon-circle-arrow-e" action="#{eventosBean.crearNuevaSolicitud}" value="Siguiente" />
 			</p:panelGrid>
 		</p:panel>
 	</h:form>

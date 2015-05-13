@@ -54,6 +54,7 @@ public class EventosBean implements Serializable {
 	private Integer cantidad;
 	private Integer sc;
 	private Integer te;
+	private String g; 
 	// solicitud
 	private List<SelectItem> select;
 
@@ -290,9 +291,9 @@ public class EventosBean implements Serializable {
 						.getCurrentInstance().getExternalContext().getContext();
 				String carpetaImagenes = (String) servletContext
 						.getRealPath(File.separatorChar + "imgevent");
+				setImagen(g);
 				System.out.println("PAD------> " + carpetaImagenes);
 				System.out.println("name------> " + getImagen());
-
 				outputStream = new FileOutputStream(new File(carpetaImagenes
 						+ File.separatorChar + getImagen()));
 				inputStream = file.getInputstream();
@@ -330,6 +331,8 @@ public class EventosBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
 							"no se pudo seleccionar la imagen"));
 		}
+	
+		
 	}
 
 	// metodo para poner el nombre a la imagen
@@ -337,9 +340,9 @@ public class EventosBean implements Serializable {
 		if (getNombre().trim().isEmpty()) {
 			System.out.println("Vacio");
 		} else {
-			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyy_HHmm");
-			setImagen("img_"+getNombre()+dateFormat.format(new Date())+".jpg");
-			System.out.println(getImagen());
+			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmm");
+			g="img_"+getNombre()+dateFormat.format(new Date())+".jpg";
+			System.out.println(g);
 		}
 
 	}
@@ -682,6 +685,9 @@ public class EventosBean implements Serializable {
 		return "soldet2?faces-redirect=true";
 	}
 
+	public String irevento(){
+		return "eventos?faces-redirect=true";
+	}
 	// ////////////////////////////////////////////////////////////CALENDARIO//////////////////////////////////////////////////////////////////
 
 	// metodo para listar las fechas desde el dia actual en adelante
@@ -701,7 +707,6 @@ public class EventosBean implements Serializable {
 		for (Evento e : actual()) {
 			event = new DefaultScheduleEvent(e.getNombre(), e.getFecha(),
 					e.getFecha(), e);
-			System.out.print(event.isAllDay());
 			eventModel.addEvent(event);
 		}
 	}
