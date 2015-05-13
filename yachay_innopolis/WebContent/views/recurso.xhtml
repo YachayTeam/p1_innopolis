@@ -24,7 +24,7 @@
 <h:form id="form1">
 	<p:growl id="message" showDetail="true" />
 	<p:panel id="panel1"  header="Registro de Recursos">
-		<p:panelGrid styleClass="pg1" columns="2" >
+		<p:panelGrid columns="2" >
 			<h:outputText value="NOMBRE *"/>
 			<p:inputText styleClass="t" required="true" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
