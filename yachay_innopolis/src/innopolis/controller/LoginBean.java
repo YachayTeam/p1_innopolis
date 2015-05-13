@@ -44,7 +44,7 @@ public class LoginBean implements Serializable{
 	private List<Tipousr> tipousrli;
 	private List<Tipoestadousr> tipoestusrli;
 	
-	private int[] arrayTipoLogin;
+	private Integer[] arrayTipoLogin;
 	
 		public LoginBean()  
 	{
@@ -170,11 +170,11 @@ public class LoginBean implements Serializable{
 		this.tipoestusrli = tipoestusrli;
 	}
 	
-	public int[] getArrayTipoLogin() {
+	public Integer[] getArrayTipoLogin() {
 		return arrayTipoLogin;
 	}
 	
-	public void setArrayTipoLogin(int[] arrayTipoLogin) {
+	public void setArrayTipoLogin(Integer[] arrayTipoLogin) {
 		this.arrayTipoLogin = arrayTipoLogin;
 	}
 	
@@ -233,8 +233,8 @@ public class LoginBean implements Serializable{
 	
 	
 	//metodo para modificar los usuarios
-		public String actualizarusuario(){
-			//managerlogin.editarusuario(idUsr, correo, password, arrayTipoLogin);
+		public String actualizarusuario() throws Exception{
+			managerlogin.editarusuario(idUsr, correo, password, arrayTipoLogin);
 			//limpiamos los datos
 			alias="";
 			nombre="";
@@ -263,6 +263,10 @@ public class LoginBean implements Serializable{
 			alias=usr.getAlias();
 			password=usr.getPassword(); 
 			tipoestusr= usr.getTipoestadousr();
+			//List<Tipousr> lst = usr.getTipousrs();
+			//Integer [] arreglo = new Integer[lst.size()];
+			//arreglo = lst.toArray(arreglo);
+			//arrayTipoLogin = arreglo;
 			return "modusr";
 		}
 			
@@ -283,7 +287,7 @@ public class LoginBean implements Serializable{
 		public String actualizarTipologin(){
 			String resp ="";
 			try {
-				managerlogin.editartipologin(getId_tipologin(),descripcion,nomtipolog);				
+				managerlogin.editartipologin(id_tipologin,descripcion,nomtipolog);				
 				id_tipologin=null;
 				descripcion="";
 			    nomtipolog="";				
@@ -387,7 +391,8 @@ public class LoginBean implements Serializable{
 							id_tipousr=0;						
 							return "Crudtipologin";					
 					}
-	public String prueba(){
+	
+				public String prueba(){
 		for (int element : arrayTipoLogin) {
 			System.out.println(element);
 		}
@@ -399,4 +404,12 @@ public class LoginBean implements Serializable{
 			managerlogin.asignarTipologin(tipologin.getIdTipologin());			
 				return "";
 			}
+		
+		//------ Envios paginas--------//				
+		public String irRegistropag(){		   
+			//limpiamos los datos			
+					return "ingresousuario";					
+			}
+		
+		
 }

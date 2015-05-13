@@ -7,12 +7,11 @@
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <h:outputStylesheet library="css" name="styleser.css" />
-<title>Administración de Usuarios</title>
+<title>Ingreso de Usuarios</title>
 </h:head>
 <body>
 <h:form>  
-    <p:menubar>
-        <p:menuitem value="Administrar Tipos de Logeo" action="#{loginBean.irAprovadorpag}" icon="ui-icon-clipboard" />        
+    <p:menubar>                
         <f:facet name="options">
             <p:inputText style="margin-right:10px" placeholder="Search"/>
             <p:commandButton type="button" value="Home" icon="ui-icon-home" />
@@ -43,12 +42,15 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>		 
-            <f:facet name="footer">
+            
                 <p:commandButton value="Login" actionListener="#{userLoginView.login}"
                                  oncomplete="handleLoginRequest(xhr, status, args)" />
-            </f:facet>  
-        </h:panelGrid>
-		    	    	
+                                 
+           		 <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Registrarse" >
+				<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Registrarse" trackMouse="true" />
+				</p:commandButton>
+            
+        </h:panelGrid>		    	    	
 	</p:panel>
 </h:form>
 </div>
