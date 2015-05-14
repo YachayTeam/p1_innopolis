@@ -316,5 +316,24 @@ public class ManagerLogin implements Serializable{
 		}
 		mDAO.actualizar(usr);
 		return h;
-		}				
+		}		
+	
+	public void mas(Tipologin t ,Usuario  u){
+		Tipousr r = new Tipousr();
+		r.setTipologin(t);
+		r.setUsuario(u);
+		try {
+			mDAO.insertar(r);
+		} catch (Exception e) {
+			System.out.print("metodo_mas_mal");
+		}
+	}
+	
+	public void menos(Integer id){
+		try {
+			mDAO.eliminar(Tipousr.class, id);
+		} catch (Exception e) {
+			System.out.print("metodo_menos_mal");
+		}
+	}
 }
