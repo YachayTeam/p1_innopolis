@@ -195,7 +195,7 @@ public class ManagerLogin implements Serializable{
 	public void editartipologin(Integer id_tl,String descripcion, String tipologin) throws Exception
 	{
 		try{					
-			Tipologin tl = TipoLoginByID(id_tl);
+			Tipologin tl = this.TipoLoginByID(id_tl);
 			tl.setTipologin(tipologin);
 			tl.setDescripcion(descripcion);						
 			mDAO.actualizar(tl);

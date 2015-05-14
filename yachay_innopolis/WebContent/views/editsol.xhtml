@@ -14,19 +14,19 @@
 	<h:form id="form2">
 		<p:panel header="Datos de Solicitud">
 			<p:panelGrid columns="2">
-				<h:outputText value="Direcci&oacute;n" style="font-weight: bold"/>
+				<h:outputText value="Direcci&oacute;n"/>
 				<h:outputText value="#{solicitudBean.direccion}"></h:outputText>
-				<h:outputText value="Actividad" style="font-weight: bold"/>
+				<h:outputText value="Actividad" />
 				<h:inputTextarea value="#{solicitudBean.actividad}" disabled="true"></h:inputTextarea>
-				<h:outputText value="Objetivo" style="font-weight: bold"/>
+				<h:outputText value="Objetivo" />
 				<h:inputTextarea value="#{solicitudBean.objetivo}" disabled="true"></h:inputTextarea>
-				<h:outputText value="Justificaci&oacute;n" style="font-weight: bold"/>
+				<h:outputText value="Justificaci&oacute;n" />
 				<h:inputTextarea value="#{solicitudBean.justificacion}" disabled="true"></h:inputTextarea>
-				<h:outputText value="Fecha de solicitud:" style="font-weight: bold" />
+				<h:outputText value="Fecha de solicitud:"  />
 				<h:outputText id="fecha" value="#{solicitudBean.fecha}"><f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText>
-				<h:outputText value="Hora inicio:" style="font-weight: bold" /> 
+				<h:outputText value="Hora inicio:"  /> 
 				<h:outputText value="#{solicitudBean.horainicio}"><f:convertDateTime pattern="HH:mm"/></h:outputText>
-				<h:outputText value="Hora fin:" style="font-weight: bold" /> 
+				<h:outputText value="Hora fin:"  /> 
 				<h:outputText value="#{solicitudBean.horafin}"><f:convertDateTime pattern="HH:mm"/></h:outputText>		
 			</p:panelGrid>
 		</p:panel>
@@ -57,7 +57,7 @@
 					<h:outputText value="Detalle de Recursos:" />
 				</f:facet>
 				<p:column>
-					<f:facet name="header">QUITAR</f:facet>
+					<f:facet name="header">Quitar</f:facet>
 					<p:commandButton  actionListener="#{solicitudBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-closethick"/> 
 				</p:column>
 				<p:column>
@@ -68,7 +68,7 @@
 				</p:column>
 				<p:column>
 					<f:facet name="header">
-					Descripcion
+					Descripción
 				</f:facet>
 					<h:outputText value="#{d.recurso.descripcion}" />
 				</p:column>

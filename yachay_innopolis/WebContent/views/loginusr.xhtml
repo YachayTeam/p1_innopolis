@@ -27,14 +27,14 @@
 		<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Ingreso al Sistema">		
 		<h:panelGrid columns="2" cellpadding="5">
-            <h:outputLabel for="alias" value="Alias:" />
-            <p:inputText id="alias" value="#{loginBean.alias}" required="true" label="alias" />
+            <h:outputLabel for="alias" value="Alias: " />
+            <p:inputText id="alias" value="#{loginBean.alias}" label="alias" />
  
-            <h:outputLabel for="password" value="Password:" />
-            <p:password id="password" value="#{loginBean.password}" required="true" label="password" />
+            <h:outputLabel for="password" value="Password: " />
+            <p:password id="password" value="#{loginBean.password}" label="password" />
             <h:outputLabel value="Indique si Tipo: " />
             <h:panelGroup>  
-					<p:selectOneMenu required="true" value="#{loginBean.tipologin.idTipologin}" requiredMessage="Requerido Servicio">
+					<p:selectOneMenu value="#{loginBean.tipologin.idTipologin}" >
 						<f:selectItem  itemLabel="Seleccione el Tipo" itemValue="-1"/>
 						<f:selectItems value="#{loginBean.listaTipoLogin}"  />
 						<p:ajax
@@ -42,11 +42,10 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>            
-            <p:commandButton value="Login" actionListener="#{userLoginView.login}"
-                                 oncomplete="handleLoginRequest(xhr, status, args)" />
-            
-            <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Volver">
-			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Regresar a Registro" trackMouse="true" />
+            <p:commandButton value="Login" actionListener="#{userLoginView.login}" oncomplete="handleLoginRequest(xhr, status, args)">
+            </p:commandButton>            
+            <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Registrarse">
+			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Registrarse" trackMouse="true" />
 			</p:commandButton>
             
         </h:panelGrid>		    	    	

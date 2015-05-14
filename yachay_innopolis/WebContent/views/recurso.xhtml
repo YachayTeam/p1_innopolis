@@ -13,7 +13,7 @@
 <h:form>  
     <p:menubar>
         <p:menuitem value="Recursos" action="#{recursosBean.irRec}" icon="ui-icon-clipboard" />
-        <p:menuitem value="Tipo_Recurso" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
+        <p:menuitem value="Tipo Recurso" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
         <f:facet name="options">
             <p:commandButton type="button" value="Salir" icon="ui-icon-home" />
         </f:facet>
@@ -25,23 +25,23 @@
 	<p:growl id="message" showDetail="true" />
 	<p:panel id="panel1"  header="Registro de Recursos">
 		<p:panelGrid columns="2" >
-			<h:outputText value="NOMBRE *"/>
+			<h:outputText value="Nombre *"/>
 			<p:inputText styleClass="t" required="true" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
-			<h:outputText value="CAPACIDAD *"/>
+			<h:outputText value="Capacidad *"/>
 			<p:inputText styleClass="t" required="true" id="can" value="#{recursosBean.capacidad}" requiredMessage="Requerido" validatorMessage="Numeros entre 1 y 1000">
 				<f:validateLongRange minimum="1" maximum="1000"/>
 			</p:inputText>
-			<h:outputText value="DESCRIPCION *"/>
+			<h:outputText value="Descripción *"/>
 			<p:inputTextarea styleClass="t" required="false" id="des" value="#{recursosBean.descripcion}" requiredMessage="Requerido" validatorMessage="No debe contener caracteres especiales">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9-]+"/>
 			</p:inputTextarea>
-			<h:outputText value="LUGAR *"/>
+			<h:outputText value="Lugar *"/>
 			<p:inputText styleClass="t" required="false" id="lug" value="#{recursosBean.lugar}" requiredMessage="Requerido" validatorMessage="No debe contener caracteres especiales">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ;:.,0-9-]+"/>
 			</p:inputText>
-			<h:outputText value="TIPO_RECURSO *"/>
+			<h:outputText value="Tipo Recurso *"/>
 			<h:panelGroup>  
 					<p:selectOneMenu styleClass="t" value="#{recursosBean.rt}">
 						<f:selectItem  itemLabel="Seleccione...!!!!" itemValue="-1" />

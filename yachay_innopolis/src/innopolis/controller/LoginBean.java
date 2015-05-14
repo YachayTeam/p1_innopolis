@@ -310,6 +310,7 @@ public class LoginBean implements Serializable{
       //metodo para cargar la lista de tipologin
 		public String Cargartipologin(Tipologin tplog)
 			{
+			id_tipologin= tplog.getIdTipologin();
 			nomtipolog= tplog.getTipologin();
 			descripcion=  tplog.getDescripcion();	
 			return "modtipolog";
@@ -463,4 +464,10 @@ public class LoginBean implements Serializable{
 						}
 							return listadoTEU;
 				}
+				//------ Envios paginas--------//				
+						public String irLoginpag()
+						{		   
+							//limpiamos los datos			
+									return "loginusr";					
+						}
 }

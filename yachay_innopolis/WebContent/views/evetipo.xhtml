@@ -13,7 +13,7 @@
 <h:form>  
     <p:menubar>
         <p:menuitem value="Eventos" action="#{recursosBean.irRec}" icon="ui-icon-clipboard" />
-        <p:menuitem value="Tipo_Eventos" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
+        <p:menuitem value="Tipo Eventos" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
         <f:facet name="options">
             <p:commandButton type="button" value="Salir" icon="ui-icon-home" />
         </f:facet>
@@ -27,11 +27,11 @@
 	<p:growl id="message" showDetail="true" />
 	<p:panel id="panel1"  header="Registro de Tipos de Eventos">
 		<p:panelGrid columns="2" >
-			<h:outputText value="TIPO *"/>
+			<h:outputText value="Tipo*"/>
 			<p:inputText required="true" id="tipo" value="#{tipoeventoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
-			<h:outputText value="DESCRIPCION"/>
+			<h:outputText value="Descripción"/>
 			<p:inputTextarea required="false" id="tipo2" value="#{tipoeventoBean.descripcion}"/>
 			<p:commandButton update="panel1 :form2:panel2 message" value="Insertar" action="#{tipoeventoBean.crearNuevoTipoEvento}"></p:commandButton>
 		</p:panelGrid>

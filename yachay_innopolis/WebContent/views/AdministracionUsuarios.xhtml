@@ -115,12 +115,13 @@
 			</p:inputText>
 			<h:outputText value=""/>
 			<h:outputText value="Seleccione tipo: " for="advanced"/>      		 
-            <p:selectOneListbox id="advanced" required="true"  value="#{loginBean.arrayTipoLogin}">
+            <p:selectOneListbox  value="#{loginBean.arrayTipoLogin}">
             <f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
         	</p:selectOneListbox>  
-            <p:selectOneListbox id="advanced1" required="true"  value="#{loginBean.arrayTipoLogin}">
+            <p:selectOneListbox   value="#{loginBean.arrayTipoLogin}">
             <f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
-        	</p:selectOneListbox>        	
+        	</p:selectOneListbox>
+        	<h:outputText value=""/>
         	<p:commandButton id="trackcambioadd" value="add" action="#{loginBean.crearUsuario}">
 			<p:tooltip id="toolTipTrac7" for="trackcambioadd" value="Botón para Agregar" trackMouse="true" />
 			</p:commandButton>

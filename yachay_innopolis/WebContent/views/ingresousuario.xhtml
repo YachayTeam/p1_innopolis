@@ -6,7 +6,7 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>ServiciosVirtuales</title>
+<title>Registro Usuario</title>
 </h:head>
 <body>
 <h:form>  
@@ -30,7 +30,7 @@
 			<p:inputText required="true" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{loginBean.correo}">
 			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			</p:inputText>
-			<p:watermark for="correo" value="Dirección de correo *" />
+			<p:watermark for="correo" value="" />
 			<p:message for="correo" />
 			<h:outputText value="Alias*"/>
 			<p:inputText required="true" id="alias" value="#{loginBean.alias}" requiredMessage="Requerido alias">
@@ -42,12 +42,13 @@
 			</p:inputText>						
 			<p:commandButton id="trackregistrar" value="Registrarme" action="#{loginBean.registrarUsr}" update=":form2:panel2 :form2:message2">
 			<p:tooltip id="toolTipTrac1" for="trackregistrar" value="Botón para Registrarse" trackMouse="true" />
-			</p:commandButton>				
-			<p:button id="trackvolver1"  value="Volver">
-			<p:tooltip id="toolTipTrac2" for="trackvolver1" value="Botón para Volver Innopolis" trackMouse="true" />
-			</p:button>			
-		</p:panelGrid>
-	</p:panel>
+			</p:commandButton>
+			
+			<p:commandButton id="trackvolver" action="#{loginBean.irLoginpag}" value="Logearse">
+			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Regresar a página de Logeo" trackMouse="true" />
+			</p:commandButton>		
+			</p:panelGrid>						
+	</p:panel>		
 </h:form>
 </body>
 </html>

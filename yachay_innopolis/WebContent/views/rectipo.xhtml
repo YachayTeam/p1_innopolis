@@ -27,7 +27,7 @@
 	<p:growl id="message" showDetail="true" />
 	<p:panel id="panel1"  header="Registro de Tipos de Recursos">
 		<p:panelGrid columns="2" >
-			<h:outputText value="TIPO *"/>
+			<h:outputText value="Tipo *"/>
 			<p:inputText required="true" id="tipo" value="#{recursotipoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
