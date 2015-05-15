@@ -67,6 +67,7 @@ public class EventosBean implements Serializable {
 
 	// temporales
 	private Evento eventotemp;
+	private Tipoevento tipoevento;
 	private Boolean esave;
 	private boolean eTem;
 
@@ -216,6 +217,13 @@ public class EventosBean implements Serializable {
 
 	public List<Evento> getListEvento() {
 		return manager.findAllEventos();
+	}
+	public Tipoevento getTipoevento() {
+		return tipoevento;
+	}
+
+	public void setTipoevento(Tipoevento tipoevento) {
+		this.tipoevento = tipoevento;
 	}
 
 	// EVENTOS
@@ -700,6 +708,19 @@ public class EventosBean implements Serializable {
 		}
 		return le;
 	}
+	
+	//metodo para listar los eventos
+	public List<Evento> getListRegEventos(){
+		return manager.findAllEventos();
+	}
+	
+	//editar imagen
+	public void changeImg(Evento ev){
+		setImagen(ev.getImagen());
+		System.out.println(ev.getImagen());
+	}
+			
+	
 
 	@PostConstruct
 	public void init() {

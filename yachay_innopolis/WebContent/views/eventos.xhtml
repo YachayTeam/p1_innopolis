@@ -59,9 +59,9 @@
 			<h:outputText value="Imagen:"/>
 			 <p:fileUpload mode="advanced" dragDropSupport="true" update=":form2:message :form2:imagen" sizeLimit="100000" 
     		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/>
-   			 <h:outputText value="Vista Previa:"/>
+   			 <h:outputText value="Vista Previa:"/>   			 
    			 <p:graphicImage id="imagen" value="/imgevent/#{eventosBean.imagen}" width="150" height="150" />
-   			 <p:commandButton style="width:100%" update="panel2 message" value="Guardar Evento" action="#{eventosBean.crearEvento}">
+   			 <p:commandButton style="width:100%" update=":form1:panel" value="Guardar Evento" action="#{eventosBean.crearEvento}">
    			 </p:commandButton>
    			 <p:commandButton style="width:100%" update="panel2 message" value="Crear Solicitud para el Evento" action="#{eventosBean.irSolicitud}">
    			 </p:commandButton>
@@ -70,6 +70,93 @@
 </h:form>
 </div>
 <div class="div2">
+<h:form id="form1">
+		<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel" header="Lista de Registrados">
+		<p:dataTable id="dt" value="#{eventosBean.listRegEventos}" rows="10" var="reg"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                 paginator="true">			
+			<p:column  headerText="NOMBRE">
+				<h:outputText value="#{reg.nombre}"></h:outputText>
+			</p:column>			
+			<p:column headerText="DESCRIPCION">
+				<h:outputText value="#{reg.descripcion}"></h:outputText>
+			</p:column>
+			<p:column headerText="DIRECCIÓN">
+				<h:outputText value="#{reg.lugar}"></h:outputText>
+			</p:column>
+			<p:column headerText="COSTO">
+			<h:outputText value="#{reg.costo}"></h:outputText>
+			</p:column>
+			<p:column headerText="FECHA">
+			<h:outputText value="#{reg.fecha}"></h:outputText>
+			</p:column>	
+			<p:column id="f3" filterBy="#{reg.tipoevento.descripcion}" headerText="TIPO EVENTO">
+			<h:outputText value="#{reg.tipoevento.descripcion}"></h:outputText>
+			</p:column>
+			<p:column headerText="CAPACIDAD">
+			<h:outputText value="#{reg.cantidad}"></h:outputText>
+			</p:column>
+			<p:column headerText="IMAGEN">
+			<p:commandButton value="Ver Imagen" actionListener="#{eventosBean.changeImg(reg)}" update="form1:panel" oncomplete="PF('imagendlg').show();"></p:commandButton>
+			</p:column>		
+			<p:column headerText="OPCIONES" exportable="false">
+				<p:commandButton  icon="ui-icon-pencil" id="track">
+				<p:tooltip id="toolTipTrack1" for="track" value="Botón para observar la Información del Registro" trackMouse="true" />
+				<p:ajax listener="#{loginBean.Cargarusuarios(reg)}" update=":form1:panel" oncomplete="PF('dlg1').show();" />
+				</p:commandButton>			
+			</p:column>
+		</p:dataTable>
+		
+		<p:dialog header="Imagen" modal="true" showEffect="fade" hideEffect="fade" resizable="false" widgetVar="imagendlg" id="imagendlg">
+        	<p:graphicImage value="/imgevent/#{eventosBean.imagen}" id="imggi"></p:graphicImage>
+   		</p:dialog>
+		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Información" showEffect="clip" hideEffect="clip">
+		<p:panelGrid columns="3" >
+			<h:outputText value="Apellido: "/>
+			<h:outputText value="#{loginBean.apellido}"></h:outputText>
+			<h:outputText value=""/>
+			<h:outputText value="Nombre: "/>
+			<h:outputText value="#{loginBean.nombre}"></h:outputText>
+			<h:outputText value=""/>
+			<h:outputText value="Correo: "/>
+			<p:inputText required="false" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{loginBean.correo}">
+			<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+			</p:inputText>			
+			<h:outputText value=""/>
+			<h:outputText value="Alias: "/>
+			<h:outputText value="#{loginBean.alias}"></h:outputText>
+			<h:outputText value=""/>
+			<h:outputText value="Password: "/>
+			<p:inputText required="false" id="pass" value="#{loginBean.password}" requiredMessage="Requerido" validatorMessage="Ingrese el password">
+			<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value="Seleccione tipo: " for="advanced"/>      		 
+            <p:selectOneListbox  value="#{loginBean.arrayTipoLogin}">
+            <f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
+        	</p:selectOneListbox>  
+            <p:selectOneListbox   value="#{loginBean.arrayTipoLogin}">
+            <f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
+        	</p:selectOneListbox>
+        	<h:outputText value=""/>
+        	<p:commandButton id="trackcambioadd" value="add" action="#{loginBean.crearUsuario}">
+			<p:tooltip id="toolTipTrac7" for="trackcambioadd" value="Botón para Agregar" trackMouse="true" />
+			</p:commandButton>
+			<p:commandButton id="trackcambiodel" value="del" action="#{loginBean.crearUsuario}">
+			<p:tooltip id="toolTipTrac6" for="trackcambiodel" value="Botón para Agregar" trackMouse="true" />
+			</p:commandButton>	 
+			<h:outputText value="Estado: "/>
+			<h:outputText  id="est" readonly="true" value="#{loginBean.tipoestusr.nombreestado}"></h:outputText><br/>
+			<p:commandButton update="message2" value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarusuario}"></p:commandButton>													
+			<p:commandButton value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form1:panel :form1:message2" action="#{loginBean.irAprovador}"></p:commandButton>
+		</p:panelGrid>
+		</p:dialog>					
+		<br/>  	    	
+	</p:panel>
+</h:form>
+</div>
+<div class="div4">
 <!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
 </div>
 </body>
