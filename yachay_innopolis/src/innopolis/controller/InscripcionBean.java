@@ -176,6 +176,11 @@ public class InscripcionBean implements Serializable{
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
+	
+	//editar imagen
+	public void changeImg(Inscripcione ins){
+		setImagenPago(ins.getImagenPago());;
+	}
 
 	public String inscribirse(){
 		String resp ="";
