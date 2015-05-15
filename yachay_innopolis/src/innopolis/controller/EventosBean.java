@@ -49,6 +49,7 @@ public class EventosBean implements Serializable {
 	private String descripcion;
 	private Date fecha;
 	private String imagen;
+	private String imgMost;
 	private String lugar;
 	private String nombre;
 	private Integer cantidad;
@@ -77,6 +78,7 @@ public class EventosBean implements Serializable {
 		select = getlistaRecursos();
 		esave=false;
 		imagen="300.jpg";
+		imgMost="300.jpg";
 	}
 
 	public ScheduleModel getEventModel() {
@@ -224,6 +226,14 @@ public class EventosBean implements Serializable {
 
 	public void setTipoevento(Tipoevento tipoevento) {
 		this.tipoevento = tipoevento;
+	}
+	
+	public String getImgMost() {
+		return imgMost;
+	}
+	
+	public void setImgMost(String imgMost) {
+		this.imgMost = imgMost;
 	}
 
 	// EVENTOS
@@ -716,8 +726,7 @@ public class EventosBean implements Serializable {
 	
 	//editar imagen
 	public void changeImg(Evento ev){
-		setImagen(ev.getImagen());
-		System.out.println(ev.getImagen());
+		setImgMost(ev.getImagen());
 	}
 			
 	

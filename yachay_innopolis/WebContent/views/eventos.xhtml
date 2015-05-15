@@ -103,13 +103,13 @@
 			<p:column headerText="OPCIONES" exportable="false">
 				<p:commandButton  icon="ui-icon-pencil" id="track">
 				<p:tooltip id="toolTipTrack1" for="track" value="Botón para observar la Información del Registro" trackMouse="true" />
-				<p:ajax listener="#{loginBean.Cargarusuarios(reg)}" update=":imggi" oncomplete="PF('dlg1').show();" />
+				<p:ajax listener="#{loginBean.Cargarusuarios(reg)}" update=":form1:panel" oncomplete="PF('dlg1').show();" />
 				</p:commandButton>			
 			</p:column>
 		</p:dataTable>
 		
 		<p:dialog header="Imagen" modal="true" showEffect="fade" hideEffect="fade" resizable="false" widgetVar="imagendlg" id="imagendlg">
-        	<p:graphicImage value="/imgevent/#{eventosBean.imagen}" id="imggi"></p:graphicImage><!-- :form1:panel -->
+        	<p:graphicImage value="/imgevent/#{eventosBean.imgMost}" id="imggi"></p:graphicImage>
    		</p:dialog>
 		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Información" showEffect="clip" hideEffect="clip">
 		<p:panelGrid columns="3" >
