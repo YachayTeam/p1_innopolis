@@ -46,7 +46,7 @@ public class LoginBean implements Serializable{
 	
 	private Integer[] arrayTipoLogin;
 	
-		public LoginBean()  
+	public LoginBean()  
 	{
 		managerlogin = new ManagerLogin();
 		tipologin = new Tipologin();
