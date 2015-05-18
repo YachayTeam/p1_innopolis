@@ -336,4 +336,28 @@ public class ManagerLogin implements Serializable{
 			System.out.print("metodo_menos_mal");
 		}
 	}
+	
+	//Existencia de Usuario
+	@SuppressWarnings("unchecked")
+	public Usuario findUserByAliasAndPass(String nick, String pass)throws Exception{
+		try {
+			List<Usuario> listado = (List<Usuario>) mDAO.findByParam(Usuario.class, "o.nick", nick, null);
+			if(listado == null || listado.isEmpty()){
+				throw new Exception("No se encuentra el usuario."); 
+			}
+			Usuario u = listado.get(0);
+			if(u.getTipoestadousr().equals("desactivado")){
+				throw new Exception("Su usuario ha sido desactivado.");
+			}
+			if (u.getPassword().equals(pass)) {
+				return u;
+			}else{
+				throw new Exception("Usuario o contraseña invalidos");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 }

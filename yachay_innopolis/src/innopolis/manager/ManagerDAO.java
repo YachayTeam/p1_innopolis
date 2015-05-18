@@ -1,7 +1,6 @@
 package innopolis.manager;
 
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,8 +14,7 @@ import javax.persistence.Query;
  * @author mrea
  *
  */
-public class ManagerDAO implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class ManagerDAO {
 	private static EntityManagerFactory factory;
 	private static EntityManager em;
 
@@ -27,7 +25,7 @@ public class ManagerDAO implements Serializable{
 	public ManagerDAO() {
 		mostrarLog("constructor","ManagerDAO Creado");
 		if (factory == null) {
-			factory = Persistence.createEntityManagerFactory("yachay_innopolis");
+			factory = Persistence.createEntityManagerFactory("Ejemplo");
 			mostrarLog("constructor","Factory creado");
 		}
 		if (em == null) {
@@ -328,5 +326,51 @@ public class ManagerDAO implements Serializable{
 	public static EntityManager getEntityManager() {
 		return em;
 	}
+	
+	/**
+     * Finder generico para buscar un objeto especifico por una columna
+     * especificada.
+     *
+     * @param clase La clase sobre la que se desea consultar.
+     * @param param columna de busqueda.
+     * @param value valor de parametro de busqueda.
+     * @param orderBy Expresion que indica la propiedad de la entidad por la que
+     * se desea ordenar la consulta. Debe utilizar el alias "o" para nombrar a
+     * la(s) propiedad(es) por la que se va a ordenar. Puede aceptar null o una
+     * cadena vacia, en este caso no ordenara el resultado.
+     * @return Lista de objetos solicitados (si existieran).
+     * @throws Exception
+     */
+    @SuppressWarnings({"rawtypes"})
+    public List findByParam(Class clase, String param, String value, String orderBy) throws Exception {
+        Query q;
+        List listado;
+        String sentenciaSQL;
+        if (orderBy == null || orderBy.length() == 0) {
+            sentenciaSQL = "SELECT o FROM " + clase.getSimpleName() + " o WHERE " + param + "=:value1";
+        } else {
+            sentenciaSQL = "SELECT o FROM " + clase.getSimpleName()
+                    + " o WHERE " + param + "=:value1" + " ORDER BY " + orderBy;
+        }
+        q = em.createQuery(sentenciaSQL).setParameter("value1", value);
+        listado = q.getResultList();
+        return listado;
+    }
+    
+    @SuppressWarnings({"rawtypes"})
+    public List findByParam(Class clase, String param, int value, String orderBy) throws Exception {
+        Query q;
+        List listado;
+        String sentenciaSQL;
+        if (orderBy == null || orderBy.length() == 0) {
+            sentenciaSQL = "SELECT o FROM " + clase.getSimpleName() + " o WHERE " + param + "=:value1";
+        } else {
+            sentenciaSQL = "SELECT o FROM " + clase.getSimpleName()
+                    + " o WHERE " + param + "=:value1" + " ORDER BY " + orderBy;
+        }
+        q = em.createQuery(sentenciaSQL).setParameter("value1", value);
+        listado = q.getResultList();
+        return listado;
+    }
 
 }
