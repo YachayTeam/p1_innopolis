@@ -337,7 +337,27 @@ public class ManagerLogin implements Serializable{
 		}
 	}
 	
-	//Existencia de Usuario
+	/**
+	 * Buscar Tipo Login por ID
+	 * @param id_tipologin
+	 * @return TipoLogin
+	 * @throws Exception
+	 */
+	public Tipologin findTipoLoginByID(Integer id_tipologin) throws Exception{
+		try {
+			return (Tipologin) mDAO.findById(Tipologin.class, id_tipologin);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	/**
+	 * Método que busca un usuario respecto a su nick y contraseña
+	 * @param nick 
+	 * @param pass
+	 * @return Usuario o null
+	 * @throws Exception
+	 */
 	@SuppressWarnings("unchecked")
 	public Usuario findUserByAliasAndPass(String nick, String pass)throws Exception{
 		try {
@@ -353,11 +373,27 @@ public class ManagerLogin implements Serializable{
 				return u;
 			}else{
 				throw new Exception("Usuario o contraseña invalidos");
-			}
-			
+			}		
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+	
+	/**
+	 * Método que verifica si el usario pertenece a ese rol
+	 * @param id_usr
+	 * @param id_rol
+	 * @return boolean
+	 */
+	public boolean existeUsarioRol(Integer id_usr, Integer id_rol){
+		boolean resp = false;
+		List<Tipousr> listado = findAllTipoUsrXUser(id_usr);
+		for (Tipousr tipousr : listado) {
+			if(tipousr.getIdTipusr().equals(id_rol)){
+				resp = true;
+			}
+		}
+		return resp;
 	}
 }
