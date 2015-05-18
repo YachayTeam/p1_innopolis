@@ -267,7 +267,7 @@ public class LoginBean implements Serializable{
 			//Integer [] arreglo = new Integer[lst.size()];
 			//arreglo = lst.toArray(arreglo);
 			//arrayTipoLogin = arreglo;
-			return "modusr";
+			return "";
 		}
 			
 	  //metodo para crear nuevo tipologin

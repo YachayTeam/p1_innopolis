@@ -223,7 +223,9 @@ public class RecursosBean implements Serializable{
 	public String irTrecurso(){
 		return "rectipo";
 	}
-				
+	public String irEvento(){
+		return "eventos";
+	}			
 			
 	
 }

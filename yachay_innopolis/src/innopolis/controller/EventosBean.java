@@ -20,6 +20,7 @@ import innopolis.entities.Solicidetalle;
 import innopolis.entities.Tipoevento;
 import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerReservas;
+import innopolis.manager.Validacion;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -262,8 +263,50 @@ public class EventosBean implements Serializable {
 					"Evento no pudo ser Creado "));
 			e.printStackTrace();
 		}
-		;
 		return "evento";
+	}
+	
+	// accion para invocar el manager y crear evento
+		public String EditarEvento() throws Exception {
+			try {
+				manager.editarEventos(idEvento, nombre, descripcion, lugar, imagen, fecha,
+						costo, cantidad);
+				// reiniciamos datos (limpiamos el formulario)
+				nombre = "";
+				descripcion = "";
+				lugar = "";
+				imagen = "300.jpg";
+				fecha = null;
+				costo = 0;
+				cantidad = 0;
+				sc = 0;
+				te = 0;
+				esave=false;
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Editado..!!!",
+						"Editado Creado "));
+			} catch (Exception e) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Error..!!!",
+						"Evento no pudo ser Editado "));
+				e.printStackTrace();
+			}
+			return "eventos";
+		}
+	
+	
+	
+	
+	// metodo para poner el nombre a la imagen
+	public void asignarNombreImagen() {
+		if (getNombre().trim().isEmpty()) {
+			System.out.println("Vacio");
+		} else {
+			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmm");
+			g="img_"+getNombre()+dateFormat.format(new Date())+".jpg";
+			System.out.println(g);
+		}
+
 	}
 
 	// metodo para ir a solicitud y guardar el evento en un temporal
@@ -351,18 +394,6 @@ public class EventosBean implements Serializable {
 		}
 	
 		
-	}
-
-	// metodo para poner el nombre a la imagen
-	public void asignarNombreImg() {
-		if (getNombre().trim().isEmpty()) {
-			System.out.println("Vacio");
-		} else {
-			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmm");
-			g="img_"+getNombre()+dateFormat.format(new Date())+".jpg";
-			System.out.println(g);
-		}
-
 	}
 
 	// metodo para mostrar los EventosTipos en Eventos
@@ -538,6 +569,13 @@ public class EventosBean implements Serializable {
 			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(getH_inicio()));
 			setHorafin(this.fechaAtiempo(getH_fin()));
+			if(!Validacion.fechaMayorIgual(getFecha())){	
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual.", null));
+			}else if(getHorafin().getTime()<=getHorainicio().getTime()){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
+			}else if(Validacion.fechaIgualActual(getFecha()) && (!Validacion.horaMayorIgual(getHorainicio()) || !Validacion.horaMayorIgual(getHorafin()))){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La hora de solicitud no debe ser menor a la actual.", null));
+			}else{
 			// SolicitudTemporal
 			solicitudCabTem = manager1.crearSolicitudTmp(getDireccion(),
 					getActividad(), getObjetivo(), getJustificacion(),
@@ -547,10 +585,10 @@ public class EventosBean implements Serializable {
 			solicitudCabTmpGuardada = false;
 			// Cargar Listado----
 			select = this.getlistaRecursosLibres();
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("Error al crear la solicitud."));
-		}
+			}
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
+			}
 		return "soldet2?faces-redirect=true";
 	}
 
@@ -672,7 +710,7 @@ public class EventosBean implements Serializable {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_ERROR,
-									"La hora fin es menoro igual a la hora inicio de peticion del recurso",
+									"La hora fin es menor o igual a la hora inicio de peticion del recurso",
 									null));
 		}
 		System.out.println("sera que ve el metodo");
@@ -704,7 +742,17 @@ public class EventosBean implements Serializable {
 	}
 
 	public String irevento(){
-		return "eventos?faces-redirect=true";
+		nombre = "";
+		descripcion = "";
+		lugar = "";
+		imagen = "300.jpg";
+		fecha = null;
+		costo = 0;
+		cantidad = 0;
+		sc = 0;
+		te = 0;
+		esave=false;
+		return "eventos";
 	}
 	// ////////////////////////////////////////////////////////////CALENDARIO//////////////////////////////////////////////////////////////////
 
@@ -725,8 +773,15 @@ public class EventosBean implements Serializable {
 	}
 	
 	//editar imagen
-	public void changeImg(Evento ev){
-		setImgMost(ev.getImagen());
+	public String changeImg(Evento ev){
+		String imagen1= ev.getImagen();
+		//setImagen(ev.getImagen());		
+		//setImgMost(ev.getImagen());
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("imagen mostrada correctamente...!!!"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("imagen mostrada correctamente."));
+		System.out.println(imagen1);
+		return "eventos";
 	}
 			
 	
@@ -752,6 +807,36 @@ public class EventosBean implements Serializable {
 
 	public void onEventSelect(SelectEvent selectEvent) {
 		event = (ScheduleEvent) selectEvent.getObject();
+	}
+	
+	public String irEvento(){								       
+	      //limpiamos los datos
+		nombre = "";
+		descripcion = "";
+		lugar = "";
+		imagen = "300.jpg";
+		fecha = null;
+		costo = 0;
+		cantidad = 0;
+		sc = 0;
+		te = 0;
+		esave=false;				
+			return "eventos";					
+		}
+	
+	//metodo para cargar eventos
+	public String CargarEventos(Evento ev)
+		{
+		idEvento = ev.getIdEvento();
+		nombre = ev.getNombre();
+		descripcion = ev.getDescripcion();
+		lugar = ev.getLugar();
+		costo = ev.getCosto();			
+		fecha = ev.getFecha();
+		tipoevento = ev.getTipoevento();
+		cantidad = ev.getCantidad();
+		imagen = ev.getImagen();	
+		return "eventos";
 	}
 
 }

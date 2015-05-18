@@ -94,6 +94,7 @@ public class ManagerEvento {
 				float costo, Integer cantidad) throws Exception {
 			try {
 				Evento r = this.EventoByID(id_evento);
+				r.setIdEvento(id_evento);
 				r.setNombre(nombre);
 				r.setDescripcion(descripcion);
 				r.setLugar(lugar);
