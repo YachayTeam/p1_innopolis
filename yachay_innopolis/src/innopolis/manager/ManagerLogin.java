@@ -21,7 +21,11 @@ public class ManagerLogin implements Serializable{
 		private static Tipologin tipologin;
 		int p=0;
 		String h="";
-	
+		
+		//temporales
+				private static Tipologin tl;
+				private static Usuario tu;
+				
 	public ManagerLogin() {
 		mDAO= new ManagerDAO();
 	}
@@ -396,4 +400,72 @@ public class ManagerLogin implements Serializable{
 		}
 		return resp;
 	}
+	
+	public void mas(){
+		Tipousr r = new Tipousr();
+		r.setTipologin(tl);
+		r.setUsuario(tu);
+		System.out.println("hasta aca llega");
+		try {
+			mDAO.insertar(r);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+}
+
+public Tipousr findbyidext(){
+	List<Tipousr> s = findAllTipoUsr();
+	Tipousr u= new Tipousr();
+	for (Tipousr t : s){
+		if (t.getTipologin().getIdTipologin()==tl.getIdTipologin() && t.getUsuario().getIdUsr()==tu.getIdUsr()){
+			u=t;
+		}
+	}
+	System.out.println("si llega aca");
+	return u;
+}
+
+public void menos(){
+	try {
+		mDAO.eliminar(Tipousr.class, findbyidext().getIdTipusr());
+	} catch (Exception e) {
+		System.out.print("metodo_menos_mal");
+	}
+}
+
+//metodo para asignar el Usuario a TipoU
+ 	public Usuario asignarU(Integer idUsr) {
+ 		try {
+			tu=UsuarioByID(idUsr);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		return tu;
+	}
+ 	
+ 	//metodo para asignar el Login al Tipo
+ 	public Tipologin asignarT(Integer idTipo) {
+ 		try {
+			tl=TipoLoginByID(idTipo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		return tl;
+	}
+ 	//
+ 	
+ 	
+ 	public List<Tipousr> reload2 (Integer h){
+ 		List<Tipousr> c= findAllTipoUsr();
+ 		List<Tipousr> j= new ArrayList<Tipousr>();
+ 		for (Tipousr ti : c) {
+ 			if (h==ti.getUsuario().getIdUsr()){
+ 				j.add(ti);
+ 			}
+		}
+ 		return j;
+ 	}
 }

@@ -44,6 +44,15 @@ public class LoginBean implements Serializable{
 	private List<Tipousr> tipousrli;
 	private List<Tipoestadousr> tipoestusrli;
 	
+	private List<Tipousr> ocupados;
+	private Tipousr tu;
+	private Tipologin tl;
+	private List<Tipologin> o1;
+	private Integer u;
+	private Integer l;
+	private Integer o;
+	private Usuario g;
+	
 	private Integer[] arrayTipoLogin;
 	
 	public LoginBean()  
@@ -52,12 +61,95 @@ public class LoginBean implements Serializable{
 		tipologin = new Tipologin();
 		tipousuario = new Tipousr();	
 		tipoestusr = new Tipoestadousr();
+		tu = new Tipousr();
+		tl = new Tipologin();
+		g=new Usuario();
 	}	
 	
 	
 	public ManagerLogin getManagerlogin() {
 		return managerlogin;
 	}
+	public List<Tipousr> getOcupados() {
+		return ocupados;
+	}
+
+
+	public void setOcupados(List<Tipousr> ocupados) {
+		this.ocupados = ocupados;
+	}
+
+
+	public Tipousr getTu() {
+		return tu;
+	}
+
+
+	public void setTu(Tipousr tu) {
+		this.tu = tu;
+	}
+
+
+	public Tipologin getTl() {
+		return tl;
+	}
+
+
+	public void setTl(Tipologin tl) {
+		this.tl = tl;
+	}
+
+
+	public List<Tipologin> getO1() {
+		return o1;
+	}
+
+
+	public void setO1(List<Tipologin> o1) {
+		this.o1 = o1;
+	}
+
+
+	public Integer getU() {
+		return u;
+	}
+
+
+	public void setU(Integer u) {
+		this.u = u;
+	}
+
+
+	public Integer getL() {
+		return l;
+	}
+
+
+	public void setL(Integer l) {
+		this.l = l;
+	}
+
+
+	public Integer getO() {
+		return o;
+	}
+
+
+	public void setO(Integer o) {
+		this.o = o;
+	}
+
+
+	public Usuario getG() {
+		return g;
+	}
+
+
+	public void setG(Usuario g) {
+		this.g = g;
+	}
+
+
 	public void setManagerlogin(ManagerLogin managerlogin) {
 		this.managerlogin = managerlogin;
 	}
@@ -413,61 +505,101 @@ public class LoginBean implements Serializable{
 					return "ingresousuario";					
 		}
 		
-		public List<Tipologin> out(){
-			List<Tipologin> u = new ArrayList<Tipologin>();
-			List<Tipologin> a = managerlogin.findAllTipoLogin();
-			for (Integer e : arrayTipoLogin){
-				for (Tipologin t : a) {
-					if (e==t.getIdTipologin()){
-						u.add(t);
-					}
-				}
-			}
-			return u;
-			
-		}
-		
-		public List<Tipologin> in(){
-			List<Tipologin> u = new ArrayList<Tipologin>();
-			List<Tipologin> a = managerlogin.findAllTipoLogin();
-			for (Tipologin e : a){
-				int r = 0;
-				for (Tipologin t : out()) {
-					if (t.getIdTipologin()==e.getIdTipologin()){
-						r=1;
-					}
-				}
-				if (r==0){
-					u.add(e);
-				}
-			}
-			return u;	
-		}
-		
-		
-				public List<SelectItem> getListlibre(){
-					List<SelectItem> listadoTEU=new ArrayList<SelectItem>();
-					List<Tipologin> listadoEstadoU=in();
-						for(Tipologin t:listadoEstadoU){
-							SelectItem item=new SelectItem(t.getIdTipologin(),t.getTipologin());
-							listadoTEU.add(item);
-						}
-							return listadoTEU;
-				}
-		
-				public List<SelectItem> getListocupado(){
-					List<SelectItem> listadoTEU=new ArrayList<SelectItem>();
-					List<Tipologin> listadoEstadoU=out();
-						for(Tipologin t:listadoEstadoU){
-							SelectItem item=new SelectItem(t.getIdTipologin(),t.getTipologin());
-							listadoTEU.add(item);
-						}
-							return listadoTEU;
-				}
 				//------ Envios paginas--------//				
 						public String irLoginpag()
 						{		   
 							//limpiamos los datos			
 									return "loginusr";					
 						}
+					
+				//metodos de asignacion y cambios de tipos	
+						public List<Tipologin> deocupados(){
+							List<Tipologin> a = managerlogin.findAllTipoLogin();
+							for (Tipousr e : ocupados){
+								for (Tipologin t : a) {
+									if (e.getTipologin().getIdTipologin()==t.getIdTipologin()){
+										o1.add(t);
+									}
+								}
+							}
+							return o1;
+							
+						}
+						
+						public List<Tipologin> delibres(){
+							List<Tipologin> a = managerlogin.findAllTipoLogin();
+							List<Tipologin> l1 = new ArrayList<Tipologin>();
+							for (Tipologin t : a ){
+								int r=0;
+								for (Tipologin e : o1) {
+									if (e.getTipologin().equals(t.getTipologin())){
+										r+=1;
+									}
+								}
+								if (r==0){
+									l1.add(t);
+								}
+							}
+							o1=new ArrayList<Tipologin>();
+							return l1;
+						}
+						
+								public List<SelectItem> getListlibre(){
+									List<SelectItem> ls= new ArrayList<SelectItem>();
+									List<Tipologin> listadoEstadoU=delibres();
+									//System.out.println(delibres().size()+" libres");
+										for(Tipologin t:listadoEstadoU){
+											SelectItem item=new SelectItem(t.getIdTipologin(),t.getTipologin());
+											ls.add(item);
+										}
+											return ls;
+								}
+						
+								public List<SelectItem> getListocupado(){
+									List<SelectItem> ls= new ArrayList<SelectItem>();
+									List<Tipologin> listadoEstadoU=deocupados();
+									//System.out.println(deocupados().size()+" ocupa");
+									System.out.println(ocupados.size()+" asdf");
+										for(Tipologin t:listadoEstadoU){
+											SelectItem item=new SelectItem(t.getIdTipologin(),t.getTipologin());
+											ls.add(item);
+										}
+											return ls;
+								}
+								
+								//metodo para asignar el Usuario al tipo
+								public String asignarUsuario(){
+									managerlogin.asignarU(u);
+									System.out.println("usuario asignado:"+u);
+									return "";
+									}
+								
+								//metodo para asignar el Usuario al tipo
+								public String asignarTipol(){
+									managerlogin.asignarT(l);
+									System.out.println("metodo asignar libre:"+l);
+										return "";
+									}
+								
+								//metodo para asignar el Usuario al tipo
+								public String asignarTipoO(){
+									managerlogin.asignarT(o);
+									System.out.println("metodo asignar ocupado:"+o);
+										return "";
+									}
+								
+								public String add(){
+									managerlogin.mas();
+									//ocupados= new ArrayList<Tipousr>();
+									ocupados=managerlogin.reload2(getIdUsr());
+									return "AdministracionUsuarios";
+								}
+								
+								public String del(){
+									managerlogin.menos();
+									//ocupados= new ArrayList<Tipousr>();
+									//System.out.println(g.getIdUsr());
+									ocupados=managerlogin.reload2(getIdUsr());
+									return "AdministracionUsuarios";
+								}
 }
