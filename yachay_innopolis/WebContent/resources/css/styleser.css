@@ -41,4 +41,12 @@ body{
 }
 
 
+.overflow-dlg
+{
+    top: 25px !important;
+    max-height: 600px !important;
+    overflow-y: scroll !important;
+}
+
+
 

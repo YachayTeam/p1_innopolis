@@ -65,12 +65,16 @@
 					<h:outputText value="#{d.capacidad}" />
 				</p:column>
 			</p:dataTable>
-		<p:commandButton value="Atras"
+		<p:commandButton id="trackcar" value="Atras"
 					action="#{eventosBean.irsoldet}" update="form3"
-					icon="ui-icon-circle-arrow-w" />
-	<p:commandButton value="Enviar Solicitud"
+					icon="ui-icon-circle-arrow-w">
+		<p:tooltip id="toolTipTrac1" for="trackcar" value="Botón para Volver" trackMouse="true" />
+					</p:commandButton>
+	<p:commandButton id="trackenv" value="Enviar Solicitud"
 					action="#{eventosBean.guardarSolicitud}" update="message5"
-					icon="ui-icon-circle-check" />
+					icon="ui-icon-circle-check">
+	<p:tooltip id="toolTipTrac2" for="trackenv" value="Botón para Enviar Solicitud" trackMouse="true" />					
+					</p:commandButton>
 	</h:form>
 	</p:panel>
 </body>

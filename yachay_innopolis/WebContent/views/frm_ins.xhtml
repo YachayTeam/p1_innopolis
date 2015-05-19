@@ -22,17 +22,23 @@
 				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 				</p:inputText>
 				<h:outputText value="Imagen de Pago"/>
-				<p:fileUpload required="true" mode="advanced" dragDropSupport="false" update=":form:message :form:imagen" 
+				<p:fileUpload id="tracksubir" required="true" mode="advanced" dragDropSupport="false" update=":form:message :form:imagen" 
 					sizeLimit="3145728" fileLimit="1" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"
-					uploadLabel="Subir" label="Seleccionar" fileUploadListener="#{inscripcionBean.ImagenServ}" requiredMessage="Requerido Imagen"/>
+					uploadLabel="Subir" label="Seleccionar" fileUploadListener="#{inscripcionBean.ImagenServ}" requiredMessage="Requerido Imagen">
+					<p:tooltip id="toolTipTrac1" for="tracksubir" value="Botón para Subir Imagen de Pago" trackMouse="true" />
+					</p:fileUpload>
     			<h:outputText value="Vista previa"/>
 				<p:graphicImage id="imagen" value="/imgevent/#{inscripcionBean.imagenPago}" width="300" height="300" />
 				<h:outputText value="Observaciones" />
 				<p:inputTextarea required="true" value="#{inscripcionBean.observacion}" rows="5" cols="40" autoResize="false" requiredMessage="Requerido Apellidos">
 				<f:validateLength minimum="10"/>
 				</p:inputTextarea>
-				<p:commandButton value="Inscribirse" action="#{inscripcionBean.inscribirse}" update="panel2 message"></p:commandButton>
-				<p:commandButton value="Cancelar" action="#{inscripcionBean.cancelarIns}"></p:commandButton>
+				<p:commandButton id="trackins" value="Inscribirse" action="#{inscripcionBean.inscribirse}" update="panel2 message">
+				<p:tooltip id="toolTipTrac2" for="trackins" value="Botón para Inscribirse" trackMouse="true" />
+				</p:commandButton>
+				<p:commandButton id="trackcan" value="Cancelar" action="#{inscripcionBean.cancelarIns}">
+				<p:tooltip id="toolTipTrac3" for="trackcan" value="Botón para Volver al Calendario" trackMouse="true" />
+				</p:commandButton>
 			</p:panelGrid>
 		</p:panel>
 	</h:form>

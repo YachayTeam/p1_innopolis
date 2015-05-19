@@ -60,9 +60,11 @@
     		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/>
    			 <h:outputText value="Vista Previa:"/>   			 
    			 <p:graphicImage id="imagen" value="/imgevent/#{eventosBean.imagen}" width="150" height="150" />
-   			 <p:commandButton style="width:100%" update=":form2:panel2 message1" value="Guardar Evento" action="#{eventosBean.crearEvento}">
+   			 <p:commandButton id="trackregistrar" style="width:100%" update=":form2:panel2 message1" value="Guardar Evento" action="#{eventosBean.crearEvento}">
+   			 <p:tooltip id="toolTipTrac1" for="trackregistrar" value="Botón para Registrar Eventos" trackMouse="true" />
    			 </p:commandButton>
-   			 <p:commandButton style="width:100%" update="panel1 message1" value="Crear Solicitud para el Evento" action="#{eventosBean.irSolicitud}">
+   			 <p:commandButton id="trackregistrar1" style="width:100%" update="panel1 message1" value="Crear Solicitud para el Evento" action="#{eventosBean.irSolicitud}">
+   			 <p:tooltip id="toolTipTrac2" for="trackregistrar1" value="Botón para Crear Solicitud" trackMouse="true" />
    			 </p:commandButton>
 		</p:panelGrid>
 	</p:panel>
@@ -99,13 +101,15 @@
 			<p:column headerText="IMAGEN">
 			<p:commandLink update=":form2:imagen1" oncomplete="PF('imagendlg').show()" title="asd">
                     <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
-                    <f:setPropertyActionListener value="#{eventosBean.imagen}" target="#{eventosBean.imagen}" />
+                    <f:setPropertyActionListener value="#{reg.imagen}" target="#{reg.imagen}" />
                 </p:commandLink>
-			<p:commandButton update=":form2:imggi" value="Ver Imagen" actionListener="#{eventosBean.changeImg(reg.imagen)}" oncomplete="PF('imagendlg').show();"></p:commandButton>
+			<p:commandButton id="trackimagen" update=":form2:imggi" value="Ver Imagen" actionListener="#{eventosBean.changeImg(reg.imagen)}" oncomplete="PF('imagendlg').show();">
+			<p:tooltip id="toolTipTrac3" for="trackimagen" value="Botón para ver Imagen" trackMouse="true" />
+			</p:commandButton>
 			</p:column>		
 			<p:column headerText="OPCIONES" exportable="false">
-				<p:commandButton  icon="ui-icon-pencil" id="track">
-				<p:tooltip id="toolTipTrack1" for="track" value="Botón para observar la Información del Evento" trackMouse="true" />
+				<p:commandButton id="trackeditar" icon="ui-icon-pencil" >
+				<p:tooltip id="toolTipTrack4" for="trackeditar" value="Botón para observar la Información del Evento" trackMouse="true" />
 				<p:ajax listener="#{eventosBean.CargarEventos(reg)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
 				</p:commandButton>			
 			</p:column>
@@ -132,16 +136,8 @@
 			<p:inputText  id="costo" value="#{eventosBean.costo}" ></p:inputText>
 			<h:outputText value="Fecha:"/>
 			<p:calendar required="true" requiredMessage="Requerido Fecha" id="fecha" value="#{eventosBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
-			<h:outputText value="Tipo Eventos:"/>
-			<h:panelGroup>  
-					<p:selectOneMenu required="true" styleClass="t" value="#{eventosBean.te}" requiredMessage="Requerido Evento">
-						<f:selectItem  itemLabel="Seleccione...!!!!" itemValue="" />
-						<f:selectItems value="#{eventosBean.listaEveTipo}" />
-						<p:ajax
-							listener="#{eventosBean.asignarTipoeve()}">
-						</p:ajax>
-					</p:selectOneMenu>
-			</h:panelGroup>			
+			<h:outputText value="Tipo Evento:"/>
+			<h:outputText  id="tev" value="#{eventosBean.tipoevento.tipo}"></h:outputText>
 			<h:outputText value="Capacidad:"/>
 			<p:inputText  id="cap" value="#{eventosBean.cantidad}"></p:inputText>	
 			<h:outputText value="Imagen:"/>
@@ -149,9 +145,9 @@
     		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/>
    			 <h:outputText value="Vista Previa:"/>   			 
    			 <p:graphicImage id="imagen" value="/imgevent/#{eventosBean.imagen}" width="150" height="150" />	
-   			<p:commandButton style="width:100%" value="Editar Evento" action="#{eventosBean.EditarEvento}" update=":form2:panel2 :form2:message2">
+   			<p:commandButton id="trackeditarev"  style="width:100%"  styleClass="ui-icon-search" value="Editar Evento" action="#{eventosBean.EditarEvento}" update=":form2:panel2 :form2:message2">
+   			<p:tooltip id="toolTipTrack5" for="trackeditarev" value="Botón para Editar Evento" trackMouse="true" />
    			</p:commandButton>
-			<p:commandButton value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2 :form2:message2" action="#{eventosBean.irEvento}"></p:commandButton>
 		</p:panelGrid>
 		</p:dialog>
 			

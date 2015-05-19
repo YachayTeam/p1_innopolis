@@ -28,16 +28,24 @@
 				</h:outputText>
     		</p:column>
     		<p:column headerText="Imagen Pago">
-				<p:commandButton value="Ver Imagen" actionListener="#{inscripcionBean.changeImg(sol)}" update="form:imagen" oncomplete="PF('imagendlg').show();"></p:commandButton>
+				<p:commandButton id="trackimg" value="Ver Imagen" actionListener="#{inscripcionBean.changeImg(sol)}" update="form:imagen" oncomplete="PF('imagendlg').show();">
+				
+				</p:commandButton>
     		</p:column>	
     		<p:column headerText="Estado">
     			<h:outputText value="#{sol.estado}"></h:outputText><br></br>
     			<h:outputText value="#{sol.sms}"></h:outputText>
     		</p:column>
     		<p:column headerText="Aprobaci&oacute;n">
-    			<p:commandButton icon="ui-icon-circle-check" action="#{inscripcionBean.aprobarInscrito(sol)}" update=":form:panel"></p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton icon="ui-icon-circle-close" action="#{inscripcionBean.negarInscrito(sol)}" update=":form:panel"></p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton icon="ui-icon-mail-closed" action="#{inscripcionBean.notificarInscripcion(sol)}" update=":form:panel"></p:commandButton>
+    			<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{inscripcionBean.aprobarInscrito(sol)}" update=":form:panel">
+    			
+    			</p:commandButton>&nbsp;&nbsp;
+    			<p:commandButton id="trackcerr" icon="ui-icon-circle-close" action="#{inscripcionBean.negarInscrito(sol)}" update=":form:panel">
+    			
+    			</p:commandButton>&nbsp;&nbsp;
+    			<p:commandButton id="tracknotificar" icon="ui-icon-mail-closed" action="#{inscripcionBean.notificarInscripcion(sol)}" update=":form:panel">
+    			
+    			</p:commandButton>
     		</p:column>				
 		</p:dataTable>			
 	</p:panel>

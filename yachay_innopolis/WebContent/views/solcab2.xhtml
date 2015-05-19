@@ -49,8 +49,12 @@
                    startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
                    showDeselectButton="true" rows="3"  style="width:70px;" 
                    widgetVar="customTimeWidget2" label="Hora Inicio"/> 
-                <p:commandButton update="" icon="ui-icon-circle-arrow-w" action="#{eventosBean.irevento}" value="Regresar" /> 			
-				<p:commandButton update="message" icon="ui-icon-circle-arrow-e" action="#{eventosBean.crearNuevaSolicitud}" value="Siguiente" />
+                <p:commandButton id="trackvolver" update="" icon="ui-icon-circle-arrow-w" action="#{eventosBean.irevento}" value="Regresar">
+                <p:tooltip id="toolTipTrac1" for="trackvolver" value="Botón para Vover" trackMouse="true" />
+                </p:commandButton> 			
+				<p:commandButton id="trackcrear" update="message" icon="ui-icon-circle-arrow-e" action="#{eventosBean.crearNuevaSolicitud}" value="Siguiente">
+				<p:tooltip id="toolTipTrac2" for="trackcrear" value="Siguiente Paso" trackMouse="true" />
+				</p:commandButton>
 			</p:panelGrid>
 		</p:panel>
 	</h:form>

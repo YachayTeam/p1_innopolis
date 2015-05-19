@@ -774,14 +774,13 @@ public class EventosBean implements Serializable {
 	
 	//editar imagen
 	public String changeImg(Evento ev){
-		String imagen1= ev.getImagen();
-		//setImagen(ev.getImagen());		
-		//setImgMost(ev.getImagen());
+		setImagen(ev.getImagen());		
+		setImgMost(ev.getImagen());
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("imagen mostrada correctamente...!!!"));
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("imagen mostrada correctamente."));
-		System.out.println(imagen1);
-		return "eventos";
+		System.out.println(ev);
+		return "";
 	}
 			
 	

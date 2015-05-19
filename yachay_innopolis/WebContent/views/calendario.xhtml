@@ -17,7 +17,9 @@
 			<p:menuitem value="Tipo_Recurso" action="#{recursosBean.irTrecurso}"
 				icon="ui-icon-pencil" />
 			<f:facet name="options">
-				<p:commandButton type="button" value="Salir" icon="ui-icon-home" />
+				<p:commandButton id="tracksalir" type="button" value="Salir" icon="ui-icon-home">
+				<p:tooltip id="toolTipTrac1" for="tracksalir" value="Botón para Salir" trackMouse="true" />
+				</p:commandButton>
 			</f:facet>
 		</p:menubar>
 	</h:form>

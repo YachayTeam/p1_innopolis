@@ -42,7 +42,8 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>            
-            <p:commandButton value="Login" actionListener="#{userLoginView.login}" oncomplete="handleLoginRequest(xhr, status, args)">
+            <p:commandButton id="tracklog" value="Login" actionListener="#{userLoginView.login}" oncomplete="handleLoginRequest(xhr, status, args)">
+            <p:tooltip id="toolTipTrac1" for="tracklog" value="Botón para Ingresar" trackMouse="true" />
             </p:commandButton>            
             <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Registrarse">
 			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Registrarse" trackMouse="true" />

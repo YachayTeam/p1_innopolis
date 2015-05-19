@@ -33,9 +33,11 @@
 			</h:panelGroup>
 				<h:outputText value="Capacidad Necesaria:" />
 				<p:inputText value="#{eventosBean.capacidad_recurso}"></p:inputText>
-				<p:commandButton value="Adicionar"
+				<p:commandButton id="trackcrears" value="Adicionar"
 					action="#{eventosBean.insertarDetalleSolicitud}" update="form3"
-					icon="ui-icon-plusthick" />
+					icon="ui-icon-plusthick">
+					<p:tooltip id="toolTipTrac1" for="trackcrears" value="Botón para Crear Solicitud Recurso" trackMouse="true" />
+					</p:commandButton>
 			</p:panelGrid>
 			<p:messages></p:messages>
 			<p:dataTable value="#{eventosBean.solicitudCabTem.solicidetalles}"
@@ -68,12 +70,16 @@
 			</p:dataTable>
 		</p:panel>
 	</h:form>
-	<p:commandButton value="Atras"
+	<p:commandButton id="trackvolver" value="Atras"
 					action="#{eventosBean.irsolcab}" update="form3"
-					icon="ui-icon-circle-arrow-w" />
-	<p:commandButton value="Siguiente"
+					icon="ui-icon-circle-arrow-w">
+	<p:tooltip id="toolTipTrac2" for="trackvolver" value="Botón para Vover" trackMouse="true" />
+					</p:commandButton>
+	<p:commandButton id="trackcrear" value="Siguiente"
 					action="#{eventosBean.irsolres}" update="form3"
-					icon="ui-icon-circle-arrow-e" />
+					icon="ui-icon-circle-arrow-e">
+	<p:tooltip id="toolTipTrac3" for="trackcrear" value="Siguiente Paso" trackMouse="true" />
+					</p:commandButton>
 	</p:panel>
 </body>
 </html>

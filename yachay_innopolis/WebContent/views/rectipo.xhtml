@@ -14,7 +14,6 @@
     <p:menubar>
     	<p:menuitem value="Eventos" action="#{recursosBean.irEvento}" icon="ui-icon-clipboard" />
         <p:menuitem value="Recursos" action="#{recursosBean.irRec}" icon="ui-icon-clipboard" />
-        <p:menuitem value="Tipo_Recurso" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
         <f:facet name="options">
             <p:commandButton type="button" value="Salir" icon="ui-icon-home" />
         </f:facet>
@@ -32,7 +31,9 @@
 			<p:inputText required="true" id="tipo" value="#{recursotipoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
-			<p:commandButton update="panel1 :form2:panel2 message" value="Insertar" action="#{recursotipoBean.crearNuevoRecursoTipo}"></p:commandButton>
+			<p:commandButton id="trackguardar" update="panel1 :form2:panel2 message" value="Insertar" action="#{recursotipoBean.crearNuevoRecursoTipo}">
+			<p:tooltip id="toolTipTrack1" for="trackguardar" value="Botón para Crear Recurso" trackMouse="true" />
+			</p:commandButton>
 		</p:panelGrid>
 	</p:panel>
 </h:form>
@@ -45,8 +46,9 @@
 				<h:outputText value="#{lu.tipo}"></h:outputText>
 			</p:column>
 			<p:column headerText="EDITAR">
-				<p:commandButton icon="ui-icon-pencil">
+				<p:commandButton id="trackrev" icon="ui-icon-pencil">
 				<p:ajax listener="#{recursotipoBean.cargarDatosRecTipo(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+				<p:tooltip id="toolTipTrack2" for="trackrev" value="Botón para Editar Recurso" trackMouse="true" />
 				</p:commandButton>
     		</p:column>			
 		</p:dataTable>
@@ -59,8 +61,12 @@
 			<p:inputText required="false" id="can" value="#{recursotipoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
-			<p:commandButton update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-refresh" action="#{recursotipoBean.modificarRecursoTipo}"></p:commandButton>
-			<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursotipoBean.cancelarModificacion}"></p:commandButton>
+			<p:commandButton id="trackedi" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-refresh" action="#{recursotipoBean.modificarRecursoTipo}">
+			<p:tooltip id="toolTipTrack3" for="trackedi" value="Botón para Editar Recurso" trackMouse="true" />
+			</p:commandButton>
+			<p:commandButton id="trackvol" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursotipoBean.cancelarModificacion}">
+			<p:tooltip id="toolTipTrack4" for="trackvol" value="Botón para Cancelar" trackMouse="true" />
+			</p:commandButton>
 		</p:panelGrid>
 </p:dialog>			
 	</p:panel>

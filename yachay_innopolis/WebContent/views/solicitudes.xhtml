@@ -40,12 +40,20 @@
     			<h:outputText value="#{sol.sms}"></h:outputText>
     		</p:column>
     		<p:column headerText="Aprobaci&oacute;n">
-    			<p:commandButton icon="ui-icon-circle-check" action="#{solicitudBean.aprobarEstado(sol)}" update=":form:panel"></p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton icon="ui-icon-circle-close" action="#{solicitudBean.negarEstado(sol)}" update=":form:panel"></p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton icon="ui-icon-mail-closed" action="#{solicitudBean.notificarSolicitud(sol)}" update=":form:panel"></p:commandButton>
+    			<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{solicitudBean.aprobarEstado(sol)}" update=":form:panel">
+    			
+    			</p:commandButton>&nbsp;&nbsp;
+    			<p:commandButton id="trackneg" icon="ui-icon-circle-close" action="#{solicitudBean.negarEstado(sol)}" update=":form:panel">
+    			
+    			</p:commandButton>&nbsp;&nbsp;
+    			<p:commandButton id="trackcer" icon="ui-icon-mail-closed" action="#{solicitudBean.notificarSolicitud(sol)}" update=":form:panel">
+    			
+    			</p:commandButton>
     		</p:column>
     		<p:column headerText="Edici&oacute;n">
-    			<p:commandButton icon="ui-icon-pencil" action="#{solicitudBean.cargarDatosSolicitud(sol)}"></p:commandButton>
+    			<p:commandButton id="trackcar" icon="ui-icon-pencil" action="#{solicitudBean.cargarDatosSolicitud(sol)}">
+    			
+    			</p:commandButton>
     		</p:column>				
 		</p:dataTable>			
 	</p:panel>

@@ -49,7 +49,9 @@
                    startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
                    showDeselectButton="true" rows="3"  style="width:70px;" 
                    widgetVar="customTimeWidget2" label="Hora Inicio"/>  			
-				<p:commandButton update="message" icon="ui-icon-circle-arrow-e" action="#{solicitudBean.crearNuevaSolicitud}" value="Siguiente" /> <!--update=":form3" /-->
+				<p:commandButton id="trackcrear" update="message" icon="ui-icon-circle-arrow-e" action="#{solicitudBean.crearNuevaSolicitud}" value="Siguiente">
+				<p:tooltip id="toolTipTrac1" for="trackcrear" value="Siguiente Paso" trackMouse="true" />
+				</p:commandButton> <!--update=":form3" /-->
 			</p:panelGrid>
 		</p:panel>
 	</h:form>

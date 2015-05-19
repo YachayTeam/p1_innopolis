@@ -58,7 +58,9 @@
 				</f:facet>
 				<p:column>
 					<f:facet name="header">Quitar</f:facet>
-					<p:commandButton  actionListener="#{solicitudBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-closethick"/> 
+					<p:commandButton id="trackquitar" actionListener="#{solicitudBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-closethick">
+					<p:tooltip id="toolTipTrac1" for="trackquitar" value="Botón para Almacenar la Solicitud" trackMouse="true" />
+					</p:commandButton> 
 				</p:column>
 				<p:column>
 					<f:facet name="header">
@@ -80,7 +82,10 @@
 				</p:column>
 			</p:dataTable>
 		</p:panel>
-		<p:commandButton value="Guardar Solicitud" action="#{solicitudBean.finalizarSolicitudED}" update=":form3"></p:commandButton>
+		<p:commandButton id="trackregistrar" value="Guardar Solicitud" action="#{solicitudBean.finalizarSolicitudED}" update=":form3">
+		<p:tooltip id="toolTipTrac2" for="trackregistrar" value="Botón para Almacenar la Solicitud" trackMouse="true" />
+		</p:commandButton>
+		
 	</h:form>
 	</p:panel>
 </body>

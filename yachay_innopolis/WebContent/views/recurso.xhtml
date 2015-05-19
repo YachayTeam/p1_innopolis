@@ -13,7 +13,6 @@
 <h:form>  
     <p:menubar>
     	<p:menuitem value="Eventos" action="#{recursosBean.irEvento}" icon="ui-icon-clipboard" />
-        <p:menuitem value="Recursos" action="#{recursosBean.irRec}" icon="ui-icon-clipboard" />
         <p:menuitem value="Tipo Recurso" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
         <f:facet name="options">
             <p:commandButton type="button" value="Salir" icon="ui-icon-home" />
@@ -52,7 +51,9 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>
-			<p:commandButton style="width:100%" update="panel1 :form2:panel2 message" value="Insertar" action="#{recursosBean.crearRecurso}"></p:commandButton>
+			<p:commandButton id="trackcrea" style="width:100%" update="panel1 :form2:panel2 message" value="Insertar" action="#{recursosBean.crearRecurso}">
+			<p:tooltip id="toolTipTrack1" for="trackcrea" value="Botón para Crear Recurso" trackMouse="true" />
+			</p:commandButton>
 		</p:panelGrid>
 	</p:panel>
 </h:form>
@@ -77,14 +78,15 @@
 				<h:outputText value="#{lu.recursotipo.tipo}"></h:outputText>
 			</p:column>
 			<p:column headerText="ESTADO">
-				<h:outputText value="#{lu.recursodisponible.disponible}"></h:outputText>
-				
+				<h:outputText value="#{lu.recursodisponible.disponible}"></h:outputText>				
 			</p:column>
 			<p:column headerText="ADMINISTRAR">
-				<p:commandButton  icon="ui-icon-pencil">
+				<p:commandButton id="trackver" icon="ui-icon-pencil">
 				<p:ajax listener="#{recursosBean.cargarRecursos(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+				<p:tooltip id="toolTipTrack2" for="trackver" value="Botón para Editar Recurso" trackMouse="true" />
 				</p:commandButton>
-				<p:commandButton icon="ui-icon-refresh" actionListener="#{recursosBean.cambiarEstado(lu)}" update=":form2:panel2 :form2:message2">
+				<p:commandButton id="trackcamb" icon="ui-icon-refresh" actionListener="#{recursosBean.cambiarEstado(lu)}" update=":form2:panel2 :form2:message2">
+				<p:tooltip id="toolTipTrack3" for="trackcamb" value="Botón para Cambiar Estado" trackMouse="true" />
 				</p:commandButton>
     		</p:column>	
 		</p:dataTable>	
@@ -119,8 +121,11 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>
-			<p:commandButton update="message2" value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{recursosBean.actualizarRecurso}"></p:commandButton>
-			<p:commandButton update=":form2:panel2" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursosBean.irRecurso}"></p:commandButton>
+			<p:commandButton id="trackactu" update="message2" value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{recursosBean.actualizarRecurso}">
+			</p:commandButton>
+			<p:commandButton id="trackcerr" update=":form2:panel2" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursosBean.irRecurso}">
+			<p:tooltip id="toolTipTrack5" for="trackcerr" value="Botón para Cancelar" trackMouse="true" />
+			</p:commandButton>
 		</p:panelGrid>
 </p:dialog>		
 	</p:panel>	
