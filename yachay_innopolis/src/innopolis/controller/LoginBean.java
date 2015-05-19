@@ -51,7 +51,6 @@ public class LoginBean implements Serializable{
 	private Integer u;
 	private Integer l;
 	private Integer o;
-	private Usuario g;
 	
 	private Integer[] arrayTipoLogin;
 	
@@ -63,7 +62,8 @@ public class LoginBean implements Serializable{
 		tipoestusr = new Tipoestadousr();
 		tu = new Tipousr();
 		tl = new Tipologin();
-		g=new Usuario();
+		ocupados= new ArrayList<Tipousr>();
+		o1 = new ArrayList<Tipologin>();
 	}	
 	
 	
@@ -138,18 +138,6 @@ public class LoginBean implements Serializable{
 	public void setO(Integer o) {
 		this.o = o;
 	}
-
-
-	public Usuario getG() {
-		return g;
-	}
-
-
-	public void setG(Usuario g) {
-		this.g = g;
-	}
-
-
 	public void setManagerlogin(ManagerLogin managerlogin) {
 		this.managerlogin = managerlogin;
 	}
@@ -355,6 +343,9 @@ public class LoginBean implements Serializable{
 			alias=usr.getAlias();
 			password=usr.getPassword(); 
 			tipoestusr= usr.getTipoestadousr();
+			ocupados=managerlogin.reload2(idUsr);
+			u=usr.getIdUsr();
+			this.asignarUsuario();
 			//List<Tipousr> lst = usr.getTipousrs();
 			//Integer [] arreglo = new Integer[lst.size()];
 			//arreglo = lst.toArray(arreglo);

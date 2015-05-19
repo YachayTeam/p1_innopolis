@@ -112,19 +112,28 @@
 			</p:inputText>
 			<h:outputText value=""/>
 			<h:outputText value="Seleccione tipo: " for="advanced"/>      		 
-            <p:selectOneListbox  value="#{loginBean.arrayTipoLogin}">
-            <f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
-        	</p:selectOneListbox>  
-            <p:selectOneListbox   value="#{loginBean.arrayTipoLogin}">
-            <f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
-        	</p:selectOneListbox>
+             <p:selectOneMenu id="smo" styleClass="t" value="#{loginBean.o}">
+						<f:selectItem  itemLabel="-Quitar-" itemValue="-1" />
+						<f:selectItems value="#{loginBean.listocupado}" />
+						<p:ajax
+							listener="#{loginBean.asignarTipoO()}">
+						</p:ajax>
+					</p:selectOneMenu>   
+           <p:selectOneMenu id="sml" styleClass="t" value="#{loginBean.l}">
+						<f:selectItem  itemLabel="-Añadir-" itemValue="-1" />
+						<f:selectItems value="#{loginBean.listlibre}" />
+						<p:ajax
+							listener="#{loginBean.asignarTipol()}">
+						</p:ajax>
+					</p:selectOneMenu>   
         	<h:outputText value=""/>
-        	<p:commandButton id="trackcambioadd" value="add" action="#{loginBean.crearUsuario}">
-			<p:tooltip id="toolTipTrac7" for="trackcambioadd" value="Botón para Agregar" trackMouse="true" />
+			<p:commandButton  update=" :form2:sml :form2:smo" id="trackcambiodel" value="del" action="#{loginBean.del}">
+			<p:tooltip id="toolTipTrac6" for="trackcambiodel" value="Botón para Quitar" trackMouse="true" />
 			</p:commandButton>
-			<p:commandButton id="trackcambiodel" value="del" action="#{loginBean.crearUsuario}">
-			<p:tooltip id="toolTipTrac6" for="trackcambiodel" value="Botón para Agregar" trackMouse="true" />
-			</p:commandButton>	 
+			<p:commandButton  update=" :form2:sml :form2:smo" id="trackcambioadd" value="add" action="#{loginBean.add}">
+			<p:tooltip id="toolTipTrac7" for="trackcambioadd" value="Botón para Agregar" trackMouse="true" />
+			</p:commandButton> 
+        	<h:outputText value=""/>
 			<h:outputText value="Estado: "/>
 			<h:outputText  id="est" readonly="true" value="#{loginBean.tipoestusr.nombreestado}"></h:outputText><br/>
 			<p:commandButton update="message2" value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarusuario}"></p:commandButton>													
