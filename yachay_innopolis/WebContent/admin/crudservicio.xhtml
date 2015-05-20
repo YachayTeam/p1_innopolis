@@ -28,7 +28,7 @@
 			<h:outputText value="Servicios *"/>
 			<p:inputText required="true" id="tipo" value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
 			<p:commandButton id="trackingre" update="panel1 :form2:panel2 message" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}">
-			<p:tooltip id="toolTipTrac" for="trackingre" value="Botón para Agregar un Servicio" trackMouse="true" />
+			
 			</p:commandButton>
 		</p:panelGrid>
 	</p:panel>
@@ -48,11 +48,11 @@
 			</p:column>
 			<p:column headerText="Modificar">
 			<p:commandButton id="trackedi"  icon="ui-icon-pencil">
-				<p:tooltip id="toolTipTrac1" for="trackedi" value="Botón para Editar el Servicio" trackMouse="true" />
+				
 				<p:ajax listener="#{serviciosVirtualesBean.cargarDatostiposerv(ser)}" oncomplete="PF('dlg1').show();"  update=":form2:panel2" />
 			</p:commandButton>			
 				<p:commandButton id="trackeli" icon="ui-icon-closethick" actionListener="#{serviciosVirtualesBean.EliminarServicio(ser)}" update=":form2">
-				<p:tooltip id="toolTipTrac2" for="trackeli" value="Botón para Eliminar el Servicio" trackMouse="true" />				
+								
     		</p:commandButton>			
     		</p:column>			
 		</p:dataTable>		
@@ -62,10 +62,10 @@
 			<h:outputText value="Nombre Servicio"/>
 			<p:inputText required="true" id="Nom" value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
 			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{serviciosVirtualesBean.ActualizarServicio}">
-			<p:tooltip id="toolTipTrac4" for="trackactu" value="Botón para Aceptar la Edición" trackMouse="true" />
+			
 			</p:commandButton>
 			<p:commandButton id="trackvolver" action="#{serviciosVirtualesBean.irAprovadorpag}" value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();">
-			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Regresar a Lista de Servicios" trackMouse="true" />
+			
 			</p:commandButton>
 	</p:panelGrid>
 	</p:dialog>		

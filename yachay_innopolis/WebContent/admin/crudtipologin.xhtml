@@ -34,7 +34,7 @@
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
 			<p:commandButton id="trackingre" update="panel1 :form2:panel2 message" value="Insertar" action="#{loginBean.crearTipoLogin}">
-			<p:tooltip id="toolTipTrac" for="trackingre" value="Botón para Agregar un Tipo" trackMouse="true" />
+			
 			</p:commandButton>
 		</p:panelGrid>
 	</p:panel>
@@ -57,7 +57,7 @@
 			</p:column>
 			<p:column headerText="Modificar">
 			<p:commandButton id="trackedi"  icon="ui-icon-pencil">
-				<p:tooltip id="toolTipTrac1" for="trackedi" value="Botón para Editar el Tipo" trackMouse="true" />
+			
 				<p:ajax listener="#{loginBean.Cargartipologin(ser)}" oncomplete="PF('dlg1').show();"  update=":form2:panel2" />
 			</p:commandButton>						
     		</p:column>			
@@ -70,10 +70,10 @@
 			<h:outputText value="Descripción"/>
 			<p:inputText id="Descripcion" value="#{loginBean.descripcion}"></p:inputText>
 			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarTipologin}">
-			<p:tooltip id="toolTipTrac4" for="trackactu" value="Botón para Aceptar la Edición" trackMouse="true" />
+			
 			</p:commandButton>
 			<p:commandButton id="trackvolver" action="#{loginBean.irAprovadorpag}" value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();">
-			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Regresar a Lista de Tipos" trackMouse="true" />
+			
 			</p:commandButton>
 	</p:panelGrid>
 	</p:dialog>		
