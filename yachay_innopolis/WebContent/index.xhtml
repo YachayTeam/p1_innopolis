@@ -25,10 +25,10 @@
             <p:password id="password" value="#{sessionBean.pass}" label="password" />
             <h:outputLabel value="Tipo de Usuario: " />
             <h:panelGroup>  
-					<p:selectOneMenu value="#{sessionBean.idrol}" >
-						<f:selectItem  itemLabel="Seleccione el Tipo" itemValue="-1"/>
-						<f:selectItems value="#{loginBean.listaTipoLogin}"  />
-					</p:selectOneMenu>
+				<p:selectOneMenu value="#{sessionBean.idrol}" >
+					<f:selectItem itemLabel="Seleccionar..." itemValue="-1"/>
+					<f:selectItems value="#{sessionBean.listaTipoLoginSI}"  />
+				</p:selectOneMenu>
 			</h:panelGroup>            
             <p:commandButton value="Ingresar" action="#{sessionBean.login}"></p:commandButton>            
             <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Registrarse">

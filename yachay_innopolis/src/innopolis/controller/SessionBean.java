@@ -1,7 +1,10 @@
 package innopolis.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import innopolis.entities.Tipologin;
 import innopolis.entities.Usuario;
 import innopolis.entities.help.UsuarioHelp;
 import innopolis.manager.ManagerLogin;
@@ -10,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 
 @SessionScoped
@@ -53,6 +57,19 @@ public class SessionBean {
     public void setIdrol(Integer idrol) {
 		this.idrol = idrol;
 	}
+    
+    /**
+     * Método de tipos de usuario
+     * @return listado
+     */
+    public List<SelectItem> listaTipoLoginSI(){
+    	List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+    	List<Tipologin> tipos = manager.findAllTipoLogin();
+    	for (Tipologin tipologin : tipos) {
+    		listadoSI.add(new SelectItem(tipologin.getIdTipologin(), tipologin.getTipologin()));
+		}
+    	return listadoSI;
+    }
     
     /**
      * Método para ingresar al sistema
