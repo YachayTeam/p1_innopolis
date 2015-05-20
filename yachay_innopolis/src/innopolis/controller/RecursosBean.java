@@ -224,6 +224,7 @@ public class RecursosBean implements Serializable{
 		return "rectipo";
 	}
 	public String irEvento(){
+		System.out.println("SI");
 		return "eventos";
 	}			
 			

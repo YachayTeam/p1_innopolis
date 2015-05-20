@@ -391,9 +391,7 @@ public class EventosBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
 							"no se pudo seleccionar la imagen"));
-		}
-	
-		
+		}	
 	}
 
 	// metodo para mostrar los EventosTipos en Eventos
@@ -774,6 +772,8 @@ public class EventosBean implements Serializable {
 	
 	//editar imagen
 	public String changeImg(Evento ev){
+		idEvento = ev.getIdEvento();
+		imagen = ev.getImagen();
 		setImagen(ev.getImagen());		
 		setImgMost(ev.getImagen());
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -781,9 +781,7 @@ public class EventosBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("imagen mostrada correctamente."));
 		System.out.println(ev);
 		return "";
-	}
-			
-	
+	}	
 
 	@PostConstruct
 	public void init() {
@@ -835,7 +833,7 @@ public class EventosBean implements Serializable {
 		tipoevento = ev.getTipoevento();
 		cantidad = ev.getCantidad();
 		imagen = ev.getImagen();	
-		return "eventos";
+		return "";
 	}
 
 }

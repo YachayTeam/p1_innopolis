@@ -14,8 +14,8 @@
     <p:menubar>
         <p:menuitem value="Crear Eventos" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
         <p:menuitem value="Tipo Evento" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
-        <p:menuitem value="Volver" url="../emprendedor/home.xhtml" icon="ui-icon-circle-triangle-w" />
-        <f:facet name="options">
+        <p:menuitem value="Volver" url="../emprendedor/home.xhtml" icon="ui-icon-circle-triangle-w" />     
+        <f:facet name="options">            
             <p:commandButton type="button" value="Emprendedor" icon="ui-icon-person"  />
         </f:facet>
     </p:menubar>
@@ -41,7 +41,7 @@
 			<f:validateLength minimum="1"/>
 			</p:inputText>
 			<h:outputText value="Fecha*:"/>
-			<p:calendar required="true" requiredMessage="Requerido Fecha" mindate="18/05/15" id="fecha" value="#{eventosBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
+			<p:calendar required="true" requiredMessage="Requerido Fecha" mindate="30/05/15" id="fecha" value="#{eventosBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
 			<h:outputText value="Tipo Eventos:"/>
 			<h:panelGroup>  
 					<p:selectOneMenu required="true" styleClass="t" value="#{eventosBean.te}" requiredMessage="Requerido Evento">
@@ -81,7 +81,7 @@
 			<p:column  headerText="NOMBRE">
 				<h:outputText value="#{reg.nombre}"></h:outputText>
 			</p:column>			
-			<p:column headerText="DESCRIPCION">
+			<p:column headerText="DESCRIPCIÓN">
 				<h:outputText value="#{reg.descripcion}"></h:outputText>
 			</p:column>
 			<p:column headerText="DIRECCIÓN">
@@ -104,7 +104,7 @@
                     <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
                     <f:setPropertyActionListener value="#{reg.imagen}" target="#{reg.imagen}" />
                 </p:commandLink>
-			<p:commandButton id="trackimagen" update=":form2:imggi" value="Ver Imagen" actionListener="#{eventosBean.changeImg(reg.imagen)}" oncomplete="PF('imagendlg').show();">
+			<p:commandButton id="trackimagen" update=":form2:imggi" value="Ver Imagen" action="#{eventosBean.changeImg(reg.imagen)}" oncomplete="PF('imagendlg').show();">
 			<p:tooltip id="toolTipTrac3" for="trackimagen" value="Botón para ver Imagen" trackMouse="true" />
 			</p:commandButton>
 			</p:column>		
@@ -115,7 +115,7 @@
 				</p:commandButton>			
 			</p:column>
 		</p:dataTable>		
-		<p:dialog header="Imagen" modal="true" closeOnEscape="true"  showEffect="fade" hideEffect="fade" resizable="false" widgetVar="imagendlg" id="imagendlg">
+		<p:dialog header="Imagen" modal="true" closable="true"  closeOnEscape="true"  showEffect="fade" hideEffect="fade" resizable="false" widgetVar="imagendlg" id="imagendlg">
         	 <p:outputPanel id="imagen1">
             <p:panelGrid  columns="1" >
                 <f:facet name="header">
