@@ -10,43 +10,29 @@
 <title>Ingreso de Usuarios</title>
 </h:head>
 <body>
-<h:form>  
-    <p:menubar>                
-        <f:facet name="options">
-            <p:inputText style="margin-right:10px" placeholder="Search"/>
-            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
-        </f:facet>
-    </p:menubar>
-</h:form>
-<hr/>
 <div class="div4">
 <!-- h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
 </div>
 <div class="dc">
 <h:form id="form2" >
-		<p:growl id="message2" showDetail="true" />
+	<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Ingreso al Sistema">		
 		<h:panelGrid columns="2" cellpadding="5">
             <h:outputLabel for="alias" value="Alias: " />
-            <p:inputText id="alias" value="#{loginBean.alias}" label="alias" />
+            <p:inputText id="alias" value="#{sessionBean.nick}" label="alias" />
  
             <h:outputLabel for="password" value="Password: " />
-            <p:password id="password" value="#{loginBean.password}" label="password" />
-            <h:outputLabel value="Indique si Tipo: " />
+            <p:password id="password" value="#{sessionBean.pass}" label="password" />
+            <h:outputLabel value="Tipo de Usuario: " />
             <h:panelGroup>  
-					<p:selectOneMenu value="#{loginBean.tipologin.idTipologin}" >
+					<p:selectOneMenu value="#{sessionBean.idrol}" >
 						<f:selectItem  itemLabel="Seleccione el Tipo" itemValue="-1"/>
 						<f:selectItems value="#{loginBean.listaTipoLogin}"  />
-						<p:ajax
-							listener="#{loginBean.asignarTipoLogin}">
-						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>            
-            <p:commandButton id="tracklog" value="Login" actionListener="#{userLoginView.login}" oncomplete="handleLoginRequest(xhr, status, args)">
-            <p:tooltip id="toolTipTrac1" for="tracklog" value="Botón para Ingresar" trackMouse="true" />
-            </p:commandButton>            
+            <p:commandButton value="Ingresar" action="#{sessionBean.login}"></p:commandButton>            
             <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Registrarse">
-			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Registrarse" trackMouse="true" />
+				<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Registrarse" trackMouse="true" />
 			</p:commandButton>
             
         </h:panelGrid>		    	    	
