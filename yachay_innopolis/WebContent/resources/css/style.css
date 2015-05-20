@@ -76,6 +76,13 @@ body{
     margin-bottom: 10px;
 }
 
+/*-------------TIKO-----------------*/
+.color{
+	background: linear-gradient(left, #FFCC32, #AA0C65, #FFCC32);
+	background: -webkit-linear-gradient(left, #FFCC32, #AA0C65, #FFCC32);
+	background: -moz-linear-gradient(left, #FFCC32, #AA0C65, #FFCC32);
+	background: -o-linear-linear-gradient(left, #FFCC32, #AA0C65, #FFCC32);
+}
 
 
 
