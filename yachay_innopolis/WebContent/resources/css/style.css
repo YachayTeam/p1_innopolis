@@ -104,10 +104,8 @@ body{
 	text-align: center;
 }
 .menu{
-	background-color: #fff;
 	margin-top: 5%;
 	width: 1000px;
-	height: 50px;
 }
 .tipo{
 	z-index: -1;

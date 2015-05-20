@@ -10,7 +10,16 @@
 </h:head> 
 <body class="color"> 
 	<div class="centrar">
-		<div class="menu"></div>
+		<div class="menu">
+			<h:form>
+				<p:menubar>
+					<p:submenu label="Edit" icon="ui-icon-pencil">
+			            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+			            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+			        </p:submenu>
+				</p:menubar>
+			</h:form> 
+		</div>
 		<h:graphicImage id="img" value="/resources/img/inn.png"></h:graphicImage>
 	</div>
 	<div class="tipo">
