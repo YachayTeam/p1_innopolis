@@ -77,26 +77,30 @@ public class SessionBean {
      */
     public String login(){
     	String resp="";
-    	try {
-			Usuario usr = manager.findUserByAliasAndPass(getNick(), getPass());
-			if(manager.existeUsarioRol(usr.getIdUsr(), getIdrol())){
-				String rol = manager.findTipoLoginByID(getIdrol()).getTipologin();
-				session = new UsuarioHelp(usr.getIdUsr(), usr.getAlias(), usr.getApellido(), usr.getCorreo(), usr.getNombre(), usr.getPassword(), rol);
-				if(rol.equals("administrador")){
-					resp="/admin/home?faces-redirect=true";
-				}else if(rol.equals("emprendedor")){
-					resp="/emprendedor/home?faces-redirect=true";
-				}else if(rol.equals("aprobador")){
-					resp="/aprobador/home?faces-redirect=true";
-				}else{
-					resp="/usr/home?faces-redirect=true";
-				}
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rol no asignado",null));
-			}
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al intentar ingresar al sistema",null));
-		}
+    	if(getIdrol()!=-1){
+    		try {
+    			Usuario usr = manager.findUserByAliasAndPass(getNick(), getPass());
+    			if(manager.existeUsarioRol(usr.getIdUsr(), getIdrol())){
+    				String rol = manager.findTipoLoginByID(getIdrol()).getTipologin();
+    				session = new UsuarioHelp(usr.getIdUsr(), usr.getAlias(), usr.getApellido(), usr.getCorreo(), usr.getNombre(), usr.getPassword(), rol);
+    				if(rol.equals("administrador")){
+    					resp="/admin/home?faces-redirect=true";
+    				}else if(rol.equals("emprendedor")){
+    					resp="/emprendedor/home?faces-redirect=true";
+    				}else if(rol.equals("aprobador")){
+    					resp="/aprobador/home?faces-redirect=true";
+    				}else{
+    					resp="/usr/home?faces-redirect=true";
+    				}
+    			}else{
+    				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rol no asignado",null));
+    			}
+    		} catch (Exception e) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al intentar ingresar al sistema",null));
+    		}
+    	}else{
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione Rol para continuar",null));
+    	}
     	return resp;
     }
     
