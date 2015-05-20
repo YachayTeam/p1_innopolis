@@ -27,14 +27,13 @@
             <h:panelGroup>  
 				<p:selectOneMenu value="#{sessionBean.idrol}" >
 					<f:selectItem itemLabel="Seleccionar..." itemValue="-1"/>
-					<f:selectItems value="#{sessionBean.listaTipoLoginSI}"  />
+					<f:selectItems value="#{sessionBean.listaTipoLoginSI()}"  />
 				</p:selectOneMenu>
 			</h:panelGroup>            
             <p:commandButton value="Ingresar" action="#{sessionBean.login}"></p:commandButton>            
             <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Registrarse">
 				<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Registrarse" trackMouse="true" />
-			</p:commandButton>
-            
+			</p:commandButton>     
         </h:panelGrid>		    	    	
 	</p:panel>
 </h:form>
