@@ -13,9 +13,16 @@
 		<div class="menu">
 			<h:form>
 				<p:menubar>
-					<p:submenu label="Edit" icon="ui-icon-pencil">
-			            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-			            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+					<p:submenu label="Acceso" icon="ui-icon-folder-collapsed">
+			            <p:menuitem value="Usuarios" url="../admin/administracionusuarios.xhtml" icon="ui-icon-person" />
+			        </p:submenu>
+			        <p:submenu label="Eventos" icon="ui-icon-calculator">
+			            <p:menuitem value="Recursos" url="../admin/recurso.xhtml" icon="ui-icon-circle-triangle-e" />
+			            <p:menuitem value="Tipo Recurso" url="../admin/rectipo.xhtml" icon="ui-icon-circle-triangle-e" />
+			            <p:menuitem value="Tipo Evento" url="../admin/evetipo.xhtml" icon="ui-icon-circle-triangle-e" />
+			        </p:submenu>
+			        <p:submenu label="Servicios" icon="ui-icon-contact">
+			            <p:menuitem value="Servicio Virtual" url="../admin/crudservicio.xhtml" icon="ui-icon-circle-triangle-e" />			         
 			        </p:submenu>
 				</p:menubar>
 			</h:form> 

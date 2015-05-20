@@ -322,7 +322,7 @@ public class ServiciosVirtualesBean implements Serializable{
 					} // numero id del estado q quieres q sea;
 					tiposervicio = new Tiposervicio();
 					idSvr=0;
-			return "AprovadorServiciovirtual";					
+			return "/aprobador/aprovadorserviciovirtual";					
 		}		
 				
 		public String irAprovadorpag(){		   
@@ -335,7 +335,7 @@ public class ServiciosVirtualesBean implements Serializable{
 					} // numero id del estado q quieres q sea;
 					tiposervicio = new Tiposervicio();
 					idSvr=0;
-				return "CrudServicio";					
+				return "/admin/crudservicio";					
 		}	
 		
 		

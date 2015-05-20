@@ -10,10 +10,10 @@
 </h:head>
 <body>
 <h:form>  
-    <p:menubar>        
-        <f:facet name="options">
-            <p:inputText style="margin-right:10px" placeholder="Search"/>
-            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
+    <p:menubar>   
+    	<p:menuitem value="Volver" url="../emprendedor/home.xhtml" icon="ui-icon-circle-triangle-w" />     
+        <f:facet name="options">            
+            <p:commandButton type="button" value="Emprendedor" icon="ui-icon-person"  />
         </f:facet>
     </p:menubar>
 </h:form>
@@ -50,18 +50,14 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>							
-			<p:commandButton id="trackregistrar" value="Registrarme" action="#{serviciosVirtualesBean.crearRegistroServ}" update=":form2:panel2 :form2:message2"  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').show();">
-			<p:tooltip id="toolTipTrac1" for="trackregistrar" value="Botón para Registrarse al Servicio" trackMouse="true" />
-			</p:commandButton>				
-			<p:button id="trackvolver1" href="http://www.google.com" value="Volver">
-			<p:tooltip id="toolTipTrac2" for="trackvolver1" value="Botón para Volver Innopolis" trackMouse="true" />
-			</p:button>			
+			<p:commandButton id="trackregistrar" value="Registrarme" action="#{serviciosVirtualesBean.crearRegistroServ}" update=":form2:panel2 :form2:message2"  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').show();">			
+			</p:commandButton>							
 		</p:panelGrid>
 	</p:panel>
 </h:form>
 <p:dialog header="Información" modal="true" closable="false"  widgetVar="dlg1" minHeight="40"  showEffect="clip" hideEffect="clip">
     		     <h:outputText value="Su petición sera procesada y notificada por correo" /><br/>
-    			 <p:button value="Volver" href="http://www.google.com"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
+    			 <p:button value="Volver" href="../emprendedor/home.xhtml"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
 		    </p:dialog>
 </body>
 </html>

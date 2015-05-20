@@ -11,6 +11,15 @@
 	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
 <body>
+<h:form enctype="multipart/form-data">  
+    <p:menubar>        
+        <p:menuitem value="Volver" url="../emprendedor/home.xhtml" icon="ui-icon-circle-triangle-w" />
+        <f:facet name="options">
+            <p:commandButton type="button" value="Emprendedor" icon="ui-icon-person"  />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
 <p:steps styleClass="custom">
     <p:menuitem value="Cabecera de Solicitud" />
     <p:menuitem value="Insercion de Detalles" />

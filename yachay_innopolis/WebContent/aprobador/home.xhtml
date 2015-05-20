@@ -1,11 +1,30 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
-
-<h:head></h:head> 
-<body> 
-
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<title>Aprobador</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head> 
+<body class="color"> 
+	<div class="centrar">
+		<div class="menu">
+			<h:form>
+				<p:menubar>
+					<p:submenu label="Aprobaciones" icon="ui-icon-check">
+			            <p:menuitem value="Solicitudes" url="../aprobador/solicitudes.xhtml" icon="ui-icon-circle-triangle-e" />
+			            <p:menuitem value="Inscripciones" url="../aprobador/inscripciones.xhtml" icon="ui-icon-circle-triangle-e" />
+			            <p:menuitem value="Servicios Virtuales" url="../aprobador/aprovadorserviciovirtual.xhtml" icon="ui-icon-circle-triangle-e" />	
+			        </p:submenu>
+				</p:menubar>
+			</h:form> 
+		</div>
+		<h:graphicImage id="img" value="/resources/img/inn.png"></h:graphicImage>
+	</div>
+	<div class="tipo">
+		<h1>Aprobador</h1>
+	</div>
 </body> 
 </html>

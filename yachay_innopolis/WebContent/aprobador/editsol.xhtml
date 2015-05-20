@@ -10,6 +10,17 @@
 	<title>Ver Solicitud de Recursos</title>
 </h:head>
 <body>
+<h:form>  
+    <p:menubar>
+        <p:menuitem value="Solicitudes" url="../aprobador/solicitudes.xhtml" icon="ui-icon-calculator" />
+        <p:menuitem value="Volver" url="../aprobador/home.xhtml" icon="ui-icon-circle-triangle-w" />        
+        <f:facet name="options">            
+            <p:commandButton type="button" value="Aprobador" icon="ui-icon-person"  />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+
 	<p:panel id="panel1">
 	<h:form id="form2">
 		<p:panel header="Datos de Solicitud">
