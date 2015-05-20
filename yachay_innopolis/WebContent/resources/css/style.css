@@ -77,11 +77,62 @@ body{
 }
 
 /*-------------TIKO-----------------*/
+@font-face {
+    font-family: 'afta_sansitalic';
+    src: url("#{resource['css:fonts/aftasansthin-italic-webfont.eot']}");
+    src: url("#{resource['css:fonts/aftasansthin-italic-webfont.eot']}?#iefix") format('embedded-opentype'),
+         url("#{resource['css:fonts/aftasansthin-italic-webfont.woff']}") format('woff'),
+     	 url("#{resource['css:fonts/aftasansthin-italic-webfont.ttf']}") format('truetype'),
+    	 url("#{resource['css:fonts/aftasansthin-italic-webfont.svg']}#afta_sansitalic") format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
 .color{
 	background: linear-gradient(left, #FFCC32, #AA0C65, #FFCC32);
 	background: -webkit-linear-gradient(left, #FFCC32, #AA0C65, #FFCC32);
 	background: -moz-linear-gradient(left, #FFCC32, #AA0C65, #FFCC32);
 	background: -o-linear-linear-gradient(left, #FFCC32, #AA0C65, #FFCC32);
+}
+.centrar{
+	width: 1000px;
+	margin: 0 auto;
+	position: relative;
+}
+.centrar #img{
+	margin-top: 10%;
+	text-align: center;
+}
+.menu{
+	background-color: #fff;
+	margin-top: 5%;
+	width: 1000px;
+	height: 50px;
+}
+.tipo{
+	z-index: -1;
+	position: absolute;
+	width: 200px;
+	height: 100px;
+	top: 76%;
+	left: 60%;
+}
+.tipo h1{
+	color: #fff;
+	font-size: 70px;
+	font-family: 'afta_sansitalic';
+	text-shadow:   0 1px 0 #ccc,
+	               0 2px 0 #c9c9c9,
+	               0 3px 0 #bbb,
+	               0 4px 0 #b9b9b9,
+	               0 5px 0 #aaa,
+	               0 6px 1px rgba(0,0,0,.1),
+	               0 0 5px rgba(0,0,0,.1),
+	               0 1px 3px rgba(0,0,0,.3),
+	               0 3px 5px rgba(0,0,0,.2),
+	               0 5px 10px rgba(0,0,0,.25),
+	               0 10px 10px rgba(0,0,0,.2),
+	               0 20px 20px rgba(0,0,0,.15);
 }
 
 
