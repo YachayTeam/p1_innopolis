@@ -110,7 +110,7 @@ public class SessionBean {
      */
     public String logout(){
     	HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        session.invalidate();
+        session.invalidate();        
     	return "/index?faces-redirect=true";
     }
     

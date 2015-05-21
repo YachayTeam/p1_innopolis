@@ -14,6 +14,7 @@
     	<p:menuitem value="Volver" url="../emprendedor/home.xhtml" icon="ui-icon-circle-triangle-w" />     
         <f:facet name="options">            
             <p:commandButton type="button" value="Emprendedor" icon="ui-icon-person"  />
+            <p:commandButton value="Salir"  action="#{sessionBean.logout}" icon=" ui-icon-closethick"  />
         </f:facet>
     </p:menubar>
 </h:form>
@@ -49,7 +50,11 @@
 							listener="#{serviciosVirtualesBean.asignarTiposerv}">
 						</p:ajax>
 					</p:selectOneMenu>
-			</h:panelGroup>							
+			</h:panelGroup>					
+			<p:commandButton  icon="ui-icon-pencil" value="Cargar Datos" id="track">
+				<p:tooltip id="toolTipTrack1" for="track" value="Botón para cargar su información" trackMouse="true" />
+				<p:ajax listener="#{serviciosVirtualesBean.Cargarregistrousr(usr)}" update=":form2:panel2"/>
+			</p:commandButton>		
 			<p:commandButton id="trackregistrar" value="Registrarme" action="#{serviciosVirtualesBean.crearRegistroServ}" update=":form2:panel2 :form2:message2"  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').show();">			
 			</p:commandButton>							
 		</p:panelGrid>

@@ -330,7 +330,7 @@ public class LoginBean implements Serializable{
 			idUsr=null;
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Usuario Actualizado ") );
-			return "AdministracionUsuarios";
+			return "administracionusuarios";
 		}
 
 	//metodo para cargar la lista de usuarios
@@ -379,7 +379,7 @@ public class LoginBean implements Serializable{
 				//setId_tipologin(0);				
 				FacesContext context = FacesContext.getCurrentInstance();
 		        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Tipo login Actualizado ") );
-		        resp = "Crudtipologin";
+		        resp = "crudtipologin";
 				}
 			catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));
@@ -442,7 +442,7 @@ public class LoginBean implements Serializable{
 						} catch (Exception e) {
 							System.out.println(e.getMessage());
 						}
-					return "AdministracionUsuarios";
+					return "administracionusuarios";
 				}
 		//------ Envios paginas--------//				
 				public String irAprovador(){								       
@@ -460,7 +460,7 @@ public class LoginBean implements Serializable{
 					} // numero id del estado q quieres q sea;	
 							tipousr = new Tipousr();
 							id_tipousr=0;							
-					return "AdministracionUsuarios";					
+					return "administracionusuarios";					
 				}
 		
 				public String irAprovadorpag(){		   
@@ -473,7 +473,7 @@ public class LoginBean implements Serializable{
 								} // numero id del estado q quieres q sea;
 							tipologin = new Tipologin();						
 							id_tipousr=0;						
-							return "Crudtipologin";					
+							return "crudtipologin";					
 					}
 	
 				public String prueba(){
@@ -500,7 +500,7 @@ public class LoginBean implements Serializable{
 						public String irLoginpag()
 						{		   
 							//limpiamos los datos			
-									return "loginusr";					
+									return "index";					
 						}
 					
 				//metodos de asignacion y cambios de tipos	
@@ -583,7 +583,7 @@ public class LoginBean implements Serializable{
 									managerlogin.mas();
 									//ocupados= new ArrayList<Tipousr>();
 									ocupados=managerlogin.reload2(getIdUsr());
-									return "AdministracionUsuarios";
+									return "administracionusuarios";
 								}
 								
 								public String del(){
@@ -591,6 +591,6 @@ public class LoginBean implements Serializable{
 									//ocupados= new ArrayList<Tipousr>();
 									//System.out.println(g.getIdUsr());
 									ocupados=managerlogin.reload2(getIdUsr());
-									return "AdministracionUsuarios";
+									return "administracionusuarios";
 								}
 }

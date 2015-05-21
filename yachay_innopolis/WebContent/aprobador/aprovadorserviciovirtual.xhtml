@@ -15,7 +15,8 @@
         <p:menuitem value="Volver" url="../aprobador/home.xhtml" icon="ui-icon-circle-triangle-w" />        
         <f:facet name="options">
             <p:inputText style="margin-right:10px" placeholder="Search"/>
-            <p:commandButton type="button" value="Aprobador" icon="ui-icon-person"  />
+            <p:commandButton type="button" icon="ui-icon-person"  />Aprobador
+            <p:commandButton value="Salir"  action="#{sessionBean.logout}" icon=" ui-icon-closethick"  />
         </f:facet>
     </p:menubar>
 </h:form>
@@ -94,19 +95,6 @@
     			 <p:commandButton value="Volver" icon="ui-icon-close"   onclick="PF('dlg2').close();"  update=":form2:panel2 :form2:message2"/>
 		    </p:dialog>			
 		<br/>
-		<h:outputText value="Exportar Listado:    "/><br/>    
-		<h:commandLink>
-		<p:commandButton value="Excel" icon="ui-icon-calculator" id="trackimporte">
-		<p:tooltip id="toolTipTrack4" for="trackimporte" value="Botón para Importar la Tabla Formato Excel" trackMouse="true" />
-		</p:commandButton>
-        <p:dataExporter type="xls" target="dt" fileName="Lista"/>
-    	</h:commandLink>
-    	<h:commandLink>
-		<p:commandButton value="PDF" icon="ui-icon-document" id="trackimportp">
-		<p:tooltip id="toolTipTrack5" for="trackimportp" value="Botón para Importar la Tabla Formato PDF" trackMouse="true" />
-		</p:commandButton>
-        <p:dataExporter type="pdf" target="dt" fileName="Lista"/>
-    	</h:commandLink>    	    	
 	</p:panel>
 </h:form>
 </div>

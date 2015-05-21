@@ -13,7 +13,7 @@
 		<div class="menu">
 			<h:form>
 				<p:menubar>
-					<p:submenu label="Eventos" icon="ui-icon-folder-collapsed">
+					<p:submenu label="Eventos" icon=" ui-icon-calculator">
 			            <p:menuitem value="Gestionar" url="../emprendedor/eventos.xhtml" icon="ui-icon-circle-triangle-e" />
 			        </p:submenu>
 			        <p:submenu label="Recursos" icon="ui-icon-folder-collapsed">
@@ -22,6 +22,11 @@
 			        <p:submenu label="Servicios Virtuales" icon="ui-icon-contact">
 			            <p:menuitem value="Registrarse" url="../emprendedor/serviciovirtual.xhtml" icon="ui-icon-circle-triangle-e" />			         
 			        </p:submenu>
+			             <f:facet name="options">
+            <p:commandButton type="button" value="Emprendedor" icon="ui-icon-person"  />
+            <p:commandButton value="Salir"  action="#{sessionBean.logout}" icon=" ui-icon-closethick"  />
+        </f:facet>
+			        
 				</p:menubar>
 			</h:form> 
 		</div>

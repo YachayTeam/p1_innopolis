@@ -363,9 +363,9 @@ public class ManagerLogin implements Serializable{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Usuario findUserByAliasAndPass(String nick, String pass)throws Exception{
+	public Usuario findUserByAliasAndPass(String alias, String pass)throws Exception{
 		try {
-			List<Usuario> listado = (List<Usuario>) mDAO.findByParam(Usuario.class, "o.nick", nick, null);
+			List<Usuario> listado = (List<Usuario>) mDAO.findByParam(Usuario.class, "o.alias", alias, null);
 			if(listado == null || listado.isEmpty()){
 				throw new Exception("No se encuentra el usuario."); 
 			}
