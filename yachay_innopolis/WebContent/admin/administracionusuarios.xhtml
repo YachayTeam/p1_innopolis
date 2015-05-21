@@ -59,8 +59,19 @@
 		<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Registrados">
 		<p:dataTable id="dt" value="#{loginBean.listRegServi}" rows="10" var="reg"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                 paginator="true">			
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
+                 paginator="true">	
+             <f:facet name="{exp}">
+			<h:commandLink>
+                <h:graphicImage value="/resources/img/excel.png" width="24"/>
+                <p:dataExporter type="xls" target="dt" fileName="usuarios_registrados" pageOnly="true" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <h:graphicImage value="/resources/img/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="dt" fileName="usuarios_registrados" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>		
 			<p:column  headerText="APELLIDOS">
 				<h:outputText value="#{reg.apellido}"></h:outputText>
 			</p:column>			
