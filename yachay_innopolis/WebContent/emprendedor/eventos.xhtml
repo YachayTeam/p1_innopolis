@@ -75,9 +75,20 @@
 <h:form id="form2">
 		<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Eventos Registrados">
-		<p:dataTable id="dt" value="#{eventosBean.listRegEventos}" rows="10" var="reg"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+		<p:dataTable id="dt"  value="#{eventosBean.listRegEventos}" rows="10" var="reg"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
                  paginator="true">			
+			<f:facet name="{exp}">
+			<h:commandLink>
+                <h:graphicImage value="/resources/img/excel.png" width="24"/>
+                <p:dataExporter type="xls" target="dt" fileName="resgitrados" pageOnly="true" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <h:graphicImage value="/resources/img/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="dt" fileName="registrados" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>
 			<p:column  headerText="NOMBRE">
 				<h:outputText value="#{reg.nombre}"></h:outputText>
 			</p:column>			
