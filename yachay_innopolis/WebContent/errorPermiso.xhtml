@@ -32,7 +32,7 @@
 			margin-top:1px;
 			text-align:center;
 		}	
-		.sub a{
+		.sub .back{
 			color:white;
 			background:#9D1025;
 			text-decoration:none;
@@ -54,9 +54,11 @@
 	   <h1>Acceso Denegado</h1>
 	    <p>No posee acceso a esta direcci&oacute;n!..</p>
   	      <div class="sub">
-	        <p><a href="javascript:history.back(1)">Regresar</a></p>
+	        <p>
 	        <h:form>
-	        <p:commandButton actionListener="#{sessionBean.regresarHomeUser}" value="REGRESA PORFA"></p:commandButton></h:form>
+	        	<p:commandButton styleClass="back" actionListener="#{sessionBean.regresarHomeUser}" value="Regresar"></p:commandButton>
+	        </h:form>
+	        </p>
 	      </div>
         </div>
 	</div>	
