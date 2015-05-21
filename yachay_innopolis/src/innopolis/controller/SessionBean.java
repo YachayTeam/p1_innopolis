@@ -161,6 +161,7 @@ public class SessionBean {
     public void regresarHomeUser(){
     	String resp="";
     	String rol = getLoginROL();
+    	System.out.println(rol);
     	if(rol.equals("administrador")){
 			resp="/admin/home.xhtml";
 		}else if(rol.equals("emprendedor")){
@@ -170,7 +171,9 @@ public class SessionBean {
 		}else{
 			resp="/usr/home.xhtml";
 		}
+    	
     	try {
+    		System.out.println("si " +rol+" "+resp);
             FacesContext.getCurrentInstance().getExternalContext().redirect("/yachay_innopolis"+resp);
         } catch (IOException ex) {
         	System.out.println("Error Regresar usuario");
