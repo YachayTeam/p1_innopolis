@@ -25,6 +25,7 @@ public class SessionBean {
     private String nick;
     private String pass;
     private Integer idrol;
+    private String loginROL;
     
     public SessionBean() {
 		manager = new ManagerLogin();
@@ -58,6 +59,10 @@ public class SessionBean {
 		this.idrol = idrol;
 	}
     
+    public String getLoginROL() {
+		return loginROL;
+	}
+    
     /**
      * Método de tipos de usuario
      * @return listado
@@ -83,6 +88,7 @@ public class SessionBean {
     			if(manager.existeUsarioRol(usr.getIdUsr(), getIdrol())){
     				String rol = manager.findTipoLoginByID(getIdrol()).getTipologin();
     				session = new UsuarioHelp(usr.getIdUsr(), usr.getAlias(), usr.getApellido(), usr.getCorreo(), usr.getNombre(), usr.getPassword(), rol);
+    				this.loginROL = rol;//ASIGNACION DE ROL DE LOGIN
     				if(rol.equals("administrador")){
     					resp="/admin/home?faces-redirect=true";
     				}else if(rol.equals("emprendedor")){
@@ -141,6 +147,33 @@ public class SessionBean {
                 }
                 return null;
             }
+        }
+    }
+    
+    
+    public void loadAdmin(){
+    	UsuarioHelp usr = verificarSession("administrador");
+    	if(usr==null){
+    		System.out.println("Error verificar carga usuario");
+    	}
+    }
+    
+    public void regresarHomeUser(){
+    	String resp="";
+    	String rol = getLoginROL();
+    	if(rol.equals("administrador")){
+			resp="/admin/home.xhtml";
+		}else if(rol.equals("emprendedor")){
+			resp="/emprendedor/home.xhtml";
+		}else if(rol.equals("aprobador")){
+			resp="/aprobador/home.xhtml";
+		}else{
+			resp="/usr/home.xhtml";
+		}
+    	try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/yachay_innopolis"+resp);
+        } catch (IOException ex) {
+        	System.out.println("Error Regresar usuario");
         }
     }
 }

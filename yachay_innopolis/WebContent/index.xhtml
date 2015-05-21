@@ -39,5 +39,8 @@
         </h:panelGrid>		    	    
 </h:form>
 </p:dialog>
+<h:form>
+    <p:remoteCommand name="onload" action="#{sessionBean.loadAdmin}" autoRun="true" />
+</h:form>
 </body>
 </html>
