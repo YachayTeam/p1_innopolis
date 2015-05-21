@@ -158,23 +158,47 @@ public class SessionBean {
     	}
     }
     
+    public void loadEmp(){
+    	UsuarioHelp usr = verificarSession("emprendedor");
+    	if(usr==null){
+    		System.out.println("Error verificar carga usuario");
+    	}
+    }
+    
+    public void loadApr(){
+    	UsuarioHelp usr = verificarSession("aprobador");
+    	if(usr==null){
+    		System.out.println("Error verificar carga usuario");
+    	}
+    }
+    
+    public void loadUsr(){
+    	UsuarioHelp usr = verificarSession("general");
+    	if(usr==null){
+    		System.out.println("Error verificar carga usuario");
+    	}
+    }
+    
     public void regresarHomeUser(){
-    	String resp="";
+    	String resp="sin";
     	String rol = getLoginROL();
-    	System.out.println(rol);
+    	
     	if(rol.equals("administrador")){
 			resp="/admin/home.xhtml";
 		}else if(rol.equals("emprendedor")){
 			resp="/emprendedor/home.xhtml";
 		}else if(rol.equals("aprobador")){
 			resp="/aprobador/home.xhtml";
-		}else{
+		}else if(rol.equals("general")){
 			resp="/usr/home.xhtml";
 		}
     	
     	try {
-    		System.out.println("si " +rol+" "+resp);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/yachay_innopolis"+resp);
+    		if(resp.equals("sin")){
+    			FacesContext.getCurrentInstance().getExternalContext().redirect("/yachay_innopolis/index.xhtml");
+    		}else{
+    			FacesContext.getCurrentInstance().getExternalContext().redirect("/yachay_innopolis"+resp);
+            }
         } catch (IOException ex) {
         	System.out.println("Error Regresar usuario");
         }
