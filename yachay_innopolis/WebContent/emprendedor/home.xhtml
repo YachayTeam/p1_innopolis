@@ -32,6 +32,9 @@
 		</div>
 		<h:graphicImage id="img" value="/resources/img/inn.png"></h:graphicImage>
 	</div>
+	<h:form>
+	    <p:remoteCommand name="onload" action="#{sessionBean.loadEmp}" autoRun="true" />
+	</h:form>
 	<div class="tipo">
 		<h1>Emprendedor</h1>
 	</div>
