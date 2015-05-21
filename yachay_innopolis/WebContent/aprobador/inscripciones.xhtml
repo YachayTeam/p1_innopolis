@@ -22,7 +22,7 @@
 	<h:form id="form">
 	<p:panel id="panel" header="Inscripciones a Eventos">
 		<p:growl></p:growl>
-		<p:dataTable id="dtsol" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="5" scrollable="true" scrollWidth="960"  value="#{inscripcionBean.listadoInscripciones}" var="sol">
+		<p:dataTable id="dtsol" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="5" scrollable="true" scrollWidth="960"  value="#{inscripcionApBean.listadoInscripciones}" var="sol">
 			<f:facet name="{exp}">
 			<h:commandLink>
                 <h:graphicImage value="/resources/img/excel.png" width="24"/>
@@ -49,7 +49,7 @@
 				</h:outputText>
     		</p:column>
     		<p:column headerText="Imagen Pago">
-				<p:commandButton id="trackimg" value="Ver Imagen" actionListener="#{inscripcionBean.changeImg(sol)}" update="form:imagen" oncomplete="PF('imagendlg').show();">
+				<p:commandButton id="trackimg" value="Ver Imagen" actionListener="#{inscripcionApBean.changeImg(sol)}" update="form:imagen" oncomplete="PF('imagendlg').show();">
 				
 				</p:commandButton>
     		</p:column>	
@@ -58,13 +58,13 @@
     			<h:outputText value="#{sol.sms}"></h:outputText>
     		</p:column>
     		<p:column headerText="Aprobaci&oacute;n">
-    			<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{inscripcionBean.aprobarInscrito(sol)}" update=":form:panel">
+    			<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{inscripcionApBean.aprobarInscrito(sol)}" update=":form:panel">
     			
     			</p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton id="trackcerr" icon="ui-icon-circle-close" action="#{inscripcionBean.negarInscrito(sol)}" update=":form:panel">
+    			<p:commandButton id="trackcerr" icon="ui-icon-circle-close" action="#{inscripcionApBean.negarInscrito(sol)}" update=":form:panel">
     			
     			</p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton id="tracknotificar" icon="ui-icon-mail-closed" action="#{inscripcionBean.notificarInscripcion(sol)}" update=":form:panel">
+    			<p:commandButton id="tracknotificar" icon="ui-icon-mail-closed" action="#{inscripcionApBean.notificarInscripcion(sol)}" update=":form:panel">
     			
     			</p:commandButton>
     		</p:column>				
