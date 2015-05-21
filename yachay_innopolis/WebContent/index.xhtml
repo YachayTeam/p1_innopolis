@@ -14,7 +14,8 @@
 		<h:graphicImage onclick="PF('dlg3').show();" id="img" value="/resources/img/inn.png"></h:graphicImage>
 </div>
 <div class="centrar2">
-		<h:graphicImage onclick="PF('dlg3').show();" value="/resources/img/touch.png"></h:graphicImage>
+		<h:graphicImage id="fade" onclick="PF('dlg3').show();" value="/resources/img/touch.png"></h:graphicImage>
+		<p:tooltip id="toolTipFade" for="fade" value="Clic en el logo para iniciar sesi&oacute;n" />
 </div>
 <p:dialog header="Ingreso al Sistema" resizable="false"  widgetVar="dlg3" modal="true" showEffect="explode" hideEffect="bounce" height="170">
 <h:form id="form2" >
