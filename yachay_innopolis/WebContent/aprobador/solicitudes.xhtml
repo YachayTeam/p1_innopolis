@@ -23,7 +23,18 @@
 	<h:form id="form">
 	<p:panel id="panel" header="Solicitudes Realizadas">
 		<p:growl></p:growl>
-		<p:dataTable id="dtsol" paginator="true" rows="5" scrollable="true" scrollWidth="960"  value="#{solicitudBean.listadoSolCab}" var="sol">
+		<p:dataTable id="dtsol" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="5" scrollable="true" scrollWidth="960"  value="#{solicitudApBean.listadoSolCab}" var="sol">
+			<f:facet name="{exp}">
+			<h:commandLink>
+                <h:graphicImage value="/resources/img/excel.png" width="24"/>
+                <p:dataExporter type="xls" target="dtsol" fileName="solicitudes" pageOnly="true" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <h:graphicImage value="/resources/img/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="dtsol" fileName="solicitudes" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>
 			<p:column headerText="Direcci&oacute;n">
 				<h:outputText value="#{sol.direccion}"></h:outputText>
 			</p:column>
@@ -51,18 +62,18 @@
     			<h:outputText value="#{sol.sms}"></h:outputText>
     		</p:column>
     		<p:column headerText="Aprobaci&oacute;n">
-    			<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{solicitudBean.aprobarEstado(sol)}" update=":form:panel">
+    			<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{solicitudApBean.aprobarEstado(sol)}" update=":form:panel">
     			
     			</p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton id="trackneg" icon="ui-icon-circle-close" action="#{solicitudBean.negarEstado(sol)}" update=":form:panel">
+    			<p:commandButton id="trackneg" icon="ui-icon-circle-close" action="#{solicitudApBean.negarEstado(sol)}" update=":form:panel">
     			
     			</p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton id="trackcer" icon="ui-icon-mail-closed" action="#{solicitudBean.notificarSolicitud(sol)}" update=":form:panel">
+    			<p:commandButton id="trackcer" icon="ui-icon-mail-closed" action="#{solicitudApBean.notificarSolicitud(sol)}" update=":form:panel">
     			
     			</p:commandButton>
     		</p:column>
     		<p:column headerText="Edici&oacute;n">
-    			<p:commandButton id="trackcar" icon="ui-icon-pencil" action="#{solicitudBean.cargarDatosSolicitud(sol)}">
+    			<p:commandButton id="trackcar" icon="ui-icon-pencil" action="#{solicitudApBean.cargarDatosSolicitud(sol)}">
     			
     			</p:commandButton>
     		</p:column>				

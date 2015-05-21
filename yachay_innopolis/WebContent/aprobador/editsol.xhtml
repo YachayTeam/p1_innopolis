@@ -27,19 +27,19 @@
 		<p:panel header="Datos de Solicitud">
 			<p:panelGrid columns="2">
 				<h:outputText value="Direcci&oacute;n"/>
-				<h:outputText value="#{solicitudBean.direccion}"></h:outputText>
+				<h:outputText value="#{solicitudApBean.direccion}"></h:outputText>
 				<h:outputText value="Actividad" />
-				<h:inputTextarea value="#{solicitudBean.actividad}" disabled="true"></h:inputTextarea>
+				<h:inputTextarea value="#{solicitudApBean.actividad}" disabled="true"></h:inputTextarea>
 				<h:outputText value="Objetivo" />
-				<h:inputTextarea value="#{solicitudBean.objetivo}" disabled="true"></h:inputTextarea>
+				<h:inputTextarea value="#{solicitudApBean.objetivo}" disabled="true"></h:inputTextarea>
 				<h:outputText value="Justificaci&oacute;n" />
-				<h:inputTextarea value="#{solicitudBean.justificacion}" disabled="true"></h:inputTextarea>
+				<h:inputTextarea value="#{solicitudApBean.justificacion}" disabled="true"></h:inputTextarea>
 				<h:outputText value="Fecha de solicitud:"  />
-				<h:outputText id="fecha" value="#{solicitudBean.fecha}"><f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText>
+				<h:outputText id="fecha" value="#{solicitudApBean.fecha}"><f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText>
 				<h:outputText value="Hora inicio:"  /> 
-				<h:outputText value="#{solicitudBean.horainicio}"><f:convertDateTime pattern="HH:mm"/></h:outputText>
+				<h:outputText value="#{solicitudApBean.horainicio}"><f:convertDateTime pattern="HH:mm"/></h:outputText>
 				<h:outputText value="Hora fin:"  /> 
-				<h:outputText value="#{solicitudBean.horafin}"><f:convertDateTime pattern="HH:mm"/></h:outputText>		
+				<h:outputText value="#{solicitudApBean.horafin}"><f:convertDateTime pattern="HH:mm"/></h:outputText>		
 			</p:panelGrid>
 		</p:panel>
 	</h:form>
@@ -48,29 +48,29 @@
 			<p:panelGrid columns="5" border="1">
 				<h:outputText value="Recursos:" />
 				<h:panelGroup>  
-					<p:selectOneMenu  value="#{solicitudBean.id_recurso}">
+					<p:selectOneMenu  value="#{solicitudApBean.id_recurso}">
 						<f:selectItem  itemLabel="Seleccione un recurso..!!" itemValue="-1" />
-						<f:selectItems value="#{solicitudBean.select}" />
+						<f:selectItems value="#{solicitudApBean.select}" />
 						<p:ajax
-							listener="#{solicitudBean.asignarRecLibre()}">
+							listener="#{solicitudApBean.asignarRecLibre()}">
 						</p:ajax>
 					</p:selectOneMenu>
 				</h:panelGroup>
 				<h:outputText value="Capacidad Necesaria:" />
-				<p:inputText value="#{solicitudBean.capacidad_recurso}"></p:inputText>
+				<p:inputText value="#{solicitudApBean.capacidad_recurso}"></p:inputText>
 				<p:commandButton value="Adicionar"
-					action="#{solicitudBean.agregarDetalle}" update="form3"
+					action="#{solicitudApBean.agregarDetalle}" update="form3"
 					icon="ui-icon-plusthick" />
 			</p:panelGrid>
 			<p:messages></p:messages>
-			<p:dataTable value="#{solicitudBean.listDetalles}"
+			<p:dataTable value="#{solicitudApBean.listDetalles}"
 				var="d" id="tablarecursosDets">
 				<f:facet name="header">
 					<h:outputText value="Detalle de Recursos:" />
 				</f:facet>
 				<p:column>
 					<f:facet name="header">Quitar</f:facet>
-					<p:commandButton id="trackquitar" actionListener="#{solicitudBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-closethick">
+					<p:commandButton id="trackquitar" actionListener="#{solicitudApBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-closethick">
 					<p:tooltip id="toolTipTrac1" for="trackquitar" value="Botón para Almacenar la Solicitud" trackMouse="true" />
 					</p:commandButton> 
 				</p:column>
@@ -94,7 +94,7 @@
 				</p:column>
 			</p:dataTable>
 		</p:panel>
-		<p:commandButton id="trackregistrar" value="Guardar Solicitud" action="#{solicitudBean.finalizarSolicitudED}" update=":form3">
+		<p:commandButton id="trackregistrar" value="Guardar Solicitud" action="#{solicitudApBean.finalizarSolicitudED}" update=":form3">
 		<p:tooltip id="toolTipTrac2" for="trackregistrar" value="Botón para Almacenar la Solicitud" trackMouse="true" />
 		</p:commandButton>
 		

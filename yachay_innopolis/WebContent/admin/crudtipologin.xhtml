@@ -48,7 +48,18 @@
 <h:form id="form2">
 <p:growl id="message1" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Tipos de Logeo">
-		<p:dataTable id="dt" paginator="true" rows="10" value="#{loginBean.listTipoLogin}" var="ser">
+		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="10" value="#{loginBean.listTipoLogin}" var="ser">
+			<f:facet name="{exp}">
+			<h:commandLink>
+                <h:graphicImage value="/resources/img/excel.png" width="24"/>
+                <p:dataExporter type="xls" target="dt" fileName="recursos_registrados" pageOnly="true" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <h:graphicImage value="/resources/img/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="dt" fileName="recursos_registrados" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>
 			<p:column headerText="Tipos">
 				<h:outputText value="#{ser.tipologin}"></h:outputText>
 			</p:column>
