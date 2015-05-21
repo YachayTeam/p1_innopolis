@@ -29,6 +29,7 @@ public class SessionBean {
     
     public SessionBean() {
 		manager = new ManagerLogin();
+		loginROL = "";
 	}
     
     public String getNick() {
@@ -116,7 +117,8 @@ public class SessionBean {
      */
     public String logout(){
     	HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        session.invalidate();        
+        session.invalidate();
+        loginROL = "";nick="";pass="";idrol=-1;
     	return "/index?faces-redirect=true";
     }
     
