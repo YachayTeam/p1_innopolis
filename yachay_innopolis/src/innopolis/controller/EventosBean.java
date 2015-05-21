@@ -835,5 +835,11 @@ public class EventosBean implements Serializable {
 		imagen = ev.getImagen();	
 		return "";
 	}
+	
+	//IR A INSCRIPCION
+	public String irInscripcion(){
+		manager.seleccionEventoAinscribirse((Evento) event.getData());
+		return "frm_ins?faces-redirect=true";
+	} 
 
 }
