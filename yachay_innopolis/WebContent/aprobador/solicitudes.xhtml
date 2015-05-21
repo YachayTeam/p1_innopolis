@@ -22,7 +22,18 @@
 	<h:form id="form">
 	<p:panel id="panel" header="Solicitudes Realizadas">
 		<p:growl></p:growl>
-		<p:dataTable id="dtsol" paginator="true" rows="5" scrollable="true" scrollWidth="960"  value="#{solicitudBean.listadoSolCab}" var="sol">
+		<p:dataTable id="dtsol" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="5" scrollable="true" scrollWidth="960"  value="#{solicitudBean.listadoSolCab}" var="sol">
+			<f:facet name="{exp}">
+			<h:commandLink>
+                <h:graphicImage value="/resources/img/excel.png" width="24"/>
+                <p:dataExporter type="xls" target="dtsol" fileName="solicitudes" pageOnly="true" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <h:graphicImage value="/resources/img/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="dtsol" fileName="solicitudes" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>
 			<p:column headerText="Direcci&oacute;n">
 				<h:outputText value="#{sol.direccion}"></h:outputText>
 			</p:column>
