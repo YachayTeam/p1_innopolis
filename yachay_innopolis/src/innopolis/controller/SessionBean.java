@@ -143,4 +143,13 @@ public class SessionBean {
             }
         }
     }
+    
+    public void onLoadAdmin(){
+    	UsuarioHelp usr = verificarSession("administrador");
+    	if(usr!=null){
+    		System.out.println(usr.getRol());
+    	}else{
+    		System.out.println("No es ADMINISTRADOR");
+    	}
+    }
 }
