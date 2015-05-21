@@ -22,18 +22,17 @@
 	<p:growl id="message2" showDetail="true" />	
 		<h:panelGrid columns="2" cellpadding="5">
             <h:outputLabel for="alias" value="Alias: " />
-            <p:inputText id="alias" value="#{sessionBean.nick}" label="alias" />
- 
+            <p:inputText id="alias" value="#{sessionBean.nick}" label="alias" requiredMessage="Alias Requerido" required="true"/>
             <h:outputLabel for="password" value="Password: " />
-            <p:password id="password" value="#{sessionBean.pass}" label="password" />
+            <p:password id="password" value="#{sessionBean.pass}" label="password" requiredMessage="Contrase&ntilde;a Requerida" required="true"/>
             <h:outputLabel value="Tipo de Usuario: " />
             <h:panelGroup>  
 				<p:selectOneMenu value="#{sessionBean.idrol}" >
 					<f:selectItem itemLabel="Seleccionar..." itemValue="-1"/>
 					<f:selectItems value="#{sessionBean.listaTipoLoginSI()}"  />
 				</p:selectOneMenu>
-			</h:panelGroup>            
-            <p:commandButton value="Ingresar" action="#{sessionBean.login}" update="message2"></p:commandButton>            
+			</h:panelGroup>          
+            <p:commandButton value="Ingresar" action="#{sessionBean.login}" update="message2" icon="ui-icon-check"></p:commandButton>            
             <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Registrarse">
 				<p:tooltip id="toolTipTrack5" for="trackvolver" value="Botón para Registrarse" trackMouse="true" />
 			</p:commandButton>     
