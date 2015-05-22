@@ -2,6 +2,7 @@ package innopolis.controller;
 
 import innopolis.entities.Evento;
 import innopolis.entities.Inscripcione;
+import innopolis.entities.help.UsuarioHelp;
 import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerReservas;
 
@@ -49,10 +50,16 @@ public class InscripcionBean implements Serializable{
 	private Integer id_evento;
 	private List<Inscripcione> listadoInscripciones;
 	
+	/*Atributos de Acceso*/
+	private final String acceso = "general";
+	private UsuarioHelp session;
+	
 	//Imagenes
 	private UploadedFile file;
 	
 	public InscripcionBean() {
+		/*Session*/
+		session = SessionBean.verificarSession(acceso);
 		managerEv=new ManagerEvento();
 		managerReserv=new ManagerReservas();
 		imagenPago = "sin_pago.jpg";
@@ -175,6 +182,11 @@ public class InscripcionBean implements Serializable{
 	
 	public void setFile(UploadedFile file) {
 		this.file = file;
+	}
+	
+	/*SESSION*/
+	public UsuarioHelp getSession() {
+		return session;
 	}
 	
 	//editar imagen
