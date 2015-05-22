@@ -88,7 +88,7 @@ public class SessionBean {
     			Usuario usr = manager.findUserByAliasAndPass(getNick(), getPass());
     			if(manager.existeUsarioRol(usr.getIdUsr(), getIdrol())){
     				String rol = manager.findTipoLoginByID(getIdrol()).getTipologin();
-    				session = new UsuarioHelp(usr.getIdUsr(), usr.getAlias(), usr.getApellido(), usr.getCorreo(), usr.getNombre(), usr.getPassword(), rol);
+    				session = new UsuarioHelp(usr.getIdUsr(), usr.getAlias(), usr.getApellido(), usr.getCorreo(), usr.getNombre(), rol);
     				this.loginROL = rol;//ASIGNACION DE ROL DE LOGIN
     				if(rol.equals("administrador")){
     					resp="/admin/home?faces-redirect=true";
