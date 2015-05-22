@@ -56,3 +56,5 @@ insert into tipologin values (default, 'emprendedor','emprende');
 insert into tipologin values (default, 'aprobador','Aprueba');
 insert into tipologin values (default, 'general','General');
 
+insert into usuario values (1, 1, 'root', 'root', 'root@admin.com', 'root', 'admin');
+insert into tipousr values (default, 1, 1);

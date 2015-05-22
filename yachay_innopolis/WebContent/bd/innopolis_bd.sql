@@ -480,4 +480,4 @@ ALTER TABLE tipologin
    ALTER COLUMN id_tipologin SET DEFAULT nextval('seq_tipologin');
 
 insert into contadores values (default, 'solicitud cabecera',0);
-insert into contadores values (default, 'usuario',0);
+insert into contadores values (default, 'usuario',1);
