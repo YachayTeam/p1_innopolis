@@ -29,9 +29,13 @@
 	<p:panel id="panel3"  header="Ingreso de Usuarios">
 		<p:panelGrid columns="2" >
 			<h:outputText value="Apellidos*"/>
-			<p:inputText required="true" id="apellidos" value="#{loginBean.apellido}" requiredMessage="Requerido Apellidos"></p:inputText>
+			<p:inputText required="true" id="apellidos" value="#{loginBean.apellido}" requiredMessage="Requerido Apellidos" validatorMessage="El Apellido debe contener solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+			</p:inputText>
 			<h:outputText value="Nombres*"/>
-			<p:inputText required="true" id="nombres" value="#{loginBean.nombre}" requiredMessage="Requerido Nombres"></p:inputText>			
+			<p:inputText required="true" id="nombres" value="#{loginBean.nombre}" requiredMessage="Requerido Nombres" validatorMessage="El Nombre debe contener solo letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+			</p:inputText>			
 			<h:outputText value="Correo*"/>
 			<p:inputText required="true" id="correo" validatorMessage="Formato de correo invalido" value="#{loginBean.correo}" requiredMessage="Por favor Ingrese su Correo." >
 			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
@@ -49,7 +53,7 @@
      	   	<p:selectManyCheckbox required="false"  id="grid" value="#{loginBean.arrayTipoLogin}" layout="grid" columns="3">
             	<f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
       	  	</p:selectManyCheckbox>				
-			<p:commandButton id="trackregistrar" value="Registrarme" action="#{loginBean.crearUsuario}" update=":form2:panel2 :form2:message2">
+			<p:commandButton id="trackregistrar" value="Registrarme" action="#{loginBean.crearUsuario}" update=":form3:panel3 :form3:message3">
 			<p:tooltip id="toolTipTrac1" for="trackregistrar" value="Botón para Registrarse" trackMouse="true" />
 			</p:commandButton>				
 		</p:panelGrid>
@@ -74,16 +78,16 @@
                 <p:dataExporter type="pdf" target="dt" fileName="usuarios_registrados" pageOnly="true"/>
             </h:commandLink>
             </f:facet>		
-			<p:column  headerText="APELLIDOS">
+			<p:column filterBy="#{reg.apellido}"  headerText="APELLIDOS">
 				<h:outputText value="#{reg.apellido}"></h:outputText>
 			</p:column>			
-			<p:column headerText="NOMBRES">
+			<p:column filterBy="#{reg.nombre}" headerText="NOMBRES">
 				<h:outputText value="#{reg.nombre}"></h:outputText>
 			</p:column>
 			<p:column headerText="CORREO">
 				<h:outputText value="#{reg.correo}"></h:outputText>
 			</p:column>
-			<p:column id="f3" filterBy="#{reg.tipoestadousr.nombreestado}" headerText="ESTADO">
+			<p:column  headerText="ESTADO">
 			<h:outputText value="#{reg.tipoestadousr.nombreestado}"></h:outputText>
 			</p:column>
 			<p:column headerText="OPCIONES" exportable="false">
@@ -134,10 +138,10 @@
 						</p:ajax>
 					</p:selectOneMenu>   
         	<h:outputText value=""/>
-			<p:commandButton  update=" :form2:sml :form2:smo" id="trackcambiodel" value="del" action="#{loginBean.del}">
+			<p:commandButton  update=":form2:sml :form2:smo" id="trackcambiodel" value="del" action="#{loginBean.del}">
 			<p:tooltip id="toolTipTrac6" for="trackcambiodel" value="Botón para Quitar" trackMouse="true" />
 			</p:commandButton>
-			<p:commandButton  update=" :form2:sml :form2:smo" id="trackcambioadd" value="add" action="#{loginBean.add}">
+			<p:commandButton  update=":form2:sml :form2:smo" id="trackcambioadd" value="add" action="#{loginBean.add}">
 			<p:tooltip id="toolTipTrac7" for="trackcambioadd" value="Botón para Agregar" trackMouse="true" />
 			</p:commandButton> 
         	<h:outputText value=""/>
@@ -146,21 +150,7 @@
 			<p:commandButton update="message2" value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarusuario}"></p:commandButton>													
 			<p:commandButton value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2 :form2:message2" action="#{loginBean.irAprovador}"></p:commandButton>
 		</p:panelGrid>
-		</p:dialog>					
-		<br/>
-		<h:outputText value="Exportar Listado:    "/><br/>    
-		<h:commandLink>
-		<p:commandButton value="Excel" icon="ui-icon-calculator" id="trackimporte">
-		<p:tooltip id="toolTipTrack4" for="trackimporte" value="Botón para Importar la Tabla Formato Excel" trackMouse="true" />
-		</p:commandButton>
-        <p:dataExporter type="xls" target="dt" fileName="Lista"/>
-    	</h:commandLink>
-    	<h:commandLink>
-		<p:commandButton value="PDF" icon="ui-icon-document" id="trackimportp">
-		<p:tooltip id="toolTipTrack5" for="trackimportp" value="Botón para Importar la Tabla Formato PDF" trackMouse="true" />
-		</p:commandButton>
-        <p:dataExporter type="pdf" target="dt" fileName="Lista"/>
-    	</h:commandLink>    	    	
+		</p:dialog>						    	
 	</p:panel>
 </h:form>
 </div>
