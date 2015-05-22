@@ -315,7 +315,11 @@ public class LoginBean implements Serializable{
 	
 	//metodo para modificar los usuarios
 		public String actualizarusuario() throws Exception{
-			managerlogin.editarusuario(idUsr, correo, password, arrayTipoLogin);
+			if(password.equals("MD5PASS")){
+			   managerlogin.editarusuario(idUsr, correo);
+			}else{
+			   managerlogin.editarusuario(idUsr, correo, managerlogin.getMD5(password));
+			}
 			//limpiamos los datos
 			alias="";
 			nombre="";
@@ -342,7 +346,7 @@ public class LoginBean implements Serializable{
 			apellido= usr.getApellido();
 			correo= usr.getCorreo();
 			alias=usr.getAlias();
-			password=usr.getPassword(); 
+			password="MD5PASS";//MD5 
 			tipoestusr= usr.getTipoestadousr();
 			ocupados=managerlogin.reload2(idUsr);
 			u=usr.getIdUsr();

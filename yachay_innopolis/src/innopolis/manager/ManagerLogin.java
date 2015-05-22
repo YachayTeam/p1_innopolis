@@ -120,13 +120,13 @@ public class ManagerLogin implements Serializable{
 	}			
 			
 	//editar los usuarios FALTA
-	public void editarusuario(Integer id_usr, String correo, String password, Integer[] listTipo) throws Exception{
+	public void editarusuario(Integer id_usr, String correo, String password/*, Integer[] listTipo*/) throws Exception{
 		Usuario usr = this.UsuarioByID(id_usr); ;
-		usr.setCorreo(correo);;
+		usr.setCorreo(correo);
 		usr.setPassword(password);
 		mDAO.actualizar(usr);
 		
-		//Actualizar tipos usuarios eliminar diferente, añadir nuevos
+		/*/Actualizar tipos usuarios eliminar diferente, añadir nuevos
 	    //tomo actuales
 		List<Tipousr> listado = findAllTipoUsrXUser(id_usr);
 		Integer[] actuales = new Integer[listado.size()];
@@ -140,9 +140,16 @@ public class ManagerLogin implements Serializable{
 		ArrayList<Integer> mas = noExisteAenB(listTipo, actuales);
 		for (Integer id_mas : mas) {
 			insertarTipoUsr(usr, TipoLoginByID(id_mas));
-		}    
+		}*/    
 		    
 	}
+	
+	public void editarusuario(Integer id_usr, String correo) throws Exception{
+		Usuario usr = this.UsuarioByID(id_usr); ;
+		usr.setCorreo(correo);
+		mDAO.actualizar(usr);
+	}
+	
 	
 	//Comparaciones
 	public ArrayList<Integer> noExisteAenB(Integer[] a, Integer[] b){
