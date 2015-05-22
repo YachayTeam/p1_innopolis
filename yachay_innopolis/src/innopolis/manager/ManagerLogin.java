@@ -376,7 +376,7 @@ public class ManagerLogin implements Serializable{
 			if(u.getTipoestadousr().equals("desactivado")){
 				throw new Exception("Su usuario ha sido desactivado.");
 			}
-			if (u.getPassword().equals(pass)) {
+			if (u.getPassword().equals(getMD5(pass))) {//MD5 PASS
 				return u;
 			}else{
 				throw new Exception("Usuario o contraseña invalidos");
