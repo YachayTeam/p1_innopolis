@@ -11,6 +11,7 @@ import innopolis.entities.Recurso;
 import innopolis.entities.Solicicabecera;
 import innopolis.entities.Solicidetalle;
 import innopolis.entities.Soliciestado;
+import innopolis.entities.help.UsuarioHelp;
 import innopolis.manager.ManagerReservas;
 
 import javax.faces.application.FacesMessage;
@@ -53,7 +54,13 @@ public class SolicitudApBean {
 	private boolean solicitudCabTmpGuardada;
 	private List<Solicicabecera> listadoSolCab;
 	
+	/*Atributos de Acceso*/
+	private final String acceso = "aprobador";
+	private UsuarioHelp session;
+	
 	public SolicitudApBean() {
+		/*Session*/
+		session = SessionBean.verificarSession(acceso);
 		manager = new ManagerReservas();
 		//Select todos
 		select = getlistaRecursos();
@@ -211,6 +218,11 @@ public class SolicitudApBean {
 	
 	public void setId_sol(Integer id_sol) {
 		this.id_sol = id_sol;
+	}
+	
+	/*SESSION*/
+	public UsuarioHelp getSession() {
+		return session;
 	}
 	
 	//LISTADO DE RECURSOS

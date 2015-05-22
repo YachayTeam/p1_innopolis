@@ -11,6 +11,7 @@ import innopolis.entities.Recurso;
 import innopolis.entities.Solicicabecera;
 import innopolis.entities.Solicidetalle;
 import innopolis.entities.Soliciestado;
+import innopolis.entities.help.UsuarioHelp;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
 
@@ -51,7 +52,13 @@ public class SolicitudBean {
 	private boolean solicitudCabTmpGuardada;
 	private List<Solicicabecera> listadoSolCab;
 	
+	/*Atributos de Acceso*/
+	private final String acceso = "emprendedor";
+	private UsuarioHelp session;
+	
 	public SolicitudBean() {
+		/*Session*/
+		session = SessionBean.verificarSession(acceso);
 		manager = new ManagerReservas();
 		//Select todos
 		select = getlistaRecursos();
@@ -211,6 +218,11 @@ public class SolicitudBean {
 		this.id_sol = id_sol;
 	}
 	
+	/*SESSION*/
+	public UsuarioHelp getSession() {
+		return session;
+	}
+		
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
 		String resp="";
