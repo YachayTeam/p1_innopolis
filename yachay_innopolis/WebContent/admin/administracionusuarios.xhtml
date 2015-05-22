@@ -41,9 +41,10 @@
 			<f:validateLength minimum="3"/>
 			</p:inputText>
 			<h:outputText value="Contraseña*"/>
-			<p:inputText required="true" id="pass" value="#{loginBean.password}" requiredMessage="Requerida contraseña">
-			<f:validateLength minimum="3"/>
-			</p:inputText>		
+			<p:inputText required="false" id="pass" value="#{loginBean.password}" requiredMessage="Requerido" validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+			<f:validateRegex pattern="[a-zA-Z0-9.]+" />
+			<f:validateLength minimum="8"/>
+			</p:inputText>	
 			<h:outputText value="Seleccione tipo:" />
      	   	<p:selectManyCheckbox required="false"  id="grid" value="#{loginBean.arrayTipoLogin}" layout="grid" columns="3">
             	<f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
@@ -118,8 +119,9 @@
 			<h:outputText value="#{loginBean.alias}"></h:outputText>
 			<h:outputText value=""/>
 			<h:outputText value="Password: "/>
-			<p:inputText required="false" id="pass" value="#{loginBean.password}" requiredMessage="Requerido" validatorMessage="Ingrese el password">
-			<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			<p:inputText required="false" id="pass" value="#{loginBean.password}" requiredMessage="Requerido" validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+			<f:validateRegex pattern="[a-zA-Z0-9.]+" />
+			<f:validateLength minimum="8"/>
 			</p:inputText>
 			<h:outputText value=""/>
 			<h:outputText value="Seleccione tipo: " for="advanced"/>      		 
