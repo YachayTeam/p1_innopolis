@@ -12,12 +12,8 @@
 <body>
 	<h:form>
 		<p:menubar>
-			<p:menuitem value="Recursos" action="#{recursosBean.irRec}"
-				icon="ui-icon-clipboard" />
-			<p:menuitem value="Tipo_Recurso" action="#{recursosBean.irTrecurso}"
-				icon="ui-icon-pencil" />
 			<f:facet name="options">
-				<p:commandButton id="tracksalir" type="button" value="Salir" icon="ui-icon-home">
+				<p:commandButton id="tracksalir" type="button" value="Salir" icon="ui-icon-home" action="#{sessionBean.logout}">
 				<p:tooltip id="toolTipTrac1" for="tracksalir" value="Botón para Salir" trackMouse="true" />
 				</p:commandButton>
 			</f:facet>
