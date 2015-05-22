@@ -53,7 +53,7 @@
      	   	<p:selectManyCheckbox required="false"  id="grid" value="#{loginBean.arrayTipoLogin}" layout="grid" columns="3">
             	<f:selectItems value="#{loginBean.listaTipoLogin}" var="tipo" itemValue="#{loginBean.tipologin.idTipologin}"/>
       	  	</p:selectManyCheckbox>				
-			<p:commandButton id="trackregistrar" value="Registrarme" action="#{loginBean.crearUsuario}" update=":form3:panel3 :form3:message3">
+			<p:commandButton id="trackregistrar" value="Registrarme" action="#{loginBean.crearUsuario}" update=":form3:panel3 :form2:panel2 :form3:message3">
 			<p:tooltip id="toolTipTrac1" for="trackregistrar" value="Botón para Registrarse" trackMouse="true" />
 			</p:commandButton>				
 		</p:panelGrid>
