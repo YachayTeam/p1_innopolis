@@ -270,6 +270,10 @@ public class LoginBean implements Serializable{
 
 	//metodo para crear usuarios
 	public String crearUsuario(){
+		if (this.calias(alias)==true){
+			FacesContext context = FacesContext.getCurrentInstance();
+	        context.addMessage(null, new FacesMessage("Alias Repetido..!!!",  "El Alias ya esta siendo utilizado") );
+		}else{
 			try {
 				setPassword(managerlogin.getMD5(getPassword()));//MD5 PASS
 				managerlogin.insertarusuarios(alias, apellido, correo, nombre, password, arrayTipoLogin);
@@ -286,9 +290,21 @@ public class LoginBean implements Serializable{
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
 			};
 			return "pagina";
 		}
+	
+	// metodo para comprobar el alias
+				public boolean calias(String alias){
+					List<Usuario> u = managerlogin.findAllUsuarios();
+					for (Usuario us : u) {
+						if (alias.equals(us.getAlias())){
+							return true;
+						}
+					}
+					return false;
+				}
 	
 	//metodo para registrar usuariosexternos a la funcionalidad
 		public String registrarUsr(){
