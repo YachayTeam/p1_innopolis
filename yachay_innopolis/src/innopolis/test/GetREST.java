@@ -1,5 +1,7 @@
 package innopolis.test;
 
+import innopolis.manager.ManagerLogin;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,6 +33,9 @@ public class GetREST {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		ManagerLogin m = new ManagerLogin();
+		System.out.println(m.getMD5("admin.12345"));
 	 
 	}
 	
