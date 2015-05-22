@@ -51,7 +51,7 @@ update contadores set valor=4 where id_contador=1;
 insert into tipoestadousr values (default, 'Activado');
 insert into tipoestadousr values (default, 'Desactivado');
 
-insert into tipologin values (default, 'adminsitrador','Administrador');
+insert into tipologin values (default, 'administrador','Administrador');
 insert into tipologin values (default, 'emprendedor','emprende');
 insert into tipologin values (default, 'aprobador','Aprueba');
 insert into tipologin values (default, 'general','General');
