@@ -271,6 +271,7 @@ public class LoginBean implements Serializable{
 	//metodo para crear usuarios
 	public String crearUsuario(){
 			try {
+				setPassword(managerlogin.getMD5(getPassword()));//MD5 PASS
 				managerlogin.insertarusuarios(alias, apellido, correo, nombre, password, arrayTipoLogin);
 				//reiniciamos datos (limpiamos el formulario)
 				alias="";				
