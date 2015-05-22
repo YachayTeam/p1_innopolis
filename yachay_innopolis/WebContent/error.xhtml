@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Acceso Denegado</title>
+	<link href='http://fonts.googleapis.com/css?family=Courgette' rel='stylesheet' type='text/css'/>
+	<style>
+		body{
+			font-family: 'Courgette', cursive;
+			background:#E0E0E0;
+		}	
+		.wrap{
+			margin:0 auto;
+			width:1000px;
+			text-align: center;
+			margin-top: 10%;
+		}
+		.logo h1{
+			font-size:100px;
+			color:#FC330F;
+			margin-top: 0px;
+			margin-bottom:5px;
+			text-shadow:1px 1px 6px #fff;
+		}	
+		.logo p{
+			color:#000;
+			font-size:20px;
+			margin-top:1px;
+			text-align:center;
+		}	
+		.sub a{
+			color:white;
+			background:#369DC0;
+			text-decoration:none;
+			padding:7px 100px;
+			font-size:18px;
+			-webkit-border-radius:3em;
+			-moz-border-radius:.1em;
+			-border-radius:.1em;
+		}
+		.logo #img{
+			margin: 0 auto;
+		}	
+	</style>
+</h:head>
+<body> 
+	<div class="wrap">
+	   <div class="logo">
+	   <h:graphicImage id="img" value="/resources/img/oh.png"></h:graphicImage>
+	   <h1>Oops!... Error</h1>
+	    <p>Lo sentimos!.. por favor pulse el bot&oacute;n para volver..</p>
+  	      <div class="sub">
+	        <p><a href="javascript:history.back(1)">Regresar</a></p>
+	      </div>
+        </div>
+	</div>	
+</body> 
+</html>
