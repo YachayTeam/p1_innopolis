@@ -16,11 +16,15 @@ import javax.faces.application.FacesMessage;
 public class TipoeventosBean implements Serializable{
 	//https://github.com/YachayTeam/p1_innopolis/blob/32169dd0b6e81dad04a03a741b89a956e0527ffa/yachay_innopolis/src/innopolis/manager/ManagerInnopolis.java
 	private static final long serialVersionUID = 1L;
-	private ManagerEvento minnopolis = new ManagerEvento();
+	private ManagerEvento manager = new ManagerEvento();
 	private Integer id_tipoevento;
 	private String tipo;
 	private String descripcion;
 
+	public TipoeventosBean() {
+		manager = new ManagerEvento();
+	}
+	
 	public Integer getId_tipoevento() {
 		return id_tipoevento;
 	}
@@ -46,34 +50,24 @@ public class TipoeventosBean implements Serializable{
 	}
 
 	public List<Tipoevento> getlistaTipoevento() {
-		return minnopolis.findAllTipoEventos();
+		return manager.findAllTipoEventos();
 	}
 	
 	public String accioninsertarTipoEvento() {
-		Tipoevento tipoEvento = new Tipoevento();
-		tipoEvento.setTipo(tipo);
-		tipoEvento.setDescripcion(descripcion);
 		try {
-			//minnopolis.insertarTipoEvento(tipoEvento);
-			id_tipoevento = null;
-			tipo = null;
-			descripcion = null;
+			manager.insertarTipoEvento(tipo, descripcion);
+			//limpiar datos
+			tipo="";
+			descripcion="";
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Registrado..!!!",
+					"Evento Tipo Creado "));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			e.printStackTrace();
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Registrado..!!!",
+					"Evento Tipo NO Creado "));
 		}
-		return "se ingreso";
-	}
-
-	public String accionEliminarTipoEvento(Tipoevento t) {
-		try {
-			//minnopolis.eliminarTipoEvento(t.getIdTipoEvento());
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			e.printStackTrace();
-		}
+		
 		return "";
 	}
 
@@ -85,19 +79,29 @@ public class TipoeventosBean implements Serializable{
 	}
 
 	public String accionActualizarTipoEvento() throws Exception {
-		//Tipoevento t = minnopolis.findTipoEventoById(id_tipoevento);
-		//t.setTipo(tipo);
-		//t.setDescripcion(descripcion);
 		try {
-			//minnopolis.actualizarTipoEvento(t);
-			id_tipoevento = null;
-			tipo = null;
-			descripcion = null;
+			manager.editarTipoEvento(id_tipoevento,tipo, descripcion);
+			//limpiar datos
+			tipo="";
+			descripcion="";
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Actualizado..!!!",
+					"Evento Tipo Editado "));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			e.printStackTrace();
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Registrado..!!!",
+					"Evento Tipo NO Editado "));
 		}
 		return "";
+	}
+	
+	public String irTeventos(){
+		FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelado!", "Actualizacion Cancelada"));
+      //limpiamos los datos
+      //limpiar datos
+		tipo="";
+		descripcion="";
+		return "";					
 	}
 }

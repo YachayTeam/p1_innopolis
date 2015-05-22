@@ -29,12 +29,12 @@
 	<p:panel id="panel1"  header="Registro de Tipos de Eventos">
 		<p:panelGrid columns="2" >
 			<h:outputText value="Tipo*"/>
-			<p:inputText required="true" id="tipo" value="#{tipoeventoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+			<p:inputText required="true" id="tipo" value="#{tipoeventosBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
 			<h:outputText value="Descripción"/>
-			<p:inputTextarea required="false" id="tipo2" value="#{tipoeventoBean.descripcion}"/>
-			<p:commandButton id="trackcrear" update="panel1 :form2:panel2 message" value="Insertar" action="#{tipoeventoBean.crearNuevoTipoEvento}">
+			<p:inputTextarea required="false" id="tipo2" value="#{tipoeventosBean.descripcion}"/>
+			<p:commandButton id="trackcrear" update="panel1 :form2:panel2 message" value="Insertar" action="#{tipoeventosBean.accioninsertarTipoEvento}">
 			<p:tooltip id="toolTipTrac1" for="trackcrear" value="Botón para Crear Evento Tipo" trackMouse="true" />
 			</p:commandButton>
 		</p:panelGrid>
@@ -44,7 +44,7 @@
 <h:form id="form2">
 <p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Tipo de Eventos">
-		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="4"  value="#{tipoeventoBean.listado}" var="lu">
+		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="4"  value="#{tipoeventosBean.listaTipoevento}" var="lu">
 			<f:facet name="{exp}">
 			<h:commandLink>
                 <h:graphicImage value="/resources/img/excel.png" width="24"/>
@@ -63,7 +63,7 @@
 			</p:column>
 			<p:column headerText="EDITAR">
 				<p:commandButton id="trackedit" icon="ui-icon-pencil">
-				<p:ajax listener="#{tipoeventoBean.cargarDatosTipoevento(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+				<p:ajax listener="#{tipoeventosBean.accionCargarTipoEvento(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
 				<p:tooltip id="toolTipTrac2" for="trackedit" value="Botón para Editar Evento Tipo" trackMouse="true" />
 				</p:commandButton>
     		</p:column>			
@@ -72,17 +72,17 @@
 	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Recurso" showEffect="clip" hideEffect="clip">
 	<p:panelGrid columns="2" >
 			<h:outputText value="IDENTIFICACI&Oacute;N"/>
-			<h:outputText value="#{tipoeventoBean.idTevent}" ></h:outputText>
+			<h:outputText value="#{tipoeventosBean.id_tipoevento}" ></h:outputText>
 			<h:outputText value="TIPO *"/>
-			<p:inputText required="false" id="can" value="#{tipoeventoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
+			<p:inputText required="false" id="can" value="#{tipoeventosBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
 			<h:outputText value="DESCRIPCION"/>
-			<p:inputTextarea required="false" id="tipo" value="#{tipoeventoBean.descripcion}"/>
-			<p:commandButton id="trackeditar" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-refresh" action="#{tipoeventoBean.modificarTipoevento}">
+			<p:inputTextarea required="false" id="tipo" value="#{tipoeventosBean.descripcion}"/>
+			<p:commandButton id="trackeditar" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-refresh" action="#{tipoeventosBean.accionActualizarTipoEvento}">
 				<p:tooltip id="toolTipTrac3" for="trackeditar" value="Botón para Editar Evento Tipo" trackMouse="true" />
 			</p:commandButton>
-			<p:commandButton id="trackcan" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{tipoeventoBean.cancelarModificacion}">
+			<p:commandButton id="trackcan" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{tipoeventosBean.irTeventos}">
 				<p:tooltip id="toolTipTrac4" for="trackcan" value="Botón para Cancelar Edición" trackMouse="true" />
 			</p:commandButton>
 		</p:panelGrid>
