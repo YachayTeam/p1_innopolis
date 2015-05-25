@@ -242,4 +242,35 @@ public class SessionBean {
         }
     }
     
+    public String cargarDatosPerfil(){
+    	String pag ="";
+    	if(session != null){
+    		try {
+    			Usuario usr = manager.UsuarioByID(session.getIdUsr());
+    			setApellido(usr.getApellido());
+    			setNombre(usr.getNombre());
+    			setCorreo(usr.getCorreo());
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al  cargar sus datos personales",null));
+			}
+    	}
+    	return pag;
+    }
+    
+    public void cambioDatosPerfil(){
+    	try {
+			manager.modificarDatosUSR(session.getIdUsr(), getNombre(), getApellido(), getCorreo());
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al cambiar sus datos personales",null));
+		}
+    }
+    
+    public void cambioClavePerfil(){
+    	try {
+			
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al cambiar su password",null));
+		}
+    }
+    
 }
