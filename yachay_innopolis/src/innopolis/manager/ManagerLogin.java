@@ -352,6 +352,34 @@ public class ManagerLogin implements Serializable{
 	}
 	
 	/**
+	 * Cambiar datos de perfil usuario
+	 * @param id_usr
+	 * @param nombre
+	 * @param apellido
+	 * @param correo
+	 * @throws Exception
+	 */
+	public void modificarDatosUSR(Integer id_usr,String nombre, String apellido, String correo) throws Exception{
+		Usuario usr = this.UsuarioByID(id_usr);
+		usr.setNombre(nombre);
+		usr.setApellido(apellido);
+		usr.setCorreo(correo);
+		mDAO.actualizar(usr);
+	}
+	
+	/**
+	 * Cambiar pass perfil usuario
+	 * @param id_usr
+	 * @param pass
+	 * @throws Exception
+	 */
+	public void cambiarPassUSR(Integer id_usr, String pass) throws Exception{
+		Usuario usr = this.UsuarioByID(id_usr);
+		usr.setPassword(pass);
+		mDAO.actualizar(usr);
+	}
+	
+	/**
 	 * Buscar Tipo Login por ID
 	 * @param id_tipologin
 	 * @return TipoLogin
