@@ -35,11 +35,9 @@
 			<p:inputText required="true" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{serviciosVirtualesBean.correo}">
 			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			</p:inputText>
-			<p:watermark for="correo" value="Dirección de correo *" />
-			<p:message for="correo" />
 			<h:outputText value="Tema*"/>
-			<p:inputTextarea required="true" id="tema" value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido Tema">
-			<f:validateLength minimum="20"/>
+			<p:inputTextarea required="true" id="tema" value="#{serviciosVirtualesBean.tema}" requiredMessage="Requerido Tema" validatorMessage="El tema debe contener 4 caracteres" >
+			<f:validateLength minimum="4"/>
 			</p:inputTextarea>
 			<h:outputText value="Servicio*"/>
 			<h:panelGroup>  
