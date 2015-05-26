@@ -26,6 +26,7 @@ public class SessionBean {
     private String pass;
     private Integer idrol;
     private String loginROL;
+    private List<SelectItem> roles;
     
     /*Perfil de Usuario*/
     private String nombre, apellido, password, correo; 
@@ -33,6 +34,7 @@ public class SessionBean {
     public SessionBean() {
 		manager = new ManagerLogin();
 		loginROL = "";
+		roles = new ArrayList<SelectItem>();
 	}
     
     public String getNick() {
@@ -67,6 +69,14 @@ public class SessionBean {
 		return loginROL;
 	}
     
+    public List<SelectItem> getRoles() {
+		return roles;
+	}
+    
+    public void setRoles(List<SelectItem> roles) {
+		this.roles = roles;
+	}
+    
     /*Perfil Usuario*/
     public String getApellido() {
 		return apellido;
@@ -99,6 +109,20 @@ public class SessionBean {
     public void setPassword(String password) {
 		this.password = password;
 	}
+    
+    
+    public void actualizarListadoSI(){
+    	try {
+    		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+        	List<Tipologin> tipos = manager.findTiposXaliasUSR(getNick());
+        	for (Tipologin tipologin : tipos) {
+        		listadoSI.add(new SelectItem(tipologin.getIdTipologin(), tipologin.getTipologin()));
+    		}
+        	setRoles(listadoSI);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, e.getMessage(),null));
+		}
+    }
     
     /**
      * Método de tipos de usuario

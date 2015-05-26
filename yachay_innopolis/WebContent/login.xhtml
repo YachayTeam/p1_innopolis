@@ -22,14 +22,16 @@
 	<p:growl id="message2" showDetail="true" />	
 		<h:panelGrid columns="2" cellpadding="5">
             <h:outputLabel for="alias" value="Alias: " />
-            <p:inputText id="alias" value="#{sessionBean.nick}" label="alias" requiredMessage="Alias Requerido" required="true"/>
+            <p:inputText id="alias" value="#{sessionBean.nick}" label="alias" requiredMessage="Alias Requerido" required="true">
+            	<p:ajax event="blur" update=":form2:roles :form2:message2" listener="#{sessionBean.actualizarListadoSI()}"/>
+            </p:inputText>
             <h:outputLabel for="password" value="Password: " />
             <p:password id="password" value="#{sessionBean.pass}" label="password" requiredMessage="Contrase&ntilde;a Requerida" required="true"/>
             <h:outputLabel value="Tipo de Usuario: " />
-            <h:panelGroup>  
+            <h:panelGroup id="roles">  
 				<p:selectOneMenu value="#{sessionBean.idrol}" >
 					<f:selectItem itemLabel="Seleccionar..." itemValue="-1"/>
-					<f:selectItems value="#{sessionBean.listaTipoLoginSI()}"  />
+					<f:selectItems value="#{sessionBean.roles}"  />
 				</p:selectOneMenu>
 			</h:panelGroup>          
             <p:commandButton value="Ingresar" action="#{sessionBean.login}" update="message2" icon="ui-icon-check"></p:commandButton>            

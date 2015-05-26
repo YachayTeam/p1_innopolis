@@ -460,6 +460,47 @@ public class ManagerLogin implements Serializable{
         }
     }
 	
+	/**
+	 * Busca el usuario por alias
+	 * @param alias nombre del usuario especifico para el acceso
+	 * @return
+	 */
+	public Usuario findUserByAlias(String alias){
+		Usuario  u = null;
+		List<Usuario> usuarios = findAllUsuarios();
+		for (Usuario usuario : usuarios) {
+			if(usuario.getAlias().equals(alias)){
+				u = usuario;
+			}
+		}
+		return u;
+	}
+	
+	/**
+	 * Busca los tipos a los q pertenece el usuario
+	 * @param alias nombre del usuario especifico para el acceso
+	 * @return
+	 */
+	public List<Tipologin> findTiposXaliasUSR(String alias) throws Exception{
+		List<Tipologin> listado = new ArrayList<Tipologin>();
+		Usuario u = findUserByAlias(alias);
+		if(u==null){
+			throw new Exception("Usuario no existente");
+		}else{
+			try {
+				List<Tipousr> todos = findAllTipoUsr();
+				for (Tipousr tipousr : todos) {
+					if(tipousr.getUsuario().getIdUsr().equals(u.getIdUsr())){
+						listado.add(findTipoLoginByID(tipousr.getTipologin().getIdTipologin()));
+					}
+				}
+			} catch (Exception e) {
+				throw new Exception("Error al cargar los tipos de usuario pertenecientes");
+			}
+		}
+		return listado;
+	}
+	
 	public void mas(){
 		Tipousr r = new Tipousr();
 		r.setTipologin(tl);
