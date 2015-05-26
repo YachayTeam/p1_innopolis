@@ -186,11 +186,11 @@ public class ManagerLogin implements Serializable{
 	
 	//Lista x Usuario
 	public List<Tipousr> findAllTipoUsrXUser(Integer id_usr){
-		List<Tipousr> listado = findAllTipoUsr();
+		List<Tipousr> listado = new ArrayList<Tipousr>();
 		List<Tipousr> todos = findAllTipoUsr();
 			for (Tipousr tipousr : todos) {
-				if(!tipousr.getIdTipusr().equals(id_usr)){
-					listado.remove(tipousr);
+				if(tipousr.getUsuario().getIdUsr().equals(id_usr)){
+					listado.add(tipousr);
 				}
 			}
 		return listado;
