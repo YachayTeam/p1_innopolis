@@ -209,7 +209,7 @@ public class InscripcionBean implements Serializable{
 			//Ingreso
 			managerEv.insertarInscripcion(getFechaInscripcion(), 0, getNombre(), getApellido(), getCorreo(), getImagenPago(), getObservacion());
 			setNombre("");setApellido("");setCorreo("");setObservacion("");setImagenPago("sin_pago.jpg");
-			resp="calendario?faces-redirect=true";//Enviar a un resumen de inscripcion o pagina de exito
+			resp="home?faces-redirect=true";//Enviar a un resumen de inscripcion o pagina de exito
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al intentar inscribirse al evento", null));
 		}
