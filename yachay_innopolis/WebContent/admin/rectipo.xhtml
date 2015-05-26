@@ -32,7 +32,7 @@
 			<p:inputText required="true" id="tipo" value="#{recursotipoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
-			<p:commandButton id="trackguardar" update="panel1 :form2:panel2 message" value="Insertar" action="#{recursotipoBean.crearNuevoRecursoTipo}">
+			<p:commandButton id="trackguardar" update=":form1:panel1 :form2:panel2 message" value="Insertar" action="#{recursotipoBean.crearNuevoRecursoTipo}">
 			<p:tooltip id="toolTipTrack1" for="trackguardar" value="Botón para Crear Recurso" trackMouse="true" />
 			</p:commandButton>
 		</p:panelGrid>

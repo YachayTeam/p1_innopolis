@@ -28,7 +28,7 @@
 		<p:panelGrid columns="2" >
 			<h:outputText value="Nombre *"/>
 			<p:inputText styleClass="t" required="true" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
-				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ0-9-]+"/>
 			</p:inputText>
 			<h:outputText value="Capacidad *"/>
 			<p:inputText styleClass="t" required="true" id="can" value="#{recursosBean.capacidad}" requiredMessage="Requerido" validatorMessage="Numeros entre 1 y 1000">

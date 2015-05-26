@@ -1,95 +1,118 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<h:outputStylesheet library="css" name="styleser.css" />
-<title>Manejador Tipo Login</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<h:outputStylesheet library="css" name="styleser.css" />
+	<title>Manejador Tipo Login</title>
 </h:head>
 <body>
-<h:form> 
-    <p:menubar>
-        <p:menuitem value="Administración Usuarios" action="#{loginBean.irAprovador}" icon="ui-icon-clipboard" />        
-        <f:facet name="options">
-            <p:inputText style="margin-right:10px" placeholder="Search"/>
-            <p:commandButton type="button" value="Home" icon="ui-icon-home" />
-        </f:facet>
-    </p:menubar>
-</h:form>
-<hr/>
-<div class="div1">
-<h:form id="form1">	
-<p:growl id="message" showDetail="true" /> 
-	<p:panel id="panel1"  header="Ingreso de Tipos de Logeo">
-		<p:panelGrid columns="2" >
-			<h:outputText value="Tipo *"/>
-			<p:inputText styleClass="t" required="true" id="tipo" value="#{loginBean.nomtipolog}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
-				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
-			</p:inputText>
-			<h:outputText value="Descripción *"/>
-			<p:inputText styleClass="t" required="true" id="descrip" value="#{loginBean.descripcion}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
-				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
-			</p:inputText>
-			<p:commandButton id="trackingre" update="panel1 :form2:panel2 message" value="Insertar" action="#{loginBean.crearTipoLogin}">
-			
-			</p:commandButton>
-		</p:panelGrid>
-	</p:panel>
-</h:form>
-</div>
-<div class="div2">
-<!-- h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
-</div>
-<hr />
-<div class="div1">
-<h:form id="form2">
-<p:growl id="message1" showDetail="true" />
-	<p:panel id="panel2" header="Lista de Tipos de Logeo">
-		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="10" value="#{loginBean.listTipoLogin}" var="ser">
-			<f:facet name="{exp}">
-			<h:commandLink>
-                <h:graphicImage value="/resources/img/excel.png" width="24"/>
-                <p:dataExporter type="xls" target="dt" fileName="recursos_registrados" pageOnly="true" />
-            </h:commandLink>
- 
-            <h:commandLink>
-                <h:graphicImage value="/resources/img/pdf.png" width="24"/>
-                <p:dataExporter type="pdf" target="dt" fileName="recursos_registrados" pageOnly="true"/>
-            </h:commandLink>
-            </f:facet>
-			<p:column headerText="Tipos">
-				<h:outputText value="#{ser.tipologin}"></h:outputText>
-			</p:column>
-			<p:column headerText="Descripción">
-				<h:outputText value="#{ser.descripcion}"></h:outputText>
-			</p:column>
-			<p:column headerText="Modificar">
-			<p:commandButton id="trackedi"  icon="ui-icon-pencil">
-			
-				<p:ajax listener="#{loginBean.Cargartipologin(ser)}" oncomplete="PF('dlg1').show();"  update=":form2:panel2" />
-			</p:commandButton>						
-    		</p:column>			
-		</p:dataTable>		
-	<br></br>
-		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Tipo" showEffect="clip" hideEffect="clip">
-	<p:panelGrid columns="2" >
-			<h:outputText value="Nombre Tipo"/>
-			<p:inputText id="Nombretipo" value="#{loginBean.nomtipolog}"></p:inputText>
-			<h:outputText value="Descripción"/>
-			<p:inputText id="Descripcion" value="#{loginBean.descripcion}"></p:inputText>
-			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{loginBean.actualizarTipologin}">
-			
-			</p:commandButton>
-			<p:commandButton id="trackvolver" action="#{loginBean.irAprovadorpag}" value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();">
-			
-			</p:commandButton>
-	</p:panelGrid>
-	</p:dialog>		
-	</p:panel>				
-</h:form>
-</div>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Volver" url="../admin/home.xhtml"
+				icon="ui-icon-circle-triangle-w" />
+			<f:facet name="options">
+				<p:inputText style="margin-right:10px" placeholder="Search" />
+				<p:commandButton type="button" value="Home" icon="ui-icon-home" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<hr />
+	<div class="div1">
+		<h:form id="form1">
+			<p:growl id="message" showDetail="true" />
+			<p:panel id="panel1" header="Ingreso de Tipos de Logeo">
+				<p:panelGrid columns="2">
+					<h:outputText value="Tipo *" />
+					<p:inputText styleClass="t" required="true" id="tipo"
+						value="#{loginBean.nomtipolog}" requiredMessage="Requerido"
+						validatorMessage="Ingrese solo letras">
+						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+					</p:inputText>
+					<h:outputText value="Descripción *" />
+					<p:inputText styleClass="t" required="true" id="descrip"
+						value="#{loginBean.descripcion}" requiredMessage="Requerido"
+						validatorMessage="Ingrese solo letras">
+						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+					</p:inputText>
+					<p:commandButton id="trackingre"
+						update="panel1 :form2:panel2 message" value="Insertar"
+						action="#{loginBean.crearTipoLogin}">
+
+					</p:commandButton>
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
+	</div>
+	<div class="div2">
+		<!-- h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
+	</div>
+	<hr />
+	<div class="div1">
+		<h:form id="form2">
+			<p:growl id="message1" showDetail="true" />
+			<p:panel id="panel2" header="Lista de Tipos de Logeo">
+				<p:dataTable id="dt"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
+					paginator="true" rows="10" value="#{loginBean.listTipoLogin}"
+					var="ser">
+					<f:facet name="{exp}">
+						<h:commandLink>
+							<h:graphicImage value="/resources/img/excel.png" width="24" />
+							<p:dataExporter type="xls" target="dt" fileName="tipos_usuarios"
+								pageOnly="true" />
+						</h:commandLink>
+
+						<h:commandLink>
+							<h:graphicImage value="/resources/img/pdf.png" width="24" />
+							<p:dataExporter type="pdf" target="dt" fileName="tipos_usuarios"
+								pageOnly="true" />
+						</h:commandLink>
+					</f:facet>
+					<p:column headerText="Tipos">
+						<h:outputText value="#{ser.tipologin}"></h:outputText>
+					</p:column>
+					<p:column headerText="Descripción">
+						<h:outputText value="#{ser.descripcion}"></h:outputText>
+					</p:column>
+					<p:column headerText="Modificar">
+						<p:commandButton id="trackedi" icon="ui-icon-pencil">
+
+							<p:ajax listener="#{loginBean.Cargartipologin(ser)}"
+								oncomplete="PF('dlg1').show();" update=":form2:panel2" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<br></br>
+				<p:dialog widgetVar="dlg1" modal="true" closable="false"
+					closeOnEscape="true" header="Editar Tipo" showEffect="clip"
+					hideEffect="clip">
+					<p:panelGrid columns="2">
+						<h:outputText value="Nombre Tipo" />
+						<p:inputText id="Nombretipo" value="#{loginBean.nomtipolog}">
+
+						</p:inputText>
+						<h:outputText value="Descripción" />
+						<p:inputText id="Descripcion" value="#{loginBean.descripcion}">
+							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+						</p:inputText>
+						<p:commandButton id="trackactu" value="Actualizar"
+							icon="ui-icon-refresh" onclick="PF('dlg1').close();"
+							action="#{loginBean.actualizarTipologin}">
+							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+						</p:commandButton>
+						<p:commandButton id="trackvolver"
+							action="#{loginBean.irAprovadorpag}" value="Volver"
+							update=":form2:panel2" onclick="PF('dlg1').close();">
+
+						</p:commandButton>
+					</p:panelGrid>
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	</div>
 </body>
 </html>

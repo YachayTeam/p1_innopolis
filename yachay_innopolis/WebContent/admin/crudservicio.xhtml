@@ -27,7 +27,9 @@
 	<p:panel id="panel1"  header="Ingreso de Servicios Virtuales">
 		<p:panelGrid columns="2" >
 			<h:outputText value="Servicios *"/>
-			<p:inputText required="true" id="tipo" value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
+			<p:inputText required="true" id="tipo" value="#{serviciosVirtualesBean.nomservicio}" validatorMessage="Numeros no permitidos">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
 			<p:commandButton id="trackingre" update="panel1 :form2:panel2 message" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}">
 			
 			</p:commandButton>
@@ -62,10 +64,7 @@
 			<p:commandButton id="trackedi"  icon="ui-icon-pencil">
 				
 				<p:ajax listener="#{serviciosVirtualesBean.cargarDatostiposerv(ser)}" oncomplete="PF('dlg1').show();"  update=":form2:panel2" />
-			</p:commandButton>			
-				<p:commandButton id="trackeli" icon="ui-icon-closethick" actionListener="#{serviciosVirtualesBean.EliminarServicio(ser)}" update=":form2">
-								
-    		</p:commandButton>			
+			</p:commandButton>					
     		</p:column>			
 		</p:dataTable>		
 	<br></br>
