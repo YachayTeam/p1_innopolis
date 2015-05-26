@@ -27,7 +27,7 @@
 	<p:panel id="panel1"  header="Ingreso de Servicios Virtuales">
 		<p:panelGrid columns="2" >
 			<h:outputText value="Servicios *"/>
-			<p:inputText required="true" id="tipo" value="#{serviciosVirtualesBean.nomservicio}" validatorMessage="Numeros no permitidos">
+			<p:inputText required="true" id="tipo" value="#{serviciosVirtualesBean.nomservicio}" validatorMessage="Numeros y Caracteres no permitidos">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
 			<p:commandButton id="trackingre" update=":form1:panel1 :form2:panel2 message" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}">
@@ -71,8 +71,10 @@
 		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Servicio" showEffect="clip" hideEffect="clip">
 	<p:panelGrid columns="2" >
 			<h:outputText value="Nombre Servicio"/>
-			<p:inputText required="true" id="Nom" value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
-			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{serviciosVirtualesBean.ActualizarServicio}">
+			<p:inputText required="false" id="Nom" value="#{serviciosVirtualesBean.nomservicio}" validatorMessage="Numeros y Caracteres no permitidos">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
+			<p:commandButton id="trackactu" update="message1" value="Actualizar" icon="ui-icon-refresh" onclick="PF('dlg1').close();"  action="#{serviciosVirtualesBean.ActualizarServicio}">
 			
 			</p:commandButton>
 			<p:commandButton id="trackvolver" action="#{serviciosVirtualesBean.irAprovadorpag}" value="Volver" update=":form2:panel2" onclick="PF('dlg1').close();">
