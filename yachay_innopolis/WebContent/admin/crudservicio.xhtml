@@ -30,7 +30,7 @@
 			<p:inputText required="true" id="tipo" value="#{serviciosVirtualesBean.nomservicio}" validatorMessage="Numeros no permitidos">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
-			<p:commandButton id="trackingre" update="panel1 :form2:panel2 message" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}">
+			<p:commandButton id="trackingre" update=":form1:panel1 :form2:panel2 message" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}">
 			
 			</p:commandButton>
 		</p:panelGrid>
