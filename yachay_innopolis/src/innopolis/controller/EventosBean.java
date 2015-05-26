@@ -320,15 +320,18 @@ public class EventosBean implements Serializable {
 		if (esave==true){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("El evento ya cuenta con una solicitud."));
 			return "";
+		}else if(!Validacion.fechaMayorIgual(getFecha())){	
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual.", null));
+			return "";
 		}else{
-		try {
-			eventotemp = manager.crearEventoTmp(nombre, descripcion, lugar,
-					imagen, fecha, costo, cantidad);
-		} catch (Exception e) {
-			System.out.print("ir a solicitud no creo el evento temporal");
+			try {
+				eventotemp = manager.crearEventoTmp(nombre, descripcion, lugar,
+						imagen, fecha, costo, cantidad);
+			} catch (Exception e) {
+				System.out.print("ir a solicitud no creo el evento temporal");
+			}
+			return "solcab2?faces-redirect=true";
 		}
-		return "solcab2?faces-redirect=true";
-	}
 	}
 
 	// este metodo me almacena el evento temporal en la base de datos
