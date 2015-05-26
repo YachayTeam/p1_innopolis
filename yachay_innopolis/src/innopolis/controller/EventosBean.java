@@ -779,6 +779,18 @@ public class EventosBean implements Serializable {
 		return le;
 	}
 	
+	public List<Evento> mayorActual(){
+		List<Evento> le = new ArrayList<Evento>();
+		Date fecha_actual = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		for (Evento e : getListEvento()) {
+			if ( e.getFecha().after(fecha_actual) || dateFormat.format(fecha_actual).equals(dateFormat.format(e.getFecha())) ){
+				le.add(e);
+			}
+		}
+		return le;
+	}
+	
 	//metodo para listar los eventos
 	public List<Evento> getListRegEventos(){
 		return manager.findAllEventos();
@@ -805,7 +817,9 @@ public class EventosBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		eventModel = new DefaultScheduleModel();
-		for (Evento e : actual()) {
+		List<Evento> listado = mayorActual();
+		//System.out.print("tam "+listado.size());
+		for (Evento e : listado) {
 			event = new DefaultScheduleEvent(e.getNombre(), e.getFecha(),
 					e.getFecha(), e);
 			eventModel.addEvent(event);
