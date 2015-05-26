@@ -431,8 +431,9 @@ public class ManagerLogin implements Serializable{
 	public boolean existeUsarioRol(Integer id_usr, Integer id_rol){
 		boolean resp = false;
 		List<Tipousr> listado = findAllTipoUsrXUser(id_usr);
+		System.out.println("tam "+listado.size());
 		for (Tipousr tipousr : listado) {
-			if(tipousr.getIdTipusr().equals(id_rol)){
+			if(tipousr.getTipologin().getIdTipologin().equals(id_rol)){
 				resp = true;
 			}
 		}
