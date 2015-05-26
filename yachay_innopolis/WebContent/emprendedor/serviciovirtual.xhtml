@@ -28,9 +28,13 @@
 			<f:validateLength minimum="10"/>
 			</p:inputText>
 			<h:outputText value="Apellidos"/>
-			<p:inputText required="true" id="apellidos" value="#{serviciosVirtualesBean.apellidos}" requiredMessage="Requerido Apellidos"></p:inputText>
+			<p:inputText required="true" id="apellidos" value="#{serviciosVirtualesBean.apellidos}" requiredMessage="Requerido Apellidos" validatorMessage="Apellido no debe contener caracteres especiales">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
 			<h:outputText value="Nombres*"/>
-			<p:inputText required="true" id="nombres" value="#{serviciosVirtualesBean.nombres}" requiredMessage="Requerido Nombres"></p:inputText>			
+			<p:inputText required="true" id="nombres" value="#{serviciosVirtualesBean.nombres}" requiredMessage="Requerido Nombres" validatorMessage="Nombre no debe contener caracteres especiales">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>			
 			<h:outputText value="Correo*"/>
 			<p:inputText required="true" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{serviciosVirtualesBean.correo}">
 			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
