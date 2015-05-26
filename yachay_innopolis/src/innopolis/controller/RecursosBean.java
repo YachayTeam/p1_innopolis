@@ -114,13 +114,19 @@ public class RecursosBean implements Serializable{
 
 	//accion para invocar el manager y crear recurso
 	public String crearRecurso(){
-		if(getRt().equals(-1) || getRt().equals(0) || getRd()==null){
+		if(rt.equals(-1)){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Seleccione tipo recurso",null));
 		}else{
 			try {
 				manager.insertarRecurso(capacidad, descripcion, lugar, nombre, imagen);
 				//reiniciamos datos (limpiamos el formulario)
-				capacidad=0;descripcion="";lugar="";nombre="";imagen="";rd=1;rt=0;
+				capacidad=0;
+				descripcion="";
+				lugar="";
+				nombre="";
+				imagen="";
+				rd=1;
+				rt=0;
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registrado..!!!",  "Recurso Almacenado ") );
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al crear recurso",null));

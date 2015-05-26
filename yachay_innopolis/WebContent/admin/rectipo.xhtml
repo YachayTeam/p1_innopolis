@@ -32,7 +32,7 @@
 			<p:inputText required="true" id="tipo" value="#{recursotipoBean.tipo}" requiredMessage="Requerido" validatorMessage="Ingrese solo letras">
 				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
 			</p:inputText>
-			<p:commandButton id="trackguardar" update=":form1:panel1 :form2:panel2 message" value="Insertar" action="#{recursotipoBean.crearNuevoRecursoTipo}">
+			<p:commandButton id="trackguardar" update="panel1 :form2:panel2 message" value="Insertar" action="#{recursotipoBean.crearNuevoRecursoTipo}">
 			<p:tooltip id="toolTipTrack1" for="trackguardar" value="Botón para Crear Recurso" trackMouse="true" />
 			</p:commandButton>
 		</p:panelGrid>
@@ -42,7 +42,7 @@
 <h:form id="form2">
 <p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2" header="Lista de Tipo de Recursos">
-		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="4"  value="#{recursotipoBean.listado}" var="lu">
+		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="10"  value="#{recursotipoBean.listado}" var="lu">
 			<f:facet name="{exp}">
 			<h:commandLink>
                 <h:graphicImage value="/resources/img/excel.png" width="24"/>

@@ -173,6 +173,8 @@ public class ServiciosVirtualesBean implements Serializable{
 			tipoestado = managerservirt.findEstadoTipoByID(1); // numero id del estado q quieres q sea
 			tiposervicio = new Tiposervicio();
 			idSvr=null;
+			FacesContext context = FacesContext.getCurrentInstance();
+	        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Registro Almacenado ") );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -222,8 +224,8 @@ public class ServiciosVirtualesBean implements Serializable{
 		public String crearNuevoTipoServicio(){
 			try {
 				tiposervicio = null;
-				managerservirt.insertarTipoServicio(getNomservicio());	
-				//limpiar
+				managerservirt.insertarTipoServicio(getNomservicio());
+				//limpiar formulario
 				setNomservicio("");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Creado correctamente",null));
 			} catch (Exception e) {
@@ -289,12 +291,13 @@ public class ServiciosVirtualesBean implements Serializable{
 		}
 	
 		//accion para modificar los servicios
-		public String ActualizarServicio(){			
+		public String ActualizarServicio(){
+			String resp ="";
 				try {
 					managerservirt.editartiposervicio(getIdservi(),getNomservicio());
-					nomservicio="";
 					setNomservicio("");
-					setIdservi(0);					
+					setIdservi(0);		
+					resp = "CrudServicio";
 					FacesContext context = FacesContext.getCurrentInstance();
 			        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Servicio Actualizado ") );
 					}
@@ -302,7 +305,7 @@ public class ServiciosVirtualesBean implements Serializable{
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
 				}
-			return "";
+			return resp;
 		}	
 				
 		//------ Envios paginas--------//				
