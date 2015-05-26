@@ -117,10 +117,10 @@
 			<h:outputText value="#{loginBean.alias}"></h:outputText>
 			<h:outputText value=""/>
 			<h:outputText value="Contraseña*"/>
-			<p:password required="false" id="pass" value="#{loginBean.password}" feedback="true" requiredMessage="Requerido" validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+			<p:inputText required="false" id="pass" value="#{loginBean.password}" requiredMessage="Requerido" validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
 			<f:validateRegex pattern="[a-zA-Z0-9.]+" />
 			<f:validateLength minimum="7"/>
-			</p:password>
+			</p:inputText>
 			<h:outputText value=""/>
 			<h:outputText value="Seleccione tipo: " for="advanced"/>      		 
              <p:selectOneMenu id="smo" styleClass="t" value="#{loginBean.o}">
