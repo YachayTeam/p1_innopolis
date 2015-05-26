@@ -241,6 +241,10 @@ public class EventosBean implements Serializable {
 	// accion para invocar el manager y crear evento
 	public String crearEvento() {
 		try {
+			if(!Validacion.fechaMayorIgual(getFecha())){	
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual.", null));
+			}
+			else{
 			manager.insertarEvento(nombre, descripcion, lugar, imagen, fecha,
 					costo, cantidad);
 			// reiniciamos datos (limpiamos el formulario)
@@ -257,6 +261,7 @@ public class EventosBean implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Registrado..!!!",
 					"Evento Creado "));
+			}
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Error..!!!",
@@ -272,6 +277,7 @@ public class EventosBean implements Serializable {
 				manager.editarEventos(idEvento, nombre, descripcion, lugar, imagen, fecha,
 						costo, cantidad);
 				// reiniciamos datos (limpiamos el formulario)
+				idEvento=0;
 				nombre = "";
 				descripcion = "";
 				lugar = "";
@@ -740,17 +746,22 @@ public class EventosBean implements Serializable {
 	}
 
 	public String irevento(){
-		nombre = "";
+		FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelado!", "Actualizacion Cancelada"));
+        idEvento=0;;
+        nombre = "";
 		descripcion = "";
 		lugar = "";
 		imagen = "300.jpg";
+		imgMost="300.jpg";
 		fecha = null;
 		costo = 0;
 		cantidad = 0;
 		sc = 0;
 		te = 0;
 		esave=false;
-		return "eventos";
+		g="";
+		return "";
 	}
 	// ////////////////////////////////////////////////////////////CALENDARIO//////////////////////////////////////////////////////////////////
 
@@ -771,15 +782,20 @@ public class EventosBean implements Serializable {
 	}
 	
 	//editar imagen
-	public String changeImg(Evento ev){
+	public String changeImg(Evento ev) throws Exception {
+		try
+		{
 		idEvento = ev.getIdEvento();
 		imagen = ev.getImagen();
-		setImagen(ev.getImagen());		
-		setImgMost(ev.getImagen());
+		imgMost = ev.getImagen();
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("imagen mostrada correctamente...!!!"));
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("imagen mostrada correctamente."));
-		System.out.println(ev);
+		}
+		catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+		}
 		return "";
 	}	
 

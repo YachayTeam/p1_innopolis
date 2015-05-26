@@ -11,8 +11,7 @@
 </h:head>
 <body>
 <h:form enctype="multipart/form-data">  
-    <p:menubar>
-        <p:menuitem value="Crear Eventos" action="#{recursosBean.irTrecurso}" icon="ui-icon-pencil" />
+    <p:menubar>        
         <p:menuitem value="Volver" url="../emprendedor/home.xhtml" icon="ui-icon-circle-triangle-w" />     
         <f:facet name="options">            
             <p:commandButton type="button" value="Emprendedor" disabled="true" icon="ui-icon-person"  />
@@ -41,7 +40,7 @@
 			<f:validateLength minimum="1"/>
 			</p:inputText>
 			<h:outputText value="Fecha*:"/>
-			<p:calendar required="true" requiredMessage="Requerido Fecha" mindate="30/05/15" id="fecha" value="#{eventosBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
+			<p:calendar required="true" requiredMessage="Requerido Fecha"  id="fecha" value="#{eventosBean.fecha}" pattern="yyyy-MM-dd" mask="true" />
 			<h:outputText value="Tipo Eventos:"/>
 			<h:panelGroup>  
 					<p:selectOneMenu required="true" styleClass="t" value="#{eventosBean.te}" requiredMessage="Requerido Evento">
@@ -82,14 +81,13 @@
 			<h:commandLink>
                 <h:graphicImage value="/resources/img/excel.png" width="24"/>
                 <p:dataExporter type="xls" target="dt" fileName="resgitrados" pageOnly="true" />
-            </h:commandLink>
- 
+            </h:commandLink> 
             <h:commandLink>
                 <h:graphicImage value="/resources/img/pdf.png" width="24"/>
                 <p:dataExporter type="pdf" target="dt" fileName="registrados" pageOnly="true"/>
             </h:commandLink>
             </f:facet>
-			<p:column  headerText="NOMBRE">
+			<p:column id="f3" filterBy="#{reg.nombre}"  headerText="NOMBRE">			
 				<h:outputText value="#{reg.nombre}"></h:outputText>
 			</p:column>			
 			<p:column headerText="DESCRIPCIÓN">
@@ -102,20 +100,22 @@
 			<h:outputText value="#{reg.costo}"></h:outputText>
 			</p:column>
 			<p:column headerText="FECHA">
-			<h:outputText value="#{reg.fecha}" pattern="yyyy-MM-dd"/>
+			<h:outputText value="#{reg.fecha}">
+			 <f:convertDateTime pattern="MM-dd-yyyy" />
+			</h:outputText>
 			</p:column>	
-			<p:column id="f3" filterBy="#{reg.tipoevento.descripcion}" headerText="TIPO EVENTO">
+			<p:column headerText="TIPO EVENTO">
 			<h:outputText value="#{reg.tipoevento.descripcion}"></h:outputText>
 			</p:column>
 			<p:column headerText="CAPACIDAD">
 			<h:outputText value="#{reg.cantidad}"></h:outputText>
 			</p:column>
-			<p:column headerText="IMAGEN">
-			<p:commandLink update=":form2:imagen1" oncomplete="PF('imagendlg').show()" title="asd">
+			<p:column headerText="IMAGEN" exportable="false">
+			<p:commandLink update=":form2:imagen1" oncomplete="PF('imagendlg').show()" title="Imagen">
                     <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
-                    <f:setPropertyActionListener value="#{reg.imagen}" target="#{reg.imagen}" />
+                    <f:setPropertyActionListener value="#{eventosBean.changeImg(reg)}" target="#{eventosBean.changeImg(reg)}" />
                 </p:commandLink>
-			<p:commandButton id="trackimagen" update=":form2:imggi" value="Ver Imagen" action="#{eventosBean.changeImg(reg.imagen)}" oncomplete="PF('imagendlg').show();">
+			<p:commandButton id="trackimagen" update=":form2:imggi" value="Ver Imagen" action="#{eventosBean.changeImg(reg)}" oncomplete="PF('imagendlg').show();">
 			<p:tooltip id="toolTipTrac3" for="trackimagen" value="Botón para ver Imagen" trackMouse="true" />
 			</p:commandButton>
 			</p:column>		
@@ -136,7 +136,7 @@
         	</p:outputPanel>
    		</p:dialog>					
 		<br/>  	    
-		<p:dialog widgetVar="dlg1" modal="true" closable="true" closeOnEscape="true"  header="Información Eventos" showEffect="clip" hideEffect="clip">
+		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="false"  header="Información Eventos" showEffect="clip" hideEffect="clip">
 		<p:panelGrid  columns="2" >
 		<h:outputText value="Nombre:"/>
 			<p:inputText   id="nombre" value="#{eventosBean.nombre}" ></p:inputText>
@@ -157,9 +157,12 @@
     		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/>
    			 <h:outputText value="Vista Previa:"/>   			 
    			 <p:graphicImage id="imagen" value="/imgevent/#{eventosBean.imagen}" width="150" height="150" />	
-   			<p:commandButton id="trackeditarev"  style="width:100%"  styleClass="ui-icon-search" value="Editar Evento" action="#{eventosBean.EditarEvento}" update=":form2:panel2 :form2:message2">
+   			<p:commandButton id="trackeditarev"  style="width:100%"  icon="ui-icon-pencil" value="Editar Evento" action="#{eventosBean.EditarEvento}" update=":form2:panel2 :form2:message2">
    			<p:tooltip id="toolTipTrack5" for="trackeditarev" value="Botón para Editar Evento" trackMouse="true" />
    			</p:commandButton>
+   			<p:commandButton id="trackcerr" update=":form2:panel2" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{eventosBean.irevento}">
+			<p:tooltip id="toolTipTrack6" for="trackcerr" value="Botón para Cancelar" trackMouse="true" />
+			</p:commandButton>
 		</p:panelGrid>
 		</p:dialog>
 			
