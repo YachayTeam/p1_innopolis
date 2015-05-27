@@ -24,7 +24,6 @@ import javax.faces.model.SelectItem;
 @ManagedBean
 public class SolicitudApBean {
 	private ManagerReservas manager;
-	
 	//Atributo de solicitud
 	//Cabecera
 	private String direccion;
@@ -57,6 +56,7 @@ public class SolicitudApBean {
 	/*Atributos de Acceso*/
 	private final String acceso = "aprobador";
 	private UsuarioHelp session;
+	
 	
 	public SolicitudApBean() {
 		/*Session*/
@@ -224,7 +224,7 @@ public class SolicitudApBean {
 	public UsuarioHelp getSession() {
 		return session;
 	}
-	
+
 	//LISTADO DE RECURSOS
 	public List<SelectItem> getlistaRecursosLibres(){
 		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
@@ -265,6 +265,7 @@ public class SolicitudApBean {
 	//Tomar el id de estado general id_estadoSolicitud
 	public String aprobarEstado(Solicicabecera solicitud){
 		try {
+			manager.cambioSMS(solicitud.getIdSolcab());
 			Soliciestado estado = manager.findSolicitudEstadoByID(3);//APROBADO
 			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cambio correcto de estado", null));
@@ -277,6 +278,7 @@ public class SolicitudApBean {
 	
 	public String negarEstado(Solicicabecera solicitud){
 		try {
+			manager.cambioSMS(solicitud.getIdSolcab());
 			Soliciestado estado = manager.findSolicitudEstadoByID(4);//NEGADO
 			manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cambio correcto de estado", null));
@@ -294,9 +296,16 @@ public class SolicitudApBean {
 		}else{
 			String mensaje="Le informamos que la solicitud de: "+solicitud.getActividad()+" ,fue "+solicitud.getSoliciestado().getEstado()+" para la fecha:"+solicitud.getFecha().toString();
 			try {
+				if(solicitud.getSms().equals("notificada"))
+				{					
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo la notificación anteriormente", null));
+				}
+				else{
+				manager.cambioSMSenvio(solicitud.getIdSolcab());
 				manager.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Solicitud YACHAY/INNOPOLIS  ", mensaje);
 				manager.notificarSolicitud(solicitud.getIdSolcab());
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
+				}
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar notificacion", null));
 			}
@@ -334,6 +343,7 @@ public class SolicitudApBean {
 			det.setRecurso(manager.findRecursoByID(getId_recurso()));
 			listDetalles.add(det);
 			list_mas.add(det);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Se agregó el recurso", null));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No se pudo agregar el recurso", null));
 		}
@@ -343,8 +353,9 @@ public class SolicitudApBean {
 		try {
 			listDetalles.remove(detalle);
 			list_menos.add(detalle);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Se Eliminó el Recurso", null));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No se pudo quitar el recurso", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No se pudo quitar el Recurso", null));
 		}
 	}
 	
@@ -359,6 +370,5 @@ public class SolicitudApBean {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Edicion errónea", null));
 		}
 		return resp; 
-	}
-	
+	}		
 }

@@ -58,9 +58,9 @@
 				</h:panelGroup>
 				<h:outputText value="Capacidad Necesaria:" />
 				<p:inputText value="#{solicitudApBean.capacidad_recurso}"></p:inputText>
-				<p:commandButton value="Adicionar"
-					action="#{solicitudApBean.agregarDetalle}" update="form3"
-					icon="ui-icon-plusthick" />
+				<p:commandButton id="trackadi" value="Adicionar" action="#{solicitudApBean.agregarDetalle}" update="form3" icon="ui-icon-plusthick">
+					<p:tooltip id="toolTipTrac3" for="trackadi" value="Botón para Agregar Recurso" trackMouse="true" />
+					</p:commandButton>
 			</p:panelGrid>
 			<p:messages></p:messages>
 			<p:dataTable value="#{solicitudApBean.listDetalles}"

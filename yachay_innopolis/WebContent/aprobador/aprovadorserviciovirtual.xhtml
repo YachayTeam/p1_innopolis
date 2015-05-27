@@ -13,8 +13,7 @@
 <h:form>  
     <p:menubar>
         <p:menuitem value="Volver" url="../aprobador/home.xhtml" icon="ui-icon-circle-triangle-w" />        
-        <f:facet name="options">
-            <p:inputText style="margin-right:10px" placeholder="Search"/>
+        <f:facet name="options">            
             <p:commandButton type="button" value="Aprobador" disabled="true" icon="ui-icon-person"  />
             <p:commandButton value="Salir"  action="#{sessionBean.logout}" icon=" ui-icon-closethick"  />
         </f:facet>
@@ -41,13 +40,13 @@
                 <p:dataExporter type="pdf" target="dt" fileName="registrados" pageOnly="true"/>
             </h:commandLink>
             </f:facet>
-			<p:column  headerText="C&Eacute;DULA">
+			<p:column id="f1" filterBy="#{reg.cedula}" headerText="C&Eacute;DULA">
 				<h:outputText value="#{reg.cedula}"></h:outputText>
 			</p:column>
-			<p:column  headerText="APELLIDOS">
+			<p:column id="f2" filterBy="#{reg.apellidos}"  headerText="APELLIDOS">
 				<h:outputText value="#{reg.apellidos}"></h:outputText>
 			</p:column>			
-			<p:column headerText="NOMBRES">
+			<p:column id="f3" filterBy="#{reg.nombres}"  headerText="NOMBRES">
 				<h:outputText value="#{reg.nombres}"></h:outputText>
 			</p:column>
 			<p:column headerText="CORREO">
@@ -56,13 +55,13 @@
 			<p:column headerText="TEMA">
 			<h:outputText value="#{reg.tema}"></h:outputText>
 			</p:column>
-			<p:column id="f2" filterBy="#{reg.tiposervicio.nombreServicio}" headerText="SERVICIO">
+			<p:column id="f4" filterBy="#{reg.tiposervicio.nombreServicio}" headerText="SERVICIO">
 			<h:outputText value="#{reg.tiposervicio.nombreServicio}"></h:outputText>
 			</p:column>
-			<p:column id="f3" filterBy="#{reg.tipoestado.nombreestado}" headerText="ESTADO">
+			<p:column id="f5" filterBy="#{reg.tipoestado.nombreestado}" headerText="ESTADO">
 			<h:outputText value="#{reg.tipoestado.nombreestado}"></h:outputText>
 			</p:column>
-			<p:column id="f4" filterBy="#{reg.sms}" headerText="NOTIFICADO">
+			<p:column id="f6" filterBy="#{reg.sms}" headerText="NOTIFICADO">
 			<h:outputText value="#{reg.sms}"></h:outputText>
 			</p:column>
 			<p:column headerText="OPCIONES" exportable="false">
@@ -75,7 +74,7 @@
 				</p:commandButton>				
 				<p:commandButton  icon="ui-icon-mail-closed" id="trackenvio">
 				<p:tooltip id="toolTipTrack3" for="trackenvio" value="Botón para Enviar una Notificación" trackMouse="true" />
-				<p:ajax listener="#{serviciosVirtualesBean.enviarmensaje(reg)}" oncomplete="PF('dlg2').show();"  update=":form2:panel2 :form2:message2"/>
+				<p:ajax listener="#{serviciosVirtualesBean.enviarmensaje(reg)}"  update=":form2:panel2 :form2:message2"/>
 				</p:commandButton>			
 			</p:column>
 		</p:dataTable>
@@ -100,10 +99,6 @@
 			<p:commandButton value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2 :form2:message2" action="#{serviciosVirtualesBean.irAprovador}"></p:commandButton>
 		</p:panelGrid>
 		</p:dialog>		
-		<p:dialog header="Información" modal="true" closable="false"  widgetVar="dlg2" minHeight="40"  showEffect="clip" hideEffect="clip">
-    		     <h:outputText value="La notifación al correo se ha enviado correctamente" /><br/>
-    			 <p:commandButton value="Volver" icon="ui-icon-close"   onclick="PF('dlg2').close();"  update=":form2:panel2 :form2:message2"/>
-		    </p:dialog>			
 		<br/>
 	</p:panel>
 </h:form>

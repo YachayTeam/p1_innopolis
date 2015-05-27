@@ -173,8 +173,6 @@ public class ServiciosVirtualesBean implements Serializable{
 			tipoestado = managerservirt.findEstadoTipoByID(1); // numero id del estado q quieres q sea
 			tiposervicio = new Tiposervicio();
 			idSvr=null;
-			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Registro Almacenado ") );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -224,8 +222,8 @@ public class ServiciosVirtualesBean implements Serializable{
 		public String crearNuevoTipoServicio(){
 			try {
 				tiposervicio = null;
-				managerservirt.insertarTipoServicio(getNomservicio());
-				//limpiar formulario
+				managerservirt.insertarTipoServicio(getNomservicio());	
+				//limpiar
 				setNomservicio("");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Creado correctamente",null));
 			} catch (Exception e) {
@@ -291,21 +289,27 @@ public class ServiciosVirtualesBean implements Serializable{
 		}
 	
 		//accion para modificar los servicios
-		public String ActualizarServicio(){
-			String resp ="";
+		public String ActualizarServicio(){			
 				try {
 					managerservirt.editartiposervicio(getIdservi(),getNomservicio());
+					idservi=0;
+					idSvr=0;
+					nomservicio="";
 					setNomservicio("");
-					setIdservi(0);		
-					resp = "CrudServicio";
+					setIdservi(0);					
 					FacesContext context = FacesContext.getCurrentInstance();
 			        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Servicio Actualizado ") );
 					}
 				catch (Exception e) {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));
+					idservi=0;
+					idSvr=0;
+					nomservicio="";
+					setNomservicio("");
+					setIdservi(0);
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));					
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
 				}
-			return resp;
+			return "";
 		}	
 				
 		//------ Envios paginas--------//				
@@ -344,11 +348,19 @@ public class ServiciosVirtualesBean implements Serializable{
 		//correo
 		//Tomar el id de estado general id_estadoSolicitud
 		public String enviarmensaje(Serviciosvirtregi serv){
-			try {				
+			try {
+				if(serv.getSms().equals("Notificado"))
+				{					
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo la notificación anteriormente", null));
+				}
+				else
+				{
 				managerservirt.cambioSMSenvio(serv.getIdSvr());
 				managerservirt.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", serv.getCorreo(), "Notificación de Centro de Emprendimiento","El usuario con apellido "+serv.getApellidos()+" con nombre "+serv.getNombres()+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+".");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo", null));
+				}
 			} catch (Exception e) {
+				
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar correo", null));
 			}
 			

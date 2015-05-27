@@ -30,7 +30,8 @@ private ManagerDAO mDAO;
 	private static Recursotipo rt;
 	private static Recursodisponible rd;
 	private static Recurso r;
-		
+	String h="";
+	
 	public ManagerReservas()
 	{
 		mDAO= new ManagerDAO();
@@ -537,6 +538,22 @@ private ManagerDAO mDAO;
 		mDAO.actualizar(sol);
 	}
 	
+    
+    public void cambioSMS(Integer id_soli)  throws Exception{		
+		try
+		{
+			Solicicabecera svt = this.findSolicitudCabeceraById(id_soli);
+			if(svt.getSms().equals("notificada"))	
+			{
+				svt.setSms("no notificado");					
+			}
+		}
+		catch (Exception e)
+		{
+			throw new Exception("error");	
+		}	
+    }
+	
 	////METODO DE ENVIO DE CORREO
 	public boolean sendMail(String origen,String clave,String destinatario, String asunto, String mensaje) throws Exception{
         try
@@ -573,8 +590,36 @@ private ManagerDAO mDAO;
         {
             e.printStackTrace();
             return false;
-        }        
+        }             
     }
-
+	
+	//buscar servicio por ID
+	public Solicicabecera findSolicitudByID(int id_Srv) throws Exception{
+		return (Solicicabecera) mDAO.findById(Solicicabecera.class, id_Srv);
+	}	
+	
+	//metodo para enviar el estado del mensaje si se envio
+	public String cambioSMSenvio(Integer id_soli)  throws Exception{		
+				try
+				{
+					h="";
+					Solicicabecera soli = this.findSolicitudByID(id_soli);
+					if(soli.getSms().equals("no notificado"))	
+					{
+						soli.setSms("notificada");				
+						h="El usuario a sido notificado por correo";		
+					}
+					else if(soli.getSms().equals("notificada"))
+					{
+						
+						h="Ya se ha enviado al correo la notificación";
+					}
+				}
+				catch (Exception e)
+				{
+					throw new Exception("No se envio el mensaje");	
+				}					
+				return h;
+			}
 
 }

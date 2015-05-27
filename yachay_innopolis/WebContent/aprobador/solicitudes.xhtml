@@ -58,21 +58,21 @@
     			</h:dataTable>
     		</p:column>
     		<p:column headerText="Estado">
-    			<h:outputText value="#{sol.soliciestado.estado}"></h:outputText><br></br>
-    			<h:outputText value="#{sol.sms}"></h:outputText>
+    			<h:outputText value="#{sol.soliciestado.estado}"></h:outputText>
     		</p:column>
-    		<p:column headerText="Aprobaci&oacute;n">
-    			<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{solicitudApBean.aprobarEstado(sol)}" update=":form:panel">
-    			
-    			</p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton id="trackneg" icon="ui-icon-circle-close" action="#{solicitudApBean.negarEstado(sol)}" update=":form:panel">
-    			
-    			</p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton id="trackcer" icon="ui-icon-mail-closed" action="#{solicitudApBean.notificarSolicitud(sol)}" update=":form:panel">
-    			
+    		<p:column headerText="Estado">    			
+    			<h:outputText value="#{sol.sms}"></h:outputText>
+    		</p:column>    		
+    		<p:column headerText="Aprobaci&oacute;n" exportable="false">    		
+    		
+    			<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{solicitudApBean.aprobarEstado(sol)}" update=":form:panel">    			
+    			</p:commandButton>
+    			<p:commandButton id="trackneg" icon="ui-icon-circle-close" action="#{solicitudApBean.negarEstado(sol)}" update=":form:panel">    			
+    			</p:commandButton>
+    			<p:commandButton id="trackcer" icon="ui-icon-mail-closed" action="#{solicitudApBean.notificarSolicitud(sol)}" update=":form:panel">    			
     			</p:commandButton>
     		</p:column>
-    		<p:column headerText="Edici&oacute;n">
+    		<p:column headerText="Edici&oacute;n" exportable="false">
     			<p:commandButton id="trackcar" icon="ui-icon-pencil" action="#{solicitudApBean.cargarDatosSolicitud(sol)}">
     			
     			</p:commandButton>
