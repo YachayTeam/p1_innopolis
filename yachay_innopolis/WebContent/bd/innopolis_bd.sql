@@ -86,8 +86,7 @@ create table PUBLIC.RECURSODISPONIBLE (
 create table RECURSOSACTIVOS (
    ID_RECACT            NUMERIC              not null,
    ID_SOLICITUD         INT4                 null,
-   FECHA_INICIO         DATE                 null,
-   FECHA_FIN            DATE                 null,
+   FECHA		        DATE                 null,
    HORA_INICIO          TIME                 null,
    HORA_FIN             TIME                 null,
    ID_RECURSO           INT4                 null,
@@ -513,6 +512,22 @@ CREATE SEQUENCE public.seq_tipologin
 
 ALTER TABLE tipologin
    ALTER COLUMN id_tipologin SET DEFAULT nextval('seq_tipologin');
+   
+CREATE SEQUENCE public.seq_estadotiposervicio
+   INCREMENT 1
+   START 1
+   MINVALUE 1;
+
+ALTER TABLE estadotiposervicio
+   ALTER COLUMN id_ets SET DEFAULT nextval('seq_estadotiposervicio');
+
+CREATE SEQUENCE public.seq_validarusr
+   INCREMENT 1
+   START 1
+   MINVALUE 1;
+
+ALTER TABLE validarusr
+   ALTER COLUMN id_validar SET DEFAULT nextval('seq_validarusr');
 
 insert into contadores values (default, 'solicitud cabecera',0);
 insert into contadores values (default, 'usuario',1);
