@@ -248,6 +248,11 @@ public class SolicitudApBean {
 	
 	//metodo para asignar el RecursoTipo al Recurso
 	public String asignarRecLibre(){
+		if(id_recurso == -1)
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Seleccione un Recurso", null));
+		}
+		else
 		manager.asignarRecurso(id_recurso);
 		return "";
 	}
@@ -337,13 +342,24 @@ public class SolicitudApBean {
 	//Agregar quitar detalle
 	public void agregarDetalle(){
 		try {
-			Solicidetalle  det = new Solicidetalle();
-			det.setSolicicabecera(manager.findSolicitudCabeceraById(getId_sol()));
-			det.setCapacidad(getcapacidad_recurso());
-			det.setRecurso(manager.findRecursoByID(getId_recurso()));
-			listDetalles.add(det);
-			list_mas.add(det);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Se agregó el recurso", null));
+			if(capacidad_recurso.equals(0))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"No puede ingresar valor 0 (cero)", null));
+			}
+			else if(id_recurso.equals(-1))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Escoga uno de la lista", null));
+			}
+			else
+			{
+				Solicidetalle  det = new Solicidetalle();
+				det.setSolicicabecera(manager.findSolicitudCabeceraById(getId_sol()));
+				det.setCapacidad(getcapacidad_recurso());
+				det.setRecurso(manager.findRecursoByID(getId_recurso()));
+				listDetalles.add(det);
+				list_mas.add(det);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Se agregó el recurso", null));			
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No se pudo agregar el recurso", null));
 		}
