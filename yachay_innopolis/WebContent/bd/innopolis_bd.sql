@@ -12,6 +12,15 @@ create table CONTADORES (
 );
 
 /*==============================================================*/
+/* Table: ESTADOTIPOSERVICIO                                    */
+/*==============================================================*/
+create table ESTADOTIPOSERVICIO (
+   ID_ETS               INT4                 not null,
+   ETS                  TEXT                 null,
+   constraint PK_ESTADOTIPOSERVICIO primary key (ID_ETS)
+);
+
+/*==============================================================*/
 /* Table: EVENTOS                                               */
 /*==============================================================*/
 create table PUBLIC.EVENTOS (
@@ -21,7 +30,8 @@ create table PUBLIC.EVENTOS (
    NOMBRE               TEXT                 null,
    DESCRIPCION          TEXT                 null,
    IMAGEN               TEXT                 null,
-   FECHA                DATE                 null,
+   FECHA_INICIO         DATE                 null,
+   FECHA_FIN            DATE                 null,
    COSTO                FLOAT4               null,
    LUGAR                TEXT                 null,
    CANTIDAD             INT4                 null,
@@ -76,7 +86,8 @@ create table PUBLIC.RECURSODISPONIBLE (
 create table RECURSOSACTIVOS (
    ID_RECACT            NUMERIC              not null,
    ID_SOLICITUD         INT4                 null,
-   FECHA                DATE                 null,
+   FECHA_INICIO         DATE                 null,
+   FECHA_FIN            DATE                 null,
    HORA_INICIO          TIME                 null,
    HORA_FIN             TIME                 null,
    ID_RECURSO           INT4                 null,
@@ -119,8 +130,6 @@ create table PUBLIC.SOLICICABECERA (
    OBJETIVO             TEXT                 null,
    JUSTIFICACION        TEXT                 null,
    FECHA                DATE                 null,
-   HORAINICIO           TIME                 null,
-   HORAFIN              TIME                 null,
    SMS                  TEXT                 null,
    CAPACIDAD            INT4                 null,
    constraint PK_SOLICICABECERA primary key (ID_SOLCAB)
@@ -133,6 +142,8 @@ create table PUBLIC.SOLICIDETALLE (
    ID_SOLDET            INT4                 not null,
    ID_SOLCAB            INT4                 null,
    ID_RECURSO           INT4                 null,
+   HORA_INICIO          TIME                 null,
+   HORA_FIN             TIME                 null,
    CAPACIDAD            INT4                 null,
    constraint PK_SOLICIDETALLE primary key (ID_SOLDET)
 );
@@ -156,6 +167,15 @@ create table PUBLIC.TIPOESTADO (
 );
 
 /*==============================================================*/
+/* Table: TIPOESTADOUSR                                         */
+/*==============================================================*/
+create table TIPOESTADOUSR (
+   ID_TIPOESTADOUSR     INT4                 not null,
+   NOMBREESTADO         TEXT                 null,
+   constraint PK_TIPOESTADOUSR primary key (ID_TIPOESTADOUSR)
+);
+
+/*==============================================================*/
 /* Table: TIPOEVENTO                                            */
 /*==============================================================*/
 create table PUBLIC.TIPOEVENTO (
@@ -163,15 +183,6 @@ create table PUBLIC.TIPOEVENTO (
    TIPO                 TEXT                 null,
    DESCRIPCION          TEXT                 null,
    constraint PK_TIPOEVENTO primary key (ID_TIPO_EVENTO)
-);
-
-/*==============================================================*/
-/* Table: TIPOSERVICIO                                          */
-/*==============================================================*/
-create table PUBLIC.TIPOSERVICIO (
-   ID_TP                INT4                 not null,
-   NOMBRE_SERVICIO      TEXT                 null,
-   constraint PK_TIPOSERVICIO primary key (ID_TP)
 );
 
 /*==============================================================*/
@@ -185,6 +196,16 @@ create table TIPOLOGIN (
 );
 
 /*==============================================================*/
+/* Table: TIPOSERVICIO                                          */
+/*==============================================================*/
+create table PUBLIC.TIPOSERVICIO (
+   ID_TP                INT4                 not null,
+   ID_ETS               INT4                 null,
+   NOMBRE_SERVICIO      TEXT                 null,
+   constraint PK_TIPOSERVICIO primary key (ID_TP)
+);
+
+/*==============================================================*/
 /* Table: TIPOUSR                                               */
 /*==============================================================*/
 create table TIPOUSR (
@@ -193,27 +214,30 @@ create table TIPOUSR (
    ID_USR               INT4                 null,
    constraint PK_TIPOUSR primary key (ID_TIPUSR)
 );
+
 /*==============================================================*/
 /* Table: USUARIO                                               */
 /*==============================================================*/
 create table USUARIO (
    ID_USR               INT4                 not null,
    ID_TIPOESTADOUSR     INT4                 null,
+   ID_VALIDAR           INT4                 null,
    NOMBRE               TEXT                 null,
    APELLIDO             TEXT                 null,
    CORREO               TEXT                 null,
    ALIAS                TEXT                 null,
    PASSWORD             TEXT                 null,
+   INTERES              TEXT                 null,
    constraint PK_USUARIO primary key (ID_USR)
 );
 
 /*==============================================================*/
-/* Table: TIPOESTADOUSR                                         */
+/* Table: VALIDARUSR                                            */
 /*==============================================================*/
-create table TIPOESTADOUSR (
-   ID_TIPOESTADOUSR     INT4                 not null,
-   NOMBREESTADO         TEXT                 null,
-   constraint PK_TIPOESTADOUSR primary key (ID_TIPOESTADOUSR)
+create table VALIDARUSR (
+   ID_VALIDAR           INT4                 not null,
+   VALIDAR              TEXT                 null,
+   constraint PK_VALIDARUSR primary key (ID_VALIDAR)
 );
 
 alter table EVENTOS
@@ -265,7 +289,12 @@ alter table SOLICIDETALLE
    add constraint FK_SOLICIDE_REFERENCE_SOLICICA foreign key (ID_SOLCAB)
       references SOLICICABECERA (ID_SOLCAB)
       on delete restrict on update restrict;
-      
+
+alter table TIPOSERVICIO
+   add constraint FK_TIPOSERV_REFERENCE_ESTADOTI foreign key (ID_ETS)
+      references ESTADOTIPOSERVICIO (ID_ETS)
+      on delete restrict on update restrict;
+
 alter table TIPOUSR
    add constraint FK_TIPOUSR_REFERENCE_TIPOLOGI foreign key (ID_TIPOLOGIN)
       references TIPOLOGIN (ID_TIPOLOGIN)
@@ -275,11 +304,17 @@ alter table TIPOUSR
    add constraint FK_TIPOUSR_REFERENCE_USUARIO foreign key (ID_USR)
       references USUARIO (ID_USR)
       on delete restrict on update restrict;
-      
+
 alter table USUARIO
    add constraint FK_USUARIO_REFERENCE_TIPOESTA foreign key (ID_TIPOESTADOUSR)
       references TIPOESTADOUSR (ID_TIPOESTADOUSR)
       on delete restrict on update restrict;
+
+alter table USUARIO
+   add constraint FK_USUARIO_REFERENCE_VALIDARU foreign key (ID_VALIDAR)
+      references VALIDARUSR (ID_VALIDAR)
+      on delete restrict on update restrict;
+
 	  
 /*==============================================================*/
 /* SECUENCIAS                                           */
