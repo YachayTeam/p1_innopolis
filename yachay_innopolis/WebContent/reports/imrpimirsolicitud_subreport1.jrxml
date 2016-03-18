@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="imrpimirsolicitud_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e6e2e57d-732f-42c1-a7ed-fbed02ff4cd6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pIdsolcab" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select  c.estado,d.nombre,d.descripcion,* from
+solicicabecera a
+join solicidetalle b on (a.id_solcab = b.id_solcab)
+join soliciestado c on (a.id_solest = c.id_solest)
+join recurso d on (b.id_recurso = d.id_recurso)
+where a.id_solcab= $P{pIdsolcab};]]>
+	</queryString>
+	<field name="estado" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="id_solcab" class="java.lang.Integer"/>
+	<field name="id_solest" class="java.lang.Integer"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="actividad" class="java.lang.String"/>
+	<field name="objetivo" class="java.lang.String"/>
+	<field name="justificacion" class="java.lang.String"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="sms" class="java.lang.String"/>
+	<field name="idusr" class="java.lang.Integer"/>
+	<field name="id_soldet" class="java.lang.Integer"/>
+	<field name="id_recurso" class="java.lang.Integer"/>
+	<field name="hora_inicio" class="java.sql.Timestamp"/>
+	<field name="hora_fin" class="java.sql.Timestamp"/>
+	<field name="capacidad" class="java.lang.Integer"/>
+	<field name="fechadet" class="java.sql.Date"/>
+	<field name="id_rectipo" class="java.lang.Integer"/>
+	<field name="id_recdisponible" class="java.lang.Integer"/>
+	<field name="lugar" class="java.lang.String"/>
+	<field name="imagen" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="91" splitType="Stretch">
+			<staticText>
+				<reportElement x="18" y="48" width="88" height="20" uuid="899369d0-acf8-4957-9bee-c910a0f10aee"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recurso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="246" y="49" width="100" height="20" uuid="9d75cbd2-eeea-45a1-bc53-443b0ae79e73"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="48" width="96" height="20" uuid="979aecf1-166d-4866-8895-8626fa46e419"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Fin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="49" width="65" height="20" uuid="d14c546d-db0c-4ec2-b5d4-460e663fd549"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="123" y="48" width="123" height="20" uuid="54dfd7aa-4913-4482-9eb2-26c5816e56bd"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<line>
+				<reportElement x="18" y="68" width="512" height="1" uuid="9021fb24-29c5-49e0-81ea-72d6b011e52e"/>
+			</line>
+			<staticText>
+				<reportElement x="18" y="10" width="160" height="24" forecolor="#003399" uuid="93055181-5ccf-4fa7-98ef-472e75c6ea23"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículos:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="73" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="18" y="13" width="88" height="20" uuid="4f0c033f-8e30-4446-90ed-92ab0d2bca51"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="123" y="13" width="123" height="60" uuid="1098e920-cd6f-4ad6-a1a2-9e8086b06e09"/>
+				<textElement textAlignment="Justified">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="246" y="13" width="100" height="20" uuid="bd01fa15-e9ce-48fd-a0ca-ca76a0498fbf"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hora_inicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="13" width="96" height="20" uuid="5f29cb30-5624-49d2-ab33-a1c34644e134"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hora_fin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="465" y="13" width="84" height="20" uuid="9fe47fbc-fa1c-40f7-96ca-5d5a0b24f629"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{capacidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

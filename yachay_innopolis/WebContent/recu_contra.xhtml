@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="styleser.css" />
+<link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico"/>
+
+<title>RECUPERAR CONTRASEÑA</title>
+</h:head>
+<h:body>
+<div class="centrar">
+<p:growl id="message2" showDetail="true" />
+			<h:form>
+				 <p:menubar>
+        <f:facet name="options">
+        	<p:commandButton type="button" disabled="true" icon="ui-icon-person"  />
+            <p:commandButton id="tracksalir" value="Volver"  action="/index.xhtml" icon="ui-icon-home">
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver al login" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+    </p:menubar>			
+			</h:form> 			
+	<div class="div1" style="width: 100%">
+	<h:form id="form2" >
+	<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2"  header="Recuperar Contraseña">
+	<h:outputText value="Al momento de enviar el mensaje para la recuperación de la contraseña, espere la alerta de confimación."/>
+		<p:panelGrid columns="2" >
+		<h:outputText value="Ingrese su correo: " />
+		<p:inputText required="true" value="#{sessionBean.correocontra}" requiredMessage="Requerido Correo" validatorMessage="Formato de correo inv&aacute;lido">
+				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>	
+			<p:commandButton id="trackcer1" icon="ui-icon-key" value="Enviar contraseña"  action="#{sessionBean.devolvercontra}" ajax="false" >
+    			<p:tooltip id="toolTipTrack8" for="trackcer1" value="Enviar mensaje para recuperar contraseña" trackMouse="true"/>  			
+    			</p:commandButton>									
+		</p:panelGrid>						
+		</p:panel>
+		</h:form>
+		</div>		   
+	</div>
+	
+
+<div class="div4">
+<!--  h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
+</div>
+
+
+
+
+</h:body>
+</html>

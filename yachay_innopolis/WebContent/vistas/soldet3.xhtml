@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="style.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+		<title>Solicitud de Recursos</title>	
+</h:head>
+<body>
+<h:form enctype="multipart/form-data">  
+    <p:menubar>        
+        <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+        	<p:commandButton id="tracksalir" value="Volver"  action="#{eventosBean.regresar}" icon=" ui-icon-closethick">
+            <p:ajax listener="#{eventosBean.ireve1}"></p:ajax>
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver a eventos" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<p:steps activeIndex="0" styleClass="custom">
+    <p:menuitem value="Solicitud y Detalles" />
+    <p:menuitem value="Resumen de Solicitud" />
+</p:steps>
+<br/>
+	<p:growl id="message1" showDetail="true" />
+	<p:panel id="panel1"  header="Formulario de Solicitud">
+	<h:form id="form3" >
+		<p:panel id="panel2" style="border:none;">
+			<p:panelGrid columns="4">
+				<h:outputText value="Nombre &lt;br/&gt; solicitante a cargo: "  escape="false"/>
+				<p:inputText id="nombreusuario" disabled="true" value="#{eventosBean.direccion}" size="20">
+				</p:inputText>
+				<h:outputText value="Apellido &lt;br/&gt; solicitante a cargo: "   escape="false"/>
+				<p:inputText id="apellidousuario" disabled="true" value="#{eventosBean.justificacion}" size="20">
+				</p:inputText>
+				<h:outputText value="Actividad: " />
+				<h:outputText  value="#{eventosBean.actividad}" />
+				<h:outputText value="Objetivo: " />
+				<p:inputTextarea disabled="true" required="true" value="#{eventosBean.objetivo}">
+				</p:inputTextarea>							
+			</p:panelGrid>
+		</p:panel>
+		
+		<p:panel id="panel3" style="border:none;">
+			<p:panelGrid id="pgrid" columns="5" styleClass="ui-responsive">
+				<h:outputText value="Fecha Inicio*:"/>
+				<h:outputText value="#{eventosBean.h_inicio}"/>
+				<h:outputText value="Fecha Fin*:"/>
+				<h:outputText value="#{eventosBean.h_fin}"/>
+				<h:outputText value="" />
+				<h:outputText value="Recurso Adicional:" />
+				<h:panelGroup id="listrec">  
+					<p:selectOneMenu  value="#{eventosBean.id_recurso}">
+						<p:ajax listener="#{eventosBean.mostrarb()}" update="imagen descr"> </p:ajax>
+						<f:selectItem  itemLabel="Selección Recurso" itemValue="-1" />
+						<f:selectItems value="#{eventosBean.select}" />
+						<p:ajax
+							listener="#{eventosBean.asignarRecurso()}">
+						</p:ajax>
+					</p:selectOneMenu>
+				</h:panelGroup>
+				 <p:graphicImage id="imagen" value="/imgevent/#{eventosBean.imagen}" width="150" height="150" />
+                 <h:outputText id="descr" value="#{eventosBean.descripcionrecurso}" />
+               	<h:outputText value="" />
+				<h:outputText value="Cantidad*: " />
+				<p:inputText  value="#{eventosBean.capacidad_recurso}" size="1" required="true" requiredMessage="Requerido Cantidad del Recurso" validatorMessage="Solo Numeros entre 1 y 1000">
+						<p:ajax	listener="#{eventosBean.controlarcantidad()}" update=":form3:pgrid :form3:msn"></p:ajax>
+				</p:inputText>
+				<p:commandButton id="trackcrears" value="agregar"
+					action="#{eventosBean.insertarDetalleSolicitud}"  update="form3"
+					icon="ui-icon-plusthick">
+					<p:tooltip id="toolTipTrac10" for="trackcrears" value="Bot&oacute;n para crear solicitud recurso" trackMouse="true" />
+				</p:commandButton>
+					</p:panelGrid>
+			<p:messages id="msn"></p:messages>
+			<p:dataTable value="#{eventosBean.solicitudCabTem.solicidetalles}" reflow="true" rows="8"
+				var="d" id="tablarecursosDets" emptyMessage="No hay información almacenada">
+				<f:facet name="header">
+					<h:outputText value="Detalle de Recursos:" />
+				</f:facet>
+				<p:column sortBy="#{d.horaInicio}" headerText="Fechas">
+					<h:outputText value="#{d.horaInicio}">
+						<f:convertDateTime pattern="yyyy-MM-dd"/>
+					</h:outputText>
+					&nbsp;&#713;&nbsp;
+					<h:outputText value="#{d.horaFin}">
+						<f:convertDateTime pattern="yyyy-MM-dd"/>
+					</h:outputText>
+	    		</p:column>
+	    		<p:column sortBy="#{d.horaInicio}"  headerText="Horas">
+					<h:outputText value="#{d.horaInicio}">
+						<f:convertDateTime pattern="HH:mm"/>
+					</h:outputText>
+					&nbsp;&#713;&nbsp;
+					<h:outputText value="#{d.horaFin}">
+						<f:convertDateTime pattern="HH:mm"/>
+					</h:outputText>
+	    		</p:column>	
+				<p:column sortBy="#{d.recurso.nombre}" >
+					<f:facet name="header">
+					Nombre
+				</f:facet>
+					<h:outputText value="#{d.recurso.nombre}" />
+				</p:column>
+				<p:column sortBy="#{d.recurso.descripcion}" >
+					<f:facet name="header">
+					Descripción
+				</f:facet>
+					<h:outputText value="#{d.recurso.descripcion}" />
+				</p:column>
+				<p:column sortBy="#{d.capacidad}" >
+					<f:facet name="header">
+					Cantidad
+				</f:facet>
+					<h:outputText value="#{d.capacidad}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Opciones</f:facet>
+					<p:commandButton id="trackquit"  actionListener="#{eventosBean.quitarDetalleSolicitud(d)}" update=":form3" icon="ui-icon-closethick">
+					<p:tooltip id="toolTipTrac6" for="trackquit" value="Bot&oacute;n para eliminar el recurso a solicitar" trackMouse="true" />
+					</p:commandButton> 
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	<p:commandButton id="trackcrear" value="Siguiente"
+					action="#{eventosBean.irsolres3}" update="form3"
+					icon="ui-icon-circle-arrow-e">
+	<p:tooltip id="toolTipTrac3" for="trackcrear" value="Siguiente paso 3" trackMouse="true" />
+					</p:commandButton>
+	</p:panel>
+</body>
+</html>

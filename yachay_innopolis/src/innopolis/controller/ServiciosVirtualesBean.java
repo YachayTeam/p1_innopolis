@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import innopolis.entities.Serviciosvirtregi;
-import innopolis.entities.Tipoestado;
-import innopolis.entities.Tiposervicio;
+import innopolis.entidades.Estadotiposervicio;
+import innopolis.entidades.Serviciosvirtregi;
+import innopolis.entidades.Tipoestado;
+import innopolis.entidades.Tiposervicio;
+import innopolis.entidades.help.UsuarioHelp;
 import innopolis.manager.ManagerRecursosVirtuales;
 
 import javax.faces.application.FacesMessage;
@@ -24,25 +26,109 @@ public class ServiciosVirtualesBean implements Serializable{
 	private Integer idSvr;
 	private Integer idestado;
 	private Integer idservi;
+	private Integer idestadotipser;
+	
 	private Tipoestado tipoestado;
-	private Tiposervicio tiposervicio;	
+	private Tiposervicio tiposervicio;
+	private Estadotiposervicio estadotipser;
+	
 	private String apellidos;
 	private int cedula;
 	private String correo;
 	private String nombres;
 	private String tema;
 	private String sms;
+	
+	private String nombreestipser;
+	private String url;
+	
 	private List<Serviciosvirtregi> liservicioreg;
 	private List<Tiposervicio> tiposervli;
 	private List<Tipoestado> tipoestli;
 	private String nomservicio;
 	
+	private UsuarioHelp session;
+	
 	public ServiciosVirtualesBean()  
 	{
+		session = SessionBean.verificarSession();
 		managerservirt = new ManagerRecursosVirtuales();
 		tiposervicio = new Tiposervicio();
-				
+		estadotipser = new Estadotiposervicio();	
 	}	
+	
+	/**
+	 * @return the idestadotipser
+	 */
+	public Integer getIdestadotipser() {
+		return idestadotipser;
+	}
+	/**
+	 * @param idestadotipser the idestadotipser to set
+	 */
+	public void setIdestadotipser(Integer idestadotipser) {
+		this.idestadotipser = idestadotipser;
+	}
+
+	/**
+	 * @return the estadotipser
+	 */
+	public Estadotiposervicio getEstadotipser() {
+		return estadotipser;
+	}
+
+	/**
+	 * @param estadotipser the estadotipser to set
+	 */
+	public void setEstadotipser(Estadotiposervicio estadotipser) {
+		this.estadotipser = estadotipser;
+	}
+
+	/**
+	 * @return the nombreestipser
+	 */
+	public String getNombreestipser() {
+		return nombreestipser;
+	}
+
+	/**
+	 * @param nombreestipser the nombreestipser to set
+	 */
+	public void setNombreestipser(String nombreestipser) {
+		this.nombreestipser = nombreestipser;
+	}
+
+	
+	/**
+	 * @return the session
+	 */
+	public UsuarioHelp getSession() {
+		return session;
+	}
+
+	/**
+	 * @param session the session to set
+	 */
+	public void setSession(UsuarioHelp session) {
+		this.session = session;
+	}
+	
+
+	/**
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * @param url the url to set
+	 */
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+
 	public String getSms() {
 		return sms;
 	}
@@ -158,59 +244,10 @@ public class ServiciosVirtualesBean implements Serializable{
 	public List<Tiposervicio> getListServicios(){
 			return managerservirt.findAllTipoServicio();
 	}
-	
-	//metodo para crear registros
-	public String crearRegistroServ(){
-		try {
-			managerservirt.insertarserviciovirtual(cedula, nombres, apellidos, tema, correo,sms);
-			//reiniciamos datos (limpiamos el formulario)
-			cedula=0;
-			nombres="";
-			apellidos="";
-			correo="";
-			tema="";
-			sms="";			
-			tipoestado = managerservirt.findEstadoTipoByID(1); // numero id del estado q quieres q sea
-			tiposervicio = new Tiposervicio();
-			idSvr=null;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
-		return "Serviciovirual";
-	}
-	
-	//metodo para modificar los registros
-	public String actualizarRegistro(){
-		managerservirt.editarserviciovirtual(idSvr, new Integer(cedula), nombres, apellidos, tema, correo, tipoestado.getIdEstado(), tiposervicio.getIdTp(),sms);
-		//limpiamos los datos
-		cedula=0;
-		nombres="";
-		correo="";
-		tema="";
-		apellidos="";
-		sms="";
-		try {
-			tipoestado = managerservirt.findEstadoTipoByID(1);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		tiposervicio = null;
-		idSvr=null;
-		FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Registro Actualizado ") );
-		return "AprovadorServiciovirtual";
-	}
-
 	//metodo para cargar la lista de servicios virtuales
 	public String Cargarregistros(Serviciosvirtregi serv)
 		{
 		idSvr= serv.getIdSvr();
-		cedula= serv.getCedula();
-		nombres= serv.getNombres();
-		apellidos= serv.getApellidos();
-		correo= serv.getCorreo();
 		tema= serv.getTema();
 		tipoestado= serv.getTipoestado();
 		tiposervicio= serv.getTiposervicio();
@@ -221,22 +258,48 @@ public class ServiciosVirtualesBean implements Serializable{
 		//metodo para crear nuevo tiposervicios
 		public String crearNuevoTipoServicio(){
 			try {
+				if (this.cnombreestipser(nomservicio)==true){
+					FacesContext context = FacesContext.getCurrentInstance();
+			        context.addMessage(null, new FacesMessage("Nombre Repetido..!!!",  "El Nombre ya esta siendo utilizado") );
+				}
+				else{								
+				managerservirt.insertarTipoServicio(getIdestadotipser(), nomservicio, url);
 				tiposervicio = null;
-				managerservirt.insertarTipoServicio(getNomservicio());	
-				//limpiar
+				url="";
+				//limpiar formulario
+				estadotipser = managerservirt.findEstadoTiposervByID(1); // numero id del estado q quieres q sea
 				setNomservicio("");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Creado correctamente",null));
+				}
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al ingresar nuevo tipo",null));
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
 			}
+			
 			return "";
+			
 		}
 		
+// metodo para comprobar el nombre servicio
+			public boolean cnombreestipser(String nombretipser){
+				List<Tiposervicio> u = managerservirt.findAllTipoServicio();
+				for (Tiposervicio us : u) {
+					if (nomservicio.equals(us.getNombreServicio())){
+						return true;
+					}
+				}
+				return false;
+			}	
+			
+			
+			
+			
 		//metodo cargar todos los tiposervicios
 		public String cargarDatostiposerv(Tiposervicio  tiposerv){
-			idservi= tiposerv.getIdTp();
+			idservi= tiposerv.getIdTp();			
 			nomservicio= tiposerv.getNombreServicio();
+			url= tiposerv.getUrl();
+			nombreestipser = tiposerv.getEstadotiposervicio().getEts();
 			return "editarserv";
 		}
 				
@@ -246,7 +309,7 @@ public class ServiciosVirtualesBean implements Serializable{
 				List<Tiposervicio> listadoServicio=managerservirt.findAllTipoServicio();
 				
 				for(Tiposervicio t:listadoServicio){
-					SelectItem item=new SelectItem(t.getIdTp(),t.getNombreServicio());
+					SelectItem item=new SelectItem(t.getIdTp(),t.getNombreServicio(),t.getNombreServicio());					
 					listadoTS.add(item);
 				}
 				return listadoTS;
@@ -276,40 +339,36 @@ public class ServiciosVirtualesBean implements Serializable{
 					return listadoTE;
 		}
 		
-		//metodo para cambiar el estado del registro
-		public String cambiarEstado(Serviciosvirtregi ser){
-			try {
-					managerservirt.cambioSMS(ser.getIdSvr());
+			
+		public String cambiarEstadoServ(Tiposervicio ser){
+			try {					
 					FacesContext context = FacesContext.getCurrentInstance();
-		        	context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioDisEstado(ser.getIdSvr())));
+		        	context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioEstadotiposer(ser.getIdTp())));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
 			return "";
 		}
-	
+		
+		
 		//accion para modificar los servicios
-		public String ActualizarServicio(){			
+		public String ActualizarServicio(){
+			String resp ="";
 				try {
-					managerservirt.editartiposervicio(getIdservi(),getNomservicio());
-					idservi=0;
-					idSvr=0;
-					nomservicio="";
+					managerservirt.editartiposervicio(getIdservi(),getNomservicio(), getUrl());
 					setNomservicio("");
-					setIdservi(0);					
+					setUrl("");
+					url="";
+					setIdservi(0);		
+					resp = "CrudServicio";
 					FacesContext context = FacesContext.getCurrentInstance();
 			        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Servicio Actualizado ") );
 					}
 				catch (Exception e) {
-					idservi=0;
-					idSvr=0;
-					nomservicio="";
-					setNomservicio("");
-					setIdservi(0);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));					
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
 				}
-			return "";
+			return resp;
 		}	
 				
 		//------ Envios paginas--------//				
@@ -320,14 +379,16 @@ public class ServiciosVirtualesBean implements Serializable{
 			correo="";
 			tema="";
 			apellidos="";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Volver", null));
 				try {
-						tipoestado = managerservirt.findEstadoTipoByID(1);
+						tipoestado = managerservirt.findEstadoTipoByID(1);						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} // numero id del estado q quieres q sea;
-					tiposervicio = new Tiposervicio();
-					idSvr=0;
+			tiposervicio = new Tiposervicio();
+			idSvr=0;
+					
 			return "/aprobador/aprovadorserviciovirtual";					
 		}		
 				
@@ -335,37 +396,17 @@ public class ServiciosVirtualesBean implements Serializable{
 		//limpiamos los datos				        
 				try {
 						tiposervicio = managerservirt.findServicioTipoByID(1);
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion Cancelada", null));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} // numero id del estado q quieres q sea;
 					tiposervicio = new Tiposervicio();
 					idSvr=0;
+					nomservicio="";
+					url="";
 				return "/admin/crudservicio";					
 		}	
-		
-		
-		//correo
-		//Tomar el id de estado general id_estadoSolicitud
-		public String enviarmensaje(Serviciosvirtregi serv){
-			try {
-				if(serv.getSms().equals("Notificado"))
-				{					
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo la notificación anteriormente", null));
-				}
-				else
-				{
-				managerservirt.cambioSMSenvio(serv.getIdSvr());
-				managerservirt.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", serv.getCorreo(), "Notificación de Centro de Emprendimiento","El usuario con apellido "+serv.getApellidos()+" con nombre "+serv.getNombres()+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+".");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo", null));
-				}
-			} catch (Exception e) {
-				
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar correo", null));
-			}
-			
-			return "";	
-		}		
 		
 		//metodo para deshabilitar botones
 		 private boolean disable;

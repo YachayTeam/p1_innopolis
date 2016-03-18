@@ -1,29 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="yachay_innopolis" transaction-type="RESOURCE_LOCAL">
-		<class>innopolis.entities.Contadore</class>
-		<class>innopolis.entities.Evento</class>
-		<class>innopolis.entities.Inscripcione</class>
-		<class>innopolis.entities.Recurso</class>
-		<class>innopolis.entities.Recursodisponible</class>
-		<class>innopolis.entities.Recursosactivo</class>
-		<class>innopolis.entities.Recursotipo</class>
-		<class>innopolis.entities.Serviciosvirtregi</class>
-		<class>innopolis.entities.Solicicabecera</class>
-		<class>innopolis.entities.Solicidetalle</class>
-		<class>innopolis.entities.Soliciestado</class>
-		<class>innopolis.entities.Tipoestado</class>
-		<class>innopolis.entities.Tipoevento</class>
-		<class>innopolis.entities.Tiposervicio</class>
-		<class>innopolis.entities.Tipoestadousr</class>
-		<class>innopolis.entities.Tipologin</class>
-		<class>innopolis.entities.Tipousr</class>
-		<class>innopolis.entities.Usuario</class>
+	<persistence-unit name="Yachayp1" transaction-type="RESOURCE_LOCAL">
+	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+<!-- 	<jta-data-source>java:/innopolisDatasource</jta-data-source> -->
+		<class>innopolis.entidades.Actividad</class>
+		<class>innopolis.entidades.Camposnuevo</class>
+		<class>innopolis.entidades.Coloreve</class>
+		<class>innopolis.entidades.Colorrec</class>
+		<class>innopolis.entidades.Colorsala</class>
+		<class>innopolis.entidades.Contadore</class>
+		<class>innopolis.entidades.Estadotiposervicio</class>
+		<class>innopolis.entidades.Evento</class>
+		<class>innopolis.entidades.Inscripcione</class>
+		<class>innopolis.entidades.Inter</class>
+		<class>innopolis.entidades.Interes</class>
+		<class>innopolis.entidades.Interesesmid</class>
+		<class>innopolis.entidades.Interinscam</class>
+		<class>innopolis.entidades.Recurso</class>
+		<class>innopolis.entidades.Recursodisponible</class>
+		<class>innopolis.entidades.Recursosactivo</class>
+		<class>innopolis.entidades.Recursotipo</class>
+		<class>innopolis.entidades.Saladisponible</class>
+		<class>innopolis.entidades.Sala</class>
+		<class>innopolis.entidades.Salasactiva</class>
+		<class>innopolis.entidades.Serviciosvirtregi</class>
+		<class>innopolis.entidades.Solicicabecera</class>
+		<class>innopolis.entidades.Solicidetalle</class>
+		<class>innopolis.entidades.Soliciestado</class>
+		<class>innopolis.entidades.Sugerencia</class>
+		<class>innopolis.entidades.Tipo</class>
+		<class>innopolis.entidades.Tipoestado</class>
+		<class>innopolis.entidades.Tipoestadousr</class>
+		<class>innopolis.entidades.Tipoevento</class>
+		<class>innopolis.entidades.Tiposervicio</class>
+		<class>innopolis.entidades.Usuario</class>
 		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/innopolis"/>
-			<property name="javax.persistence.jdbc.user" value="postgres"/>
+			<property name="eclipselink.target-server" value="JBoss"/>
+			<property name="eclipselink.weaving" value="true"/>
+			
+<!-- juanka		<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://10.1.0.158:5432/bd_inno"/> -->
+<!-- 			<property name="javax.persistence.jdbc.user" value="adm_bicichay"/> -->
+<!-- 			<property name="javax.persistence.jdbc.password" value="y-4IO4SDwu_!"/> -->
+<!-- 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/> -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/bd_inno"/>
+			<property name="javax.persistence.jdbc.user" value="u_inno"/>
+			<property name="javax.persistence.jdbc.password" value=",ngo4uIoo2|e"/>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-			<property name="javax.persistence.jdbc.password" value="root"/>
 		</properties>
 	</persistence-unit>
 </persistence>

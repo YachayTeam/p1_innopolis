@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      	xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"> 
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="styleser.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+	<title>Solicitudes Aprobadas</title>
+</h:head> 
+<body> 
+<h:form>  
+    <p:menubar>    	
+            <p:menuitem value="Eventos" action="/vistas/soleven.xhtml" icon="ui-icon-clipboard" />
+    
+       <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+	<h:form id="form">
+	<p:panel id="panel" header="Solicitudes Aprobadas">
+		<p:growl id="msn"></p:growl>
+		<p:dataTable id="dtsol" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+		{PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true"  reflow="true" rows="8"
+		value="#{solicitudApBean.listadoaprobxus}" var="sol" emptyMessage="No hay información almacenada">
+			<f:facet name="{exp}">
+			<h:commandLink>
+                <p:button  value="Excel" />
+                <p:dataExporter type="xls" target="dtsol" fileName="solicitudes" pageOnly="true" />
+            </h:commandLink> 
+            <h:commandLink>
+                <p:button  value="Pdf" />
+                <p:dataExporter type="pdf" target="dtsol" fileName="solicitudes" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>
+			<p:column id="f5" filterBy="#{sol.direccion}" sortBy="#{sol.direccion}" headerText="Solicitante">
+				<h:outputText value="#{sol.direccion}"></h:outputText>
+			</p:column>
+			<p:column  id="f1" filterBy="#{sol.actividad}"  sortBy="#{sol.direccion}" headerText="Actividad">
+				<h:outputText value="#{sol.actividad}"></h:outputText>
+    		</p:column>
+    		<p:column id="f2" headerText="Fecha" sortBy="#{sol.fecha}">
+				<h:outputText value="#{sol.fecha}">
+					<f:convertDateTime pattern="dd/MM/yyyy"/>
+				</h:outputText>
+    		</p:column>	
+    		<p:column headerText="Recursos" sortBy="#{rec.recurso.nombre}">
+    			<h:dataTable value="#{sol.solicidetalles}" var="rec">
+    				<h:column>
+						<h:outputText value="#{rec.recurso.nombre}"></h:outputText>
+					</h:column>
+    			</h:dataTable>
+    		</p:column>
+    		<p:column id="f3" sortBy="#{sol.soliciestado.estado}" headerText="Estado">
+    			<h:outputText value="#{sol.soliciestado.estado}"></h:outputText>
+    		</p:column>
+    		<p:column id="f4" sortBy="#{sol.sms}" headerText="Notificaci&oacute;n">    			
+    			<h:outputText value="#{sol.sms}"></h:outputText>
+    		</p:column>
+    		<p:column headerText="Imprimir solicitud" exportable="false">    			
+    			<b:commandButton id="trackcer6" styleClass="btn btn-info" iconAwesome="print" value="" action="#{solicitudApBean.imprimirRptDocumento(sol)}" update=":form">
+    			<p:tooltip id="toolTipTrack9" for="trackcer6" value="Imprimir la solicitud" trackMouse="true" />
+    			</b:commandButton>
+    		</p:column>				
+		</p:dataTable>
+	</p:panel>
+	</h:form>
+</body> 
+</html>

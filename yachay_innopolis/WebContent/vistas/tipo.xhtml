@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="styleser.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+<title>Tipos de Usuario</title>
+</h:head>
+<body>
+<h:form>  
+    <p:menubar>
+        <p:menuitem value="Usuarios" action="/vistas/administracionusuarios.xhtml" icon="ui-icon-clipboard" />
+          <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<div class="div1">
+<hr/>
+<!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
+<hr/>
+<h:form id="form1" >
+	<p:growl id="message" showDetail="true" />
+	<p:panel id="panel1"  header="Registro de Tipos de Usuario">
+		<p:panelGrid columns="2" >
+			<h:outputText value="Tipo*: "/>
+			<p:inputText required="true" id="tipo" value="#{tipoBean.tipo}" requiredMessage="Requerido tipo del recurso" validatorMessage="Tipo de tipo obligatorio">
+			</p:inputText>
+			<h:outputText value="Descripcion*: "/>
+			<p:inputText required="true" id="des" value="#{tipoBean.descripcion}" requiredMessage="Requerido descripci&oacute;n del recurso" validatorMessage="Tipo de descripci&oacute;n obligatorio">
+			</p:inputText>
+			<h:outputText value="Seleccion de Permisos*: "/>
+			<p:selectCheckboxMenu  required="true" id="menu" value="#{tipoBean.arrayTipoLogin}" label="-------"
+                               panelStyle="width:250px"  requiredMessage="Requerido permiso">
+            <f:selectItems value="#{tipoBean.listaActividades}" itemValue="#{tipoBean.actividad.idActividad}" />
+        </p:selectCheckboxMenu>
+    	<p:commandButton id="trackguardar" update="panel1 :form2:panel2 message" value="Insertar" action="#{tipoBean.crearTipo}">
+			</p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+<hr/>
+<h:form id="form2">
+<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2" header="Lista de Tipos">
+		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+		{PageLinks} {NextPageLink} {LastPageLink}" paginator="true"  reflow="true" rows="8"   
+		value="#{tipoBean.listTipo}" var="lu" emptyMessage="No hay información almacenada">
+			<p:column id="f1" filterBy="#{lu.tipo}" sortBy="#{lu.tipo}" headerText="Tipo">
+				<h:outputText value="#{lu.tipo}"></h:outputText>
+			</p:column>
+			<p:column id="f2" headerText="Descripci&oacute;n">
+				<h:outputText value="#{lu.descripcion}"></h:outputText>
+			</p:column>
+			<p:column id="f3" headerText="Permisos">
+        			<p:dataList value="#{tipoBean.permisos(lu)}" var="permiso" emptyMessage="Ningun permiso registrado">
+            			#{permiso}
+        			</p:dataList>
+			</p:column>
+			<p:column headerText="Editar" exportable="false">
+				<p:commandButton id="trackrev" icon="ui-icon-pencil">
+				<p:ajax listener="#{tipoBean.cargarTipo(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+				</p:commandButton>
+    		</p:column>			
+		</p:dataTable>
+		
+	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Tipo" showEffect="clip" hideEffect="clip">
+	<p:panelGrid columns="2" >
+			<h:outputText value="Idetificaci&oacute;n: "/>
+			<h:outputText value="#{tipoBean.idTipo}" ></h:outputText>
+			<h:outputText value="Tipo*: "/>
+			<p:inputText id="can" value="#{tipoBean.tipo}"></p:inputText>
+			<h:outputText value="Descripci&oacute;n*: "/>
+			<p:inputText id="can2" value="#{tipoBean.descripcion}"></p:inputText>
+			<h:outputText value="Seleccione Permisos: " for="advanced"/>
+			<h:outputText></h:outputText>
+			<p:selectOneMenu id="sml" styleClass="t" value="#{tipoBean.del}">
+						<f:selectItem  itemLabel="-Quitar-" itemValue="-1" />
+						<f:selectItems value="#{tipoBean.listocupado}" />
+						<p:ajax
+							listener="#{tipoBean.asignarActiO()}">
+						</p:ajax>
+					</p:selectOneMenu>       		 
+             <p:selectOneMenu id="smo" styleClass="t" value="#{tipoBean.add}">
+						<f:selectItem  itemLabel="-Añadir-" itemValue="-1" />
+						<f:selectItems value="#{tipoBean.listlibre}" />
+						<p:ajax
+							listener="#{tipoBean.asignarActil()}">
+						</p:ajax>
+					</p:selectOneMenu> 
+					<p:commandButton  update=":form2:sml :form2:smo" id="trackcambiomen" icon="ui-icon-minus" action="#{tipoBean.del}">
+					<p:tooltip id="toolTipTrack3" for="trackcambiomen" value="Bot&oacute;n para eliminar un tipo" trackMouse="true" />
+			</p:commandButton>    
+		<p:commandButton  update=":form2:sml :form2:smo" id="trackmas" icon="ui-icon-plus" action="#{tipoBean.add}">
+		<p:tooltip id="toolTipTrack5" for="trackmas" value="Bot&oacute;n para agregar un tipo" trackMouse="true" />
+			</p:commandButton>
+			 
+			<p:commandButton id="trackedi" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-disk" action="#{tipoBean.actualizarTipo}">
+			</p:commandButton>
+			<p:commandButton id="trackvol" value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2"  action="#{tipoBean.irTipo2}">
+			</p:commandButton>
+		</p:panelGrid>
+</p:dialog>			
+	</p:panel>
+</h:form>
+</div>
+</body>
+</html>

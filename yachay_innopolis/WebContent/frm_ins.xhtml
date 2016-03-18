@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	<title>Inscripci&oacute;n</title>
+	<h:outputStylesheet library="css" name="style.css" />
+	  <link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico"/>
+</h:head> 
+<body>
+	<h:form>  
+	    <p:menubar>
+	      <f:facet name="options">
+            <p:commandButton id="tracksalir" value="Volver"  action="index.xhtml" icon=" ui-icon-closethick">
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+	    </p:menubar>
+	</h:form>
+	<hr/> 
+	<h:form id="form">
+		<p:growl id="message" showDetail="true" />
+		<p:panel id="panel2" header="Datos de Inscripci&oacute;n">
+		 <div class="ui-grid ui-grid-responsive">
+	  <div class="ui-grid-row">
+	  <div class="ui-grid-col-2">
+	  <h:outputText value="Vista previa: "/>
+				<p:graphicImage id="imagen" value="/imgevent/#{calusrBean.imagenPago}" width="300" height="300" />
+		</div>
+		<div class="ui-grid-col-4">
+			<p:panelGrid columns="2">
+				<h:outputText value="Nombres* : " />
+				<p:inputText required="true" value="#{calusrBean.nombre}" requiredMessage="Requerido Nombre"></p:inputText>
+				<h:outputText value="Apellidos* : "/>
+				<p:inputText required="true" value="#{calusrBean.apellido}" requiredMessage="Requerido Apellido"></p:inputText>
+				<h:outputText value="Correo* :" />
+				<p:inputText required="true" value="#{calusrBean.correo}" requiredMessage="Requerido Correo" validatorMessage="Formato de correo inv&aacute;lido">
+				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
+				<h:outputText value="Comprobante de Pago: "/>
+				<p:fileUpload id="tracksubir" required="true" mode="advanced" dragDropSupport="false" update=":form:message :form:imagen" 
+					sizeLimit="3145728" fileLimit="1" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"
+					uploadLabel="Subir" label="Seleccionar" fileUploadListener="#{calusrBean.ImagenServ}" requiredMessage="Requerido Imagen">
+					<p:tooltip id="toolTipTrac1" for="tracksubir" value="Botón para Subir Imagen de Pago" trackMouse="true" />
+					</p:fileUpload>
+    			
+				<h:outputText value="Observaciones* : " />
+				<p:inputTextarea required="true" value="#{calusrBean.observacion}" rows="5" cols="40" autoResize="false" requiredMessage="Requerido Observaci&oacute;n">
+				<f:validateLength minimum="10"/>
+				</p:inputTextarea>
+				<h:outputText value=""/>
+			 	<h:outputText value=""/>
+			 	<h:outputText value=""/>  
+				<h:dataTable id="campos" value="#{calusrBean.listcamponuevo}" var="reg">			 
+			        <h:column>
+			            <p:outputLabel  value="#{reg.etiqueta}:" />			            
+			        </h:column>			        		        
+			        <h:column>
+			            <p:inputText required="true" value="#{reg.campo}" requiredMessage="Requerido campo" />			           
+			        </h:column>			        			
+			 	</h:dataTable>	 
+			 	 
+				<p:commandButton id="trackins"  value="Inscribirse" action="#{calusrBean.inscribirse}" update="panel2 message">
+				<p:tooltip id="toolTipTrack7" for="trackins" value="Bot&oacute;n para inscribirse al evento" trackMouse="true" />
+				</p:commandButton>
+				<p:commandButton id="trackclim" type="reset" value="Limpiar">
+				<p:tooltip id="toolTipTrack8" for="trackclim" value="Bot&oacute;n para limpiar los campos" trackMouse="true" /></p:commandButton>
+			</p:panelGrid>
+			</div>
+			</div>
+			</div>
+		</p:panel>
+	</h:form>
+<h:form id="form3">
+	<p:growl id="message3" showDetail="true" />
+	
+</h:form>
+</body> 
+</html>	
+		

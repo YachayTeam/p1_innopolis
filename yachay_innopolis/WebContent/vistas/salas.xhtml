@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="styleser.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+<title>Salas</title>
+</h:head>
+<body>
+<h:form>  
+    <p:menubar>
+             <p:menuitem value="Gestión de Recursos" action="/vistas/recurso.xhtml" icon="ui-icon-suitcase" />
+         <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<div class="div1">
+<hr/>
+<!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
+<hr/>
+<h:form id="form1" >
+	<p:growl id="message" showDetail="true" />
+	<p:panel id="panel1"  header="Registro de Salas">
+		<p:panelGrid columns="4" >
+			<h:outputText value="Nombre de Sala* :"/>
+			<p:inputText required="true" id="tipo" value="#{salasBean.tiponom}" requiredMessage="Requerido Ubicaci&oacute;n" validatorMessage="Ubicaci&oacute;n Obligatorio">
+			<p:ajax listener="#{salasBean.asignarNombreImagen}" />
+			</p:inputText>
+			<h:outputText value="Descripción* :"/>
+			<p:inputTextarea required="true" id="des"   rows="4" cols="21" autoResize="true" value="#{salasBean.descripcion}" requiredMessage="Requerido Descripci&oacute;n" validatorMessage="Descripción Requerida">
+			</p:inputTextarea>
+			<h:outputText value="Color* :" />
+       	    <h:panelGroup>  
+			<p:selectOneMenu required="true" styleClass="t" value="#{salasBean.idcolor}" requiredMessage="Requerido Color">
+			<f:selectItem  itemLabel="Selección Color" itemValue="" />
+			<f:selectItems value="#{salasBean.listacolorid}" />
+			<p:ajax
+				listener="#{salasBean.asignarTipocolor()}">
+			</p:ajax>
+			</p:selectOneMenu>
+			</h:panelGroup>
+			<h:outputText value="Capacidad* :"/>
+			<p:inputText required="true" id="capacidad" value="#{salasBean.capacidad}" requiredMessage="Requerida Capacidad" validatorMessage="Capacidad Obligatoria">
+			</p:inputText>
+			<h:outputText value="Imagen: "/>
+			 <p:fileUpload mode="advanced" dragDropSupport="true" update=":form1:message :form1:imagen" sizeLimit="2097152"
+			 multiple="false" invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" 
+			 fileLimitMessage="Solo una imagen por Ubicación" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar" 
+			 uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{salasBean.ImagenServ}">
+    		</p:fileUpload>
+	 	 	<h:outputText value="Vista Previa: "/>      			 			 
+   			<p:graphicImage id="imagen" value="/imgevent/#{salasBean.imagen}" width="150" height="150" />
+		    <h:outputText value=""/>      			 			 
+			<p:commandButton id="trackguardar" update="panel1 :form2:panel2 message" value="Agregar" action="#{salasBean.crearNuevoRecursoTipo}">
+			<p:tooltip id="toolTipTrack1" for="trackguardar" value="Bot&oacute;n para crear una Sala" trackMouse="true" />
+			</p:commandButton>  
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+<hr/>
+<h:form id="form2">
+<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2" header="Lista de Salas">
+		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} 
+		{NextPageLink} {LastPageLink} {exp}" paginator="true" rows="8"  reflow="true" value="#{salasBean.listado}" 
+		var="lu" emptyMessage="No hay información almacenada">
+			<f:facet name="{exp}">
+			<h:commandLink>
+                <p:button  value="Excel" />
+                <p:dataExporter type="xls" target="dt" fileName="recursos_registrados" pageOnly="true" />
+            </h:commandLink>
+            <h:commandLink>
+                <p:button  value="Pdf" />
+                <p:dataExporter type="pdf" target="dt" fileName="recursos_registrados" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>
+			<p:column id="f1" filterBy="#{lu.tipo}" sortBy="#{lu.tipo}" headerText="Sala">
+				<h:outputText value="#{lu.tipo}"></h:outputText>
+			</p:column>
+			<p:column id="f2" filterBy="#{lu.descripcion}" sortBy="#{lu.descripcion}" headerText="Descripción">
+				<h:outputText value="#{lu.descripcion}"></h:outputText>
+			</p:column>
+			<p:column id="f6" filterBy="#{lu.capacidad}" sortBy="#{lu.capacidad}" headerText="Capacidad">
+				<h:outputText value="#{lu.capacidad}"></h:outputText>
+			</p:column>
+			<p:column width="152" headerText="Imagen" exportable="false">
+			<p:graphicImage width="150" height="150" value="/imgevent/#{lu.imagen}"></p:graphicImage>
+			</p:column>	
+			<p:column headerText="Color">
+				<h:outputText value="#{lu.colorsala.color}"  style="color: \##{lu.colorsala.colorcod}"></h:outputText>
+			</p:column>
+			<p:column id="f8" filterBy="#{lu.saladisponible.disponible}" sortBy="#{lu.saladisponible.disponible}" headerText="Estado">
+				<h:outputText value="#{lu.saladisponible.disponible}"></h:outputText>				
+			</p:column>
+			<p:column headerText="Opciones" exportable="false">
+				<p:commandButton id="trackrev" icon="ui-icon-pencil">
+				<p:tooltip id="toolTipTrack5" for="trackrev" value="Bot&oacute;n para observar la Información de la Sala" trackMouse="true" />
+				<p:ajax listener="#{salasBean.cargarDatosRecTipo(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+				</p:commandButton>
+				<p:commandButton id="trackcamb" icon="ui-icon-refresh" actionListener="#{salasBean.cambiarEstado(lu)}" update=":form2:panel2 :form2:message2">
+				<p:tooltip id="toolTipTrack3" for="trackcamb" value="Bot&oacute;n para cambiar el estado de la sala" trackMouse="true" />
+				</p:commandButton>
+    		</p:column>			
+		</p:dataTable>
+		
+		<p:dialog header="Imagen" modal="true" closable="true"  closeOnEscape="true"  showEffect="fade" hideEffect="fade" resizable="false" widgetVar="imagendlg" id="imagendlg"> 
+            <p:panelGrid id="imagen1" columns="1" >
+                <f:facet name="header">
+        		</f:facet>
+        		  </p:panelGrid>
+   		</p:dialog>					
+   		
+	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Sala" showEffect="clip" hideEffect="clip">
+	<p:panelGrid columns="2" >
+			<h:outputText value="Identificaci&oacute;n: "/>
+			<h:outputText value="#{salasBean.idRectipo}" ></h:outputText>
+			<h:outputText value="Sala: "/>
+			<p:inputText id="can" value="#{salasBean.tiponom}">
+			</p:inputText>
+			<h:outputText value="Descripción :"/>
+			<p:inputTextarea   rows="4" cols="21" autoResize="true" value="#{salasBean.descripcion}" >
+			</p:inputTextarea>
+			<h:outputText value="Capacidad: "/>
+			<p:inputText id="capa" value="#{salasBean.capacidad}">
+			</p:inputText>
+			<h:outputText value="Escoger Color: " />
+  			<h:panelGroup>  
+			<p:selectOneMenu  value="#{salasBean.idcolor}">
+			<f:selectItem  itemLabel="Seleccione el Color" itemValue=""/>
+			<f:selectItems value="#{salasBean.listacolorid}" />
+			<p:ajax
+				listener="#{salasBean.asignarTipocolor()}">
+			</p:ajax>
+			</p:selectOneMenu>
+			</h:panelGroup> 
+			<h:outputText value="Imagen: "/>
+			<p:fileUpload mode="advanced" dragDropSupport="true" multiple="false" update="imagen" sizeLimit="2097152" 
+			invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" 
+			fileLimitMessage="Solo una imagen por Ubicación" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"   
+			uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{salasBean.ImagenServ}">
+    		</p:fileUpload> 
+   			 <h:outputText value="Vista Previa: "/>   			 
+   			 <p:graphicImage id="imagen" value="/imgevent/#{salasBean.imagen}" width="150" height="150" />
+			<p:commandButton id="trackedi" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-disk" action="#{salasBean.modificarSala}">
+			<p:tooltip id="toolTipTrack3" for="trackedi" value="Bot&oacute;n para editar la Sala" trackMouse="true" />
+			</p:commandButton>
+			<p:commandButton id="trackvol" value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{salasBean.cancelarModificacion}">
+			<p:tooltip id="toolTipTrack4" for="trackvol" value="Bot&oacute;n para cancelar" trackMouse="true" />
+			</p:commandButton>
+		</p:panelGrid>
+</p:dialog>			
+	</p:panel>
+</h:form>
+</div>
+</body>
+</html>

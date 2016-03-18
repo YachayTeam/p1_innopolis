@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="style.css" />
+	<link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico"/>
+	<title>Inscripci&oacute;n</title>
+</h:head> 
+<body>
+	<h:form>  
+	    <p:menubar>
+	      <f:facet name="options">
+            <p:commandButton id="tracksalir" value="Volver"  action="/vistas/eventos.xhtml" icon="ui-icon-home">
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+	    </p:menubar>
+	</h:form>
+	<hr/> 
+	<h:form id="form">
+		<p:growl id="message" showDetail="true" />
+		<p:panel id="panel" header="Datos de Inscripci&oacute;n">
+			<p:panelGrid columns="4">
+				<h:outputText value="Nombres* : " />
+				<p:inputText disabled="true" ></p:inputText>
+				<h:outputText value="Apellidos* : "/>
+				<p:inputText disabled="true"  ></p:inputText>
+				<h:outputText value="Correo* :" />
+				<p:inputText disabled="true">
+				</p:inputText>
+				<h:outputText value="Comprobante de Pago: "/>
+				<p:fileUpload disabled="true" mode="advanced" dragDropSupport="false" fileLimit="1" cancelLabel="Cancelar"
+					uploadLabel="Subir" label="Seleccionar">
+					</p:fileUpload>
+    			<h:outputText value="Vista previa: "/>
+    			<h:outputText value=""/>
+				<h:outputText value="Observaciones* : " />
+				<p:inputTextarea   disabled="true"  rows="5" cols="40" autoResize="false" >				
+				</p:inputTextarea>				
+				<p:commandButton id="trackins" disabled="true"  value="Inscribirse" action="#{calusrBean.inscribirse}">
+				<p:tooltip id="toolTipTrack7" for="trackins" value="Bot&oacute;n para inscribirse al evento" trackMouse="true" />
+				</p:commandButton>
+				<p:commandButton id="trackclim" disabled="true" type="reset" value="Limpiar">
+				<p:tooltip id="toolTipTrack8" for="trackclim" value="Bot&oacute;n para limpiar los campos" trackMouse="true" /></p:commandButton>
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+	<h:form id="form2">
+	<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2" header="Campos nuevos">
+				<h:dataTable id="campos" value="#{inscripediBean.inputs}"  reflow="true" var="input">			 
+			        <h:column>
+			            <p:outputLabel for="input" value="#{input.label}" />			            
+			        </h:column>			        
+			        <h:column>
+			            <p:inputText required="true" id="input" value="#{input.value}"  requiredMessage="Requerido campo"/>			           
+			        </h:column>
+			 	</h:dataTable>
+			    <p:commandButton value="Agregar campo" action="#{inscripediBean.add}" update="campos form2" />			    
+			    <p:commandButton id="trackins" value="Guardar" action="#{inscripediBean.crearcampo}" update=":form2 panel2 message2 :form3">
+				<p:tooltip id="toolTipTrack12" for="trackins" value="Bot&oacute;n para guardar el formato" trackMouse="true" />
+				</p:commandButton>
+</p:panel>
+</h:form>
+
+<h:form id="form3">
+	<p:growl id="message3" showDetail="true" />
+	<p:panel id="panel3" header="Campos guardados">
+				<h:dataTable id="campos" value="#{inscripediBean.listcamponuevo}" var="reg">			 
+			        <h:column>
+			            <p:outputLabel  value="#{reg.etiqueta}" />			            
+			        </h:column>			        		        
+			        <h:column>
+			            <p:inputText disabled="true"  />			           
+			        </h:column>
+			        <h:column>
+			        <p:commandButton id="tracknew" icon="ui-icon-pencil" action="#{inscripediBean.cargarcampo(reg)}"  update=":form3" oncomplete="PF('dlg1').show();">
+					<p:tooltip id="toolTipTrack14" for="tracknew" value="Bot&oacute;n para editar el campo" trackMouse="true" />
+					</p:commandButton>
+					</h:column>
+			        <h:column>
+			        <p:commandButton id="trackeli" icon=" ui-icon-closethick" action="#{inscripediBean.eliminarcamponu(reg)}" update=":form3 ">
+					<p:tooltip id="toolTipTrack115" for="trackeli" value="Bot&oacute;n para borrar el campo" trackMouse="true" />
+					</p:commandButton>
+					</h:column>					
+			 	</h:dataTable>
+			 	
+	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="false"  header="Información Campo" showEffect="clip" hideEffect="clip">
+		<p:panelGrid  columns="2" >			
+			<h:outputText value="Etiqueta:"/>
+			<p:inputText  id="etiq" value="#{inscripediBean.etiqueta}" ></p:inputText>
+				
+   			<p:commandButton id="trackeditarev"  style="width:100%"  icon="ui-icon-pencil" value="Editar Evento" action="#{inscripediBean.actualizarcampo}" update=":form3:panel3 :form3:message3">
+   				<p:ajax listener="#{eventosBean.asignarTipoeve()}"></p:ajax>
+   			<p:tooltip id="toolTipTrack5" for="trackeditarev" value="Bot&oacute;n para editar el campo" trackMouse="true" />
+   			</p:commandButton>
+   			<p:commandButton id="trackcerr" update=":form3:panel3" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{inscripediBean.irEvento}">
+			<p:tooltip id="toolTipTrack6" for="trackcerr" value="Bot&oacute;n para Cancelar" trackMouse="true" />
+			</p:commandButton>
+		</p:panelGrid>
+		</p:dialog>			    
+</p:panel>
+</h:form>
+</body> 
+</html>	
+				

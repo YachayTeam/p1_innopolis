@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<h:outputStylesheet library="css" name="styleser.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+	<title>Ver Solicitud de Recursos</title>
+</h:head>
+<body>
+<p:panel id="panel1">
+	<h:form id="form2">
+		<p:panel header="Datos de Solicitud">
+			<p:panelGrid columns="2">
+				<h:outputText value="Direcci&oacute;n"/>
+				<h:inputText value="#{eventosBean.direccion}"></h:inputText>
+				<h:outputText value="Actividad" />
+				<h:inputTextarea value="#{eventosBean.actividad}" disabled="true"></h:inputTextarea>
+				<h:outputText value="Objetivo" />
+				<h:inputTextarea value="#{eventosBean.objetivo}" ></h:inputTextarea>
+				<h:outputText value="Justificaci&oacute;n" />
+				<h:inputTextarea value="#{eventosBean.justificacion}" ></h:inputTextarea>	
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+	<h:form id="form3" >
+		<p:panel header="Detalle de recursos">
+			<p:panelGrid columns="5" border="1">
+				<h:outputText value="Fecha y Horario:" />
+				<p:calendar  mindate="#{eventosBean.fi}" maxdate="#{eventosBean.ff}" id="fecha" value="#{eventosBean.recursofecha}" pattern="yyyy-MM-dd" mask="true" />
+				<pe:timePicker minHour="#{eventosBean.fechaInicio.hours}" minMinute="#{eventosBean.fechaInicio.minutes}"
+					maxHour="#{eventosBean.fechaFin.hours}" maxMinute="#{eventosBean.fechaFin.minutes}"
+					value="#{eventosBean.h_inicio}" timeSeparator="-" startHours="8" endHours="18"  
+                   startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
+                   showDeselectButton="true" rows="3"  style="width:70px;" 
+                   widgetVar="customTimeWidget1" label="Hora Inicio"/>
+				<pe:timePicker minHour="#{eventosBean.fechaInicio.hours}" minMinute="#{eventosBean.fechaInicio.minutes}"
+					maxHour="#{eventosBean.fechaFin.hours}" maxMinute="#{eventosBean.fechaFin.minutes}"
+				   value="#{eventosBean.h_fin}" timeSeparator="-" startHours="8" endHours="18"  
+                   startMinutes="00" endMinutes="45" intervalMinutes="15" showCloseButton="true"  
+                   showDeselectButton="true" rows="3"  style="width:70px;" 
+                   widgetVar="customTimeWidget2" label="Hora Fin"/>
+<!--                 <p:commandButton value="Ver recursos" update=":form3:listrec :form3:msn" actionListener="#{eventosBean.()}"></p:commandButton>     -->
+				<h:outputText value="Recursos:" />
+				<h:panelGroup id="listrec">  
+					<p:selectOneMenu  value="#{eventosBean.id_recurso}">
+						<f:selectItem  itemLabel="Seleccione un producto..!!" itemValue="-1" />
+						<f:selectItems value="#{eventosBean.select}" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputText value="Capacidad Necesaria:" />
+				<p:inputText value="#{eventosBean.capacidad_recurso}"></p:inputText>
+				<p:commandButton id="trackcrears" value="Adicionar"
+					action="#{eventosBean.adicionarDetalles()}" update=":form3"
+					icon="ui-icon-plusthick">
+					<p:tooltip id="toolTipTrac1" for="trackcrears" value="Bot&oacute;n para crear una solicitud" trackMouse="true" />
+				</p:commandButton>
+			</p:panelGrid>
+			<p:messages id="msn"></p:messages>
+			<p:dataTable value="#{eventosBean.listDetSolEv}" reflow="true" rows="8"
+				var="d" id="tablarecursosDets">
+				<f:facet name="header">
+					<h:outputText value="Detalle de Recursos:" />
+				</f:facet>
+				<p:column>
+					<f:facet name="header">Quitar</f:facet>
+					<p:commandButton id="trackquitar" actionListener="#{eventosBean.quitarDetalleSolicitud(d)}" update=":form3" icon="ui-icon-closethick">
+					<p:tooltip id="toolTipTrac1" for="trackquitar" value="Bot&oacute;n para desagregar el recurso en la solicitud " trackMouse="true" />
+					</p:commandButton> 
+				</p:column>
+				<p:column sortBy="#{d.fechadet}"  headerText="Fecha">
+					<h:outputText value="#{d.fechadet}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+	    		</p:column>
+	    		<p:column sortBy="#{d.horaFin}"  headerText="Horas">
+					<h:outputText value="#{d.horaInicio}">
+						<f:convertDateTime pattern="HH:mm"/>
+					</h:outputText>
+					&nbsp;&#713;&nbsp;
+					<h:outputText value="#{d.horaFin}">
+						<f:convertDateTime pattern="HH:mm"/>
+					</h:outputText>
+	    		</p:column>	
+				<p:column sortBy="#{d.recurso.nombre}" >
+					<f:facet name="header">
+					Nombre
+				</f:facet>
+					<h:outputText value="#{d.recurso.nombre}" />
+				</p:column>
+				<p:column sortBy="#{d.recurso.descripcion}" >
+					<f:facet name="header">
+					Descripción
+				</f:facet>
+					<h:outputText value="#{d.recurso.descripcion}" />
+				</p:column>
+				<p:column sortBy="#{d.capacidad}" >
+					<f:facet name="header">
+					Capacidad1
+				</f:facet>
+					<h:outputText value="#{d.capacidad}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+		<p:commandButton id="trackregistrar" value="Actualizar" onclick="PF('cd').show()">
+		</p:commandButton>
+		<p:confirmDialog header="Actualizar" message="Esta seguro de guardar los datos?" showEffect="fade" hideEffect="explode" widgetVar="cd">
+	        <p:commandButton value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" oncomplete="PF('cd').hide()" action="#{eventosBean.guardarEvSol}" update=":form3"/>
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('cd').hide()"/>
+	    </p:confirmDialog>
+	</h:form>
+</p:panel>
+</body>
+</html>

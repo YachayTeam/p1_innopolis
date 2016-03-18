@@ -1,19 +1,24 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui" 
+	xmlns:b="http://bootsfaces.net/ui"	
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Registro Usuario</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="styleser.css" />
+  <link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico"/>
+<title>Registro de Usuario</title>
+
 </h:head>
 <body>
 <h:form>  
     <p:menubar>
-        <p:menuitem value="Volver" url="index.xhtml" icon="ui-icon-circle-triangle-w" />        
         <f:facet name="options">
-            <p:commandButton type="button" icon="ui-icon-person"  />
+            <p:commandButton id="tracksalir" value="Volver"  action="index.xhtml" icon=" ui-icon-closethick">
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+            </p:commandButton>
         </f:facet>
     </p:menubar>
 </h:form>
@@ -21,30 +26,136 @@
 <h:form id="form2" >
 	<p:growl id="message2" showDetail="true" />
 	<p:panel id="panel2"  header="Registro de Usuarios">
-		<p:panelGrid columns="2" >
-			<h:outputText value="Apellidos*"/>
-			<p:inputText required="true" id="apellidos" value="#{loginBean.apellido}" requiredMessage="Requerido Apellidos"></p:inputText>
-			<h:outputText value="Nombres*"/>
-			<p:inputText required="true" id="nombres" value="#{loginBean.nombre}" requiredMessage="Requerido Nombres"></p:inputText>			
-			<h:outputText value="Correo*"/>
-			<p:inputText required="true" id="correo" requiredMessage="Por favor Ingrese su Correo." validatorMessage="Formato de correo invalido" value="#{loginBean.correo}">
+		<p:panelGrid columns="4" >
+		<h5 style="margin-top: 0">Ingrese información válida para ser registrado.</h5>
+		<h6 style="margin-top: 0">*En el campo Interés por favor ingrese la descripción de actividad</h6>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Cédula/Pasaporte* :"/>
+			<p:inputText required="true" id="cedula" value="#{registroBean.cedula}" requiredMessage="Requerida/o Cédula/Pasaporte">
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Apellidos* :"/>
+			<p:inputText required="true" id="apellidos" value="#{registroBean.apellido}" requiredMessage="Requerido Apellidos" validatorMessage="El apellido debe contener solo letras">
+			<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Nombres* :"/>
+			<p:inputText required="true" id="nombres" value="#{registroBean.nombre}" requiredMessage="Requerido Nombres" validatorMessage="El nombre debe contener solo letras">
+			<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>			
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Correo* :"/>
+			<p:inputText required="true" id="correo" requiredMessage="Por favor ingrese su Correo." validatorMessage="Formato de correo inv&aacute;lido" value="#{registroBean.correo}">
 			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			</p:inputText>
-			<p:watermark for="correo" value="" />
-			<p:message for="correo" />
-			<h:outputText value="Alias*"/>
-			<p:inputText required="true" id="alias" value="#{loginBean.alias}" requiredMessage="Requerido alias">
-			<f:validateLength minimum="5"/>
-			</p:inputText>
-			<h:outputText value="Contrase�a*"/>
-			<p:inputText required="true" id="pass" value="#{loginBean.password}" requiredMessage="Requerida contrase�a">
-			<f:validateLength minimum="5"/>
-			</p:inputText>						
-			<p:commandButton id="trackregistrar" value="Registrarme" action="#{loginBean.registrarUsr}" update=":form2:panel2 :form2:message2">
-			<p:tooltip id="toolTipTrac1" for="trackregistrar" value="Bot�n para Registrarse" trackMouse="true" />
-			</p:commandButton>     		
-			</p:panelGrid>						
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Repetir Correo* :"/>
+			<p:inputText required="true" id="correo1" validatorMessage="Formato de correo invalido" value="#{registroBean.rcorreo}" requiredMessage="Por favor ingrese su correo." >
+			 <!-- <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z])$" />  -->
+			</p:inputText>			
+			<!--h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Nombre de Usuario* :"/>
+			<p:inputText required="true" id="alias" value="#{registroBean.alias}" requiredMessage="Requerido Alias" validatorMessage="Alias contiene caracteres no permitidos o posee un tamaño menor a 4">
+			<f:validateRegex pattern="[a-zA-Z]+"/>
+			<f:validateLength minimum="4"/>
+			</p:inputText> 
+			<h:outputText value=""/-->
+			<h:outputText value=""/>
+			<h:outputText value="Contraseña* :"/>			
+			<p:password required="true" id="pass" redisplay="true" value="#{registroBean.password}" feedback="true" requiredMessage="Requerida Contraseña"
+			goodLabel="Buena" strongLabel="Fuerte" weakLabel="Débil" promptLabel="Por favor ingrese contraseña"
+			validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+			</p:password>		
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Repetir Contraseña* :"/>
+			<p:password required="true" id="pass1" redisplay="true" value="#{registroBean.rpassword}" feedback="true" requiredMessage="Requerido Contraseña" 
+			goodLabel="Buena" strongLabel="Fuerte" weakLabel="Débil" promptLabel="Por favor ingrese contraseña"
+			validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+			<f:validateRegex pattern="[a-zA-Z0-9.]+" />
+			<f:validateLength minimum="7"/>
+			</p:password>		
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			
+			<h:outputText value="¿Qué actividad realizas?"/>	
+			<p:selectOneRadio value="#{registroBean.panel1}">
+			 <f:selectItem itemLabel="Trabajas" itemValue="Show-Panel1" />
+			 <f:selectItem itemLabel="Estudias" itemValue="Show-Panel2" />
+			 <f:ajax render="payment-amount-panel" />
+			</p:selectOneRadio>	
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value=""/>			
+			 <p:panelGrid style="border:none;margin:0 auto;width:500px;" id="payment-amount-panel" columns="2" >
+			 <p:fieldset rendered="#{registroBean.panel1 == 'Show-Panel1'}">
+			 <p:inputText required="true" id="empresa" requiredMessage="Por favor ingrese su empresa o institución." validatorMessage="Formato inv&aacute;lido" value="#{registroBean.empreestu}">
+						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText><label id="text" style="visibility: visible;" for="chkBox" > Ingrese la Empresa</label>
+						 
+			<p:inputText required="true" id="titul" requiredMessage="Por favor ingrese su cargo o título." validatorMessage="Formato inv&aacute;lido" value="#{registroBean.cargptitu}">
+						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText><label id="text1" style="visibility: visible;" for="chkBox"> Cargo que desempeña</label>	
+			</p:fieldset>
+		   <p:fieldset rendered="#{registroBean.panel1 == 'Show-Panel2'}">
+			 <p:inputText required="true" id="empresa1" requiredMessage="Por favor ingrese su empresa o institución." validatorMessage="Formato inv&aacute;lido" value="#{registroBean.empreestu}">
+						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText><label id="text" style="visibility: visible;" for="chkBox" > Nombre de la Institución</label>
+				<h:outputText value=""/>			 			 
+			<p:inputText required="true" id="titul1" requiredMessage="Por favor ingrese su cargo o título." validatorMessage="Formato inv&aacute;lido" value="#{registroBean.cargptitu}">
+						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText><label id="text1" style="visibility: visible;" for="chkBox"> Ingrese su Título</label>	
+			</p:fieldset>
+			</p:panelGrid> 						
+			<h:outputText value=""/>
+			<h:outputText value=""/>			
+			<h:outputText value="Seleccion de Intereses*: "/>
+			<p:selectCheckboxMenu  required="true" id="menu" value="#{registroBean.arrayTipoLogin}" label="-------"
+                               panelStyle="width:250px"  requiredMessage="Requerido Intéres">
+            <f:selectItems value="#{registroBean.listaIntereses}" itemValue="#{registroBean.intereses.idInteres}" />
+       		</p:selectCheckboxMenu>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<p:commandButton value="Registrarme" onclick="PF('cd').show()"></p:commandButton>		
+			</p:panelGrid>
+			
+			<p:confirmDialog header="Confirmar Registro" message="Esta seguro de que los datos son v&aacute;lidos" showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+	        <p:commandButton value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" oncomplete="PF('cd').hide()" 
+	        action="#{registroBean.crearUsuario}"   onclick="start()" widgetVar="startButton1" update=":form2:panel2 :form2:message2">
+	        </p:commandButton>
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('cd').hide()"></p:commandButton>
+	        <br /><br />
+    			<p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px"/>
+	    </p:confirmDialog>						
 	</p:panel>		
 </h:form>
+			<script type="text/javascript">
+							function start() {
+							    PF('startButton1').disable();
+							 
+							    window['progress'] = setInterval(function() {
+							        var pbClient = PF('pbClient'),
+							        oldValue = pbClient.getValue(),
+							        newValue = oldValue + 40;
+							 
+							        pbClient.setValue(pbClient.getValue() + 20);
+							 
+							        if(newValue === 100) {
+							            clearInterval(window['progress']);
+							            PF('pbClient').setValue(0);
+							        }
+							 
+							 
+							    }, 1000);
+							}
+							</script> 
 </body>
 </html>

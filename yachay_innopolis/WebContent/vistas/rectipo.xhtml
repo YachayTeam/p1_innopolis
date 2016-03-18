@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="styleser.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+<title>Ubicaci&oacute;n</title>
+</h:head>
+<body>
+<h:form>  
+    <p:menubar>
+        <p:menuitem value="Recursos" action="/vistas/recurso.xhtml" icon="ui-icon-clipboard" />
+        <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+        </f:facet>
+    </p:menubar>
+</h:form>
+<div class="div1">
+<hr/>
+<!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
+<hr/>
+<h:form id="form1" >
+	<p:growl id="message" showDetail="true" />
+	<p:panel id="panel1"  header="Registro de Ubicaci&oacute;n">
+		<p:panelGrid columns="4" >
+			<h:outputText value="Ubicaci&oacute;n* :"/>
+			<p:inputText required="true" id="tipo" value="#{recursotipoBean.tiponom}" requiredMessage="Requerido Ubicaci&oacute;n" validatorMessage="Ubicaci&oacute;n Obligatorio">
+			<p:ajax listener="#{recursotipoBean.asignarNombreImagen}" />
+			</p:inputText>
+			<h:outputText value="Descripción* :"/>
+			<p:inputTextarea required="true" id="des"   rows="4" cols="21" autoResize="true" value="#{recursotipoBean.descripcion}" requiredMessage="Requerido Descripci&oacute;n" validatorMessage="Descripción Requerida">
+			</p:inputTextarea>
+			<h:outputText value="Imagen:"/>
+			 <p:fileUpload mode="advanced" dragDropSupport="true" update=":form1:message :form1:imagen" sizeLimit="2097152"
+			 multiple="false" invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" 
+			 fileLimitMessage="Solo una imagen por Ubicación" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar" 
+			 uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{recursotipoBean.ImagenServ}">
+    		</p:fileUpload>
+    		
+	 	 	<h:outputText value="Vista Previa: "/>      			 			 
+   			<p:graphicImage id="imagen" value="/imgevent/#{recursotipoBean.imagen}" width="150" height="150" />
+			
+			<p:commandButton id="trackguardar" update="panel1 :form2:panel2 message" value="Agregar" action="#{recursotipoBean.crearNuevoRecursoTipo}">
+			<p:tooltip id="toolTipTrack1" for="trackguardar" value="Bot&oacute;n para crear una Ubicaci&oacute;n" trackMouse="true" />
+			</p:commandButton>  
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+<hr/>
+<h:form id="form2">
+<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2" header="Lista de Ubicaci&oacute;nes">
+		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} 
+		{NextPageLink} {LastPageLink} {exp}" paginator="true" rows="8"  reflow="true" value="#{recursotipoBean.listado}" 
+		var="lu" emptyMessage="No hay información almacenada">
+			<f:facet name="{exp}">
+			<h:commandLink>
+                <p:button  value="Excel" />
+                <p:dataExporter type="xls" target="dt" fileName="recursos_registrados" pageOnly="true" />
+            </h:commandLink>
+            <h:commandLink>
+                <p:button  value="Pdf" />
+                <p:dataExporter type="pdf" target="dt" fileName="recursos_registrados" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>
+			<p:column id="f1" filterBy="#{lu.tipo}" sortBy="#{lu.tipo}" headerText="Ubicaci&oacute;n">
+				<h:outputText value="#{lu.tipo}"></h:outputText>
+			</p:column>
+			<p:column id="f2" filterBy="#{lu.descripcion}" sortBy="#{lu.descripcion}" headerText="Descripción">
+				<h:outputText value="#{lu.descripcion}"></h:outputText>
+			</p:column>
+			<p:column width="152" headerText="Imagen" exportable="false">
+			<p:graphicImage width="150" height="150" value="/imgevent/#{lu.imagen}"></p:graphicImage>
+			</p:column>	
+			<!--p:column headerText="Color Recurso">
+				<h:outputText value="#{lu.colorrec.color}"  style="background-color: \##{lu.colorrec.colorcod}"></h:outputText>
+			</p:column -->
+			<p:column headerText="Opciones" exportable="false">
+				<p:commandButton id="trackrev" icon="ui-icon-pencil">
+				<p:tooltip id="toolTipTrack5" for="trackrev" value="Bot&oacute;n para observar la Información de la Ubicación" trackMouse="true" />
+				<p:ajax listener="#{recursotipoBean.cargarDatosRecTipo(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+				<p:ajax  listener="#{recursotipoBean.nombreImagen(lu.tipo) }" />
+				</p:commandButton>
+    		</p:column>			
+		</p:dataTable>
+		
+		<p:dialog header="Imagen" modal="true" closable="true"  closeOnEscape="true"  showEffect="fade" hideEffect="fade" resizable="false" widgetVar="imagendlg" id="imagendlg"> 
+            <p:panelGrid id="imagen1" columns="1" >
+                <f:facet name="header">
+        		</f:facet>
+        		  </p:panelGrid>
+   		</p:dialog>					
+   		
+	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Ubicaci&oacute;n" showEffect="clip" hideEffect="clip">
+	<p:panelGrid columns="2" >
+			<h:outputText value="Identificaci&oacute;n: "/>
+			<h:outputText value="#{recursotipoBean.idRectipo}" ></h:outputText>
+			<h:outputText value="Ubicaci&oacute;n*: "/>
+			<p:inputText id="can" value="#{recursotipoBean.tiponom}">
+						<p:ajax  listener="#{recursotipoBean.asignarNombreImagen}" />			
+			</p:inputText>
+			<h:outputText value="Descripción* :"/>
+			<p:inputTextarea   rows="4" cols="21" autoResize="true" value="#{recursotipoBean.descripcion}" >
+			</p:inputTextarea>
+			<h:outputText value="Imagen:"/>
+			<p:fileUpload mode="advanced" dragDropSupport="true" multiple="false" update="imagen" sizeLimit="2097152" 
+			invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" 
+			fileLimitMessage="Solo una imagen por Ubicación" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"   
+			uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{recursotipoBean.ImagenServ}">
+    		</p:fileUpload> 
+   			 <h:outputText value="Vista Previa:"/>   			 
+   			 <p:graphicImage id="imagen" value="/imgevent/#{recursotipoBean.imagen}" width="150" height="150" />
+			
+			<p:commandButton id="trackedi" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-disk" action="#{recursotipoBean.modificarRecursoTipo}">
+			<p:tooltip id="toolTipTrack3" for="trackedi" value="Bot&oacute;n para editar la Ubicaci&oacute;n" trackMouse="true" />
+			</p:commandButton>
+			<p:commandButton id="trackvol" value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursotipoBean.cancelarModificacion}">
+			<p:tooltip id="toolTipTrack4" for="trackvol" value="Bot&oacute;n para cancelar" trackMouse="true" />
+			</p:commandButton>
+		</p:panelGrid>
+</p:dialog>			
+	</p:panel>
+</h:form>
+</div>
+</body>
+</html>

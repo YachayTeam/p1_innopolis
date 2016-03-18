@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="style.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+<title>Registro Usuario</title>
+</h:head>
+<body>
+<h:form>  
+    <p:menubar>
+        <f:facet name="options">
+            <p:commandButton id="tracksalir" value="Volver"  action="/index.xhtml" icon="ui-icon-home">
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<h:form id="form2" >
+	<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2"  header="Registro de Usuarios">
+		<p:panelGrid columns="4" >
+		<h5 style="margin-top: 0">Ingrese información válida para ser registrado.</h5>
+		<h6 style="margin-top: 0">*En el campo Interés por favor ingrese la descripción de actividad</h6>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="C&eacute;dula* :"/>
+			<p:inputText required="true" id="cedula" value="#{loginGenBean.cedula}" maxlength="10" requiredMessage="Requerida C&eacute;dula" validatorMessage="Ingrese solo n&uacute;meros">
+			<f:validateRegex pattern="[0-9]+" /> 
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Apellidos* :"/>
+			<p:inputText required="true" id="apellidos" value="#{loginGenBean.apellido}" requiredMessage="Requerido Apellidos" validatorMessage="El apellido debe contener solo letras">
+			<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Nombres* :"/>
+			<p:inputText required="true" id="nombres" value="#{loginGenBean.nombre}" requiredMessage="Requerido Nombres" validatorMessage="El nombre debe contener solo letras">
+			<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputText>			
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Correo* :"/>
+			<p:inputText required="true" id="correo" requiredMessage="Por favor ingrese su Correo." validatorMessage="Formato de correo inv&aacute;lido" value="#{loginGenBean.correo}">
+			 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Repetir Correo* :"/>
+			<p:inputText required="true" id="correo1" validatorMessage="Formato de correo invalido" value="#{loginGenBean.rcorreo}" requiredMessage="Por favor ingrese su correo." >
+			 <!-- <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z])$" />  -->
+			</p:inputText>			
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Alias* :"/>
+			<p:inputText required="true" id="alias" value="#{loginGenBean.alias}" requiredMessage="Requerido Alias" validatorMessage="Alias contiene caracteres no permitidos o posee un tamaño menor a 4">
+			<f:validateRegex pattern="[a-zA-Z]+"/>
+			<f:validateLength minimum="4"/>
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Contraseña* :"/>			
+			<p:password required="true" id="pass" value="#{loginGenBean.password}" feedback="true" requiredMessage="Requerida Contraseña" validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+			<f:validateRegex pattern="[a-zA-Z0-9.]+" />
+			<f:validateLength minimum="7"/>
+			</p:password>		
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<h:outputText value="Repetir Contraseña* :"/>
+			<p:password required="true" id="pass1" value="#{loginGenBean.rpassword}" feedback="true" requiredMessage="Requerido Contraseña" validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+			<f:validateRegex pattern="[a-zA-Z0-9.]+" />
+			<f:validateLength minimum="7"/>
+			</p:password>		
+			<h:outputText value=""/>
+			<h:outputText value=""/>	
+			<h:outputText value="Inter&eacute;s* :"/>					
+			<p:inputTextarea required="true" id="inter" value="#{loginGenBean.interes}" requiredMessage="Requerido Inter&eacute;s" validatorMessage="Ingrese solo letras">
+			<f:validateLength minimum="5"/>
+			<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
+			</p:inputTextarea>
+			<h:outputText value=""/>
+			<h:outputText value=""/>
+			<p:commandButton value="Registrarme" onclick="PF('cd').show()"></p:commandButton>		
+			</p:panelGrid>
+			<p:confirmDialog header="Confirmar Registro" message="Esta seguro de que los datos son v&aacute;lidos" showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+	        <p:commandButton value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" oncomplete="PF('cd').hide()" 
+	        action="#{loginGenBean.registrarUsr}" update=":form2:panel2 :form2:message2"></p:commandButton>
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('cd').hide()"/>
+	    </p:confirmDialog>						
+	</p:panel>		
+</h:form>
+</body>
+</html>

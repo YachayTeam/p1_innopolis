@@ -1,45 +1,54 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui" 
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <h:outputStylesheet library="css" name="style.css" />
+  <link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico"/>
 <title>Ingreso de Usuarios</title>
 </h:head>
 <body class="color">
 <div class="centrar">
-		<h:graphicImage onclick="PF('dlg3').show();" id="img" value="/resources/img/inn.png"></h:graphicImage>
+		<h:graphicImage onclick="PF('dlg3').show();" id="img" value="/resources/img/inn1.png"></h:graphicImage>
 </div>
 <div class="centrar2">
 		<h:graphicImage id="fade" onclick="PF('dlg3').show();" value="/resources/img/touch.png"></h:graphicImage>
 		<p:tooltip id="toolTipFade" for="fade" value="Clic en el logo para iniciar sesi&oacute;n" />
 </div>
-<p:dialog header="Ingreso al Sistema" resizable="false"  widgetVar="dlg3" modal="true" showEffect="explode" hideEffect="bounce" height="170">
+<p:dialog header="Ingreso al Sistema" resizable="false" closable="false" closeOnEscape="false"  widgetVar="dlg3" modal="true" showEffect="explode" hideEffect="bounce" height="200">
+<p:panel id="panel1"  style="border:none;">
 <h:form id="form2" >
-	<p:growl id="message2" showDetail="true" />	
+	<p:growl id="message2" showDetail="true"  life="2000"/>	
 		<h:panelGrid columns="2" cellpadding="5">
-            <h:outputLabel for="alias" value="Alias: " />
+            <h:outputLabel for="alias" value="Usuario: " />
             <p:inputText id="alias" value="#{sessionBean.nick}" label="alias" requiredMessage="Alias Requerido" required="true">
-            	<p:ajax event="blur" update=":form2:roles :form2:message2" listener="#{sessionBean.actualizarListadoSI()}"/>
+            <p:ajax listener="#{sessionBean.veri}" update=":form2:message2"></p:ajax>
             </p:inputText>
-            <h:outputLabel for="password" value="Password: " />
-            <p:password id="password" value="#{sessionBean.pass}" label="password" requiredMessage="Contrase&ntilde;a Requerida" required="true"/>
-            <h:outputLabel value="Tipo de Usuario: " />
-            <h:panelGroup id="roles">  
-				<p:selectOneMenu value="#{sessionBean.idrol}" >
-					<f:selectItem itemLabel="Seleccionar..." itemValue="-1"/>
-					<f:selectItems value="#{sessionBean.roles}"  />
-				</p:selectOneMenu>
-			</h:panelGroup>          
-            <p:commandButton value="Ingresar" action="#{sessionBean.login}" update="message2" icon="ui-icon-check"></p:commandButton>            
-            <p:commandButton id="trackvolver" action="#{loginBean.irRegistropag}" value="Registrarse">
-				<p:tooltip id="toolTipTrack5" for="trackvolver" value="Bot�n para Registrarse" trackMouse="true" />
-			</p:commandButton>     
+            <h:outputLabel for="password" value="Contraseña: " />
+            <p:password id="password" value="#{sessionBean.pass}" label="password" requiredMessage="Contrase&ntilde;a Requerida" required="true"/>          
+            <p:commandButton id="trackingre" value="Ingresar" action="#{sessionBean.login}" update="message2" icon="ui-icon-check">
+            <p:tooltip id="toolTipTrac2" for="trackingre" value="Bot&oacute;n para ingresar al sistema" trackMouse="true" />
+            </p:commandButton>		
+            <h:outputLink value="recu_contra.xhtml">    		
+  			  <span class="icon-external-link">Olvidaste tu contraseña?</span>
+			</h:outputLink>
         </h:panelGrid>		    	    
 </h:form>
+</p:panel>
+<h:form>   
+<p:panel  style="border:none;">
+            &nbsp;&nbsp;&nbsp;&nbsp;        
+            <p:commandButton value="Volver al Calendario" icon="ui-icon-calendar" action="/index.xhtml">    		 
+			</p:commandButton>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			
+			 <p:commandButton value="Registrarme" icon=" ui-icon-contact"  action="/ingresousuario.xhtml">    		 
+			</p:commandButton>
+</p:panel>    
+</h:form>	
 </p:dialog>
 </body>
 </html>

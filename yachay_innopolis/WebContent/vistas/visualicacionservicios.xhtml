@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="styleser.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+
+<title>Páginas Web Emprendedor</title>
+</h:head>
+<h:body>
+<div class="centrar">
+<p:growl id="message2" showDetail="true" />
+			<h:form>
+				 <p:menubar>
+        <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+            <p:commandButton id="tracksalir" value="Volver"  action="/home.xhtml" icon="ui-icon-home">
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+    </p:menubar>			
+			</h:form> 
+			
+	<div class="div1" style="width: 100%">
+	<h:form id="form2" >
+	<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2"  header="P&aacute;ginas Web de Servicios Virtuales">
+		<p:panelGrid columns="3" >
+		<h:outputText value="Páginas Web Emprendedor"/>							
+			<h:panelGroup>  
+					<p:selectOneMenu  value="#{serviciosVirtualesEmBean.tiposervicio.idTp}">
+						<f:selectItem  itemLabel="Seleccione Servicio" itemValue="" />
+						<f:selectItems value="#{serviciosVirtualesEmBean.listaTiposervxusr2}"/>
+						<p:ajax
+						update=":form2:panel2 :form2:message2"
+						listener="#{serviciosVirtualesEmBean.Tiposervlistlink}"						
+							>
+						</p:ajax>
+					</p:selectOneMenu>
+			</h:panelGroup>					  
+			<p:commandButton id="trackcer1" icon="ui-icon-extlink" value="Visitar Sitio" ajax="false" >
+    			<p:tooltip id="toolTipTrack8" for="trackcer1" value="Ingresar a la P&aacute;gina" trackMouse="true"/>  			
+    			</p:commandButton>									
+		</p:panelGrid>						
+		</p:panel>
+		</h:form>
+		</div>	
+		<p:dialog widgetVar="dlg1" id="dlg1" modal="true" closable="false" closeOnEscape="true"  header="P&aacute;gina Web" showEffect="clip" hideEffect="clip" >			
+        <h:form enctype="multipart/form-data">  
+   		 <p:menubar> 
+        <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+            <p:commandButton id="tracksalir" value="Volver"  action="/home.xhtml" icon=" ui-icon-closethick" >
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+   		 </p:menubar>
+		</h:form>        	 
+		</p:dialog>
+</div>
+
+		<div class="wrapper">
+		  <div class="container">
+		   <iframe frameborder="0" align="left" src="#{serviciosVirtualesEmBean.url}" name="dlg3" id="dlg3" scrolling="auto" width="1000px"
+         height="1000" marginheight="5" marginwidth="10">
+    	 </iframe>	
+		   </div>
+		</div>
+
+	
+
+<div class="div4">
+<!--  h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
+</div>
+
+
+
+
+</h:body>
+</html>

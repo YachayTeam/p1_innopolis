@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Imprimireventoreporte_subreport1" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2285dd53-1faf-44c2-969e-5886ba930026">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\LUIS\\Desktop\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pIdSolcab" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select c.estado,* from
+eventos a
+join solicicabecera b on (a.id_solcab = b.id_solcab)
+join soliciestado c on (b.id_solest = c.id_solest)
+where a.id_solcab= $P{pIdSolcab};]]>
+	</queryString>
+	<field name="estado" class="java.lang.String"/>
+	<field name="id_evento" class="java.lang.Integer"/>
+	<field name="id_solcab" class="java.lang.Integer"/>
+	<field name="id_tipo_evento" class="java.lang.Integer"/>
+	<field name="id_usr" class="java.lang.Integer"/>
+	<field name="id_sala" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="imagen" class="java.lang.String"/>
+	<field name="fecha_inicio" class="java.sql.Timestamp"/>
+	<field name="fecha_fin" class="java.sql.Timestamp"/>
+	<field name="costo" class="java.lang.Float"/>
+	<field name="lugar" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.Integer"/>
+	<field name="sms" class="java.lang.String"/>
+	<field name="id_solest" class="java.lang.Integer"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="actividad" class="java.lang.String"/>
+	<field name="objetivo" class="java.lang.String"/>
+	<field name="justificacion" class="java.lang.String"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="idusr" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="43" width="140" height="20" uuid="eb14b9e3-3788-4581-831f-0c5a8dab10fd"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividad: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="63" width="140" height="20" uuid="6936bf91-6c65-414a-a5ec-11ceb93eff62"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Registro: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="83" width="138" height="20" uuid="e2d9fd1a-ef4b-4f4a-ac66-c9acad58de3f"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Objetivo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="0" width="365" height="43" forecolor="#003399" uuid="ffab98dd-805b-4cd5-b151-fa7119579829"/>
+				<textElement>
+					<font size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitud Artículo Adicional]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="43" width="213" height="20" uuid="a7ccb22d-0ba9-495c-8329-1fde75fd27d2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{actividad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="63" width="100" height="20" uuid="496a33f3-fa71-4b1c-b1eb-9bc44bf868ed"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="152" y="83" width="102" height="20" uuid="1cee29c8-e677-4999-a406-efa0a4dbe839"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{objetivo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="367" y="43" width="87" height="20" uuid="764ca011-709e-40bc-b57a-edb0eae0d3ba"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="454" y="43" width="100" height="20" uuid="1548e32c-fdfd-429e-ac59-5b1ede8db707"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="101" splitType="Stretch">
+			<subreport>
+				<reportElement x="14" y="26" width="488" height="73" uuid="0998c3b3-e5d1-4ad6-8d9a-109219bf58a9"/>
+				<subreportParameter name="pIdSolcab">
+					<subreportParameterExpression><![CDATA[$P{pIdSolcab}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Imprimireventoreporte_subreport1_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="14" y="2" width="160" height="24" forecolor="#003399" uuid="b9f31119-5927-4295-865f-66d44ed77807"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículos:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

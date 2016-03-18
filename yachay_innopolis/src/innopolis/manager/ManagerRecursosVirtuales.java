@@ -2,19 +2,9 @@ package innopolis.manager;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Properties;
 
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
-import innopolis.controller.ServiciosVirtualesBean;
-import innopolis.entities.*;
+import innopolis.entidades.*;
 
 public class ManagerRecursosVirtuales implements Serializable{
 	
@@ -23,8 +13,10 @@ public class ManagerRecursosVirtuales implements Serializable{
 	private ManagerDAO mDAO;
 	
 	//Registro Temporal
+	private static Usuario usuario;
 	private static Tiposervicio tiposerv;
 	private static Tipoestado tipoesta;
+	
 	int p=0;
 	String h="";
 			
@@ -43,7 +35,47 @@ public class ManagerRecursosVirtuales implements Serializable{
 			e.printStackTrace();
 		}
  		return tiposerv;
+	}	
+ 	
+ 	public Tiposervicio asignarTiposervurl(Integer idtiposervicio) throws Exception{
+ 		try {
+ 			if(usuarioRegurl(idtiposervicio)){
+ 				System.out.println("no esta registrado para este servicio");
+ 				throw new Exception("El usuario no se encuentra registrado en este servicio");
+			}
+ 			else{
+			tiposerv = findServicioTipoByID(idtiposervicio);
+ 				}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new Exception("Error al registrarse "+e.getMessage());
+		}
+ 		return tiposerv;
+	}	
+ 	
+ 	public Boolean usuarioRegurl(Integer id_tp){
+		boolean resp=true;
+		List<Serviciosvirtregi> serli = findAllRServiciosVirtuales();
+		for (Serviciosvirtregi sv : serli) {
+			if(sv.getTiposervicio().getIdTp().equals(id_tp) && sv.getTipoestado().getIdEstado().equals(2))
+			{
+				resp=false;
+			}
+		}
+		return resp;	
 	}
+ 	
+	public Usuario asignarUsuario(Integer idusu) {
+ 		try {
+			usuario = findServiciousrByID(idusu);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		return usuario;
+	}	
+ 	
+ 	
  	//metodo para asignar el Tiposestado al servivirtual
  	 	public Tipoestado asignarTipoest(Integer idtipoest) {
  	 		try {
@@ -71,7 +103,14 @@ public class ManagerRecursosVirtuales implements Serializable{
 		@SuppressWarnings("unchecked")
 		public List<Tiposervicio> findAllTipoServicio(){
 			return mDAO.findAll(Tiposervicio.class);
+		}
+
+//listar todos los estadostipoServicio 
+		@SuppressWarnings("unchecked")
+		public List<Estadotiposervicio> findAllEstadotipoServicio(){
+			return mDAO.findAll(Estadotiposervicio.class);
 		}	
+			
 	
 //buscar servicio por ID
 		public Serviciosvirtregi ServicioVirtualByID(int id_Srv) throws Exception{
@@ -85,23 +124,47 @@ public class ManagerRecursosVirtuales implements Serializable{
 		public Tiposervicio findServicioTipoByID(Integer id_Tp) throws Exception{
 			return (Tiposervicio) mDAO.findById(Tiposervicio.class, id_Tp);
 		}
-		//EstadoTipo por ID
-				public Tipoestado findEstadoTipoByID(Integer id_Ep) throws Exception{
-					return (Tipoestado) mDAO.findById(Tipoestado.class, id_Ep);
-				}
+//EstadoTipo por ID
+		public Tipoestado findEstadoTipoByID(Integer id_Ep) throws Exception{
+			return (Tipoestado) mDAO.findById(Tipoestado.class, id_Ep);
+		}
+//EstadoTipoServicio por ID
+		public Estadotiposervicio findEstadoTiposervByID(Integer id_Etp) throws Exception{
+			return (Estadotiposervicio) mDAO.findById(Estadotiposervicio.class, id_Etp);
+		}	
+//ServicioTipo por ID
+		public Usuario findServiciousrByID(Integer id_usu) throws Exception{
+			return (Usuario) mDAO.findById(Usuario.class, id_usu);
+		}
+
 //insertar los serviciosvirtuales
-		public void insertarserviciovirtual(int cedula, String nombres, String apellidos, String tema,String correo, String sms) throws Exception{
-			Serviciosvirtregi svt = new Serviciosvirtregi();
-		    svt.setCedula(cedula);
-		    svt.setNombres(nombres);
-		    svt.setApellidos(apellidos);
-			svt.setCorreo(correo);
-			svt.setTema(tema);
-			svt.setSms("No Notificado");
-			//svt.setTipoestado(tipoesta);
-			svt.setTipoestado(this.EstadoByID(1));
-			svt.setTiposervicio(tiposerv);
-			mDAO.insertar(svt);
+		public void insertarserviciovirtual(Integer idusr,String tema) throws Exception{
+			System.out.println(idusr);
+			System.out.println(tema);
+			System.out.println(tiposerv.getIdTp());
+			try {
+					Serviciosvirtregi svt = new Serviciosvirtregi();
+					svt.setTema(tema);
+					svt.setSms("No Notificado");
+					svt.setTipoestado(this.EstadoByID(1));
+					svt.setUsuario(findServiciousrByID(idusr));
+					svt.setTiposervicio(tiposerv);
+					mDAO.insertar(svt);				
+			} catch (Exception e) {
+				throw new Exception("Error al registrarse "+e.getMessage());
+			}
+		}
+		
+		public Boolean usuarioReg(Integer id_usr, Integer id_tp){
+			boolean resp=false;
+			List<Serviciosvirtregi> serli = findAllRServiciosVirtuales();
+			for (Serviciosvirtregi sv : serli) {
+				if(sv.getUsuario().getIdUsr().equals(id_usr) && sv.getTiposervicio().getIdTp().equals(id_tp))
+				{
+					resp=true;
+				}
+			}
+			return resp;	
 		}
 	
 //insertar tipo de estado
@@ -112,20 +175,19 @@ public class ManagerRecursosVirtuales implements Serializable{
 		}
 	
 //insertar tipo de servicio
-	public void insertarTipoServicio(String nombreservicio) throws Exception{
+	public void insertarTipoServicio(Integer idtipser,String nombreservicio, String url) throws Exception{
 		Tiposervicio ts = new Tiposervicio();
 		ts.setNombreServicio(nombreservicio);
+		ts.setUrl(url);
+		ts.setIdTp(idtipser);			
+		ts.setEstadotiposervicio(this.findEstadoTiposervByID(1));
 		mDAO.insertar(ts);
 	}
 
 	//editar los serviciosvirtuales
-	public void editarserviciovirtual(Integer id_Srv,Integer cedula, String nombres, String apellidos, String tema,String correo,Integer id_Estado, Integer id_serv, String sms){
+	public void editarserviciovirtual(Integer id_Srv, String tema,Integer id_Estado, Integer id_serv, String sms){
 		try{
 		Serviciosvirtregi svt = this.ServicioVirtualByID(id_Srv);
-	    svt.setCedula(cedula);
-	    svt.setNombres(nombres);
-	    svt.setApellidos(apellidos);
-		svt.setCorreo(correo);
 		svt.setTema(tema);
 		svt.setSms(sms);
 		//svt.setTipoestado(tipoesta);
@@ -154,12 +216,13 @@ public class ManagerRecursosVirtuales implements Serializable{
 	}
 	
 	//editar los tipos de servicio
-	public void editartiposervicio(int id_Tpser, String nombreServicio)
+	public void editartiposervicio(int id_Tpser, String nombreServicio, String url)
 	{
 		try
 		{
 			Tiposervicio ts = this.findServicioTipoByID(id_Tpser);
 			ts.setNombreServicio(nombreServicio);
+			ts.setUrl(url);
 			mDAO.actualizar(ts);
 		} catch (Exception e) {
 			System.out.println("Error_mod_recurso");
@@ -183,27 +246,16 @@ public class ManagerRecursosVirtuales implements Serializable{
 		}
 	}
 	
-	// listar todos los registros 
-	@SuppressWarnings("unchecked")
-	public List<ManagerRecursosVirtuales> findAllRecurso(){
-		return mDAO.findAll(ServiciosVirtualesBean.class);
-	}
-	
 	//metodo para enviar el estado del mensaje si se envio
 	public String cambioSMSenvio(Integer id_Srv)  throws Exception{		
+		
+		h="";
 		try
-		{
-			h="";
+		{				
 			Serviciosvirtregi svt = this.ServicioVirtualByID(id_Srv);
 			if(svt.getSms().equals("No Notificado"))	
-			{
-				svt.setSms("Notificado");				
-				h="El usuario a sido notificado por correo";		
-			}
-			else if(svt.getSms().equals("Notificado"))
-			{
-				
-				h="Ya se ha enviado al correo la notificación";
+			{				
+				svt.setSms("Notificado");						
 			}
 		}
 		catch (Exception e)
@@ -229,28 +281,21 @@ public class ManagerRecursosVirtuales implements Serializable{
 		}	
 	}
 	
-	 //desactivar y activar Recurso	
-		public String cambioDisEstado(Integer id) throws Exception{
+	 //desactivar y activar estado	
+		public String cambioDisEstadoapro(Integer id) throws Exception{
 			List<Tipoestado> lista= findAllTipoEstado();
-			
-			String h="";
+			p=0;
+			h="";
 			for (Tipoestado ta: lista){
 				if (ta.getIdEstado().equals(id)){
 					p=1;
 				}
 			}
 			Serviciosvirtregi ser = ServicioVirtualByID(id);
- 			Tipoestado est = new Tipoestado();
- 			
+ 			Tipoestado est = new Tipoestado(); 			
 			if(ser.getTipoestado().getNombreestado().equals("Pendiente")){
 				est.setIdEstado(2);
 				est.setNombreestado("Aprobado");				
-				ser.setTipoestado(est);				
-				h="Estado del Registro Modificado";
- 			}
-			else if(ser.getTipoestado().getNombreestado().equals("Aprobado")){
-				est.setIdEstado(3);
-				est.setNombreestado("Negado");				
 				ser.setTipoestado(est);				
 				h="Estado del Registro Modificado";
  			}
@@ -259,53 +304,121 @@ public class ManagerRecursosVirtuales implements Serializable{
 				est.setNombreestado("Aprobado");				
 				ser.setTipoestado(est);				
 				h="Estado del Registro Modificado";
+ 			}			
+			else if(ser.getTipoestado().getNombreestado().equals("Aprobado")){
+					h="Estado del Registro ya está aprobado";
  			}
 			mDAO.actualizar(ser);
 			return h;
 			}
 		
 		
-	////METODO DE ENVIO DE CORREO
-		public boolean sendMail(String origen,String clave,String destinatario, String asunto, String mensaje) throws Exception{
-	        try
-	        {	        	
-	            Properties props = new Properties();
-	            props.put("mail.smtp.host", "smtp.gmail.com");
-	            props.setProperty("mail.smtp.starttls.enable", "true");
-	            props.setProperty("mail.smtp.port", "587");
-	            props.setProperty("mail.smtp.user", origen);
-	            props.setProperty("mail.smtp.auth", "true");
-
-	            Session session = Session.getDefaultInstance(props, null);
-	            BodyPart texto = new MimeBodyPart();
-	            texto.setText(mensaje);
-
-	            MimeMultipart multiParte = new MimeMultipart();
-	            multiParte.addBodyPart(texto);
-
-	            MimeMessage message = new MimeMessage(session);
-	            message.setFrom(new InternetAddress(origen));
-	            message.addRecipient(
-	                Message.RecipientType.TO,
-	                new InternetAddress(destinatario));
-	                message.setSubject(asunto);
-	            message.setContent(multiParte);
-
-	            Transport t = session.getTransport("smtp");
-	            t.connect(origen, clave);
-	            t.sendMessage(message, message.getAllRecipients());
-	            t.close();
-	            h="Enviado correctamente la notificacion";
-	            return true;
-	        }
-	        catch (Exception e)
-	        {	        	
-	            e.printStackTrace();
-	            h="Error al  enviar la notificacion";
-	            return false;
-	        }        
-	    }
+		//desactivar y activar Recurso	
+				public String cambioDisEstadonega(Integer id) throws Exception{
+					List<Tipoestado> lista= findAllTipoEstado();
+					p=0;
+					h="";					
+					for (Tipoestado ta: lista){
+						if (ta.getIdEstado().equals(id)){
+							p=1;
+						}
+					}
+					Serviciosvirtregi ser = ServicioVirtualByID(id);
+		 			Tipoestado est = new Tipoestado();
+		 			
+					if(ser.getTipoestado().getNombreestado().equals("Pendiente")){
+						est.setIdEstado(3);
+						est.setNombreestado("Negado");				
+						ser.setTipoestado(est);				
+						h="Estado del Registro Modificado";
+		 			}
+					else if(ser.getTipoestado().getNombreestado().equals("Aprobado")){
+						est.setIdEstado(3);
+						est.setNombreestado("Negado");				
+						ser.setTipoestado(est);				
+						h="Estado del Registro Modificado";
+		 			}
+					else if(ser.getTipoestado().getNombreestado().equals("Negado")){
+						h="Estado del Registro ya está negado";
+		 			}
+					mDAO.actualizar(ser);
+					return h;
+					}
 		
+		
+		//desactivar y activar serviciovirtual		
+		public String cambioEstadotiposer(Integer id) throws Exception{
+			List<Serviciosvirtregi> lista= findAllRServiciosVirtuales();
+			int p=0;
+			h="";			
+			for (Serviciosvirtregi ta: lista){
+				if (ta.getTiposervicio().getIdTp().equals(id)){
+					p=1;
+				}
+			}
+			Tiposervicio tipser = findServicioTipoByID(id);				
+			Estadotiposervicio tipestusr = new Estadotiposervicio();			
+			if(tipser.getEstadotiposervicio().getEts().equals("Activado") && p==0){
+				tipestusr.setIdEts(2);
+				tipestusr.setEts("Desactivado");				
+				tipser.setEstadotiposervicio(tipestusr);				
+				h="Estado del Registro Modificado";
+			}
+			else if(tipser.getEstadotiposervicio().getEts().equals("Activado") && p==1) {
+				h="Servicio ocupado no puede ser modificado";
+ 			}
+			else if(tipser.getEstadotiposervicio().getEts().equals("Desactivado")){
+				tipestusr.setIdEts(1);
+				tipestusr.setEts("Activado");				
+				tipser.setEstadotiposervicio(tipestusr);				
+				h="Estado del Registro Modificado";
+			}
+			mDAO.actualizar(tipser);
+			return h;
+			}
+
 	
+//	////METODO DE ENVIO DE CORREO
+//		public boolean sendMail(String origen,String clave,String destinatario, String asunto, String mensaje) throws Exception{
+//			p=0;
+//			
+//			try
+//	        {	        	
+//	            Properties props = new Properties();
+//	            props.put("mail.smtp.host", "smtp.gmail.com");
+//	            props.setProperty("mail.smtp.starttls.enable", "true");
+//	            props.setProperty("mail.smtp.port", "587");
+//	            props.setProperty("mail.smtp.user", origen);
+//	            props.setProperty("mail.smtp.auth", "true");
+//
+//	            Session session = Session.getDefaultInstance(props, null);
+//	            BodyPart texto = new MimeBodyPart();
+//	            texto.setText(mensaje);
+//
+//	            MimeMultipart multiParte = new MimeMultipart();
+//	            multiParte.addBodyPart(texto);
+//
+//	            MimeMessage message = new MimeMessage(session);
+//	            message.setFrom(new InternetAddress(origen));
+//	            message.addRecipient(
+//	                Message.RecipientType.TO,
+//	                new InternetAddress(destinatario));
+//	                message.setSubject(asunto);
+//	            message.setContent(multiParte);
+//
+//	            Transport t = session.getTransport("smtp");
+//	            t.connect(origen, clave);
+//	            t.sendMessage(message, message.getAllRecipients());
+//	            t.close();
+//	            h="Enviado correctamente la notificacion";
+//	            return true;
+//	        }
+//	        catch (Exception e)
+//	        {	        	
+//	            e.printStackTrace();
+//	            h="Error al  enviar la notificacion";
+//	            return false;
+//	        }        
+//	    }				
 }
 

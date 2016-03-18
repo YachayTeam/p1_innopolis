@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="style.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+<title>Recursos Adicionales</title>
+</h:head>
+<body>
+<h:form>  
+    <p:menubar>
+            <p:menuitem value="Creación Tipos Eventos" action="#{recursosBean.ircreacioneventos}" icon="ui-icon-clipboard" />
+            <p:menuitem value="Gestión de Salas" action="#{recursosBean.irsalas}" icon="ui-icon-bookmark" />
+            <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+            <p:commandButton id="tracksalir" value="Volver"  action="/home.xhtml" icon="ui-icon-home">
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<div class="div1">
+<h:form id="form1">
+	<p:growl id="message" showDetail="true" />
+	<p:panel id="panel1"  header="Registro de Recursos Adicionales">
+		<p:panelGrid columns="4" >
+			<h:outputText value="Nombre* : "/>
+			<p:inputText styleClass="t" required="true" id="nom" value="#{recursosBean.nombre}" requiredMessage="Requerido Nombre del Recurso" validatorMessage="Ingrese solo letras">
+							<p:ajax  listener="#{recursosBean.asignarNombreImagen}" />
+			</p:inputText>
+			<h:outputText value="Tipo Recurso* : "/>
+			<p:inputText styleClass="t" required="true" id="lug" value="#{recursosBean.lugar}" requiredMessage="Requerido Tipo de Recurso" validatorMessage="No debe contener caracteres especiales">
+			</p:inputText>
+			<h:outputText value="Cantidad* :"/>
+			<p:inputText required="true" id="can" size="1" value="#{recursosBean.capacidad}" requiredMessage="Requerido Capacidad del Recurso" validatorMessage="Solo Numeros entre 1 y 1000">
+				<f:validateLongRange minimum="1" maximum="1000"/>
+			</p:inputText>
+			<h:outputText value="Descripción* :"/>
+			<p:inputTextarea styleClass="t" required="true" id="des" value="#{recursosBean.descripcion}" requiredMessage="Requerido Descripci&oacute;n" validatorMessage="Descripción Requerida">
+			</p:inputTextarea>
+			<h:outputText value="Imagen:"/>
+			 <p:fileUpload mode="advanced" dragDropSupport="true" update=":form1:message :form1:imagen" sizeLimit="2097152"
+			 multiple="false" invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" 
+			 fileLimitMessage="Solo una imagen por Ubicación" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar" 
+			 uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{recursosBean.ImagenServ}">
+    		</p:fileUpload>
+    		<h:outputText value="Vista Previa: "/>      			 			 
+   			<p:graphicImage id="imagen" value="/imgevent/#{recursosBean.imagen}" width="150" height="150" />
+			<p:commandButton id="trackcrea" style="width:100%" update="panel1 :form2:panel2 message" value="Insertar" action="#{recursosBean.crearRecurso}">
+			<p:tooltip id="toolTipTrack1" for="trackcrea" value="Bot&oacute;n para crear un recurso" trackMouse="true" />
+			</p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+</div>
+<div class="div2">
+<!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
+</div>
+
+<div class="div3">
+<hr />
+<h:form id="form2">
+	<p:growl id="message2" showDetail="true" />
+	<p:panel id="panel2" header="Lista de Recursos Adicionales">
+		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+		{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" reflow="true" rows="8"  value="#{recursosBean.listRegistro}" var="lu" emptyMessage="No hay información almacenada">
+			<f:facet name="{exp}">
+			<h:commandLink>
+               <p:button  value="Excel" />
+                <p:dataExporter type="xls" target="dt" fileName="recursos_registrados" pageOnly="true" />
+            </h:commandLink> 
+            <h:commandLink>
+                <p:button  value="Pdf" />
+                <p:dataExporter type="pdf" target="dt" fileName="recursos_registrados" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>
+			<p:column id="f1" filterBy="#{lu.nombre}" sortBy="#{lu.nombre}" headerText="Recurso">
+				<h:outputText value="#{lu.nombre}"></h:outputText>
+			</p:column>
+			<p:column  headerText="Cantidad" sortBy="#{lu.capacidad}">
+				<h:outputText value="#{lu.capacidad}"></h:outputText>
+			</p:column>
+			<p:column id="f4" filterBy="#{lu.descripcion}" sortBy="#{lu.descripcion}" headerText="Descripción">
+				<h:outputText value="#{lu.descripcion}"></h:outputText>
+			</p:column>
+			<p:column width="152" headerText="Imagen" exportable="false">
+			<p:graphicImage width="150" height="150" value="/imgevent/#{lu.imagen}"></p:graphicImage>
+			</p:column>	
+			<!-- p:column id="f10" exportable="false" filterBy="#{lu.recursotipo.colorrec.color}" sortBy="#{lu.recursotipo.colorrec.color}" headerText="Color Recurso">
+				<h:outputText value="#{lu.recursotipo.colorrec.color}" style="background-color: \##{lu.recursotipo.colorrec.colorcod}"></h:outputText>
+			</p:column  -->
+			<p:column id="f3" filterBy="#{lu.recursodisponible.disponible}" sortBy="#{lu.recursodisponible.disponible}" headerText="Estado">
+				<h:outputText value="#{lu.recursodisponible.disponible}"></h:outputText>				
+			</p:column>
+			<p:column headerText="Opciones" exportable="false">
+				<p:commandButton id="trackver" icon="ui-icon-pencil">
+				<p:ajax listener="#{recursosBean.cargarRecursos(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+				<p:tooltip id="toolTipTrack2" for="trackver" value="Bot&oacute;n para editar un recurso" trackMouse="true" />
+				</p:commandButton>
+				<p:commandButton id="trackcamb" icon="ui-icon-refresh" actionListener="#{recursosBean.cambiarEstado(lu)}" update=":form2:panel2 :form2:message2">
+				<p:tooltip id="toolTipTrack3" for="trackcamb" value="Bot&oacute;n para cambiar el estado del recurso" trackMouse="true" />
+				</p:commandButton>
+    		</p:column>	
+		</p:dataTable>	
+		
+<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="false"  header="Editar Recurso Adicional" showEffect="clip" hideEffect="clip">
+	<p:panelGrid columns="2" >
+			<h:outputText value="Id: "/>
+			<h:outputText value="#{recursosBean.idRecurso}"></h:outputText>
+			<h:outputText value="Nombre: "/>
+			<p:inputText id="nom" value="#{recursosBean.nombre}">
+			</p:inputText>
+			<h:outputText value="Cantidad: "/>
+			<p:inputText  id="can" value="#{recursosBean.capacidad}" size="1">
+			</p:inputText>
+			<h:outputText value="Descripci&oacute;n: "/>
+			<p:inputTextarea id="des" value="#{recursosBean.descripcion}">
+		    </p:inputTextarea>
+			<h:outputText value="Lugar: "/>
+			<p:inputText required="false" id="lug" value="#{recursosBean.lugar}" requiredMessage="Requerido" >
+			</p:inputText>
+			<h:outputText value="Imagen:"/>
+			<p:fileUpload mode="advanced" dragDropSupport="true" multiple="false" update="imagen" sizeLimit="2097152" 
+			invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" 
+			fileLimitMessage="Solo una imagen por Ubicación" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"   
+			uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{recursosBean.ImagenServ}">
+    		</p:fileUpload> 
+   			 <h:outputText value="Vista Previa:"/>   			 
+   			 <p:graphicImage id="imagen" value="/imgevent/#{recursosBean.imagen}" width="150" height="150" />
+			<p:commandButton id="trackactu" update="message2" value="Actualizar" icon="ui-icon-disk" onclick="PF('dlg1').close();"  action="#{recursosBean.actualizarRecurso}">
+			<p:tooltip id="toolTipTrack6" for="trackactu" value="Bot&oacute;n para actualizar" trackMouse="true" />
+			</p:commandButton>
+			<p:commandButton id="trackcerr" update=":form2:panel2" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{recursosBean.irRecurso}">
+			<p:tooltip id="toolTipTrack5" for="trackcerr" value="Bot&oacute;n para cancelar la edici&oacute;n" trackMouse="true" />
+			</p:commandButton>
+		</p:panelGrid>
+</p:dialog>		
+	</p:panel>	
+</h:form>
+</div>
+
+ 
+
+</body>
+</html>

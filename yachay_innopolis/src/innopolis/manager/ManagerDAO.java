@@ -25,7 +25,7 @@ public class ManagerDAO {
 	public ManagerDAO() {
 		mostrarLog("constructor","ManagerDAO Creado");
 		if (factory == null) {
-			factory = Persistence.createEntityManagerFactory("yachay_innopolis");
+			factory = Persistence.createEntityManagerFactory("Yachayp1");
 			mostrarLog("constructor","Factory creado");
 		}
 		if (em == null) {
@@ -120,7 +120,7 @@ public class ManagerDAO {
 		if (!em.getTransaction().isActive()){
 			em.getTransaction().begin();
 		}
-		q = em.createQuery("SELECT o FROM " + clase.getSimpleName() + " o");
+		q = em.createQuery("SELECT o FROM " + clase.getSimpleName() + " o ");
 		listado = q.getResultList();
 		em.getTransaction().commit();
 		return listado;

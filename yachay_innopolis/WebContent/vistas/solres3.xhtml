@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="style.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+		<title>Ver Solicitud de Recursos</title>
+	
+</h:head>
+<body>
+<h:form enctype="multipart/form-data">  
+    <p:menubar>        
+        <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+          <p:commandButton id="tracksalir" value="Volver"  action="#{eventosBean.regresar}" icon=" ui-icon-closethick">
+            <p:ajax listener="#{eventosBean.ireve1}"></p:ajax>
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver a eventos" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+    </p:menubar>
+</h:form>
+<hr/>
+<p:steps activeIndex="1" styleClass="custom">
+    <p:menuitem value="Insercion de Detalles" />
+    <p:menuitem value="Resumen de Solicitud" />
+</p:steps>
+<br/>
+	<p:panel id="panel1">
+	<h:form id="form2">
+		<p:panel header="Resumen de Solicitud">
+			<p:panelGrid columns="4">
+				<h:outputText value="Nombre solicitante a cargo: " />
+				<p:inputText value="#{eventosBean.direccion}" disabled="true"></p:inputText>
+				<h:outputText value="Apellido solicitante a cargo: " />
+				<p:inputText value="#{eventosBean.justificacion}" disabled="true"></p:inputText>
+				<h:outputText value="Actividad: " />
+				<h:inputTextarea value="#{eventosBean.actividad}" disabled="true"></h:inputTextarea>
+				<h:outputText value="Objetivo: " />
+				<h:inputTextarea value="#{eventosBean.objetivo}" disabled="true"></h:inputTextarea>	
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+<h:form id="form3" >
+<p:growl id="message5" showDetail="true" />
+			<p:messages></p:messages>
+			<p:dataTable value="#{eventosBean.solicitudCabTem.solicidetalles}"
+				var="d" id="tablarecursosDets" reflow="true" rows="8" emptyMessage="No hay información almacenada">
+				<f:facet name="header">
+					<h:outputText value="Detalle de Recursos" />
+				</f:facet>
+				<p:column sortBy="#{d.horaInicio}" headerText="Fechas">
+					<h:outputText value="#{d.horaInicio}">
+						<f:convertDateTime pattern="yyyy-MM-dd"/>
+					</h:outputText>
+					&nbsp;&#713;&nbsp;
+					<h:outputText value="#{d.horaFin}">
+						<f:convertDateTime pattern="yyyy-MM-dd"/>
+					</h:outputText>
+	    		</p:column>
+	    		<p:column sortBy="#{d.horaInicio}"  headerText="Horas">
+					<h:outputText value="#{d.horaInicio}">
+						<f:convertDateTime pattern="HH:mm"/>
+					</h:outputText>
+					&nbsp;&#713;&nbsp;
+					<h:outputText value="#{d.horaFin}">
+						<f:convertDateTime pattern="HH:mm"/>
+					</h:outputText>
+	    		</p:column>	
+				<p:column sortBy="#{d.recurso.nombre}" >
+					<f:facet name="header">
+					Nombre
+				</f:facet>
+					<h:outputText value="#{d.recurso.nombre}" />
+				</p:column>
+				<p:column sortBy="#{d.recurso.descripcion}" >
+					<f:facet name="header">
+					Descripción
+				</f:facet>
+					<h:outputText value="#{d.recurso.descripcion}" />
+				</p:column>
+				<p:column sortBy="#{d.capacidad}" >
+					<f:facet name="header">
+					Capacidad
+				</f:facet>
+					<h:outputText value="#{d.capacidad}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Volver" action="/vistas/soldet3.xhtml/"></p:commandButton>	
+			<p:commandButton value="Enviar Solicitud" onclick="PF('cd').show()"></p:commandButton>					
+			
+			<p:confirmDialog header="Confirmar Solicitud" message="Esta seguro de que los datos son v&aacute;lidos" showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+	        <p:commandButton id="trackenv" value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  oncomplete="PF('cd').hide()" 
+	       action="#{eventosBean.guardarSolicitud}" update=":form3:message5"   onclick="start()" widgetVar="startButton1">
+	       	        <p:tooltip id="toolTipTrac2" for="trackenv" value="Bot&oacute;n para enviar la solicitud a ser aprobada" trackMouse="true" />
+	        </p:commandButton>
+	        <p:commandButton  value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('cd').hide()">
+	        </p:commandButton>
+	        <br /><br />
+    			<p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px"/>
+	    </p:confirmDialog>			
+				
+	</h:form>
+	<script type="text/javascript">
+				function start() {
+				    PF('startButton1').disable();
+				 
+				    window['progress'] = setInterval(function() {
+				        var pbClient = PF('pbClient'),
+				        oldValue = pbClient.getValue(),
+				        newValue = oldValue + 20;
+				 
+				        pbClient.setValue(pbClient.getValue() + 20);
+				 
+				        if(newValue === 100) {
+				            clearInterval(window['progress']);
+				            PF('pbClient').setValue(0);
+				        }
+				 
+				 
+				    }, 1000);
+				}
+				</script> 
+	</p:panel>
+</body>
+</html>

@@ -1,10 +1,10 @@
 package innopolis.controller;
 
-import innopolis.entities.Evento;
-import innopolis.entities.Inscripcione;
-import innopolis.entities.help.UsuarioHelp;
+import innopolis.entidades.Evento;
+import innopolis.entidades.Inscripcione;
+import innopolis.entidades.help.UsuarioHelp;
+import innopolis.manager.EnvioMensaje;
 import innopolis.manager.ManagerEvento;
-import innopolis.manager.ManagerReservas;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -23,24 +23,22 @@ public class InscripcionApBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private ManagerEvento managerEv;
-	private ManagerReservas managerReserv;
-	
 	private Integer idInscripcion;
 	private String apellido;
 	private String correo;
-	private Integer estado;
+	private String estado;
 	private Timestamp fechaInscripcion;
 	private Integer idUsuario;
 	private String imagenPago;
 	private String nombre;
 	private String observacion;
 	private Evento evento;
-	
+	private String sms;
+	private String smscor;
 	private Integer id_evento;
 	private List<Inscripcione> listadoInscripciones;
 	
-	/*Atributos de Acceso*/
-	private final String acceso = "aprobador";
+	
 	private UsuarioHelp session;
 	
 	//Imagenes
@@ -48,10 +46,41 @@ public class InscripcionApBean implements Serializable{
 	
 	public InscripcionApBean() {
 		/*Session*/
-		session = SessionBean.verificarSession(acceso);
+		session = SessionBean.verificarSession();
 		managerEv=new ManagerEvento();
-		managerReserv=new ManagerReservas();
 		imagenPago = "sin_pago.jpg";
+	}
+
+
+	/**
+	 * @return the sms
+	 */
+	public String getSms() {
+		return sms;
+	}
+
+
+	/**
+	 * @param sms the sms to set
+	 */
+	public void setSms(String sms) {
+		this.sms = sms;
+	}
+
+
+	/**
+	 * @return the smscor
+	 */
+	public String getSmscor() {
+		return smscor;
+	}
+
+
+	/**
+	 * @param smscor the smscor to set
+	 */
+	public void setSmscor(String smscor) {
+		this.smscor = smscor;
 	}
 
 
@@ -85,12 +114,12 @@ public class InscripcionApBean implements Serializable{
 	}
 
 
-	public Integer getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
 
-	public void setEstado(Integer estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
@@ -180,19 +209,35 @@ public class InscripcionApBean implements Serializable{
 	
 	//editar imagen
 	public void changeImg(Inscripcione ins){
-		setImagenPago(ins.getImagenPago());;
+		setImagenPago(ins.getImagenPago());
+		System.out.println(getImagenPago());
 	}
 	
+	public String asignarsms(Inscripcione inscripcion){
+		idInscripcion=inscripcion.getIdInscripcion();
+		apellido=inscripcion.getApellido();
+		correo=inscripcion.getCorreo();
+		estado= inscripcion.getEstado();
+		fechaInscripcion=inscripcion.getFechaInscripcion();
+		idUsuario=inscripcion.getIdUsuario();		
+		nombre=inscripcion.getNombre();
+		observacion=inscripcion.getObservacion();
+		evento=inscripcion.getEvento();
+		sms=inscripcion.getSms();		
+		smscor="Le informamos que la inscripcion de: "+inscripcion.getEvento().getNombre()+" ,fue "+inscripcion.getEstado();
+		return "";
+	}
+
+	
 	public String notificarInscripcion(Inscripcione inscripcion){
-		if(inscripcion.getEstado().equals("aprobada") && inscripcion.getSms().equals("notificada")){
+		if(estado.equals("aprobada") && sms.equals("notificada")){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion ya fue aprobada y notificada", null));
-		}else if(inscripcion.getEstado().equals("sin aprobar")){
+		}else if(estado.equals("sin aprobar")){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion no ha sido aprobada o negada para poder notificarla", null));
 		}else{
-			String mensaje="Le informamos que la inscripcion de: "+inscripcion.getEvento().getNombre()+" ,fue "+inscripcion.getEstado();
 			try {
-				managerReserv.sendMail("juank20097@gmail.com", "xkalrbyylkkzfpnf", "nyqivessalo-6115@yopmail.com", "Peticion de Inscripcion YACHAY/INNOPOLIS  ", mensaje);
-				managerEv.notificarInscripcion(inscripcion.getIdInscripcion(), "notificada");
+				EnvioMensaje.sendMail(correo, "Petición de Inscripcion YACHAY/REGECE  ", smscor);
+				managerEv.notificarInscripcion(idInscripcion, "notificada");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al enviar notificacion", null));
@@ -209,6 +254,10 @@ public class InscripcionApBean implements Serializable{
 			}else{
 				managerEv.modificarInscripcion(inscripcion.getIdInscripcion(), "aprobada");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Aprobacion Exitosa", null));
+				if(inscripcion.getSms().equals("notificada")){
+					managerEv.notificarInscripcion(inscripcion.getIdInscripcion(), "no notificada");
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe volver a notificar la inscripcion", null));
+				}
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al aprobar inscripcion", null));
@@ -230,5 +279,24 @@ public class InscripcionApBean implements Serializable{
 		return "";
 	}
 	
+	public String cambioEnvioSms(){
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificación Aceptada ", null));
+		return "";
+	}
 	
+	//------ Envios paginas--------//				
+			public String irAprobador(){		
+				idInscripcion=null;
+				apellido="";
+				correo="";
+				estado="";
+				fechaInscripcion=null;
+				idUsuario=null;		
+				nombre="";
+				observacion="";				
+				sms="";		
+				smscor="";
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Volver", null));
+				return "/aprobador/inscripciones";					
+			}
 }

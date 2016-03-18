@@ -4,16 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import innopolis.entities.Tipologin;
-import innopolis.entities.Usuario;
-import innopolis.entities.help.UsuarioHelp;
+import innopolis.entidades.Actividad;
+import innopolis.entidades.Inter;
+import innopolis.entidades.Tipo;
+import innopolis.entidades.Usuario;
+import innopolis.entidades.help.UsuarioHelp;
+import innopolis.entidades.help.Utilidades;
+import innopolis.manager.EnvioMensaje;
 import innopolis.manager.ManagerLogin;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 
 @SessionScoped
@@ -21,24 +24,31 @@ import javax.servlet.http.HttpSession;
 public class SessionBean {
 	private UsuarioHelp session;
     private ManagerLogin manager;
-
-    private String nick;
+    //log
+    private String Cedula;
     private String pass;
-    private Integer idrol;
-    private String loginROL;
-    private List<SelectItem> roles;
+    
+    //devolver contraseña
+    private String correocontra;
+    String smscor="";
+
+    //mostrar
+    private String nom;
+    
+    private List<Actividad> la;
+    
+    private Usuario usr;
     
     /*Perfil de Usuario*/
-    private String nombre, apellido, password, correo; 
+    private String nombre, apellido, password, correo, cedula,alias; 
     
     public SessionBean() {
 		manager = new ManagerLogin();
-		loginROL = "";
-		roles = new ArrayList<SelectItem>();
+		usr=new Usuario();
 	}
     
     public String getNick() {
-		return nick;
+		return Cedula;
 	}
     
     public String getPass() {
@@ -49,32 +59,28 @@ public class SessionBean {
 		return session;
 	}
     
-    public void setNick(String nick) {
-		this.nick = nick;
+    public List<Actividad> getLa() {
+		return la;
+	}
+
+	public void setLa(List<Actividad> la) {
+		this.la = la;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setNick(String nick) {
+		this.Cedula = nick;
 	}
     
     public void setPass(String pass) {
 		this.pass = pass;
-	}
-    
-    public Integer getIdrol() {
-		return idrol;
-	}
-    
-    public void setIdrol(Integer idrol) {
-		this.idrol = idrol;
-	}
-    
-    public String getLoginROL() {
-		return loginROL;
-	}
-    
-    public List<SelectItem> getRoles() {
-		return roles;
-	}
-    
-    public void setRoles(List<SelectItem> roles) {
-		this.roles = roles;
 	}
     
     /*Perfil Usuario*/
@@ -110,162 +116,162 @@ public class SessionBean {
 		this.password = password;
 	}
     
+    public String getCedula() {
+		return cedula;
+	}
     
-    public void actualizarListadoSI(){
-    	try {
-    		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-        	List<Tipologin> tipos = manager.findTiposXaliasUSR(getNick());
-        	for (Tipologin tipologin : tipos) {
-        		listadoSI.add(new SelectItem(tipologin.getIdTipologin(), tipologin.getTipologin()));
-    		}
-        	setRoles(listadoSI);
+    public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
+    /**
+	 * @return the correocontra
+	 */
+	public String getCorreocontra() {
+		return correocontra;
+	}
+
+	/**
+	 * @param correocontra the correocontra to set
+	 */
+	public void setCorreocontra(String correocontra) {
+		this.correocontra = correocontra;
+	}
+ /**
+	 * @return the alias
+	 */
+	public String getAlias() {
+		return alias;
+	}
+
+	/**
+	 * @param alias the alias to set
+	 */
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	// login
+	public void veri(){
+ 		System.out.println(Cedula);
+ 		int t=0;
+ 		List<Usuario> a = manager.findAllUsuarios();
+ 		for (Usuario u : a) {
+ 			if ((u.getCedula().equals(Cedula) || u.getCorreo().equals(Cedula)) && u.getTipoestadousr().getIdTipoestadousr()==2 ){
+ 				t=100;
+ 			}
+ 		}
+ 		if (t!=100){
+ 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Alias Inexistente o Usuario Desactivado", null));
+ 		}
+ 	}	
+ 	
+ 	//metodo para ingresar al sistema	
+ 	public String login(){
+ 		String r="";
+ 		Integer t=0;
+ 		List<Usuario> u = manager.findAllUsuarios();
+ 		try {
+ 		for (Usuario y :u){
+ 			System.out.println("avr "+Utilidades.Encriptar(pass).toString());
+ 			if (y.getCedula().equals(Cedula) && y.getPassword().equals(Utilidades.Encriptar(pass)) && y.getTipoestadousr().getIdTipoestadousr()==2){
+ 				session = new UsuarioHelp(y.getIdUsr(), y.getAlias(), y.getApellido(),y.getCorreo() ,y.getNombre() , y.getTipo().getTipo(), y.getCedula());
+ 				nom=y.getNombre()+" "+y.getApellido()+" : "+y.getTipo().getTipo();
+ 				usr=y;
+ 				r="home?faces-redirect=true";
+ 				t=1;
+ 			}
+ 			else if (y.getCorreo().equals(Cedula) && y.getPassword().equals(Utilidades.Encriptar(pass)) && y.getTipoestadousr().getIdTipoestadousr()==2){
+ 				session = new UsuarioHelp(y.getIdUsr(), y.getAlias(), y.getApellido(),y.getCorreo() ,y.getNombre() , y.getTipo().getTipo(), y.getCedula());
+ 				nom=y.getNombre()+" "+y.getApellido()+" : "+y.getTipo().getTipo();
+ 				usr=y;
+ 				r="home?faces-redirect=true";
+ 				t=1;
+ 			}
+ 		}
+ 		if (t==0){ 			
+ 			FacesContext context = FacesContext.getCurrentInstance();
+ 			context.addMessage(null, new FacesMessage("Error..!!!",
+ 					"Usuario o Contrasena Incorrecta "));
+ 		}
+
+ 		this.activacion();
+ 		
+ 	}
+		catch (Exception e)
+		{
+		
+		}
+ 		
+ 		return r;
+ 	}
+
+ 	public void activacion(){
+ 		la= new ArrayList<Actividad>();
+ 		Tipo t= new Tipo();
+ 		String ps ="";
+ 		try {
+			ps = Utilidades.Encriptar(pass);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, e.getMessage(),null));
+			e.printStackTrace();
 		}
-    }
-    
-    /**
-     * Método de tipos de usuario
-     * @return listado
-     */
-    public List<SelectItem> listaTipoLoginSI(){
-    	List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-    	List<Tipologin> tipos = manager.findAllTipoLogin();
-    	for (Tipologin tipologin : tipos) {
-    		listadoSI.add(new SelectItem(tipologin.getIdTipologin(), tipologin.getTipologin()));
-		}
-    	return listadoSI;
-    }
-    
-    /**
-     * Método para ingresar al sistema
-     * @return página xhtml
-     */
-    public String login(){
-    	String resp="";
-    	if(getIdrol()!=-1){
-    		try {
-    			Usuario usr = manager.findUserByAliasAndPass(getNick(), getPass());
-    			if(manager.existeUsarioRol(usr.getIdUsr(), getIdrol())){
-    				String rol = manager.findTipoLoginByID(getIdrol()).getTipologin();
-    				session = new UsuarioHelp(usr.getIdUsr(), usr.getAlias(), usr.getApellido(), usr.getCorreo(), usr.getNombre(), rol);
-    				this.loginROL = rol;//ASIGNACION DE ROL DE LOGIN
-    				if(rol.equals("administrador")){
-    					resp="/admin/home?faces-redirect=true";
-    				}else if(rol.equals("emprendedor")){
-    					resp="/emprendedor/home?faces-redirect=true";
-    				}else if(rol.equals("aprobador")){
-    					resp="/aprobador/home?faces-redirect=true";
-    				}else{
-    					resp="/usr/home?faces-redirect=true";
-    				}
-    			}else{
-    				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Rol no asignado",null));
-    			}
-    		} catch (Exception e) {
-    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al intentar ingresar al sistema",null));
-    		}
-    	}else{
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione Rol para continuar",null));
-    	}
-    	return resp;
-    }
-    
-    /**
-     * Método para salir del sistema
-     * @return página xhtml
-     */
-    public String logout(){
-    	HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        session.invalidate();
-        loginROL = "";nick="";pass="";idrol=-1;
-    	return "/index?faces-redirect=true";
-    }
-    
-    /**
-     * Método para verifiar la existencia de la sesión
-     * @param rol de usuario
-     * @return Clase Usuario
-     */
-    public static UsuarioHelp verificarSession(String rol){
-    	HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        SessionBean user = (SessionBean) session.getAttribute("sessionBean");
-        if (user==null || user.getSession() == null) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/yachay_innopolis/login.xhtml");
-            } catch (IOException ex) {
-            	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(),null));
-            }
-            return null;
-        } else {
-            if (user.getSession().getRol().equals(rol)) {
-                return user.getSession();
-            } else {
-                try {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("/yachay_innopolis/errorPermiso.xhtml");
-                } catch (IOException ex) {
-                	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(),null));
-                }
-                return null;
-            }
-        }
-    }
-    
-    
-    public void loadAdmin(){
-    	UsuarioHelp usr = verificarSession("administrador");
-    	if(usr==null){
-    		System.out.println("Error verificar carga usuario");
-    	}
-    }
-    
-    public void loadEmp(){
-    	UsuarioHelp usr = verificarSession("emprendedor");
-    	if(usr==null){
-    		System.out.println("Error verificar carga usuario");
-    	}
-    }
-    
-    public void loadApr(){
-    	UsuarioHelp usr = verificarSession("aprobador");
-    	if(usr==null){
-    		System.out.println("Error verificar carga usuario");
-    	}
-    }
-    
-    public void loadUsr(){
-    	UsuarioHelp usr = verificarSession("general");
-    	if(usr==null){
-    		System.out.println("Error verificar carga usuario");
-    	}
-    }
-    
-    public void regresarHomeUser(){
-    	String resp="sin";
-    	String rol = getLoginROL();
-    	
-    	if(rol.equals("administrador")){
-			resp="/admin/home.xhtml";
-		}else if(rol.equals("emprendedor")){
-			resp="/emprendedor/home.xhtml";
-		}else if(rol.equals("aprobador")){
-			resp="/aprobador/home.xhtml";
-		}else if(rol.equals("general")){
-			resp="/usr/home.xhtml";
-		}
-    	
-    	try {
-    		if(resp.equals("sin")){
-    			FacesContext.getCurrentInstance().getExternalContext().redirect("/yachay_innopolis/login.xhtml");
-    		}else{
-    			FacesContext.getCurrentInstance().getExternalContext().redirect("/yachay_innopolis"+resp);
-            }
-        } catch (IOException ex) {
-        	System.out.println("Error Regresar usuario");
-        }
-    }
-    
+ 		if (usr.getCedula().equals(Cedula) && usr.getPassword().equals(ps)){
+ 				t=usr.getTipo();
+ 		}
+ 		else if (usr.getCorreo().equals(Cedula) && usr.getPassword().equals(ps))
+ 		{
+ 			t=usr.getTipo();
+ 		}
+ 		List<Inter> i= manager.findAllInter();
+ 		List<Inter> n = new ArrayList<Inter>();
+ 		for (Inter h:i){
+ 			if (t.getIdTipo()==h.getTipo().getIdTipo()){
+ 				n.add(h);
+ 			}
+ 		}
+ 		List<Actividad> a = manager.findAllActividades();
+ 		for (Actividad c: a){
+ 			for (Inter k : n){
+ 				if (k.getActividad().getIdActividad()==c.getIdActividad()){
+ 					la.add(c);
+ 				}
+ 			}
+ 		}
+ 		System.out.println(la.size()+"si hay datos");
+ 	}
+ 	//metodo para salir de el sistema
+ 	public String logout(){
+ 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+         session.invalidate();
+ 		nom="";
+ 		correo="";
+ 		pass="";
+ 		Cedula="";
+ 		System.out.println("si salio");
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Salió",null));
+ 		return "index?faces-redirect=true";
+ 	}
+ 	
+ 	 /**
+      * Método para verifiar la existencia de la sesión
+      * @param rol de usuario
+      * @return Clase Usuario
+      */
+     public static UsuarioHelp verificarSession(){
+     	HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                 .getExternalContext().getSession(false);
+         SessionBean user = (SessionBean) session.getAttribute("sessionBean");
+         if (user==null || user.getSession() == null) {
+             try {
+                 FacesContext.getCurrentInstance().getExternalContext().redirect("/Yachayp1/index.xhtml");
+             } catch (IOException ex) {
+             	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(),null));
+             }
+             return null;
+         } else {
+                 return user.getSession();
+             } 
+         }
+     
     public String cargarDatosPerfil(){
     	String pag ="";
     	if(session != null){
@@ -274,6 +280,7 @@ public class SessionBean {
     			setApellido(usr.getApellido());
     			setNombre(usr.getNombre());
     			setCorreo(usr.getCorreo());
+    			setCedula(usr.getCedula());
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al  cargar sus datos personales",null));
 			}
@@ -283,7 +290,7 @@ public class SessionBean {
     
     public void cambioDatosPerfil(){
     	try {
-			manager.modificarDatosUSR(session.getIdUsr(), getNombre(), getApellido(), getCorreo());
+			manager.modificarDatosUSR(session.getIdUsr(),getCedula(), getNombre(), getApellido(), getCorreo());
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al cambiar sus datos personales",null));
 		}
@@ -297,4 +304,75 @@ public class SessionBean {
 		}
     }
     
+    public String regresarHomeUser(){
+    	return "home?faces-redirect=true";
+    }
+    
+    
+    //metodo para enviar el correo
+    public String devolvercontra(){
+ 		String r="";
+ 		Integer t=0;
+ 		List<Usuario> u = manager.findAllUsuarios();
+ 		for (Usuario y :u){
+ 			if (y.getCorreo().equals(correocontra)){
+ 				System.out.println("si entra1");
+ 				enviarmensajerecuperarcontra(y); 				
+ 				r="index";
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente a su correo", null));	  						  							
+
+ 				t=1;
+ 			}
+ 		}
+ 		if (t==0){ 			
+ 			FacesContext context = FacesContext.getCurrentInstance();
+ 			context.addMessage(null, new FacesMessage("Error..!!!",
+ 					"Su correo no existe o es incorrecto."));
+ 		} 		
+ 		return r;
+ 	}
+    String correoveri="";
+    //Tomar el id de estado general id_estadoSolicitud
+		public String enviarmensajerecuperarcontra(Usuario usr){
+		try {
+			if(!correoveri.equals(correocontra))
+			{
+					String passwordnuevo;
+					cedula = usr.getCedula();
+					nombre = usr.getNombre();
+					apellido = usr.getApellido();
+					correo = usr.getCorreo();
+					alias = usr.getAlias();
+					password = usr.getPassword();
+					passwordnuevo=Utilidades.Desencriptar(password);	
+					
+					smscor = "Sr/ra. "+nombre+" "+apellido+",sus datos son los siguientes: "
+				             + "\n Cédula: "+cedula+""
+				             + "\n Nombre: "+nombre+""
+				             + "\n Apellido: "+apellido+""
+				             + "\n Correo: "+correo+""				             
+							 + "\n para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contraseña es: "+passwordnuevo+"";
+	
+					EnvioMensaje.sendMail(correo, "Recuperación de contraseña YACHAY/REGECE  ", smscor);
+				    //limpiamos los datos
+					cedula="";
+			        nombre="";
+			        apellido="";
+			        correoveri=correo;
+					correo="";
+					alias="";
+					password="";	
+					passwordnuevo="";
+					smscor="";
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo su contraseña", null));
+			}
+			else if(correoveri.equals(correo))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo su contraseña", null));				
+			}
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Error al enviar correo", null));
+			}
+    		return "index?faces-redirect=true";
+		}			    
 }

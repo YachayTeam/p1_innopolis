@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	 xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" link="css" name="style.css" />
+	    <link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico"/>
+	<title>EVENTOS Y RESERVA DE RECURSOS DEL CENTRO DE EMPRENDIMIENTO</title>		
+</h:head>
+<body>
+<div class="ecuador-iso">
+<h:graphicImage id="bola" value="/resources/img/amalavida.png"></h:graphicImage>
+</div>
+<div class="centrar">
+<p:growl id="message5" showDetail="true" />
+	<h:form id="form5">		
+		<div class="ui-grid-row">
+	 		<div class="ui-grid-col-10" style="padding-left:20%;">	
+				<h1 align="center">REGECE</h1>	
+				<h3 align="center">(Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento)</h3> 	
+			 </div>
+			<div class="ui-grid-col-2">		
+			<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage>
+			</div>			
+		</div>
+	</h:form>
+	<h:form>  
+    <p:menubar>
+        <f:facet name="options">
+        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+            <p:commandButton id="tracksalir" value="Volver"  action="/home.xhtml" icon="ui-icon-home">
+            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+            </p:commandButton>
+        </f:facet>
+    </p:menubar>
+</h:form>
+	<hr />
+	<p:tabView dynamic="true" cache="true">
+ 	<p:tab title="Calendario">
+		<h:form id="form">
+			<p:growl id="messages" showDetail="true" />
+			
+			<div align="right">
+			<p:outputLabel value="Eventos: "></p:outputLabel>
+			<p:selectOneMenu required="true" styleClass="t" value="#{calusrBeanlogeado.te}" requiredMessage="Requerido tipo">
+			<f:selectItem  itemLabel="Listar todos" itemValue="0" />
+			<f:selectItems value="#{calusrBeanlogeado.listaEveTipo}" />
+			<p:ajax
+				listener="#{calusrBeanlogeado.asignarTipoeve()}" update="form">
+			</p:ajax>
+			</p:selectOneMenu>
+			&nbsp; &nbsp; 
+			<p:outputLabel value="Ubicación: "></p:outputLabel>
+			<p:selectOneMenu required="true" styleClass="t" value="#{calusrBeanlogeado.sala}" requiredMessage="Requerido ubicación">
+			<f:selectItem  itemLabel="Listar todos" itemValue="0" />
+			<f:selectItems value="#{calusrBeanlogeado.listaUbicacion}" />
+			<p:ajax
+				listener="#{calusrBeanlogeado.asignarsala()}" update="form">
+			</p:ajax>
+			</p:selectOneMenu>     
+			</div>
+				<h3 style="margin-top: 0">Calendario</h3>
+						
+			<p:commandButton id="trackimprimir1" value="Imprimir Lista de Eventos" icon="ui-icon-print">
+				<p:ajax  oncomplete="PF('dlg2').show();" />
+				<p:tooltip id="toolTipTrack4" for="trackimprimir1" value="Imprimir Lista de eventos" trackMouse="true" />
+			</p:commandButton>
+		
+			<p:dialog widgetVar="dlg2" modal="true" closable="false" closeOnEscape="false"  header="Imprimir Eventos" showEffect="clip" hideEffect="clip">
+				<p:panelGrid columns="2" >
+					<h:outputText value="Fecha Inicio*:"/>
+					<p:calendar   id="fechai1" value="#{calusrBeanlogeado.fi}" pattern="yyyy/MM/dd" mask="true" >
+					</p:calendar>
+			<h:outputText value="Fecha Fin*:"/>
+					<p:calendar    id="fechaf1" value="#{calusrBeanlogeado.ff}" pattern="yyyy/MM/dd" mask="true">
+					</p:calendar>			
+			<p:outputLabel value="Ubicación: "></p:outputLabel>
+				<p:selectOneMenu styleClass="t" value="#{calusrBeanlogeado.sala}">
+				<f:selectItem  itemLabel="Lista de Salas" itemValue="" />
+				<f:selectItems value="#{calusrBeanlogeado.listaUbicacion}" />
+				<p:ajax
+					listener="#{calusrBeanlogeado.asignarsalaimp()}">
+				</p:ajax>
+			</p:selectOneMenu>     		
+					<h:commandButton id="trackimpri" class="ui-state-default" value="Imprimir" action="#{calusrBeanlogeado.imprimirRptDocumento()}" update="messages">
+    				</h:commandButton>
+    				<p:commandButton id="trackcsal" value="Cerrar" icon="ui-icon-close" onclick="PF('dlg2').close();" update="form messages" action="#{calusrBeanlogeado.cancelarImpresion}">
+					</p:commandButton>
+				</p:panelGrid>
+			</p:dialog>		
+	
+				<p:schedule id="schedule" value="#{calusrBeanlogeado.eventModel}"
+					widgetVar="myschedule" locale="es" timeZone="GMT-5" showHeader="true" draggable="false" resizable="false">
+					<p:ajax event="eventSelect"
+						listener="#{calusrBeanlogeado.onEventSelect}" update="dialog eventDetails"
+						oncomplete="PF('eventDialog').show();" />
+				</p:schedule>
+
+			<p:dialog id="dialog" widgetVar="eventDialog" closable="true" closeOnEscape="true"
+				header="#{calusrBeanlogeado.event.title}" width="50%" showEffect="clip"
+				hideEffect="clip">				
+				<div class="ui-grid-row">
+	 			 <div class="ui-grid-col-1">
+	 			 <p:graphicImage height="120" width="120"
+							value="#{FacesContext
+						.getCurrentInstance().getExternalContext()}/imgevent/#{calusrBeanlogeado.event.data.imagen}" />
+	 			 </div>
+	 			  <div class="ui-grid-col-5">
+   		 	 <h:outputText value="  "/>
+   			 </div>
+	 			 <div class="ui-grid-col-3">
+				<h:panelGrid id="eventDetails" columns="4">					
+					<b><h:outputLabel for="from" value="Descrici&oacute;n:" ></h:outputLabel> </b>
+					<p:outputLabel id="from" value="#{calusrBeanlogeado.event.data.descripcion}"/>
+					<b><h:outputLabel for="date" value="Fecha Inicio:" /></b>
+					<p:outputLabel id="date" value="#{calusrBeanlogeado.event.startDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-5" />
+					</p:outputLabel>
+					<b><h:outputLabel for="date1" value="Fecha Fin:" /></b>
+					<p:outputLabel id="date1" value="#{calusrBeanlogeado.event.endDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-5" />
+					</p:outputLabel>
+					<b><h:outputLabel for="tc" value="Tipo Evento:" /></b>
+					<p:outputLabel id="tc" value="#{calusrBeanlogeado.event.data.tipoevento.tipo}"/>
+					<b><h:outputLabel for="ubi" value="Ubicación:" /></b>
+					<p:outputLabel id="ubi" value="#{calusrBeanlogeado.event.data.sala.tipo}"/>
+					<b><h:outputLabel for="ca" value="Capacidad:" /></b>
+					<p:outputLabel id="ca" value="#{calusrBeanlogeado.event.data.cantidad}"/>
+					<b><h:outputLabel for="co" value="Costo:" /></b>
+					<p:outputLabel id="co" value="#{calusrBeanlogeado.event.data.costo}"/>
+					<p:commandButton id="addButton" value="Inscribete"
+						action="#{calusrBeanlogeado.irInscripcion}"
+						oncomplete="PF('myschedule').update();PF('eventDialog').hide();">
+						<p:tooltip id="toolTipTrac1" for="addButton" value="Bot&oacute;n para registrarse al evento" trackMouse="true" />
+						</p:commandButton>
+				</h:panelGrid>
+				</div>
+				</div>
+			</p:dialog>
+		</h:form>
+	<script type="text/javascript">
+		PrimeFaces.locales['es'] = {
+			closeText : 'Cerrar',
+			prevText : 'Anterior',
+			nextText : 'Siguiente',
+			monthNames : [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+					'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+					'Noviembre', 'Diciembre' ],
+			monthNamesShort : [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+					'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+			dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves',
+					'Viernes', 'SÃ¡bado' ],
+			dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+			dayNamesMin : [ 'D', 'L', 'M', 'X', 'J', 'V', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'S&oacute;lo hora',
+			timeText : 'Tiempo',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			currentText : 'Fecha actual',
+			ampm : false,
+			month : 'Mes',
+			week : 'Semana',
+			day : 'D&iacute;a',
+			allDayText : 'Todo el d&iacute;a'
+		};
+	</script>
+	</p:tab>
+	 <p:tab title="Lista de Eventos">
+<div class="div4">
+<h:form id="form4">
+		<p:growl id="message4" showDetail="true" />
+			
+			<p:commandButton id="trackimprimir" value="Imprimir Lista de Eventos" icon="ui-icon-print">
+				<p:ajax  oncomplete="PF('dlg1').show();" />
+				<p:tooltip id="toolTipTrack3" for="trackimprimir" value="Imprimir Lista de eventos" trackMouse="true" />
+			</p:commandButton>
+			<br>
+			</br>
+			<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="false"  header="Imprimir Eventos" showEffect="clip" hideEffect="clip">
+				<p:panelGrid columns="2" >
+					<h:outputText value="Fecha Inicio*:"/>
+					<p:calendar  id="fechai" value="#{calusrBeanlogeado.fi}" pattern="yyyy/MM/dd" mask="true" >
+					</p:calendar>
+			<h:outputText value="Fecha Fin*:"/>
+					<p:calendar  id="fechaf" value="#{calusrBeanlogeado.ff}" pattern="yyyy/MM/dd" mask="true">
+					</p:calendar>			
+			<p:outputLabel value="Ubicación: "></p:outputLabel>
+				<p:selectOneMenu styleClass="t" value="#{calusrBeanlogeado.sala}">
+				<f:selectItem  itemLabel="Lista de Salas" itemValue="0" />
+				<f:selectItems value="#{calusrBeanlogeado.listaUbicacion}" />
+				<p:ajax
+					listener="#{calusrBeanlogeado.asignarsalaimp()}">
+				</p:ajax>
+			</p:selectOneMenu>		
+					<h:commandButton id="trackimpri" class="ui-state-default" value="Imprimir" action="#{calusrBeanlogeado.imprimirRptDocumento()}" update=":messages">
+    				</h:commandButton>	
+    				<p:commandButton id="trackcsal" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" update="form4 message4" action="#{calusrBeanlogeado.cancelarImpresion}">
+					</p:commandButton>
+				</p:panelGrid>
+			</p:dialog>		
+            
+		<p:dataTable id="dt"  value="#{calusrBean.listEvenAct}" rows="5" var="reg" reflow="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
+                 paginator="true"  emptyMessage="No hay información almacenada">			
+			 <f:facet name="{exp}">
+			 <h:commandLink>
+               <!--   <h:graphicImage value="/resources/img/excel.png" width="24"/> -->
+               <p:button  value="Excel" />
+                <p:dataExporter type="xls" target="dt" fileName="usuarios_registrados" pageOnly="true"/>
+            </h:commandLink>
+            <h:commandLink>
+               <!--   <h:graphicImage value="/resources/img/pdf.png" width="24"/> -->
+               <p:button  value="Pdf" id="exp2"/>
+                <p:dataExporter type="pdf" target="dt" fileName="usuarios_registrados" pageOnly="true"/>
+            </h:commandLink>
+            </f:facet>	
+			<p:column id="f1" filterBy="#{reg.nombre}" sortBy="#{reg.nombre}"  headerText="Nombres de Eventos">			
+				<h:outputText value="#{reg.nombre}"></h:outputText>
+			</p:column>	
+			<p:column headerText="Costo" sortBy="#{reg.costo}">
+			<h:outputText value="#{reg.costo}"></h:outputText>
+			</p:column>
+			<p:column headerText="Fecha Inicio" sortBy="#{reg.fechaInicio}">
+			<h:outputText value="#{reg.fechaInicio}">
+				<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+			</h:outputText>
+			</p:column>	
+			<p:column headerText="Fecha Fin" sortBy="#{reg.fechaFin}">
+			<h:outputText value="#{reg.fechaFin}">
+				<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+			</h:outputText>
+			</p:column>	
+			<p:column id="f3" filterBy="#{reg.tipoevento.tipo}" sortBy="#{reg.tipoevento.tipo}" headerText="Tipo Evento">
+			<h:outputText value="#{reg.tipoevento.tipo}"></h:outputText>
+			</p:column>
+			<p:column id="f9" filterBy="#{reg.sala.tipo}" sortBy="#{reg.sala.tipo}"  headerText="Sala">			
+				<h:outputText value="#{reg.sala.tipo}" style="color: \##{reg.sala.colorsala.colorcod}"></h:outputText>
+			</p:column>
+			<p:column id="f4" filterBy="#{reg.cantidad}" sortBy="#{reg.cantidad}" width="70" headerText="Capacidad">
+			<h:outputText value="#{reg.cantidad}"></h:outputText>
+			</p:column>
+			<p:column width="152" headerText="Imagen" exportable="false">
+			<p:graphicImage width="50" height="50" value="/imgevent/#{reg.imagen}"></p:graphicImage>
+			</p:column>
+			<p:column headerText="Opciones" exportable="false">
+			<p:commandButton id="addButton" value="Inscribete"
+						action="#{calusrBeanlogeado.irInscripcion}"
+						oncomplete="PF('myschedule').update();PF('eventDialog').hide();">
+						<p:tooltip id="toolTipTrac1" for="addButton" value="Bot&oacute;n para registrarse al evento" trackMouse="true" />
+						</p:commandButton>
+			</p:column>						
+		</p:dataTable>		
+		<p:dialog header="Imagen" modal="true" closable="true"  closeOnEscape="true"  showEffect="fade" hideEffect="fade" resizable="false" widgetVar="imagendlg" id="imagendlg"> 
+            <p:panelGrid id="imagen1" columns="1" >
+                <f:facet name="header">
+        		</f:facet>
+        		  </p:panelGrid>
+   		</p:dialog>						
+</h:form>
+</div>
+<hr />
+</p:tab>  
+	</p:tabView>
+	</div>
+</body>
+</html>

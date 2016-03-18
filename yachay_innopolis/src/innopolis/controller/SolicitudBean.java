@@ -1,17 +1,21 @@
 package innopolis.controller;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import innopolis.entities.Recurso;
-import innopolis.entities.Solicicabecera;
-import innopolis.entities.Solicidetalle;
-import innopolis.entities.Soliciestado;
-import innopolis.entities.help.UsuarioHelp;
+import innopolis.entidades.Recurso;
+import innopolis.entidades.Solicicabecera;
+import innopolis.entidades.Solicidetalle;
+import innopolis.entidades.Soliciestado;
+import innopolis.entidades.Usuario;
+import innopolis.entidades.help.UsuarioHelp;
+import innopolis.manager.EnvioMensaje;
+import innopolis.manager.ManagerLogin;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
 
@@ -21,10 +25,15 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
+
 @SessionScoped
 @ManagedBean
 public class SolicitudBean {
 	private ManagerReservas manager;
+	private ManagerLogin managerlog;
 	
 	//Atributo de solicitud
 	//Cabecera
@@ -33,40 +42,182 @@ public class SolicitudBean {
 	private String justificacion;
 	private String objetivo;
 	private String notificacion;
-	private Date fecha; 
-	private Time horafin; 
-	private Time horainicio;
-	//Extra Manejo de Horas
-	private Date h_inicio;
-	private Date h_fin;
+	//Manejo detalles
+	private Date recursofecha;
+	private Timestamp h_inicio;
+	private Timestamp h_fin;
 	private List<SelectItem> select;
 	//Cambios solicitud
 	private List<Solicidetalle> listDetalles;
 	private Soliciestado estadoSol;
 	private Integer id_sol;
 	
+	// calendario
+	private Date date= new Date();
+	private ScheduleModel eventModel;
+	private ScheduleEvent event = new DefaultScheduleEvent();
+	// calendario
+	private Date fi;
+	private Date ff;
+	
+	private Time horafin; 
+	private Time horainicio;
+	
 	//Detalles
 	private Integer id_recurso;
+	private Recurso recurso;
 	private Integer capacidad_recurso;
 	private Solicicabecera solicitudCabTem;
 	private boolean solicitudCabTmpGuardada;
 	private List<Solicicabecera> listadoSolCab;
 	
-	/*Atributos de Acceso*/
-	private final String acceso = "emprendedor";
+	//tiporecurso
+	private Integer id_recursotipo;
+	private List<SelectItem> select2;
 	private UsuarioHelp session;
 	
+	//envio de correo a los administradores
+	private String smscoradmin; 
+	private String smscorusu;
+	private String correosadmin;
+	
+	//sacar la descripcion del tipo de ubicacion
+	private boolean mostrar;
+	private String descripcionubicacion;
+	private String imagen;
+	
+	private boolean agregardetalle;
+	
 	public SolicitudBean() {
-		/*Session*/
-		session = SessionBean.verificarSession(acceso);
+		session = SessionBean.verificarSession();
 		manager = new ManagerReservas();
-		//Select todos
-		select = getlistaRecursos();
+		managerlog = new ManagerLogin();
+		//Select Vacio
+		select2= new ArrayList<SelectItem>();
+		select = new ArrayList<SelectItem>();
+		direccion= session.getNombre();
+		justificacion=session.getApellido();
+		mostrar = false;
+		agregardetalle = true;
+		actividad="";
+		objetivo="";
+		capacidad_recurso=1;
+		descripcionubicacion="Descripción del Recurso";
+		imagen="300.jpg";
+	}
+	
+	public Time getHorafin() {
+		return horafin;
 	}
 
-	//Metodos Get y Set
+	public void setHorafin(Time horafin) {
+		this.horafin = horafin;
+	}
+
+	public Time getHorainicio() {
+		return horainicio;
+	}
+
+	public void setHorainicio(Time horainicio) {
+		this.horainicio = horainicio;
+	}
+	/**
+	 * @return the agregardetalle
+	 */
+	public boolean isAgregardetalle() {
+		return agregardetalle;
+	}
+	/**
+	 * @param agregardetalle the agregardetalle to set
+	 */
+	public void setAgregardetalle(boolean agregardetalle) {
+		this.agregardetalle = agregardetalle;
+	}
+	public Recurso getRecurso() {
+		return recurso;
+	}
+	
+	public void setRecurso(Recurso recurso) {
+		this.recurso = recurso;
+	}
+	
+	//Metodos Get y Set	
 	public ManagerReservas getManager() {
 		return manager;
+	}
+	public Date getFi() {
+		return fi;
+	}
+	public void setFi(Date fi) {
+		this.fi = fi;
+	}
+
+	public Date getFf() {
+		return ff;
+	}
+
+	public void setFf(Date ff) {
+		this.ff = ff;
+	}
+	/**
+	 * @return the date
+	 */
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	/**
+	 * @return the eventModel
+	 */
+	public ScheduleModel getEventModel() {
+		return eventModel;
+	}
+
+	/**
+	 * @param eventModel the eventModel to set
+	 */
+	public void setEventModel(ScheduleModel eventModel) {
+		this.eventModel = eventModel;
+	}
+
+	/**
+	 * @return the event
+	 */
+	public ScheduleEvent getEvent() {
+		return event;
+	}
+
+	/**
+	 * @param event the event to set
+	 */
+	public void setEvent(ScheduleEvent event) {
+		this.event = event;
+	}
+	/**
+	 * @return the id_recursotipo
+	 */
+	public Integer getId_recursotipo() {
+		return id_recursotipo;
+	}
+
+	/**
+	 * @param id_recursotipo the id_recursotipo to set
+	 */
+	public void setId_recursotipo(Integer id_recursotipo) {
+		this.id_recursotipo = id_recursotipo;
+	}
+	/**
+	 * @return the select2
+	 */
+	public List<SelectItem> getSelect2() {
+		return select2;
 	}
 
 	public void setManager(ManagerReservas manager) {
@@ -149,47 +300,34 @@ public class SolicitudBean {
 	public void setNotificacion(String notificacion) {
 		this.notificacion = notificacion;
 	}
-
-	public Date getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-
-	public Time getHorafin() {
-		return horafin;
-	}
-
-	public void setHorafin(Time horafin) {
-		this.horafin = horafin;
-	}
-
-	public Time getHorainicio() {
-		return horainicio;
-	}
-
-	public void setHorainicio(Time horainicio) {
-		this.horainicio = horainicio;
-	}
-	
-	public Date getH_fin() {
-		return h_fin;
-	}
-	
-	public void setH_fin(Date h_fin) {
-		this.h_fin = h_fin;
-	}
-	
-	public Date getH_inicio() {
+	/**
+	 * @return the h_inicio
+	 */
+	public Timestamp getH_inicio() {
 		return h_inicio;
 	}
-	
-	public void setH_inicio(Date h_inicio) {
+
+	/**
+	 * @param h_inicio the h_inicio to set
+	 */
+	public void setH_inicio(Timestamp h_inicio) {
 		this.h_inicio = h_inicio;
 	}
-	
+
+	/**
+	 * @return the h_fin
+	 */
+	public Timestamp getH_fin() {
+		return h_fin;
+	}
+
+	/**
+	 * @param h_fin the h_fin to set
+	 */
+	public void setH_fin(Timestamp h_fin) {
+		this.h_fin = h_fin;
+	}
+
 	public List<SelectItem> getSelect() {
 		return select;
 	}
@@ -218,6 +356,94 @@ public class SolicitudBean {
 		this.id_sol = id_sol;
 	}
 	
+	public Date getRecursofecha() {
+		return recursofecha;
+	}
+	
+	public void setRecursofecha(Date recursofecha) {
+		this.recursofecha = recursofecha;
+	}	
+	/**
+	 * @return the smscoradmin
+	 */
+	public String getSmscoradmin() {
+		return smscoradmin;
+	}
+
+	/**
+	 * @param smscoradmin the smscoradmin to set
+	 */
+	public void setSmscoradmin(String smscoradmin) {
+		this.smscoradmin = smscoradmin;
+	}
+
+	/**
+	 * @return the smscorusu
+	 */
+	public String getSmscorusu() {
+		return smscorusu;
+	}
+
+	/**
+	 * @param smscorusu the smscorusu to set
+	 */
+	public void setSmscorusu(String smscorusu) {
+		this.smscorusu = smscorusu;
+	}
+
+	/**
+	 * @return the correosadmin
+	 */
+	public String getCorreosadmin() {
+		return correosadmin;
+	}
+
+	/**
+	 * @param correosadmin the correosadmin to set
+	 */
+	public void setCorreosadmin(String correosadmin) {
+		this.correosadmin = correosadmin;
+	}
+	/**
+	 * @return the mostrar
+	 */
+	public boolean isMostrar() {
+		return mostrar;
+	}
+
+	/**
+	 * @param mostrar the mostrar to set
+	 */
+	public void setMostrar(boolean mostrar) {
+		this.mostrar = mostrar;
+	}
+	/**
+	 * @return the descripcionubicacion
+	 */
+	public String getDescripcionubicacion() {
+		return descripcionubicacion;
+	}
+
+	/**
+	 * @param descripcionubicacion the descripcionubicacion to set
+	 */
+	public void setDescripcionubicacion(String descripcionubicacion) {
+		this.descripcionubicacion = descripcionubicacion;
+	}
+	/**
+	 * @return the imagen
+	 */
+	public String getImagen() {
+		return imagen;
+	}
+
+	/**
+	 * @param imagen the imagen to set
+	 */
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
 	/*SESSION*/
 	public UsuarioHelp getSession() {
 		return session;
@@ -226,26 +452,15 @@ public class SolicitudBean {
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
 		String resp="";
+		System.out.println(getActividad()+"+++++++"+getObjetivo());
 		try {
-			//Modificacion de Horas
-			setHorainicio(this.fechaAtiempo(getH_inicio()));
-			setHorafin(this.fechaAtiempo(getH_fin()));
-			if(!Validacion.fechaMayorIgual(getFecha())){	
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual.", null));
-			}else if(getHorafin().getTime()<=getHorainicio().getTime()){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
-			}else if(Validacion.fechaIgualActual(getFecha()) && (!Validacion.horaMayorIgual(getHorainicio()) || !Validacion.horaMayorIgual(getHorafin()))){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La hora de solicitud no debe ser menor a la actual.", null));
-			}else{
-				//SolicitudTemporal
-				solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), getFecha(), getHorafin(), getHorainicio()); 
-				id_recurso=0; 
-				capacidad_recurso=0;
-				solicitudCabTmpGuardada=false;
-				//Cargar Listado----
-				select = this.getlistaRecursosLibres();
-				resp="soldet";
-			}
+			//SolicitudTemporal
+			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), new Date(), getSession().getIdUsr()); 
+			id_recurso=-1; 
+			capacidad_recurso=1;
+			solicitudCabTmpGuardada=false;
+			notificacion ="";
+			resp="";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
 		}
@@ -254,21 +469,94 @@ public class SolicitudBean {
 	
 	public String insertarDetalleSolicitud(){
 		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud ya fue guardada."));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud ya fue guardada.", null));			
 			return "";
 		}
-		
-		try {
-			manager.agregarSolicitudDetalleTmp(getId_recurso(), getcapacidad_recurso());
-			id_recurso=0; 
-			capacidad_recurso=0;
-		} catch (Exception e) {
+		else
+			if(fi.after(ff)){	
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La Fecha Inicio debe ser menor que la Fecha Fin", null));
+			}
+			try{//insertar
+			manager.agregarSolicitudDetalleTmp(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio);
+			agregardetalle=true;
+			id_recurso=-1;
+		    capacidad_recurso=1;
+			} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-		}
-						
+			agregardetalle=true;
+			id_recurso=-1; 
+		    capacidad_recurso=1;
+		}				
 		return "";
 	}
 	
+	//CARGAR toods los recursos LIBRES
+	public void controlarcantidad()
+	{
+		try {
+			if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==true)
+			{
+				agregardetalle=true;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La cantidad es mayor a la del recurso solicitado.", null));
+			}
+			else if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==false)
+			{
+				agregardetalle=false;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aun hay una cantidad del articulo libre.", null));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+		}
+	}
+	
+	public String insertarDetalleSolicitudlista(){
+		if(solicitudCabTmpGuardada==true){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud ya fue guardada.", null));			
+			return "";
+		}		
+			try{//insertar
+				List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin,horainicio, horafin);
+				for(Recurso p:listadoRecurso){
+					if(id_recursotipo.equals(p.getRecursotipo().getIdRectipo()))
+					{
+						h_inicio = new Timestamp(fi.getTime());
+						h_fin = new Timestamp(ff.getTime());
+						manager.agregarSolicitudDetalleTmplista(p.getIdRecurso(), p.getCapacidad(),h_fin, h_inicio);
+						System.out.println(p.getIdRecurso()+ " CON NUM RECURSO " +p.getRecursotipo().getIdRectipo());
+					}
+			}
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Los recursos se añadieron.", null));			
+			id_recurso=-1; 
+			capacidad_recurso=1;
+			//LIMPIAR LISTADO
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			//LIMPIAR LISTADO
+			id_recurso=-1; 
+			capacidad_recurso=1;
+			//LIMPIAR LISTADO
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
+		}				
+		return "";
+	}
+	
+	//LISTADO DE getlistaTipoRecursosdeunrecursotipo
+		public List<SelectItem> getlistaTipoRecursosdeunrecursotipo(){
+			List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+			List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin,horainicio, horafin);
+			for(Recurso p:listadoRecurso){
+				if(p.getRecursotipo().getIdRectipo().equals(id_recurso))
+				{
+				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre());
+				listadoSI.add(item);
+				}
+			}
+			return listadoSI;
+		}
+		
 	public String quitarDetalleSolicitud(Solicidetalle det){
 		if(solicitudCabTmpGuardada==true){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud ya fue guardada."));
@@ -284,49 +572,171 @@ public class SolicitudBean {
 		return "";
 	}
 	
-	public String guardarSolicitud(){
+	public String guardarSolicitud(){	
 		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud ya fue guardada."));
-			return "";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud ya fue guardada y enviada para aprobación."));
+			return "home";
 		}
-		
 		try {
-			manager.guardarSolicitudTemporal(solicitudCabTem);
+			System.out.println("entra a guardarsoli");
+			manager.guardarSolicitudTemporalsinev(solicitudCabTem);
+			//agregarlistadecorreos principal
+			System.out.println("entra aca2");
+					
+			System.out.println("asdsadsadsadsadsad");
+			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
+			smscoradmin = "El Sr/ra. "+direccion+" "+justificacion+", envió una solicitud para un recurso; Requiere la aprobación o negación.; \n"
+		             +"los datos de la solicitud son:"
+		             + "\n Actividad: "+actividad+""
+		             + "\n Objetivo: "+objetivo+""
+		             + "\n Fecha de Inicio: "+date.format(fi).toString()+""
+					 + "\n Fecha de Fin: "+date.format(ff).toString()+"";
+			
+			smscorusu = "Sr/ra.  "+direccion+" "+justificacion+", su petición de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento), será verificado por los administradores, espere al mensaje de confirmación. \n"
+					 +"los datos su solicitud son:"
+		             + "\n Actividad: "+actividad+""
+		             + "\n Objetivo: "+objetivo+""
+		             + "\n Fecha de Inicio: "+date.format(fi).toString()+""
+		       		 + "\n Fecha de Fin: "+date.format(ff).toString()+"";
+			getcorreosusu();
+			System.out.println(correosadmin);
+			EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
+			EnvioMensaje.sendMail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
+			
+			
 			solicitudCabTmpGuardada=true;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Su solicitud fue enviada espere el correo de confirmacion."));
+			correosadmin="";
+			smscoradmin="";
+			smscorusu="";
+			descripcionubicacion="Descripción de la Ubicación";
+			imagen="300.jpg";
+			fi=null;
+			ff=null;
+			setActividad("");setObjetivo("");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Su solicitud fue enviada espere el mensaje de confirmacion al correo."));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(),"asasadas"));
 		}
 		
-		return "";
+		return "home";
 	}
 	
-	//LISTADO DE RECURSOS
-	public List<SelectItem> getlistaRecursosLibres(){
-		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-		List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(fecha, horainicio, horafin);
-		for(Recurso p:listadoRecurso){
-			SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+p.getCapacidad());
-			listadoSI.add(item);
+	//metodo para listar correos de ususariosadmin
+		public String getcorreosusu(){			
+			try
+			{
+			List<Usuario> a = managerlog.findUsrsPrincipal();
+			System.out.println(a.size());
+			correosadmin="";
+			for (Usuario u : a) {
+				correosadmin+=u.getCorreo()+",";
+			}
+			int max = correosadmin.length();
+			correosadmin = correosadmin.substring(0, max-1).trim(); 
+			}
+			catch (Exception e) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Error..!!!",
+					"No se encuentran usuarios administradores"));
+			e.printStackTrace();
 		}
-		return listadoSI;
-	}
-	
-	public List<SelectItem> getlistaRecursos(){
-		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-		List<Recurso> listadoRecurso= manager.findAllRecurso();
-		for(Recurso p:listadoRecurso){
-			SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+p.getCapacidad());
-			listadoSI.add(item);
+			return correosadmin;
 		}
-		return listadoSI;
+	
+	//CARGAR toods los recursos LIBRES
+	public void todoslorecursos()
+	{
+		try {
+			manager.quitarrecursosactivos();
+			cargarRecursos();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	//metodo para asignar el RecursoTipo al Recurso
-	public String asignarRecLibre(){
-		manager.asignarRecurso(id_recurso);
-		return "";
+	//CARGAR RECURSOS LIBRES
+		public void cargarRecursos(){
+			h_inicio = new Timestamp(fi.getTime());
+			h_fin = new Timestamp(ff.getTime());
+			System.out.println("Entra a cargarrecursos con fecha inicio: "+h_inicio+" fecha fin: "+h_fin);
+			if(h_fin==null || h_inicio==null){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione horario para continuar.", null));
+			}else{
+				//Modificacion de Horas
+				setHorainicio(this.fechaAtiempo(h_inicio));
+				setHorafin(this.fechaAtiempo(h_fin));
+				System.out.println("Entra a cargarrecursos con hora inicio: "+getHorainicio()+" hora fin: "+getHorafin());
+				if(!Validacion.fechaMayorIgual(h_inicio) ||!Validacion.fechaMayorIgual(h_fin) ){	
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual.", null));
+				}else if(h_fin.getTime()<=h_inicio.getTime()){
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
+				}//else if((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion.horaMayorIgual(getHorafin()))){
+				//	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La hora de solicitud no debe ser menor a la actual.", null));
+			//	}
+				else{
+					select = this.getlistaRecursosLibres();
+					//select2 = this.getlistaTipoRecursosLibres();
+				}
+			}
+		}
+	
+		//LISTADO DE RECURS
+		public List<SelectItem> getlistaRecursosLibres(){
+			List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+			List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin,horainicio,horafin);
+			for(Recurso p:listadoRecurso){
+				int contador= manager.findContadorRecurso(h_inicio,h_fin, p.getIdRecurso());
+				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+Integer.toString(contador));
+				listadoSI.add(item);
+			}
+			return listadoSI;
+		}
+		
+//	//public List<SelectItem> listadoRecursos=new ArrayList<SelectItem>();
+//	//public int valor=0;
+//	//LISTADO DE RECURSOS
+//	public List<SelectItem> getlistaRecursosLibresaunno(){
+//		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+//		List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin);
+//		for(Recurso p:listadoRecurso){
+//				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+p.getCapacidad());
+//				listadoSI.add(item);
+//		}
+//		return listadoSI;
+//		
+//	}	
+	
+	public void selecionadorecuraso()
+	{
+		System.out.println(getId_recurso());
+
 	}
+	 
+	
+//	//LISTADO DE RECURStipo
+//	public List<SelectItem> getlistaTipoRecursosLibres(){
+//		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+//		//borre los recursos anteriores de la tabla recursos activos
+//		List<Recursotipo> listadoTipoRecurso= manager.findAllTipoRecursosDisponibles(h_inicio, h_fin);
+//		for(Recursotipo p:listadoTipoRecurso){
+//			SelectItem item=new SelectItem(p.getIdRectipo(), p.getTipo(),p.getDescripcion());
+//			listadoSI.add(item);
+//		}
+//		return listadoSI;
+//	}
+	
+	
+//	public List<SelectItem> getlistaRecursos(){
+//		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+//		List<Recurso> listadoRecurso= manager.findAllRecurso();
+//		for(Recurso p:listadoRecurso){
+//			SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+p.getCapacidad());
+//			listadoSI.add(item);
+//		}
+//		return listadoSI;
+//	}
 	
 	//JAVA.DATE TO SQL.TIME
 	@SuppressWarnings("deprecation")
@@ -343,11 +753,9 @@ public class SolicitudBean {
 		String r="";
 		if (solicitudCabTem.getSolicidetalles().size()>0){
 			r="solres";
-			System.out.print(r);
 		}
 		else{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar Recursos", null));
-			System.out.print(r);
 		}
 		return r; 
 	}
@@ -359,5 +767,89 @@ public class SolicitudBean {
 	public String irsoldet(){
 		return "soldet"; 
 	}
+	
+	public String irvolver(){	
+		String r="eventos";
+	    setId_recurso(-1);
+		setActividad(""); 
+		setObjetivo("");
+		setRecursofecha(null);
+		setH_inicio(null);
+		setH_fin(null);
+		h_inicio=null;
+		h_fin=null;
+		fi=null;
+		ff=null;
+		descripcionubicacion="Descripción de la Ubicación";
+		imagen="300.jpg";
+		select = new ArrayList<SelectItem>();
+		select2 = new ArrayList<SelectItem>();
+		solicitudCabTem=null;
+		return r; 
+	}
+	
+	
+	
+	public String veri(){
+			String resp="";
+			try {
+				//SolicitudTemporal
+				System.out.println(getActividad());
+				System.out.println(getObjetivo());
+				if(actividad.equals("") && objetivo.equals(""))
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
+				}
+				else
+				{
+				solicitudCabTem = manager.crearSolicitudTmp(getDireccion(),actividad , objetivo, getJustificacion(), new Date(), getSession().getIdUsr()); 
+				id_recurso=-1; 
+				//capacidad_recurso=0;
+				solicitudCabTmpGuardada=false;
+				id_recurso=-1; 
+				//capacidad_recurso=0;
+				//actividad="";
+				//objetivo="";				
+				//LIMPIAR LISTADO
+				select = new ArrayList<SelectItem>();
+				select2 = new ArrayList<SelectItem>();
+				h_inicio = null;
+				h_fin = null;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Datos almacenados...", null));
+				}
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
+			}
+			
+			return resp;
+ 	}
 
+	public void veri1(){
+		try {
+			//SolicitudTemporal
+			System.out.println(getActividad());
+			actividad=getActividad();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
+		}
+		}
+	public void mostrara()
+	{
+		Recurso rec;
+		try {
+			rec = manager.findRecursoByID(id_recurso);
+			descripcionubicacion = rec.getDescripcion();
+			imagen=rec.getImagen();
+			mostrar=true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	// metodo para asignar el Tipo al Usuario
+		public String asignarRecurso() {
+			manager.asignarRecurso(id_recurso);		
+			return "";
+		}
 }

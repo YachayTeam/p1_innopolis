@@ -1,6 +1,7 @@
 package innopolis.manager;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,7 +59,37 @@ public class Validacion {
 		boolean resp = false;
 		Date fecha_actual = new Date();
 		Time tiempo_actual = fechaAtiempo(fecha_actual); 
+		System.out.println(hora.getTime());
+		System.out.println(tiempo_actual.getTime());
 		if(hora.getTime()>=tiempo_actual.getTime()){
+			resp = true;
+		}
+		return resp;
+	}
+	
+	//Fecha igual
+	public static boolean fechaIgual(Date fecha_actual, Date fecha_propuesta){
+		boolean resp = false;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		if ( dateFormat.format(fecha_actual).equals(dateFormat.format(fecha_propuesta)) ){
+			resp = true;
+		}
+		return resp;
+	}
+	
+	//Hora entre 2 horas
+	public static boolean horaEntreDos(Timestamp hora, Timestamp horaInicio, Timestamp HoraFin){
+		boolean resp = false;
+		if(hora.getTime()>=horaInicio.getTime() && hora.getTime()<=HoraFin.getTime()){
+			resp = true;
+		}
+		return resp;
+	}
+	
+	//Fecha entre 2 fechas
+	public static boolean fechaEntreDos(Timestamp fecha, Timestamp fechaInicio, Timestamp fechaFin){
+		boolean resp = false;
+		if(fecha.getTime()>=fechaInicio.getTime() && fecha.getTime()<=fechaFin.getTime()){
 			resp = true;
 		}
 		return resp;

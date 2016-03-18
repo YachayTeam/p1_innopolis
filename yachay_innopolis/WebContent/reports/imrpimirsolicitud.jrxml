@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="imrpimirsolicitud" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="40348a81-7aad-4418-bf78-e22e8ade0107">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pIdsolcab" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pImagen" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\LUIS\\Desktop\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select b.estado,c.nombre,c.apellido,* from
+solicicabecera a
+join soliciestado b on (a.id_solest = b.id_solest) join usuario c on  (a.idusr = c.id_usr)
+where a.id_solcab= $P{pIdsolcab};]]>
+	</queryString>
+	<field name="estado" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="apellido" class="java.lang.String"/>
+	<field name="id_solcab" class="java.lang.Integer"/>
+	<field name="id_solest" class="java.lang.Integer"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="actividad" class="java.lang.String"/>
+	<field name="objetivo" class="java.lang.String"/>
+	<field name="justificacion" class="java.lang.String"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="sms" class="java.lang.String"/>
+	<field name="idusr" class="java.lang.Integer"/>
+	<field name="id_usr" class="java.lang.Integer"/>
+	<field name="id_tipoestadousr" class="java.lang.Integer"/>
+	<field name="id_tipo" class="java.lang.Integer"/>
+	<field name="cedula" class="java.lang.String"/>
+	<field name="correo" class="java.lang.String"/>
+	<field name="alias" class="java.lang.String"/>
+	<field name="password" class="java.lang.String"/>
+	<field name="interes" class="java.lang.String"/>
+	<field name="principal" class="java.lang.Boolean"/>
+	<field name="empresestdu" class="java.lang.String"/>
+	<field name="cargotitulo" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="260">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="251" width="555" height="1" uuid="80074b99-d512-4ca5-9e1a-06acdf54cc24"/>
+			</line>
+			<staticText>
+				<reportElement x="20" y="68" width="140" height="20" uuid="a5dba7d5-e9c0-49ae-af92-2bec3049a06c"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividad: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="68" width="87" height="20" uuid="3c12aa3d-9820-4f8a-aab9-444282fc5a99"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="13" width="365" height="43" forecolor="#003399" uuid="e6e07bb0-ee4d-480e-b498-2812b7b9e519"/>
+				<textElement>
+					<font size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitud Articulo Adicional]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="88" width="140" height="20" uuid="263deed8-4cbc-48e1-af8f-38e30722c230"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Registro: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="108" width="138" height="20" uuid="7953ac25-d0bd-45e5-b5a6-1508700778d1"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Objetivo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="68" width="100" height="20" uuid="bcb5e3b6-fbee-48a5-a542-dbb5c2a9ceb7"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{actividad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="108" width="100" height="20" uuid="9947f98c-21e8-409c-a888-62f069c592a7"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{objetivo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="88" width="100" height="20" uuid="0341dbd6-13a2-444c-b5cb-966ce59a2b4b"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="454" y="68" width="100" height="20" uuid="4f5dc490-48b3-4960-bdff-945721b413f9"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="144" width="138" height="24" forecolor="#003399" uuid="6b15b727-748d-47cc-96fa-25502bec9b7e"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitante]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="158" y="201" width="100" height="20" uuid="005adf2e-6d86-4cde-b618-2a9bed57ce3a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="201" width="138" height="20" uuid="4f19c90b-9faa-4dea-95ca-442d42ad7299"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="158" y="221" width="100" height="20" uuid="f6422d31-ff79-4ffa-ae25-9b1f2538793f"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="221" width="138" height="20" uuid="695ac189-11a1-4a8f-a2bd-a69cd5218ec6"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="181" width="138" height="20" uuid="62131674-336f-4f10-8f0b-020bec4421aa"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cádula/Pasaporte:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="181" width="100" height="20" uuid="06214d8c-4e7f-4d32-ada9-f590c18a21ee"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="454" y="0" width="100" height="50" uuid="d2392549-5e9e-4251-b402-4ba1d2efc8d1"/>
+				<imageExpression><![CDATA[$P{pImagen}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="93">
+			<subreport>
+				<reportElement x="20" y="14" width="524" height="64" uuid="eaeb9ac3-c6f3-4557-9dc0-6b2d00446613"/>
+				<subreportParameter name="pIdsolcab">
+					<subreportParameterExpression><![CDATA[$P{pIdsolcab}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["imrpimirsolicitud_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="c66e2888-318c-4bda-bf1a-f8f57c57374c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="aeb254ba-b130-45df-a7fa-5d555f577b56"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="457584c7-4918-4ad4-beb3-c511f78f3f07"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="95">
+			<staticText>
+				<reportElement mode="Opaque" x="404" y="36" width="140" height="37" forecolor="#000000" backcolor="#FFFFFF" uuid="3f376381-9414-4009-966f-640cb5f144bc"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Representate
+Yachay E.P.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="389" y="35" width="155" height="1" uuid="b9eb6f44-3ce4-48b3-b263-8ee34a177b4a"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

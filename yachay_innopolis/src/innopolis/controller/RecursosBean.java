@@ -1,12 +1,22 @@
 package innopolis.controller;
 
-import innopolis.entities.Recurso;
-import innopolis.entities.Recursodisponible;
-import innopolis.entities.Recursotipo;
+import innopolis.entidades.Recurso;
+import innopolis.entidades.Recursodisponible;
+import innopolis.entidades.Recursotipo;
+import innopolis.entidades.Sala;
+import innopolis.entidades.help.UsuarioHelp;
 import innopolis.manager.ManagerReservas;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -14,6 +24,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletContext;
+
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 @SessionScoped
 @ManagedBean
@@ -22,28 +36,37 @@ public class RecursosBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private ManagerReservas manager;
-	
 	private Integer idRecurso;
-
 	private Integer capacidad;
-
 	private String descripcion;
-
 	private String imagen;
-
 	private String lugar;
-
+	private Integer stock;
 	private String nombre;
-	
 	private Integer rd;
+	private  Integer rt;
 	
-	private Integer rt;
+	private UsuarioHelp session;
 	
+	//imagenes
+		private UploadedFile file;
+		private String g;
+		
 	public RecursosBean(){
+		/*Session*/
+		session = SessionBean.verificarSession();
 		manager = new ManagerReservas();
-		imagen = "";
+		imagen="300.jpg";
+		capacidad=0;
+		stock=0;
 	}
 	
+	public Integer getStock() {
+		return stock;
+	}
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
 	public Integer getIdRecurso() {
 		return idRecurso;
 	}
@@ -111,20 +134,35 @@ public class RecursosBean implements Serializable{
 	public List<Recurso> getListRegistro(){
 		return manager.findAllRecurso();
 	}
+	
+	/**
+	 * @return the session
+	 */
+	public UsuarioHelp getSession() {
+		return session;
+	}
+
+	/**
+	 * @param session the session to set
+	 */
+	public void setSession(UsuarioHelp session) {
+		this.session = session;
+	}
 
 	//accion para invocar el manager y crear recurso
 	public String crearRecurso(){
-		if(rt.equals(-1)){
+		/*if(rt.equals(-1)){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Seleccione tipo recurso",null));
-		}else{
+		}else{*/
 			try {
-				manager.insertarRecurso(capacidad, descripcion, lugar, nombre, imagen);
+				manager.insertarRecurso(capacidad, descripcion, lugar, nombre, imagen/*,stock*/);
 				//reiniciamos datos (limpiamos el formulario)
 				capacidad=0;
 				descripcion="";
 				lugar="";
+				//stock=0;
 				nombre="";
-				imagen="";
+				imagen = "300.jpg";
 				rd=1;
 				rt=0;
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registrado..!!!",  "Recurso Almacenado ") );
@@ -132,7 +170,7 @@ public class RecursosBean implements Serializable{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al crear recurso",null));
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
 			};
-		}
+		//}
 		return "";
 	}
 		
@@ -177,20 +215,36 @@ public class RecursosBean implements Serializable{
 		idRecurso=t.getIdRecurso();
 		capacidad=t.getCapacidad();
 		nombre= t.getNombre();
+		asignarNombreImagen();
 		lugar=t.getLugar();
 		descripcion=t.getDescripcion();
 		imagen=t.getImagen();
-		rt=t.getRecursotipo().getIdRectipo();
+		//stock=t.getStock();
+		//rt=t.getRecursotipo().getIdRectipo();
 		return "";
 	}
 	
 	//accion para modificar los recursos
 	public String actualizarRecurso(){
-		manager.editarRecurso(idRecurso, capacidad, descripcion, lugar, nombre);
+		try
+		{			
+		manager.editarRecurso(idRecurso, capacidad, descripcion, lugar, nombre, imagen/*,stock, rt*/);
 		//limpiamos los datos
-		capacidad=0;descripcion="";lugar="";nombre="";imagen="";rd=1;rt=0;
+		capacidad=0;
+		descripcion="";
+		lugar="";
+		nombre="";
+		imagen = "300.jpg";
+		rd=1;
+		//stock=0;
+		g="";
+		//rt=0;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
-		return "";
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "recurso";
 		
 	}
 	
@@ -212,11 +266,13 @@ public class RecursosBean implements Serializable{
 		FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelado!", "Actualizacion Cancelada"));
       //limpiamos los datos
+        idRecurso=0;
 		capacidad=0;
 		descripcion="";
 		lugar="";
+		//stock=0;
 		nombre="";
-		imagen="";
+		setImagen("300.jpg");
 		rd=1;
 		rt=0;
 		return "";					
@@ -227,12 +283,95 @@ public class RecursosBean implements Serializable{
 	}
 	
 	public String irTrecurso(){
-		return "rectipo";
+		return "rectipo?faces-redirect=true";
 	}
 	public String irEvento(){
 		System.out.println("SI");
 		return "eventos";
 	}			
-			
 	
+	// metodo para guardar la imagen en el servidor
+			public void ImagenServ(FileUploadEvent event) throws IOException {
+				file = event.getFile();
+				InputStream inputStream = null;
+				OutputStream outputStream = null;
+
+				if (file != null) {
+					try {
+						// Tomar PAD REAL
+						ServletContext servletContext = (ServletContext) FacesContext
+								.getCurrentInstance().getExternalContext().getContext();
+						String carpetaImagenes = (String) servletContext
+								.getRealPath(File.separatorChar + "imgevent");
+						setImagen(g);
+						System.out.println("PAD------> " + carpetaImagenes);
+						System.out.println("name------> " + getImagen());
+						outputStream = new FileOutputStream(new File(carpetaImagenes
+								+ File.separatorChar + getImagen()));
+						inputStream = file.getInputstream();
+
+						int read = 0;
+						byte[] bytes = new byte[1024];
+
+						while ((read = inputStream.read(bytes)) != -1) {
+							outputStream.write(bytes, 0, read);
+						}
+
+						FacesContext.getCurrentInstance().addMessage(
+								null,
+								new FacesMessage(FacesMessage.SEVERITY_INFO,
+										"Correcto:", "Carga correcta"));
+
+					} catch (Exception e) {
+						FacesContext.getCurrentInstance().addMessage(
+								null,
+								new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
+										"no se pudo subir la imagen"));
+						e.printStackTrace();
+					} finally {
+						if (inputStream != null) {
+							inputStream.close();
+						}
+
+						if (outputStream != null) {
+							outputStream.close();
+						}
+					}
+				} else {
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
+									"no se pudo seleccionar la imagen"));
+				}	
+			}
+		
+		// metodo para poner el nombre a la imagen
+				public void asignarNombreImagen() {
+					if (getNombre().trim().isEmpty()) {
+						System.out.println("Vacio");
+					} else {
+						DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmm");
+						g="img_"+getNombre()+dateFormat.format(new Date())+".jpg";
+						System.out.println(g);
+					}
+				}
+		// metodo para poner el nombre a la imagen
+				public void nombreImagen(String n) {
+					List<Sala> li= manager.findAllSalas();
+					for (Sala e : li) {
+						if (e.getImagen().contains(n)){
+							g=e.getImagen();
+						}
+					}
+					System.out.println(g);
+				}
+			//envios
+				//ir a sugerencias lista
+		  		public String ircreacioneventos(){				
+					return "evetipo?faces-redirect=true";					
+				}	
+		  		public String irsalas(){				
+					return "salas?faces-redirect=true";					
+				}	
+		  		
 }
