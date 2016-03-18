@@ -32,7 +32,10 @@
 		<p:menubar>
 			<p:menuitem value="Iniciar Sesi&oacute;n"  onclick="PF('dlg3').show();" icon=" ui-icon-power"></p:menuitem>
 			<p:menuitem value="Recuperar contraseña" onclick="PF('dlg4').show();" icon="ui-icon-lightbulb" />
-			<p:menuitem value="Regístrarme"  action="/ingresousuario.xhtml" icon="ui-icon-contact" />   		 
+			<p:menuitem value="Regístrarme"  action="/ingresousuario.xhtml" icon="ui-icon-contact" />
+			   <p:submenu label="Ayuda" icon="ui-icon-help">
+                <p:menuitem value="Manual de usuario" url="/manual/ManualdeUsuarioSolicitante.pdf"/>
+            </p:submenu>
 			 <f:facet name="options">
         </f:facet>
 		</p:menubar>

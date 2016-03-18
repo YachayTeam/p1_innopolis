@@ -801,5 +801,4 @@ public class CalusrBean implements Serializable {
 			}
 			return l1;
 		}
-		
 }
