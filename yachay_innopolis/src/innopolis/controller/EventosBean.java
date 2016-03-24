@@ -2889,7 +2889,7 @@ public class EventosBean{
 				                    .getRealPath(File.separatorChar + "reports");
 							String rutaReporte= carpetaReportes+File.separatorChar +"Imprimireventoreporte.jasper";
 										
-							Connection conexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bd_inno?user=u_inno&password=,ngo4uIoo2|e");
+							Connection conexion = DriverManager.getConnection("jdbc:postgresql://10.1.0.158:5432/bd_inno?user=adm_bicichay&password=y-4IO4SDwu_!");
 
 							Map<String, Object> parametros = new HashMap<String, Object>();
 							System.out.println(carpetaReportes+File.separatorChar+"yachay-logo1.png");

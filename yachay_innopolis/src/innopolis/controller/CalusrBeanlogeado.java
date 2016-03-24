@@ -747,7 +747,7 @@ public class CalusrBeanlogeado implements Serializable {
 				String carpetaReportes = (String) servletContext
 	                    .getRealPath(File.separatorChar + "reports");
 				String rutaReporte="";
-				Connection conexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bd_inno?user=u_inno&password=,ngo4uIoo2|e");
+				Connection conexion = DriverManager.getConnection("jdbc:postgresql://10.1.0.158:5432/bd_inno?user=adm_bicichay&password=y-4IO4SDwu_!");
 
 				Map<String, Object> parametros = new HashMap<String, Object>();
 				parametros.put("pFechaInicio",getFi());

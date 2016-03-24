@@ -40,7 +40,7 @@
         			<p:menuitem value="Sugerencias"  icon="ui-icon-comment" onclick="PF('dlg2').show()" />  
          			<f:facet name="options">
         			<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
-        			<p:commandButton id="tracksalir" value="Cerrar Sesión"  icon=" ui-icon-power">
+        			<p:commandButton id="tracksalir" value="Cerrar Sesión"  icon=" ui-icon-power" action="/index.xhtml">
         			<p:ajax listener="#{sessionBean.logout}"></p:ajax>
         			</p:commandButton>
         			</f:facet>     
