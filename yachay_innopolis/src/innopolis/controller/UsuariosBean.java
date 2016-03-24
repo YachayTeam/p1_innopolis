@@ -856,18 +856,18 @@ public class UsuariosBean implements Serializable {
 					try {
 						if(tipoest.equals("Activado"))
 						{
-						smscor = "Sr/ra.  "+nombre+" "+apellido+",le informamos que su petición de registro al sistema "
-								 + "REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento) con los datos"
-					             + "\n Cédula:"+cedula+""
-					             + "\n Nombre:"+nombre+""
-					             + "\n Apellido:"+apellido+""
-					             + "\n Correo:"+correo+""					         
-								 + "\n fue "+tipoest+";\n para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contraseña es: ";
+						smscor = "Sr/ra.  "+nombre+" "+apellido+",le informamos que su petici&oacute;n de registro al sistema "
+								 + "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento) con los datos"
+					             + "<br/> C&eacute;dula:"+cedula+""
+					             + "<br/> Nombre:"+nombre+""
+					             + "<br/> Apellido:"+apellido+""
+					             + "<br/> Correo:"+correo+""					         
+								 + "<br/> fue "+tipoest+";<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es: ";
 						}
 						else if(tipoest.equals("Desactivado"))
 						{
-						smscor = "Sr/ra.  "+nombre+" "+apellido+",le informamos que su petición de registro al sistema "
-								+ "REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento se encuentra "+tipoest+".";						
+						smscor = "Sr/ra.  "+nombre+" "+apellido+",le informamos que su petici&oacute;n de registro al sistema "
+								+ "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento se encuentra "+tipoest+".";						
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -889,7 +889,7 @@ public class UsuariosBean implements Serializable {
 	  					else if(tipoest.equals("Activado"))
 	  					{
 	  					manager.cambioSMSenvio(idUsuario);
-	  					EnvioMensaje.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor+" "+Utilidades.Desencriptar(password)+" \n la URL del sistema REGECE: http://regece.yachay.gob.ec:8080/");
+	  					EnvioMensaje.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor+" "+Utilidades.Desencriptar(password)+" <br/> la URL del sistema REGECE: http://regece.yachay.gob.ec:8080/");
 	  				    //limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
 	  					cedula="";
 	  					alias="";
@@ -997,16 +997,16 @@ public class UsuariosBean implements Serializable {
 	  			System.out.println(getSugerenciatext());
 	  			manager.insertarSugerencia(idusrsug, getSugerenciatext(), sugerenciafecha);
 	  			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");
-	  			smscoradmin = "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envió una sugerencia.; \n"
+	  			smscoradmin = "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envi&oacute; una sugerencia.; <br/>"
 			             +"Los datos del usuario son:"
-			             + "\n Cédula: "+session.getCedula()+""
-			             + "\n Nombre: "+session.getNombre()+""
-			             + "\n Apellido: "+session.getApellido()+""
-			             + "\n Correo: "+session.getCorreo()+""
-			             + "\n Fecha: "+date.format(sugerenciafecha).toString()+""
-			             + "\n Sugerencia: "+sugerenciatext+"";		
+			             + "<br/> C&eacute;dula: "+session.getCedula()+""
+			             + "<br/> Nombre: "+session.getNombre()+""
+			             + "<br/> Apellido: "+session.getApellido()+""
+			             + "<br/> Correo: "+session.getCorreo()+""
+			             + "<br/> Fecha: "+date.format(sugerenciafecha).toString()+""
+			             + "<br/> Sugerencia: "+sugerenciatext+"";		
 	  			smscorreosugerenc = "El usuario con apellido "+session.getApellido()+" con nombre "+session.getNombre()
-	  					+"; le informamos que su sugerencia al sistema de Innopolis será revisada.\n "
+	  					+"; le informamos que su sugerencia al sistema REGECE ser&aacute; revisada.<br/> "
 	  					+"Su sugerencia es"+sugerenciatext+"";
 	  			
 	  			getcorreosusu();
@@ -1043,13 +1043,13 @@ public class UsuariosBean implements Serializable {
 	  			sugerenciatext = suge.getSugerencia();
 						try {
 							smscor = "Sr/ra.  "+nombre+" "+apellido+",le informamos que su sugerencia al sistema "
-									 + "REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento) con los datos"
-						             + "\n Cédula:"+cedula+""
-						             + "\n Nombre:"+nombre+""
-						             + "\n Apellido:"+apellido+""
-						             + "\n Correo:"+correo+""	
-						             + "\n En la fecha:"+sugerenciafecha+""	
-									 + "\n fue revisada por los administradores, agradecemos de antemano su sugerencia. ";
+									 + "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento) con los datos"
+						             + "<br/> C&eacute;dula:"+cedula+""
+						             + "<br/> Nombre:"+nombre+""
+						             + "<br/> Apellido:"+apellido+""
+						             + "<br/> Correo:"+correo+""	
+						             + "<br/> En la fecha:"+sugerenciafecha+""	
+									 + "<br/> fue revisada por los administradores, agradecemos de antemano su sugerencia. ";
 							
 						} catch (Exception e) {
 							

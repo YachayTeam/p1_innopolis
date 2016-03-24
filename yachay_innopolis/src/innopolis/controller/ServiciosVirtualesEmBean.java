@@ -364,20 +364,20 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				if(!tiposervicio.equals(-1))
 				{					
 				managerservirt.insertarserviciovirtual(idusr, tema);
-				smscoradmin = "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envió una solicitud para un Servicio Virtual; Requiere la aprobación o negación.; \n"
+				smscoradmin = "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envi&oacute; una solicitud para un Servicio Virtual; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 			             +"Los datos del usuario son:"
-			             + "\n Cédula: "+session.getCedula()+""
-			             + "\n Nombre: "+session.getNombre()+""
-			             + "\n Apellido: "+session.getApellido()+""
-			             + "\n Correo: "+session.getCorreo()+""
-			             + "\n Tema: "+tema+"";				
-				smscorusu = "Sr/ra.  "+session.getNombre()+" "+session.getApellido()+", su petición de solicitud del Servicio que brinda el sistema REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento), será verificado por los administradores, espere al mensaje de confirmación. \n"
+			             + "<br/> C&eacute;dula: "+session.getCedula()+""
+			             + "<br/> Nombre: "+session.getNombre()+""
+			             + "<br/> Apellido: "+session.getApellido()+""
+			             + "<br/> Correo: "+session.getCorreo()+""
+			             + "<br/> Tema: "+tema+"";				
+				smscorusu = "Sr/ra.  "+session.getNombre()+" "+session.getApellido()+", su petici&oacute;n de solicitud del Servicio que brinda el sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 						 +"Sus datos del usuario son:"
-			             + "\n Cédula: "+session.getCedula()+""
-			             + "\n Nombre: "+session.getNombre()+""
-			             + "\n Apellido: "+session.getApellido()+""
-			             + "\n Correo: "+session.getCorreo()+""
-			             + "\n Tema: "+tema+"";
+			             + "<br/> C&eacute;dula: "+session.getCedula()+""
+			             + "<br/> Nombre: "+session.getNombre()+""
+			             + "<br/> Apellido: "+session.getApellido()+""
+			             + "<br/> Correo: "+session.getCorreo()+""
+			             + "<br/> Tema: "+tema+"";
 				
 				getcorreosusu();
 				System.out.println(correosadmin);

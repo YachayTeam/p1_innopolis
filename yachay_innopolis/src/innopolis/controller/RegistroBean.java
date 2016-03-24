@@ -372,19 +372,19 @@ public class RegistroBean implements Serializable {
 			setPassword(Utilidades.Encriptar(getPassword()));//MD5 PASS
 			manager.registrarUsuario(cedula, alias, apellido, correo, nombre, password,sms,empreestu,cargptitu,arrayTipoLogin);
 			//agregarlistadecorreos principal
-			smscoradmin = "El usuario con apellido "+apellido+" con nombre "+nombre+"; Requiere la aprobación o negación del registro al sistema; \n"
+			smscoradmin = "El usuario con apellido "+apellido+" con nombre "+nombre+"; Requiere la aprobaci&oacute;n o negaci&oacute;n del registro al sistema; <br/>"
 		             +"los datos del usuario son:"
-		             + "\n Cédula: "+cedula+""
-		             + "\n Nombre: "+nombre+""
-		             + "\n Apellido: "+apellido+""
+		             + "<br/> C&eacute;dula: "+cedula+""
+		             + "<br/> Nombre: "+nombre+""
+		             + "<br/> Apellido: "+apellido+""
 		             + "\n Correo: "+correo+"";
 			
-			smscorusu = "Sr/ra.  "+nombre+" "+apellido+", su petición de acceso al sistema REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento), será verificado por los administradores, espere al mensaje de confirmación. \n"
+			smscorusu = "Sr/ra.  "+nombre+" "+apellido+", su petici&oacute;n de acceso al sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 					 +"sus datos son: "
-		             + "\n Cédula: "+cedula+""
-		             + "\n Nombre: "+nombre+""
-		             + "\n Apellido: "+apellido+""
-		             + "\n Correo: "+correo+"";
+		             + "<br/> C&eacute;dula: "+cedula+""
+		             + "<br/> Nombre: "+nombre+""
+		             + "<br/> Apellido: "+apellido+""
+		             + "<br/> Correo: "+correo+"";
 			
 			getcorreosusu();
 			EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);

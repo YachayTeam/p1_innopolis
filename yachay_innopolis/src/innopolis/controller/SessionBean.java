@@ -347,11 +347,11 @@ public class SessionBean {
 					passwordnuevo=Utilidades.Desencriptar(password);	
 					
 					smscor = "Sr/ra. "+nombre+" "+apellido+",sus datos son los siguientes: "
-				             + "\n Cédula: "+cedula+""
-				             + "\n Nombre: "+nombre+""
-				             + "\n Apellido: "+apellido+""
-				             + "\n Correo: "+correo+""				             
-							 + "\n para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contraseña es: "+passwordnuevo+"";
+				             + "<br/> C&eacute;dula: "+cedula+""
+				             + "<br/> Nombre: "+nombre+""
+				             + "<br/> Apellido: "+apellido+""
+				             + "<br/> Correo: "+correo+""				             
+							 + "<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es: "+passwordnuevo+"";
 	
 					EnvioMensaje.sendMail(correo, "Recuperación de contraseña YACHAY/REGECE  ", smscor);
 				    //limpiamos los datos

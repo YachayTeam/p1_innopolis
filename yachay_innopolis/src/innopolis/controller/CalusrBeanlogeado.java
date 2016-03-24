@@ -598,20 +598,20 @@ public class CalusrBeanlogeado implements Serializable {
 				manager.insertarInscripcion(getEvento(),getFechaInscripcion(), 0, getNombre(), getApellido(), getCorreo(), getImagenPago(), getObservacion());
 				
 				DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");
-				smscoradmin = "El Sr/ra. "+getNombre()+" "+getApellido()+", envió una solicitud de Inscripción para un Evento; Requiere la aprobación o negación.; \n"
+				smscoradmin = "El Sr/ra. "+getNombre()+" "+getApellido()+", envi&oacute; una solicitud de Inscripci&oacute;n para un Evento; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 			             +"Los datos del usuario son:"
-			             + "\n Nombre: "+getNombre()+""
-			             + "\n Apellido: "+getApellido()+""
-			             + "\n Nombre del Evento: "+getEvento().getNombre()+""
-			             + "\n Fecha de Inscripción: "+date.format(getFechaInscripcion()).toString()+""
-			             + "\n Obervación : "+getObservacion();				
-				smscorusu = "Sr/ra.  "+getNombre()+" "+getApellido()+", su petición de solicitud de Inscripción para un Evento del sistema REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento), será verificado por los administradores, espere al mensaje de confirmación. \n"
-						+"Sus datos de Inscripción son:"
-			             + "\n Nombre: "+getNombre()+""
-			             + "\n Apellido: "+getApellido()+""
-			             + "\n Nombre del Evento: "+getEvento().getNombre()+""
-			             + "\n Fecha de Inscripción: "+date.format(getFechaInscripcion()).toString()+""
-			             + "\n Obervación : "+getObservacion();	
+			             + "<br/> Nombre: "+getNombre()+""
+			             + "<br/> Apellido: "+getApellido()+""
+			             + "<br/> Nombre del Evento: "+getEvento().getNombre()+""
+			             + "<br/> Fecha de Inscripci&oacute;n: "+date.format(getFechaInscripcion()).toString()+""
+			             + "<br/> Obervaci&oacute;n : "+getObservacion();				
+				smscorusu = "Sr/ra.  "+getNombre()+" "+getApellido()+", su petici&oacute;n de solicitud de Inscripci&oacute;n para un Evento del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&oacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
+						+"Sus datos de Inscripci&oacute;n son:"
+			             + "<br/> Nombre: "+getNombre()+""
+			             + "<br/> Apellido: "+getApellido()+""
+			             + "<br/> Nombre del Evento: "+getEvento().getNombre()+""
+			             + "<br/> Fecha de Inscripci&oacute;n: "+date.format(getFechaInscripcion()).toString()+""
+			             + "<br/> Obervaci&oacute;n : "+getObservacion();	
 				
 				getcorreosusu();
 				System.out.println(correosadmin);

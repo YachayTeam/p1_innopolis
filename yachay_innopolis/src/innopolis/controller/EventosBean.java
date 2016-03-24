@@ -891,25 +891,25 @@ public class EventosBean{
 					costo, cantidad,estadoeven);
 			
 			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
-			smscoradminsoleve = "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envió una solicitud para un evento; Requiere la aprobación o negación.; \n"
+			smscoradminsoleve = "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envi&oacute; una solicitud para un evento; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 		             +"los datos de la solicitud del evento son:"
-		             + "\n Nombre: "+nombre+""
-		             + "\n Descripción: "+descripcion+""
+		             + "<br/> Nombre: "+nombre+""
+		             + "<br/> Descripci&oacute;n: "+descripcion+""
 		             //+ "\n Lugar: "+lugar+""
-		             + "\n Costo: "+costo+""
-		             + "\n Cantidad: "+cantidad+""		             
-		             + "\n Fecha de Inicio: "+date.format(fi).toString()+""
-					 + "\n Fecha de Fin: "+date.format(ff).toString()+"";
+		             + "<br/> Costo: "+costo+""
+		             + "<br/> Cantidad: "+cantidad+""		             
+		             + "<br/> Fecha de Inicio: "+date.format(fi).toString()+""
+					 + "<br/> Fecha de Fin: "+date.format(ff).toString()+"";
 					
-			smscorususoleve = "Sr/ra.  "+session.getNombre()+" "+session.getApellido()+", su petición de solicitud del evento al sistema REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento), será verificado por los administradores, espere al mensaje de confirmación. \n"
+			smscorususoleve = "Sr/ra.  "+session.getNombre()+" "+session.getApellido()+", su petici&oacute;n de solicitud del evento al sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 					 +"Sus datos de la solicitud del evento son:"
-		             + "\n Nombre: "+nombre+""
-		             + "\n Descripción: "+descripcion+""
+		             + "<br/> Nombre: "+nombre+""
+		             + "<br/> Descripci&oacute;n: "+descripcion+""
 		           //  + "\n Lugar: "+lugar+""
-		             + "\n Costo: "+costo+""
-		             + "\n Cantidad: "+cantidad+""		             
-		             + "\n Fecha de Inicio: "+date.format(fi).toString()+""
-					 + "\n Fecha de Fin: "+date.format(ff).toString()+"";
+		             + "<br/> Costo: "+costo+""
+		             + "<br/> Cantidad: "+cantidad+""		             
+		             + "<br/> Fecha de Inicio: "+date.format(fi).toString()+""
+					 + "<br/> Fecha de Fin: "+date.format(ff).toString()+"";
 			
 			getcorreosusub();
 			System.out.println(correosadminsoleve);
@@ -1520,19 +1520,19 @@ public class EventosBean{
 					ev.setSolicicabecera(getSolicitudCabTem());
 					solicitudCabTmpGuardada=true;
 					DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
-					smscoradminsolreceve = "El Sr/ra. "+direccion+" "+justificacion+", envió una solicitud para un recurso; Requiere la aprobación o negación.; \n"
+					smscoradminsolreceve = "El Sr/ra. "+direccion+" "+justificacion+", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 				             +"los datos de la solicitud son:"
-				             + "\n Actividad: "+actividad+""
-				             + "\n Objetivo: "+objetivo+""
-				             + "\n Fecha de peticion: "+date.format(h_inicio).toString()+""
-						     + "\n Fecha de peticion: "+date.format(h_fin).toString()+"";
+				             + "<br/> Actividad: "+actividad+""
+				             + "<br/> Objetivo: "+objetivo+""
+				             + "<br/> Fecha de petici&oacute;n: "+date.format(h_inicio).toString()+""
+						     + "<br/> Fecha de petici&oacute;n: "+date.format(h_fin).toString()+"";
 					
-					smscorususolreceve = "Sr/ra.  "+direccion+" "+justificacion+", su petición de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento), será verificado por los administradores, espere al mensaje de confirmación. \n"
+					smscorususolreceve = "Sr/ra.  "+direccion+" "+justificacion+", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 							 +"los datos su solicitud son:"
-				             + "\n Actividad: "+actividad+""
-				             + "\n Objetivo: "+objetivo+""
-				             + "\n Fecha de petición: "+date.format(h_inicio).toString()+""
-							 + "\n Fecha de peticion: "+date.format(h_fin).toString()+"";
+				             + "<br/> Actividad: "+actividad+""
+				             + "<br/> Objetivo: "+objetivo+""
+				             + "<br/> Fecha de petici&oacute;n: "+date.format(h_inicio).toString()+""
+							 + "<br/> Fecha de petici&oacute;n: "+date.format(h_fin).toString()+"";
 
 					getcorreosusuc();
 					System.out.println(correosadminsolreceve);				
@@ -1577,19 +1577,19 @@ public class EventosBean{
 					solicitudCabTmpGuardada=true;
 					
 					DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
-					smscoradminsolreceve = "El Sr/ra. "+direccion+" "+justificacion+", envió una solicitud para un recurso; Requiere la aprobación o negación.; \n"
+					smscoradminsolreceve = "El Sr/ra. "+direccion+" "+justificacion+", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 				             +"los datos de la solicitud son:"
-				             + "\n Actividad: "+actividad+""
-				             + "\n Objetivo: "+objetivo+""
-				             + "\n Fecha de peticion: "+date.format(h_inicio).toString()+""
-						     + "\n Fecha de peticion: "+date.format(h_fin).toString()+"";
+				             + "<br/> Actividad: "+actividad+""
+				             + "<br/> Objetivo: "+objetivo+""
+				             + "<br/> Fecha de petici&oacute;n: "+date.format(h_inicio).toString()+""
+						     + "<br/> Fecha de petici&oacute;n: "+date.format(h_fin).toString()+"";
 					
-					smscorususolreceve = "Sr/ra.  "+direccion+" "+justificacion+", su petición de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento), será verificado por los administradores, espere al mensaje de confirmación. \n"
+					smscorususolreceve = "Sr/ra.  "+direccion+" "+justificacion+", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 							 +"los datos su solicitud son:"
-				             + "\n Actividad: "+actividad+""
-				             + "\n Objetivo: "+objetivo+""
-				             + "\n Fecha de petición: "+date.format(h_inicio).toString()+""
-							 + "\n Fecha de peticion: "+date.format(h_fin).toString()+"";
+				             + "<br/> Actividad: "+actividad+""
+				             + "<br/> Objetivo: "+objetivo+""
+				             + "<br/> Fecha de petici&oacute;n: "+date.format(h_inicio).toString()+""
+							 + "<br/> Fecha de petici&oacute;n: "+date.format(h_fin).toString()+"";
 
 					getcorreosusuc();
 					System.out.println(correosadminsolreceve);				
@@ -1648,19 +1648,19 @@ public class EventosBean{
 						ev.setSolicicabecera(getSolicitudCabTem());
 						solicitudCabTmpGuardada=true;
 						DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
-						smscoradminsolreceve = "El Sr/ra. "+direccion+" "+justificacion+", envió una solicitud para un recurso; Requiere la aprobación o negación.; \n"
+						smscoradminsolreceve = "El Sr/ra. "+direccion+" "+justificacion+", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 					             +"los datos de la solicitud son:"
-					             + "\n Actividad: "+actividad+""
-					             + "\n Objetivo: "+objetivo+""
-					             + "\n Fecha de peticion: "+date.format(h_inicio).toString()+""
-							     + "\n Fecha de peticion: "+date.format(h_fin).toString()+"";
+					             + "<br/> Actividad: "+actividad+""
+					             + "<br/> Objetivo: "+objetivo+""
+					             + "<br/> Fecha de petici&oacute;n: "+date.format(h_inicio).toString()+""
+							     + "<br/> Fecha de petici&oacute;n: "+date.format(h_fin).toString()+"";
 						
-						smscorususolreceve = "Sr/ra.  "+direccion+" "+justificacion+", su petición de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento), será verificado por los administradores, espere al mensaje de confirmación. \n"
+						smscorususolreceve = "Sr/ra.  "+direccion+" "+justificacion+", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), &aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 								 +"los datos su solicitud son:"
-					             + "\n Actividad: "+actividad+""
-					             + "\n Objetivo: "+objetivo+""
-					             + "\n Fecha de petición: "+date.format(h_inicio).toString()+""
-								 + "\n Fecha de peticion: "+date.format(h_fin).toString()+"";
+					             + "<br/> Actividad: "+actividad+""
+					             + "<br/> Objetivo: "+objetivo+""
+					             + "<br/> Fecha de petici&oacute;n: "+date.format(h_inicio).toString()+""
+								 + "<br/> Fecha de petici&oacute;n: "+date.format(h_fin).toString()+"";
 
 						getcorreosusuc();
 						System.out.println(correosadminsolreceve);				
@@ -2279,17 +2279,17 @@ public class EventosBean{
 				cantidad = ev.getCantidad();
 				imagen = ev.getImagen();
 				try {
-					smscor = "Sr/ra. Administrador/a, le informo que el Evento \n"
-							+ "con nombre: "+nombre+".\n "
-						    + "con la descripción: "+descripcion+".\n"
+					smscor = "Sr/ra. Administrador/a, le informo que el Evento <br/>"
+							+ "con nombre: "+nombre+".<br/> "
+						    + "con la descripci&oacute;n: "+descripcion+".<br/>"
 						    //+ "en el lugar: "+lugar+".\n"
-						    + "con el tipo de evento: "+ev.getTipoevento().getTipo()+".\n"
-						    + "con fecha de inicio: "+fi+".\n"
-						    + "con fecha final: "+ff+".\n"
-						    + "con la cantidad de: "+cantidad+" personas.\n"
-						    + "se desea Desactivarlo de manera urgente.\n "
-						    + "Agradeciendole de antemano.\n "
-						    + "Nombre: "+session.getNombre()+"\n"
+						    + "con el tipo de evento: "+ev.getTipoevento().getTipo()+".<br/>"
+						    + "con fecha de inicio: "+fi+".<br/>"
+						    + "con fecha final: "+ff+".<br/>"
+						    + "con la cantidad de: "+cantidad+" personas.<br/>"
+						    + "se desea Desactivarlo de manera urgente.<br/> "
+						    + "Agradeciendole de antemano.<br/> "
+						    + "Nombre: "+session.getNombre()+"<br/>"
 						    + "Apellido: "+session.getApellido()+"";					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -2320,15 +2320,15 @@ public class EventosBean{
 			sms=ev.getSms();
 			try {
 				Usuario u = manager.findususarioByID(idusr);
-				smscor = "Sr/ra. "+u.getNombre()+" "+u.getApellido() +", le informo que el Evento \n"
-						+ "con nombre: "+nombre+".\n "
-					    + "con la descripción: "+descripcion+".\n"
+				smscor = "Sr/ra. "+u.getNombre()+" "+u.getApellido() +", le informo que el Evento <br/>"
+						+ "con nombre: "+nombre+".<br/> "
+					    + "con la descripci&oacute;n: "+descripcion+".<br/>"
 					    //+ "en el lugar: "+lugar+".\n"
-					    + "con el tipo de evento: "+ev.getTipoevento().getTipo()+".\n"
-					    + "con fecha de inicio: "+fi+".\n"
-					    + "con fecha final: "+ff+".\n"
-					    + "con la cantidad de: "+cantidad+" personas.\n"
-					    + "ha sido "+estadoeven+".\n ";					
+					    + "con el tipo de evento: "+ev.getTipoevento().getTipo()+".<br/>"
+					    + "con fecha de inicio: "+fi+".<br/>"
+					    + "con fecha final: "+ff+".<br/>"
+					    + "con la cantidad de: "+cantidad+" personas.<br/>"
+					    + "ha sido "+estadoeven+".<br/> ";					
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

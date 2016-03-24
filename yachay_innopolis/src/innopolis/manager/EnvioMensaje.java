@@ -25,10 +25,9 @@ public class EnvioMensaje {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "587");
         Authenticator authenticator = new Authenticator();
-        props.setProperty("mail.smtp.submitter", authenticator
-        		.getPasswordAuthentication().getUserName());
+        props.setProperty("mail.smtp.submitter", authenticator.getPasswordAuthentication().getUserName());
         BodyPart texto = new MimeBodyPart();
-        texto.setText(mensaje);
+        texto.setContent(mensaje,"text/html; charset=utf-8");
 
         MimeMultipart multiParte = new MimeMultipart();
         multiParte.addBodyPart(texto);
@@ -68,10 +67,9 @@ public class EnvioMensaje {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "587");
         Authenticator authenticator = new Authenticator();
-        props.setProperty("mail.smtp.submitter", authenticator
-        		.getPasswordAuthentication().getUserName());
+        props.setProperty("mail.smtp.submitter", authenticator.getPasswordAuthentication().getUserName());
         BodyPart texto = new MimeBodyPart();
-        texto.setText(mensaje);
+        texto.setContent(mensaje,"text/html; charset=utf-8");
 
         MimeMultipart multiParte = new MimeMultipart();
         multiParte.addBodyPart(texto);

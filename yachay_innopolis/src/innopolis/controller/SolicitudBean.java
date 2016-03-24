@@ -585,19 +585,19 @@ public class SolicitudBean {
 					
 			System.out.println("asdsadsadsadsadsad");
 			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
-			smscoradmin = "El Sr/ra. "+direccion+" "+justificacion+", envió una solicitud para un recurso; Requiere la aprobación o negación.; \n"
+			smscoradmin = "El Sr/ra. "+direccion+" "+justificacion+", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 		             +"los datos de la solicitud son:"
-		             + "\n Actividad: "+actividad+""
-		             + "\n Objetivo: "+objetivo+""
-		             + "\n Fecha de Inicio: "+date.format(fi).toString()+""
-					 + "\n Fecha de Fin: "+date.format(ff).toString()+"";
+		             + "<br/> Actividad: "+actividad+""
+		             + "<br/> Objetivo: "+objetivo+""
+		             + "<br/> Fecha de Inicio: "+date.format(fi).toString()+""
+					 + "<br/> Fecha de Fin: "+date.format(ff).toString()+"";
 			
-			smscorusu = "Sr/ra.  "+direccion+" "+justificacion+", su petición de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento), será verificado por los administradores, espere al mensaje de confirmación. \n"
+			smscorusu = "Sr/ra.  "+direccion+" "+justificacion+", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 					 +"los datos su solicitud son:"
-		             + "\n Actividad: "+actividad+""
-		             + "\n Objetivo: "+objetivo+""
-		             + "\n Fecha de Inicio: "+date.format(fi).toString()+""
-		       		 + "\n Fecha de Fin: "+date.format(ff).toString()+"";
+		             + "<br/> Actividad: "+actividad+""
+		             + "<br/> Objetivo: "+objetivo+""
+		             + "<br/> Fecha de Inicio: "+date.format(fi).toString()+""
+		       		 + "<br/> Fecha de Fin: "+date.format(ff).toString()+"";
 			getcorreosusu();
 			System.out.println(correosadmin);
 			EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
