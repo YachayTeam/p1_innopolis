@@ -318,16 +318,14 @@ public class SessionBean {
  			if (y.getCorreo().equals(correocontra)){
  				System.out.println("si entra1");
  				enviarmensajerecuperarcontra(y); 				
- 				r="index";
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente a su correo", null));	  						  							
+ 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente a su correo", null));	  						  							
 
  				t=1;
  			}
  		}
  		if (t==0){ 			
  			FacesContext context = FacesContext.getCurrentInstance();
- 			context.addMessage(null, new FacesMessage("Error..!!!",
- 					"Su correo no existe o es incorrecto."));
+ 			context.addMessage(null, new FacesMessage("Error..!!!","Su correo no existe o es incorrecto."));
  		} 		
  		return r;
  	}
@@ -335,7 +333,7 @@ public class SessionBean {
     //Tomar el id de estado general id_estadoSolicitud
 		public String enviarmensajerecuperarcontra(Usuario usr){
 		try {
-			if(!correoveri.equals(correocontra))
+			if(!correocontra.equals(correoveri))
 			{
 					String passwordnuevo;
 					cedula = usr.getCedula();
@@ -366,7 +364,7 @@ public class SessionBean {
 					smscor="";
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo su contraseña", null));
 			}
-			else if(correoveri.equals(correo))
+			else if(correoveri.equals(correocontra))
 			{
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo su contraseña", null));				
 			}
