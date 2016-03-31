@@ -353,7 +353,7 @@ public class SessionBean {
 				             + "<br/> Correo: "+correo+""				             
 							 + "<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es: "+passwordnuevo+"";
 	
-					EnvioMensaje.sendMail(correo, "Recuperación de contraseña YACHAY/REGECE  ", smscor);
+					EnvioMensaje.sendMailsolousr(correo, "Recuperación de contraseña YACHAY/REGECE  ", smscor);
 				    //limpiamos los datos
 					cedula="";
 			        nombre="";

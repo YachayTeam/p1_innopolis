@@ -39,8 +39,7 @@ public class EnvioMensaje {
         MimeMessage msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(origen));
         msg.setRecipients(Message.RecipientType.CC, ccArr);
-        msg.addRecipients(
-        Message.RecipientType.TO,InternetAddress.parse(destinatario));
+        msg.addRecipients(Message.RecipientType.TO,InternetAddress.parse(destinatario));
         msg.setSubject(asunto);
         msg.setContent(multiParte);
         msg.setFrom();

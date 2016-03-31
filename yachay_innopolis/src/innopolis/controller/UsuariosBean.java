@@ -1007,11 +1007,11 @@ public class UsuariosBean implements Serializable {
 			             + "<br/> Sugerencia: "+sugerenciatext+"";		
 	  			smscorreosugerenc = "El usuario con apellido "+session.getApellido()+" con nombre "+session.getNombre()
 	  					+"; le informamos que su sugerencia al sistema REGECE ser&aacute; revisada.<br/> "
-	  					+"Su sugerencia es"+sugerenciatext+"";
+	  					+"Su sugerencia es: "+sugerenciatext+"";
 	  			
 	  			getcorreosusu();
 	  			EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-	  			EnvioMensaje.sendMail(correosug, "Envío de Sugerencia a YACHAY/REGECE  ", smscorreosugerenc);
+	  			EnvioMensaje.sendMailsolousr(correosug, "Envío de Sugerencia a YACHAY/REGECE  ", smscorreosugerenc);
   			
 	  			sugerenciatext = "";
 	  			correosadmin="";
@@ -1065,7 +1065,7 @@ public class UsuariosBean implements Serializable {
 	  				{	
 	  					System.out.println("si entra1");	  					
 	  					manager.cambioSMSenviosugerencia(idsuge);
-	  					EnvioMensaje.sendMail(correo, "Sugerencia a YACHAY/REGECE  ", smscor);
+	  					EnvioMensaje.sendMailsolousr(correo, "Sugerencia a YACHAY/REGECE  ", smscor);
 	  				    //limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
 	  					cedula="";
 	  					alias="";

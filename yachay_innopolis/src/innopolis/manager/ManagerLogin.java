@@ -407,7 +407,7 @@ public class ManagerLogin implements Serializable{
 		return (Actividad) mDAO.findById(Actividad.class, id);
 	}
 	
-	//metodo para asignar el Tiposestado al servivirtual
+	//metodo para asignar el Tiposestado al usuario
  	public Tipoestadousr asignarTipoestusr(Integer idtipoestusr) {
  		try {
  			tipoestadousr = EstadoByID(idtipoestusr);	 				
