@@ -16,14 +16,15 @@ public class EnvioMensaje {
 
     public static void sendMail(String destinatario, String asunto, String mensaje) throws Exception
     {
-    	String origen = "admin.innopolis@yachay.gob.ec";
+    	String origen = "scvtalentohumano@yachay.gob.ec";
         Properties props = new Properties();
-        props.put("mail.smtp.host", "mail.yachay.gob.ec");
+        props.put("mail.smtp.host", "10.1.0.123");
         props.put("mail.from", origen);
         props.put("mail.smtp.starttls.enable", "false");
         props.put("mail.smtp.ssl.enable", "false");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "587");
+        
         Authenticator authenticator = new Authenticator();
         props.setProperty("mail.smtp.submitter", authenticator.getPasswordAuthentication().getUserName());
         BodyPart texto = new MimeBodyPart();
@@ -43,9 +44,7 @@ public class EnvioMensaje {
         msg.setSubject(asunto);
         msg.setContent(multiParte);
         msg.setFrom();
-    	System.out.println("aca8");
-        //msg.setRecipients(Message.RecipientType.TO, "luiscorrea1988@hotmail.com");  
-     
+    	
         Transport transport;
         transport = session.getTransport("smtp");
         transport.connect();
@@ -57,9 +56,9 @@ public class EnvioMensaje {
     
     public static void sendMailsolousr(String destinatario, String asunto, String mensaje) throws Exception
     {
-    	String origen = "admin.innopolis@yachay.gob.ec";
+    	String origen = "scvtalentohumano@yachay.gob.ec";
         Properties props = new Properties();
-        props.put("mail.smtp.host", "mail.yachay.gob.ec");
+        props.put("mail.smtp.host", "10.1.0.123");
         props.put("mail.from", origen);
         props.put("mail.smtp.starttls.enable", "false");
         props.put("mail.smtp.ssl.enable", "false");
@@ -68,7 +67,7 @@ public class EnvioMensaje {
         Authenticator authenticator = new Authenticator();
         props.setProperty("mail.smtp.submitter", authenticator.getPasswordAuthentication().getUserName());
         BodyPart texto = new MimeBodyPart();
-        texto.setContent(mensaje,"text/html; charset=utf-8");
+        texto.setContent(mensaje, "text/html; charset=utf-8");
 
         MimeMultipart multiParte = new MimeMultipart();
         multiParte.addBodyPart(texto);
@@ -82,8 +81,7 @@ public class EnvioMensaje {
         msg.setContent(multiParte);
         msg.setFrom();
     	System.out.println("aca8");
-        //msg.setRecipients(Message.RecipientType.TO, "luiscorrea1988@hotmail.com");  
-     
+    	
         Transport transport;
         transport = session.getTransport("smtp");
         transport.connect();

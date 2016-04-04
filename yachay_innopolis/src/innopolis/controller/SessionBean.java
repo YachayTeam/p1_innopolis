@@ -369,6 +369,7 @@ public class SessionBean {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo su contraseña", null));				
 			}
 			} catch (Exception e) {
+				e.printStackTrace();
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Error al enviar correo", null));
 			}
     		return "index?faces-redirect=true";

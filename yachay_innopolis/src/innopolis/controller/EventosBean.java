@@ -912,7 +912,6 @@ public class EventosBean{
 					 + "<br/> Fecha de Fin: "+date.format(ff).toString()+"";
 			
 			getcorreosusub();
-			System.out.println(correosadminsoleve);
 			
 			EnvioMensaje.sendMail(correosadminsoleve, "Notificación de YACHAY/REGECE  ", smscoradminsoleve);
 			EnvioMensaje.sendMail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorususoleve);

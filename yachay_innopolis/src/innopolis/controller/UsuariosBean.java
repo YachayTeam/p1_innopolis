@@ -995,7 +995,6 @@ public class UsuariosBean implements Serializable {
 	  			System.out.println(idusrsug);
 	  			System.out.println(correosug);
 	  			System.out.println(getSugerenciatext());
-	  			manager.insertarSugerencia(idusrsug, getSugerenciatext(), sugerenciafecha);
 	  			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");
 	  			smscoradmin = "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envi&oacute; una sugerencia.; <br/>"
 			             +"Los datos del usuario son:"
@@ -1012,7 +1011,7 @@ public class UsuariosBean implements Serializable {
 	  			getcorreosusu();
 	  			EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
 	  			EnvioMensaje.sendMailsolousr(correosug, "Envío de Sugerencia a YACHAY/REGECE  ", smscorreosugerenc);
-  			
+	  			manager.insertarSugerencia(idusrsug, getSugerenciatext(), sugerenciafecha);
 	  			sugerenciatext = "";
 	  			correosadmin="";
 	  			sugerenciafecha=null;
@@ -1152,7 +1151,7 @@ public class UsuariosBean implements Serializable {
 	  		    	}	    
 	  			}
 	  			catch(Exception e){
-	  				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error", null));
+	  				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error no carga la lista", null));
 	  			}
 	  			return l1;
 	  		}	  		
