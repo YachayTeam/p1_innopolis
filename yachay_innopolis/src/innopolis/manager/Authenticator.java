@@ -6,8 +6,8 @@ public class Authenticator extends javax.mail.Authenticator {
 	private PasswordAuthentication authentication;
 
 	public Authenticator() {
-		String username = "scvtalentohumano";
-		String password = "Sistemas@2015";
+		String username = "admin.innopolis";
+		String password = "Andres151210";
 		authentication = new PasswordAuthentication(username, password);
 	}
 

@@ -16,7 +16,7 @@ public class EnvioMensaje {
 
     public static void sendMail(String destinatario, String asunto, String mensaje) throws Exception
     {
-    	String origen = "scvtalentohumano@yachay.gob.ec";
+    	String origen = "admin.innopolis@yachay.gob.ec";
         Properties props = new Properties();
         props.put("mail.smtp.host", "10.1.0.123");
         props.put("mail.from", origen);
@@ -56,7 +56,7 @@ public class EnvioMensaje {
     
     public static void sendMailsolousr(String destinatario, String asunto, String mensaje) throws Exception
     {
-    	String origen = "scvtalentohumano@yachay.gob.ec";
+    	String origen = "admin.innopolis@yachay.gob.ec";
         Properties props = new Properties();
         props.put("mail.smtp.host", "10.1.0.123");
         props.put("mail.from", origen);
