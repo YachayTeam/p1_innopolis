@@ -26,7 +26,7 @@ import innopolis.entidades.Soliciestado;
 import innopolis.entidades.Tipoevento;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerLogin;
 import innopolis.manager.ManagerReservas;
@@ -913,8 +913,8 @@ public class EventosBean{
 			
 			getcorreosusub();
 			
-			EnvioMensaje.sendMail(correosadminsoleve, "Notificación de YACHAY/REGECE  ", smscoradminsoleve);
-			EnvioMensaje.sendMail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorususoleve);
+			Mail.generateAndSendEmail(correosadminsoleve, "Notificación de YACHAY/REGECE  ", smscoradminsoleve);
+			Mail.generateAndSendEmail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorususoleve);
 			
 			eventoidedicio=null;
 			correosadminsoleve="";
@@ -1535,8 +1535,8 @@ public class EventosBean{
 
 					getcorreosusuc();
 					System.out.println(correosadminsolreceve);				
-					EnvioMensaje.sendMail(correosadminsolreceve, "Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
-					EnvioMensaje.sendMail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorususolreceve);
+					Mail.generateAndSendEmail(correosadminsolreceve, "Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
+					Mail.generateAndSendEmail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorususolreceve);
 					
 					correosadminsolreceve="";
 					smscoradminsolreceve="";
@@ -1592,8 +1592,8 @@ public class EventosBean{
 
 					getcorreosusuc();
 					System.out.println(correosadminsolreceve);				
-					EnvioMensaje.sendMail(correosadminsolreceve, "Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
-					EnvioMensaje.sendMail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorususolreceve);
+					Mail.generateAndSendEmail(correosadminsolreceve, "Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
+					Mail.generateAndSendEmail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorususolreceve);
 					
 					correosadminsolreceve="";
 					smscoradminsolreceve="";
@@ -1663,8 +1663,8 @@ public class EventosBean{
 
 						getcorreosusuc();
 						System.out.println(correosadminsolreceve);				
-						EnvioMensaje.sendMail(correosadminsolreceve, "Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
-						EnvioMensaje.sendMail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorususolreceve);
+						Mail.generateAndSendEmail(correosadminsolreceve, "Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
+						Mail.generateAndSendEmail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorususolreceve);
 						
 						correosadminsolreceve="";
 						smscoradminsolreceve="";
@@ -2348,7 +2348,7 @@ public class EventosBean{
   					mEvento.cambioSMSenvio(idEvento);	
   					Usuario u = manager.findususarioByID(idusr);
   					System.out.println(u.getCorreo());
-  					EnvioMensaje.sendMail(u.getCorreo(), "Cancelación Evento/REGECE  ", smscor);
+  					Mail.generateAndSendEmail(u.getCorreo(), "Cancelación Evento/REGECE  ", smscor);
   					//limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
   					idEvento=0;
   					nombre = "";
@@ -2442,8 +2442,8 @@ public class EventosBean{
 					if(estadoeven.equals("Activado"))
 					{
 					getcorreosusua();
-					EnvioMensaje.sendMail(session.getCorreo(), "Cancelación Evento/REGECE  ", smscor);
-					EnvioMensaje.sendMail(correosadmin, "Cancelación Evento/REGECE  ", smscor);
+					Mail.generateAndSendEmail(session.getCorreo(), "Cancelación Evento/REGECE  ", smscor);
+					Mail.generateAndSendEmail(correosadmin, "Cancelación Evento/REGECE  ", smscor);
 					//limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
 					idEvento=0;
 					nombre = "";

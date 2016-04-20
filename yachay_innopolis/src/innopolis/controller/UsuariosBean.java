@@ -8,7 +8,7 @@ import innopolis.entidades.Tipoestadousr;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.entidades.help.Utilidades;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerLogin;
 
 import java.io.Serializable;
@@ -889,7 +889,7 @@ public class UsuariosBean implements Serializable {
 	  					else if(tipoest.equals("Activado"))
 	  					{
 	  					manager.cambioSMSenvio(idUsuario);
-	  					EnvioMensaje.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor+" "+Utilidades.Desencriptar(password)+" <br/> la URL del sistema REGECE: http://regece.yachay.gob.ec:8080/");
+	  					Mail.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor+" "+Utilidades.Desencriptar(password)+" <br/> la URL del sistema REGECE: http://regece.yachay.gob.ec:8080/");
 	  				    //limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
 	  					cedula="";
 	  					alias="";
@@ -909,7 +909,7 @@ public class UsuariosBean implements Serializable {
 	  					}
 	  					else if(tipoest.equals("Desactivado"))
 	  					{manager.cambioSMSenvio(idUsuario);
-	  					EnvioMensaje.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor);
+	  					Mail.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor);
 	  				    //limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
 	  					cedula="";
 	  					alias="";
@@ -1009,8 +1009,8 @@ public class UsuariosBean implements Serializable {
 	  					+"Su sugerencia es: "+sugerenciatext+"";
 	  			
 	  			getcorreosusu();
-	  			EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-	  			EnvioMensaje.sendMailsolousr(correosug, "Envío de Sugerencia a YACHAY/REGECE  ", smscorreosugerenc);
+	  			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
+	  			Mail.sendMailsolousr(correosug, "Envío de Sugerencia a YACHAY/REGECE  ", smscorreosugerenc);
 	  			manager.insertarSugerencia(idusrsug, getSugerenciatext(), sugerenciafecha);
 	  			sugerenciatext = "";
 	  			correosadmin="";
@@ -1064,7 +1064,7 @@ public class UsuariosBean implements Serializable {
 	  				{	
 	  					System.out.println("si entra1");	  					
 	  					manager.cambioSMSenviosugerencia(idsuge);
-	  					EnvioMensaje.sendMailsolousr(correo, "Sugerencia a YACHAY/REGECE  ", smscor);
+	  					Mail.sendMailsolousr(correo, "Sugerencia a YACHAY/REGECE  ", smscor);
 	  				    //limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
 	  					cedula="";
 	  					alias="";

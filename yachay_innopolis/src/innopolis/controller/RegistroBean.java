@@ -5,7 +5,7 @@ import innopolis.entidades.Interes;
 import innopolis.entidades.Tipoestadousr;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.Utilidades;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerLogin;
 
 import java.io.Serializable;
@@ -387,8 +387,8 @@ public class RegistroBean implements Serializable {
 		             + "<br/> Correo: "+correo+"";
 			
 			getcorreosusu();
-			EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-			EnvioMensaje.sendMailsolousr(correo, "Notificación de YACHAY/REGECE  ", smscorusu);
+			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
+			Mail.sendMailsolousr(correo, "Notificación de YACHAY/REGECE  ", smscorusu);
 			cedula="";
 			alias="";
 			nombre="";

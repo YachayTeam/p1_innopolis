@@ -15,7 +15,7 @@ import java.util.Map;
 
 import innopolis.entidades.*;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
 
@@ -565,7 +565,7 @@ public class SolicitudApBean {
 				}
 				else{
 				manager.cambioSMSenvio(id_sol);
-				EnvioMensaje.sendMail(correo, "Peticion de Solicitud YACHAY/REGECE  ", sms);
+				Mail.generateAndSendEmail(correo, "Peticion de Solicitud YACHAY/REGECE  ", sms);
 				manager.notificarSolicitud(id_sol);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
 				}

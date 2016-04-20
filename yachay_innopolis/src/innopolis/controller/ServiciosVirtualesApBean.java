@@ -10,7 +10,7 @@ import innopolis.entidades.Tipoestado;
 import innopolis.entidades.Tiposervicio;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerRecursosVirtuales;
 
 import javax.faces.application.FacesMessage;
@@ -449,7 +449,7 @@ public class ServiciosVirtualesApBean implements Serializable{
 					else
 					{
 					managerservirt.cambioSMSenvio(idSvr);
-					EnvioMensaje.sendMail(correo, "Petición de Solicitud a Servicios Virtuales YACHAY/REGECE  ", smscor);
+					Mail.generateAndSendEmail(correo, "Petición de Solicitud a Servicios Virtuales YACHAY/REGECE  ", smscor);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo", null));
 					}
 				}				

@@ -26,7 +26,7 @@ import innopolis.entidades.Sala;
 import innopolis.entidades.Tipoevento;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerInscripedit;
 import innopolis.manager.ManagerLogin;
@@ -616,8 +616,8 @@ public class CalusrBeanlogeado implements Serializable {
 				getcorreosusu();
 				System.out.println(correosadmin);
 				
-				EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-				EnvioMensaje.sendMail(getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
+				Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
+				Mail.generateAndSendEmail(getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
 				
 				correosadmin="";
 				smscoradmin="";

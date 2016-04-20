@@ -10,7 +10,7 @@ import innopolis.entidades.Tipo;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.entidades.help.Utilidades;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerLogin;
 
 import javax.faces.application.FacesMessage;
@@ -351,7 +351,7 @@ public class SessionBean {
 				             + "<br/> Correo: "+correo+""				             
 							 + "<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es: "+passwordnuevo+"";
 	
-					EnvioMensaje.sendMailsolousr(correo, "Recuperación de contraseña YACHAY/REGECE  ", smscor);
+					Mail.sendMailsolousr(correo, "Recuperación de contraseña YACHAY/REGECE  ", smscor);
 				    //limpiamos los datos
 					cedula="";
 			        nombre="";

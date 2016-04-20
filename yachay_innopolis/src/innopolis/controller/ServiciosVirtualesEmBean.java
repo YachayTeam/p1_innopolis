@@ -10,7 +10,7 @@ import innopolis.entidades.Tipoestado;
 import innopolis.entidades.Tiposervicio;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerLogin;
 import innopolis.manager.ManagerRecursosVirtuales;
 
@@ -383,8 +383,8 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				System.out.println(correosadmin);
 				
 				
-				EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-				EnvioMensaje.sendMail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
+				Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
+				Mail.generateAndSendEmail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
 				correosadmin="";
 				smscoradmin="";
 				smscorusu="";				
@@ -604,7 +604,7 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				if(serv.getSms().equals("No Notificado"))
 				{
 					managerservirt.cambioSMSenvio(serv.getIdSvr());
-					EnvioMensaje.sendMail(serv.getUsuario().getCorreo(), "Notificación de Centro de Emprendimiento YACHAY/REGECE","El usuario con apellido "+serv.getUsuario().getApellido()+" con nombre "+serv.getUsuario().getNombre()+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+".");
+					Mail.generateAndSendEmail(serv.getUsuario().getCorreo(), "Notificación de Centro de Emprendimiento YACHAY/REGECE","El usuario con apellido "+serv.getUsuario().getApellido()+" con nombre "+serv.getUsuario().getNombre()+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+".");
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo", null));
 				}
 				else

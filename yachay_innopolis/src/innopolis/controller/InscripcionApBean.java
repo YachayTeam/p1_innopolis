@@ -3,7 +3,7 @@ package innopolis.controller;
 import innopolis.entidades.Evento;
 import innopolis.entidades.Inscripcione;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerEvento;
 
 import java.io.Serializable;
@@ -236,7 +236,7 @@ public class InscripcionApBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion no ha sido aprobada o negada para poder notificarla", null));
 		}else{
 			try {
-				EnvioMensaje.sendMail(correo, "Petición de Inscripcion YACHAY/REGECE  ", smscor);
+				Mail.generateAndSendEmail(correo, "Petición de Inscripcion YACHAY/REGECE  ", smscor);
 				managerEv.notificarInscripcion(idInscripcion, "notificada");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
 			} catch (Exception e) {

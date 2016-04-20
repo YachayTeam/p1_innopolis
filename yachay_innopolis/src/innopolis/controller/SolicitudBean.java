@@ -14,7 +14,7 @@ import innopolis.entidades.Solicidetalle;
 import innopolis.entidades.Soliciestado;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.EnvioMensaje;
+import innopolis.manager.Mail;
 import innopolis.manager.ManagerLogin;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
@@ -600,8 +600,8 @@ public class SolicitudBean {
 		       		 + "<br/> Fecha de Fin: "+date.format(ff).toString()+"";
 			getcorreosusu();
 			System.out.println(correosadmin);
-			EnvioMensaje.sendMail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-			EnvioMensaje.sendMail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
+			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
+			Mail.generateAndSendEmail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
 			
 			
 			solicitudCabTmpGuardada=true;
