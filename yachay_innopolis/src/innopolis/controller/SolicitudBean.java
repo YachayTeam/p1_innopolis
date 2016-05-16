@@ -583,7 +583,6 @@ public class SolicitudBean {
 			//agregarlistadecorreos principal
 			System.out.println("entra aca2");
 					
-			System.out.println("asdsadsadsadsadsad");
 			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
 			smscoradmin = "El Sr/ra. "+direccion+" "+justificacion+", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 		             +"los datos de la solicitud son:"
@@ -601,7 +600,7 @@ public class SolicitudBean {
 			getcorreosusu();
 			System.out.println(correosadmin);
 			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-			Mail.generateAndSendEmail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
+			Mail.sendMailsolousr(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
 			
 			
 			solicitudCabTmpGuardada=true;

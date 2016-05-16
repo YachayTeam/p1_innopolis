@@ -660,7 +660,7 @@ public class CalusrBean implements Serializable {
 				getcorreosusu();
 				System.out.println(correosadmin);
 				Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-				Mail.generateAndSendEmail(getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
+				Mail.sendMailsolousr(getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
 				
 				correosadmin="";
 				smscoradmin="";

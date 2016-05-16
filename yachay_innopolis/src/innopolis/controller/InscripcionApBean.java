@@ -236,7 +236,7 @@ public class InscripcionApBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripcion no ha sido aprobada o negada para poder notificarla", null));
 		}else{
 			try {
-				Mail.generateAndSendEmail(correo, "Petición de Inscripcion YACHAY/REGECE  ", smscor);
+				Mail.sendMailsolousr(correo, "Petición de Inscripcion YACHAY/REGECE  ", smscor);
 				managerEv.notificarInscripcion(idInscripcion, "notificada");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificacion correcta", null));
 			} catch (Exception e) {

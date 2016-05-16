@@ -384,7 +384,7 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				
 				
 				Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-				Mail.generateAndSendEmail(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
+				Mail.sendMailsolousr(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
 				correosadmin="";
 				smscoradmin="";
 				smscorusu="";				

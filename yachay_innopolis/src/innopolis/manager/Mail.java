@@ -15,6 +15,7 @@ public class Mail {
 
 	public static void generateAndSendEmail(String destinatario, String asunto,
 			String mensaje) throws Exception {
+		System.out.println("entra a el correo de adminsitradores");
 		String origen = "admin.innopolis@yachay.gob.ec";
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "mail.yachay.gob.ec");
@@ -34,13 +35,13 @@ public class Mail {
 		MimeMultipart multiParte = new MimeMultipart();
 		multiParte.addBodyPart(texto);
 
-		InternetAddress ccArr[] = new InternetAddress[1];
-		ccArr[0] = new InternetAddress("admin.innopolis@yachay.gob.ec");
+//		InternetAddress ccArr[] = new InternetAddress[1];
+//		ccArr[0] = new InternetAddress("admin.innopolis@yachay.gob.ec");
 
 		Session session = Session.getInstance(props, authenticator);
 		MimeMessage msg = new MimeMessage(session);
 		msg.setFrom(new InternetAddress(origen));
-		msg.setRecipients(Message.RecipientType.CC, ccArr);
+		//msg.setRecipients(Message.RecipientType.CC, ccArr);
 		msg.addRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(destinatario));
 		msg.setSubject(asunto);
@@ -58,6 +59,7 @@ public class Mail {
 
 	public static void sendMailsolousr(String destinatario, String asunto,
 			String mensaje) throws Exception {
+		System.out.println("entra a el correo de uusarios");
 		String origen = "admin.innopolis@yachay.gob.ec";
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "mail.yachay.gob.ec");

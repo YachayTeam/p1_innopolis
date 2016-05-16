@@ -449,7 +449,7 @@ public class ServiciosVirtualesApBean implements Serializable{
 					else
 					{
 					managerservirt.cambioSMSenvio(idSvr);
-					Mail.generateAndSendEmail(correo, "Petición de Solicitud a Servicios Virtuales YACHAY/REGECE  ", smscor);
+					Mail.sendMailsolousr(correo, "Petición de Solicitud a Servicios Virtuales YACHAY/REGECE  ", smscor);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo", null));
 					}
 				}				
