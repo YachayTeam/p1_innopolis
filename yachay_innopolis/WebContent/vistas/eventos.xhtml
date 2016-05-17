@@ -187,9 +187,9 @@
     			<p:tooltip id="toolTipTrack12" for="trackcerrar" value="Bot&oacute;n para Desactivar el evento" trackMouse="true" />
     			</p:commandButton>
     			<p:column headerText="Imprimir solicitud" exportable="false">    			
-    			<b:commandButton id="trackcer6" styleClass="btn btn-info" iconAwesome="print" value="" action="#{eventosBean.imprimirRptDocumento(reg)}" update=":form1">
+    			<p:commandButton id="trackcer6" styleClass="btn btn-info" icon="ui-icon-print" ajax="false" action="#{eventosBean.imprimirRptDocumento(reg)}" update=":form1">
     			<p:tooltip id="toolTipTrack9" for="trackcer6" value="Imprimir la solicitud" trackMouse="true" />
-    			</b:commandButton>	
+    			</p:commandButton>	
     		</p:column>		
 			</p:column>
 			<p:column headerText="Edici&oacute;n/Env&iacute;o Mensaje" exportable="false">    			

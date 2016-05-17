@@ -64,9 +64,9 @@
     			<h:outputText value="#{sol.sms}"></h:outputText>
     		</p:column>
     		<p:column headerText="Imprimir solicitud" exportable="false">    			
-    			<b:commandButton id="trackcer6" styleClass="btn btn-info" iconAwesome="print" value="" action="#{solicitudApBean.imprimirRptDocumento(sol)}" update=":form">
+    			<p:commandButton id="trackcer6" styleClass="btn btn-info" icon="ui-icon-print" ajax="false" action="#{solicitudApBean.imprimirRptDocumento(sol)}" update=":form">
     			<p:tooltip id="toolTipTrack9" for="trackcer6" value="Imprimir la solicitud" trackMouse="true" />
-    			</b:commandButton>
+    			</p:commandButton>
     		</p:column>				
 		</p:dataTable>
 	</p:panel>

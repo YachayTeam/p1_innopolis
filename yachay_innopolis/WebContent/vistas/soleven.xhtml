@@ -185,9 +185,9 @@
     			</p:commandButton>
 			</p:column>
 			<p:column headerText="Imprimir solicitud" exportable="false">    			
-    			<b:commandButton id="trackcer6" styleClass="btn btn-info" iconAwesome="print" value="" action="#{eventosBean.imprimirRptDocumento(reg)}" update=":form2">
+    			<p:commandButton id="trackcer6" styleClass="btn btn-info" ajax="false" icon="ui-icon-print" action="#{eventosBean.imprimirRptDocumento(reg)}" update=":form2">
     			<p:tooltip id="toolTipTrack9" for="trackcer6" value="Imprimir la solicitud" trackMouse="true" />
-    			</b:commandButton>
+    			</p:commandButton>
     		</p:column>	
 		</p:dataTable>		
 	

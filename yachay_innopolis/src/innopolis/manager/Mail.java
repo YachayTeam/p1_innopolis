@@ -59,7 +59,7 @@ public class Mail {
 
 	public static void sendMailsolousr(String destinatario, String asunto,
 			String mensaje) throws Exception {
-		System.out.println("entra a el correo de uusarios");
+		System.out.println("entra a el correo de usarios");
 		String origen = "admin.innopolis@yachay.gob.ec";
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "mail.yachay.gob.ec");
