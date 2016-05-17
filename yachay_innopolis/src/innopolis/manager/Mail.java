@@ -16,7 +16,7 @@ public class Mail {
 	public static void generateAndSendEmail(String destinatario, String asunto,
 			String mensaje) throws Exception {
 		System.out.println("entra a el correo de adminsitradores");
-		String origen = "admin.innopolis@yachay.gob.ec";
+		String origen = "scvtalentohumano@yachay.gob.ec";
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "mail.yachay.gob.ec");
 		props.put("mail.from", origen);
@@ -60,7 +60,7 @@ public class Mail {
 	public static void sendMailsolousr(String destinatario, String asunto,
 			String mensaje) throws Exception {
 		System.out.println("entra a el correo de usarios");
-		String origen = "admin.innopolis@yachay.gob.ec";
+		String origen = "scvtalentohumano@yachay.gob.ec";
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "mail.yachay.gob.ec");
 		props.put("mail.from", origen);
