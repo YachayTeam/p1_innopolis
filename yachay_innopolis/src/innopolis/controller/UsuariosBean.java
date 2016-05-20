@@ -86,10 +86,17 @@ public class UsuariosBean implements Serializable {
 		session = SessionBean.verificarSession();
 		usuario = new Usuario();
 		manager = new ManagerLogin();
-		idusrsug=session.getIdUsr();
-		nombresug=session.getNombre();
-		apellidosug=session.getApellido();
-		correosug=session.getCorreo();
+		if(session ==null)
+		{
+			FacesContext context = FacesContext.getCurrentInstance();
+	        context.addMessage(null, new FacesMessage("error usuarios vacios",null) );
+		}
+		else{
+			idusrsug=session.getIdUsr();
+			nombresug=session.getNombre();
+			apellidosug=session.getApellido();
+			correosug=session.getCorreo();
+		}
 	}
 	
 	public Integer[] getArrayTipoLogin() {

@@ -1,74 +1,106 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="css" name="style.css" />
-	  <link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico"/>
-	  	<title>Bienvenido</title>
-</h:head> 
-<body > 
-<div class="ecuador-iso">
-<h:graphicImage id="bola" value="/resources/img/amalavida.png"></h:graphicImage>
-</div>     
+	<link rel="shortcut icon" type="image/x-icon"
+		href="resources/img/favicon.ico" />
+	<title>Bienvenido</title>
+</h:head>
+<body>
+	<div class="ecuador-iso">
+		<h:graphicImage id="bola" value="/resources/img/amalavida.png"></h:graphicImage>
+	</div>
+<ui:insert name="contenido"></ui:insert>
+	<div class="centrar">
+		<b:carousel id="parque" style="width:100%" showControls="false"
+			interval="3000">
+			<b:carouselItem>
+				<b:image value="/resources/img/regece.png" styleClass="img-responsive" />
+			</b:carouselItem>
+			<b:carouselItem>
+				<b:image value="/resources/img/a.jpg" styleClass="img-responsive" />
+			</b:carouselItem>
+			<b:carouselItem>
+				<b:image value="/resources/img/b.jpg" styleClass="img-responsive" />
+			</b:carouselItem>
+			<b:carouselItem>
+				<b:image value="/resources/img/c.jpg" styleClass="img-responsive" />
+			</b:carouselItem>
+		</b:carousel>
+		<h:form id="form1">
+			<p:growl id="message2" />
+<!-- 			<div class="ui-grid-row"> -->
+<!-- 				<div class="ui-grid-col-10" style="padding-left: 20%;"> -->
+<!-- 					<h1 align="center">REGECE</h1> -->
+<!-- 					<h3 align="center">(Reservas de Espacios y Gestión de Eventos -->
+<!-- 						del Centro de Emprendimiento)</h3> -->
+<!-- 				</div> -->
+<!-- 				<div class="ui-grid-col-2"> -->
+<!-- 					<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			<p:menubar>
+				<p:submenu label="Acciones/Actividades" icon="ui-icon-document">
+					<c:forEach var="te" items="#{sessionBean.la}">
+						<p:menuitem value="#{te.actividad}" url="/vistas/#{te.url}"></p:menuitem>
+					</c:forEach>
+				</p:submenu>
+				<p:menuitem value="Calendario" url="/calendario.xhtml"
+					icon="ui-icon-calendar">
+					<p:ajax listener="#{calusrBeanlogeado.refresh}"></p:ajax>
+				</p:menuitem>
+				<p:menuitem value="Sugerencias" icon="ui-icon-comment"
+					onclick="PF('dlg2').show()" />
+				<f:facet name="options">
+					<p:commandButton type="button" value="#{sessionBean.nom}"
+						disabled="true" icon="ui-icon-person" />
+					<p:commandButton id="tracksalir" value="Cerrar Sesión"
+						icon=" ui-icon-power" action="index.xhtml">
+						<p:ajax listener="#{sessionBean.logout}"></p:ajax>
+					</p:commandButton>
+				</f:facet>
+			</p:menubar>
 
-<div class="centrar">
-		<h:form id="form1">	
-		<p:growl id="message2"/>			
-			<div class="ui-grid-row">
-	 		<div class="ui-grid-col-10" style="padding-left:20%;">	
-				<h1 align="center">REGECE</h1>	
-				<h3 align="center">(Reservas de Espacios y Gestión de Eventos del Centro de Emprendimiento)</h3>	 	
-			 </div>
-			<div class="ui-grid-col-2">		
-			<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage>
-			</div>			
-			</div>
-				<p:menubar>
-        			<p:submenu label="Acciones/Actividades" icon="ui-icon-document">
-       					<c:forEach var="te" items="#{sessionBean.la}">
-       						<p:menuitem value="#{te.actividad}" url="/vistas/#{te.url}"></p:menuitem>
-       					</c:forEach>	
-        			</p:submenu>
-        			<p:menuitem value="Calendario" url="/calendario.xhtml" icon="ui-icon-calendar" >
-        			<p:ajax listener="#{calusrBeanlogeado.refresh}"></p:ajax>
-					</p:menuitem>        			  
-        			<p:menuitem value="Sugerencias"  icon="ui-icon-comment" onclick="PF('dlg2').show()" />  
-         			<f:facet name="options">
-        			<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
-        			<p:commandButton id="tracksalir" value="Cerrar Sesión"  icon=" ui-icon-power" action="/index.xhtml">
-        			<p:ajax listener="#{sessionBean.logout}"></p:ajax>
-        			</p:commandButton>
-        			</f:facet>     
-        		</p:menubar>
-        		
-        	<p:dialog widgetVar="dlg2" modal="true" closable="true" closeOnEscape="true"  header="Registrar Sugerencia" 
-        	showEffect="explode" hideEffect="bounce" height="260">
-			<h:outputText value="Al momento de enviar la sugerencia espere al mensaje de confimación."/>
-			<p:panelGrid columns="2" >		
-			<h:outputText value="Apellidos: "/>
-			<p:inputText id="apellidos" value="#{usuariosBean.apellidosug}" disabled="true"></p:inputText>
-			<h:outputText value="Nombres: "/>
-			<p:inputText id="nombres" value="#{usuariosBean.nombresug}" disabled="true"></p:inputText>			
-            <h:outputText value="Sugerencia a Enviar: "/>
-			<p:inputTextarea  rows="4" cols="21" autoResize="true" value="#{usuariosBean.sugerenciatext}">
-			<f:validateLength minimum="5"/>
-			</p:inputTextarea>
-			<p:commandButton id="trackedi"   value="Aceptar" icon="ui-icon-check"  onclick="start()" 
-			widgetVar="startButton1" update=":form1 "  action="#{usuariosBean.crearsugerencia}" >
-			<p:tooltip id="t3" for="trackedi" value="Bot&oacute;n para enviar la sugerencia" trackMouse="true" />
-			</p:commandButton>    
-    		<br /><br />
-    		<p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:200px"/>
-			</p:panelGrid>
-			</p:dialog>				
-			</h:form> 	
-		
-			<script type="text/javascript">
+			<p:dialog widgetVar="dlg2" modal="true" closable="true"
+				closeOnEscape="true" header="Registrar Sugerencia"
+				showEffect="explode" hideEffect="bounce" height="260">
+				<h:outputText
+					value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
+				<p:panelGrid columns="2">
+					<h:outputText value="Apellidos: " />
+					<p:inputText id="apellidos" value="#{usuariosBean.apellidosug}"
+						disabled="true"></p:inputText>
+					<h:outputText value="Nombres: " />
+					<p:inputText id="nombres" value="#{usuariosBean.nombresug}"
+						disabled="true"></p:inputText>
+					<h:outputText value="Sugerencia a Enviar: " />
+					<p:inputTextarea rows="4" cols="21" autoResize="true"
+						value="#{usuariosBean.sugerenciatext}">
+						<f:validateLength minimum="5" />
+					</p:inputTextarea>
+					<p:commandButton id="trackedi" value="Aceptar" icon="ui-icon-check"
+						onclick="start()" widgetVar="startButton1" update=":form1 "
+						action="#{usuariosBean.crearsugerencia}">
+						<p:tooltip id="t3" for="trackedi"
+							value="Bot&oacute;n para enviar la sugerencia" trackMouse="true" />
+					</p:commandButton>
+					<br />
+					<br />
+					<p:progressBar id="progressBarClient" widgetVar="pbClient"
+						style="width:200px" />
+				</p:panelGrid>
+			</p:dialog>
+		</h:form>
+
+		<script type="text/javascript">
 				function start() {
 				    PF('startButton1').disable();
 				 
@@ -87,13 +119,13 @@
 				 
 				    }, 1000);
 				}
-				</script> 
+				</script>
 	</div>
-		
-		<div class="centrarinno">		
-		<h:graphicImage id="bola1" value="/resources/img/innoopolise.png"></h:graphicImage>
-		</div>	
-</body> 
 
-		
+	<div class="centrarinno">
+		<h:graphicImage id="bola1" value="/resources/img/innoopolise.png"></h:graphicImage>
+	</div>
+</body>
+
+
 </html>

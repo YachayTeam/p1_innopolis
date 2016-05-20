@@ -114,7 +114,7 @@ body {
 
 .centrar {
 	width: 1450px;
-	max-width: 90%;
+	max-width: 100%;
 	margin: 0 auto;
 }
 
@@ -233,7 +233,7 @@ body {
 }
 
 .centrarinno {
-	width:400px;
+	width:500px;
 	max-width:100%;
 	
 }
