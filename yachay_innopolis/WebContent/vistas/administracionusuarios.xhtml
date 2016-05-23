@@ -80,14 +80,14 @@
 			</h:panelGroup>
 			<h:outputText value="¿Qué actividad realizas?" size="10" escape="false"/>
 			<p:selectOneRadio value="#{usuariosBean.panel1}">
-			 <f:selectItem itemLabel="Trabajas" itemValue="Show-Panel1" />
-			 <f:selectItem itemLabel="Estudias" itemValue="Show-Panel2" />
-			 <f:ajax render="payment-amount-panel" />
+			<f:selectItem itemLabel="&nbsp; Trabajas" itemValue="Show-Panel1" />
+			<f:selectItem itemLabel="&nbsp; Estudias" itemValue="Show-Panel2" />
+			<f:ajax render="payment-amount-panel" />
 			</p:selectOneRadio>	
 			<h:outputText value=""/>
 			<h:outputText value=""/>
 			<h:outputText value=""/>			
-			<p:panelGrid style="border:none;margin:0 auto;width:350px;" id="payment-amount-panel" columns="2" >
+			<p:panelGrid style="border:0px;margin:0 auto;width:400px;" id="payment-amount-panel" columns="2" >
 			 <p:fieldset rendered="#{usuariosBean.panel1 == 'Show-Panel1'}">
 				<p:inputText required="true" id="empresa" requiredMessage="Por favor ingrese su empresa" validatorMessage="Formato inv&aacute;lido" value="#{usuariosBean.empreestu}">
 						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>

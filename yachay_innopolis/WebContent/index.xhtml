@@ -53,7 +53,7 @@
 		<h:form>
 			<p:menubar>
 				<p:menuitem value="Iniciar Sesi&oacute;n"
-					onclick="PF('dlg3').show();" icon=" ui-icon-power"></p:menuitem>
+					onclick="PF('ic').show();" icon=" ui-icon-power"></p:menuitem>
 				<p:menuitem value="Recuperar contraseña"
 					onclick="PF('dlg4').show();" icon="ui-icon-lightbulb" />
 				<p:menuitem value="Regístrarme" action="/ingresousuario.xhtml"
@@ -67,32 +67,31 @@
 			</p:menubar>
 		</h:form>
 		<hr />
-		<p:dialog header="Ingreso al Sistema" resizable="false"
-			closable="true" closeOnEscape="true" widgetVar="dlg3" modal="true"
-			showEffect="explode" hideEffect="bounce" height="150">
-			<p:panel id="panel1" style="border:none;">
-				<h:form id="form2">
-					<p:growl id="message2" showDetail="true" life="2000" />
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="alias" value="Usuario: " />
-						<p:inputText id="alias" value="#{sessionBean.nick}" label="alias"
-							requiredMessage="Alias Requerido" required="true">
-							<p:ajax listener="#{sessionBean.veri}" update=":form2:message2"></p:ajax>
-						</p:inputText>
-						<h:outputLabel for="password" value="Contraseña: " />
-						<p:password id="password" value="#{sessionBean.pass}"
-							label="password" requiredMessage="Contrase&ntilde;a Requerida"
-							required="true" />
-						<h:outputLabel value="" />
-						<p:commandButton id="trackingre" value="Ingresar"
-							action="#{sessionBean.login}" update="message2"
-							icon="ui-icon-check">
-							<p:tooltip id="toolTipTrac2" for="trackingre"
-								value="Bot&oacute;n para ingresar al sistema" trackMouse="true" />
-						</p:commandButton>
-					</h:panelGrid>
+		<p:dialog widgetVar="ic" modal="true" showEffect="fade"
+			header="Sistema REGECE Yachay" hideEffect="fade"
+			resizable="false">
+
+			<div class="form-bottom">
+				<div class="form-box">
+					<h2>
+					<b style="color:#46a3ca;font-size: 12pt;" >	Ingreso al Sistema</b> <i class="fa fa-calendar-check-o fa-1x" style="color:#46a3ca;"></i>
+					</h2>
+				</div>
+
+				<h:form id="frmlog">
+					<p:messages closable="true" />
+					<b:inputText placeholder="CÉDULA" value="#{sessionBean.nick}"
+						disabled="false">
+						<p:ajax listener="#{sessionBean.veri()}" update=""></p:ajax>
+					</b:inputText>
+					<b:inputSecret placeholder="CONTRASE&Ntilde;A" disabled="false"
+						value="#{sessionBean.pass}">
+					</b:inputSecret>
+					<b:commandButton value="Ingresar" iconAwesome="check-square-o"
+						action="#{sessionBean.login}" styleClass="btn-block btnSend"
+						look="primary" update=":frmlog" />
 				</h:form>
-			</p:panel>
+			</div>
 		</p:dialog>
 
 		<p:dialog header="Recuperar contraseña" resizable="false"
@@ -133,7 +132,8 @@
 		</p:dialog>
 		<p:tabView dynamic="true" cache="true">
 			<p:tab title="Regece">
-				<center><b:image value="/resources/img/ccep.jpg" styleClass="img-responsive" /></center>
+			<b:image value="/resources/img/innopolis2.jpg" styleClass="img-responsive" />
+<!-- 				<center><b:image value="/resources/img/ccep.jpg" styleClass="img-responsive" /></center> -->
 			</p:tab>
 			<p:tab title="Calendario">
 				<h:form id="form">
