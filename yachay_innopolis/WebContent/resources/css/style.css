@@ -233,16 +233,14 @@ body {
 }
 
 .centrarinno {
-	width:500px;
+	width:600px;
 	max-width:100%;
 	
 }
 #bola1{
-	max-width: 100%;
-	max-width:100%;
 	position: absolute;
-	left: 40%;
-	top: 30%;
+	left: 35%;
+	top: 50%;
 	z-index: -1;
 }
 
