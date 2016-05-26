@@ -85,7 +85,9 @@
 			<h:outputText  id="correo" value="#{usuariosBean.correo}"></h:outputText>			
 			<h:outputText value=""/>
 			<h:outputText value="Fecha: "/>
-			<h:outputText  id="fecha" value="#{usuariosBean.sugerenciafecha}"></h:outputText>			
+			<h:outputText  id="fecha" value="#{usuariosBean.sugerenciafecha}" >
+			<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+			</h:outputText>			
 			<h:outputText value=""/>
 			<h:outputText value="Sugerencia: "/>
 			<p:inputTextarea readonly="true" value="#{usuariosBean.sugerenciatext}"></p:inputTextarea>

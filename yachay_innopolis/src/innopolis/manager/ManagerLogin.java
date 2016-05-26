@@ -34,7 +34,7 @@ public class ManagerLogin implements Serializable{
 		// USUARIOS
 	@SuppressWarnings("unchecked")
 	public List<Usuario> findUsrsPrincipal(){
-		return mDAO.findWhere(Usuario.class, "o.principal=1 ", null);
+		return mDAO.findWhere(Usuario.class, "o.principal= true ", null);
 	}
 	
 	// listar todos los usuarios 

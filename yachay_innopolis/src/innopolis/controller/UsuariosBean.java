@@ -90,8 +90,10 @@ public class UsuariosBean implements Serializable {
 		{
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("error usuarios vacios",null) );
+	        System.out.println("login pero sin datos");
 		}
 		else{
+			System.out.println(session.getIdUsr()+" "+session.getNombre()+" "+session.getApellido());
 			idusrsug=session.getIdUsr();
 			nombresug=session.getNombre();
 			apellidosug=session.getApellido();
@@ -1003,21 +1005,23 @@ public class UsuariosBean implements Serializable {
 	  			System.out.println(correosug);
 	  			System.out.println(getSugerenciatext());
 	  			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");
-	  			smscoradmin = "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envi&oacute; una sugerencia.; <br/>"
+	  			Usuario usr = manager.UsuarioByID(idusrsug);
+	  			smscoradmin = "El Sr/ra. "+usr.getNombre()+" "+usr.getApellido()+", envi&oacute; una sugerencia.; <br/>"
 			             +"Los datos del usuario son:"
-			             + "<br/> C&eacute;dula: "+session.getCedula()+""
-			             + "<br/> Nombre: "+session.getNombre()+""
-			             + "<br/> Apellido: "+session.getApellido()+""
-			             + "<br/> Correo: "+session.getCorreo()+""
+			             + "<br/> C&eacute;dula: "+usr.getCedula()+""
+			             + "<br/> Nombre: "+usr.getNombre()+""
+			             + "<br/> Apellido: "+usr.getApellido()+""
+			             + "<br/> Correo: "+usr.getCorreo()+""
 			             + "<br/> Fecha: "+date.format(sugerenciafecha).toString()+""
-			             + "<br/> Sugerencia: "+sugerenciatext+"";		
-	  			smscorreosugerenc = "El usuario con apellido "+session.getApellido()+" con nombre "+session.getNombre()
+			             + "<br/> Sugerencia: "+sugerenciatext+"";	
+	  			
+	  			smscorreosugerenc = "El usuario con apellido "+usr.getApellido()+" con nombre "+usr.getNombre()
 	  					+"; le informamos que su sugerencia al sistema REGECE ser&aacute; revisada.<br/> "
 	  					+"Su sugerencia es: "+sugerenciatext+"";
 	  			
 	  			getcorreosusu();
 	  			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-	  			Mail.sendMailsolousr(correosug, "Envío de Sugerencia a YACHAY/REGECE  ", smscorreosugerenc);
+	  			Mail.sendMailsolousr(usr.getCorreo(), "Envío de Sugerencia a YACHAY/REGECE  ", smscorreosugerenc);
 	  			manager.insertarSugerencia(idusrsug, getSugerenciatext(), sugerenciafecha);
 	  			sugerenciatext = "";
 	  			correosadmin="";
