@@ -93,6 +93,7 @@ create table PUBLIC.EVENTOS (
    CANTIDAD             INT4                 null,
    ESTADO               TEXT                 null,
    SMS                  TEXT                 null,
+   INTERNO              BOOL                 null,
    constraint PK_EVENTOS primary key (ID_EVENTO)
 );
 

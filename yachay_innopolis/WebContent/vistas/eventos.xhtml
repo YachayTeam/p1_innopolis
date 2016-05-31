@@ -167,7 +167,11 @@
 			<p:column id="f6"  headerText="Estado" sortBy="#{reg.estado}" filterBy="#{reg.estado}">
 			<h:outputText value="#{reg.estado}"></h:outputText>
 			</p:column>
-			<p:column id="f7" filterBy="#{reg.sms}" headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
+			<p:column id="f7"  headerText="Interno" sortBy="#{reg.interno}">
+			<p:selectBooleanCheckbox disabled="true" value="#{reg.interno}">
+				 </p:selectBooleanCheckbox>
+			</p:column>
+			<p:column id="f8" filterBy="#{reg.sms}" headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
 			<h:outputText value="#{reg.sms}"></h:outputText>
 			</p:column>					
 			<p:column headerText="Opciones" exportable="false">
@@ -238,6 +242,9 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>
+			<h:outputText value="Reunion Privada:"/>
+			<p:selectBooleanCheckbox value="#{eventosBean.interno}">	</p:selectBooleanCheckbox>
+			
 			<h:outputText value="Estado Mensaje: "/>
 			<h:outputText value="#{eventosBean.sms}"></h:outputText>	
 			<h:outputText value="Imagen:"/>

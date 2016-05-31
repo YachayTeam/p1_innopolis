@@ -41,14 +41,14 @@
 			<property name="eclipselink.weaving" value="true" />
 
 
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://10.1.0.158:5432/bd_inno" />
-			<property name="javax.persistence.jdbc.user" value="adm_bicichay" />
-			<property name="javax.persistence.jdbc.password" value="y-4IO4SDwu_!" />
-			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-			<!-- local <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/bd_inno"/> -->
-			<!-- <property name="javax.persistence.jdbc.user" value="u_inno"/> -->
-			<!-- <property name="javax.persistence.jdbc.password" value=",ngo4uIoo2|e"/> -->
-			<!-- <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/> -->
+<!-- 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://10.1.0.158:5432/bd_inno" /> -->
+<!-- 			<property name="javax.persistence.jdbc.user" value="adm_bicichay" /> -->
+<!-- 			<property name="javax.persistence.jdbc.password" value="y-4IO4SDwu_!" /> -->
+<!-- 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> -->
+			 <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/bd_inno"/>
+			<property name="javax.persistence.jdbc.user" value="u_inno"/>
+			<property name="javax.persistence.jdbc.password" value=",ngo4uIoo2|e"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="css" link="css" name="style.css" />
@@ -21,29 +21,42 @@
 	</div>
 	<ui:insert name="contenido"></ui:insert>
 	<div class="centrar">
-		<b:carousel id="parque" interval="3000" showControls="false" style="img-responsive:true;">
-				<b:carouselItem>
-				<center><p:graphicImage value="/resources/img/banner3.png"  style="width:100%;height:200px; width:1450px;" showControls="false"/></center>
+		<b:carousel id="parque" interval="3000" showControls="false"
+			style="img-responsive:true;">
+			<b:carouselItem>
+				<center>
+					<p:graphicImage value="/resources/img/banner3.png"
+						style="width:100%;height:200px; width:1450px;"
+						showControls="false" />
+				</center>
 			</b:carouselItem>
 			<b:carouselItem>
-				<center><p:graphicImage value="/resources/img/banner.png"  style="width:100%;height:200px; width:1450px;" showControls="false"/></center>
+				<center>
+					<p:graphicImage value="/resources/img/banner.png"
+						style="width:100%;height:200px; width:1450px;"
+						showControls="false" />
+				</center>
 			</b:carouselItem>
-				<b:carouselItem>
-				<center><p:graphicImage value="/resources/img/banner2.png"  style="width:100%;height:200px; width:1450px;" showControls="false"/></center>
+			<b:carouselItem>
+				<center>
+					<p:graphicImage value="/resources/img/banner2.png"
+						style="width:100%;height:200px; width:1450px;"
+						showControls="false" />
+				</center>
 			</b:carouselItem>
 		</b:carousel>
-		<p:growl id="message5" showDetail="true" />
+		<p:growl id="message5" showDetail="false" />
 		<h:form id="form5">
-<!-- 			<div class="ui-grid-row"> -->
-<!-- 				<div class="ui-grid-col-10" style="padding-left: 20%;"> -->
-<!-- 					<h1 align="center">REGECE</h1> -->
-<!-- 					<h3 align="center">(Reservas de Espacios y Gestión de Eventos -->
-<!-- 						del Centro de Emprendimiento)</h3> -->
-<!-- 				</div> -->
-<!-- 				<div class="ui-grid-col-2"> -->
-<!-- 					<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
+			<!-- 			<div class="ui-grid-row"> -->
+			<!-- 				<div class="ui-grid-col-10" style="padding-left: 20%;"> -->
+			<!-- 					<h1 align="center">REGECE</h1> -->
+			<!-- 					<h3 align="center">(Reservas de Espacios y Gestión de Eventos -->
+			<!-- 						del Centro de Emprendimiento)</h3> -->
+			<!-- 				</div> -->
+			<!-- 				<div class="ui-grid-col-2"> -->
+			<!-- 					<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage> -->
+			<!-- 				</div> -->
+			<!-- 			</div> -->
 		</h:form>
 		<h:form>
 			<p:menubar>
@@ -62,8 +75,7 @@
 		<p:tabView dynamic="true" cache="true">
 			<p:tab title="Calendario">
 				<h:form id="form">
-					<p:growl id="messages" showDetail="true" />
-
+					<p:growl id="messages" showDetail="false" />
 					<div align="right">
 						<p:outputLabel value="Eventos: "></p:outputLabel>
 						<p:selectOneMenu required="true" styleClass="t"
@@ -138,56 +150,97 @@
 
 					<p:dialog id="dialog" widgetVar="eventDialog" closable="true"
 						closeOnEscape="true" header="#{calusrBeanlogeado.event.title}"
-						width="50%" showEffect="clip" hideEffect="clip">
-						<div class="ui-grid-row">
-							<div class="ui-grid-col-1">
-								<p:graphicImage height="120" width="120"
-									value="#{FacesContext
+						width="60%" showEffect="clip" hideEffect="clip">
+						<h:panelGrid id="eventDetails" columns="4">
+							<b:row>
+								<b:column span="3">
+									<p:graphicImage height="120" width="120"
+										value="#{FacesContext
 						.getCurrentInstance().getExternalContext()}/imgevent/#{calusrBeanlogeado.event.data.imagen}" />
-							</div>
-							<div class="ui-grid-col-5">
-								<h:outputText value="  " />
-							</div>
-							<div class="ui-grid-col-3">
-								<h:panelGrid id="eventDetails" columns="4">
-									<b><h:outputLabel for="from" value="Descrici&oacute;n:"></h:outputLabel>
-									</b>
-									<p:outputLabel id="from"
-										value="#{calusrBeanlogeado.event.data.descripcion}" />
-									<b><h:outputLabel for="date" value="Fecha Inicio:" /></b>
-									<p:outputLabel id="date"
-										value="#{calusrBeanlogeado.event.startDate}">
-										<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
-											timeZone="GMT-5" />
-									</p:outputLabel>
-									<b><h:outputLabel for="date1" value="Fecha Fin:" /></b>
-									<p:outputLabel id="date1"
-										value="#{calusrBeanlogeado.event.endDate}">
-										<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
-											timeZone="GMT-5" />
-									</p:outputLabel>
-									<b><h:outputLabel for="tc" value="Tipo Evento:" /></b>
-									<p:outputLabel id="tc"
-										value="#{calusrBeanlogeado.event.data.tipoevento.tipo}" />
-									<b><h:outputLabel for="ubi" value="Ubicación:" /></b>
-									<p:outputLabel id="ubi"
-										value="#{calusrBeanlogeado.event.data.sala.tipo}" />
-									<b><h:outputLabel for="ca" value="Capacidad:" /></b>
-									<p:outputLabel id="ca"
-										value="#{calusrBeanlogeado.event.data.cantidad}" />
-									<b><h:outputLabel for="co" value="Costo:" /></b>
-									<p:outputLabel id="co"
-										value="#{calusrBeanlogeado.event.data.costo}" />
+								</b:column>
+								<b:column span="9">
+									<b:row>
+										<b:column span="4">
+											<b><h:outputLabel for="from" value="Descrici&oacute;n:"
+													rendered="#{!calusrBeanlogeado.event.data.interno}"></h:outputLabel></b>
+										</b:column>
+										<b:column span="5">
+											<p:outputLabel id="from"
+												value="#{calusrBeanlogeado.event.data.descripcion}"
+												rendered="#{!calusrBeanlogeado.event.data.interno}" />
+										</b:column>
+									</b:row>
+									<b:row>
+										<b:column span="4">
+											<b><h:outputLabel for="date" value="Fecha Inicio:" /></b>
+										</b:column>
+										<b:column span="5">
+											<p:outputLabel id="date"
+												value="#{calusrBeanlogeado.event.startDate}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</p:outputLabel>
+										</b:column>
+									</b:row>
+									<b:row>
+										<b:column span="4">
+											<b><h:outputLabel for="date1" value="Fecha Fin:" /></b>
+										</b:column>
+										<b:column span="5">
+											<p:outputLabel id="date1"
+												value="#{calusrBeanlogeado.event.endDate}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</p:outputLabel>
+										</b:column>
+									</b:row>
+									<b:row>
+										<b:column span="4">
+											<b><h:outputLabel for="tc" value="Tipo Evento:" /></b>
+										</b:column>
+										<b:column span="5">
+											<p:outputLabel id="tc"
+												value="#{calusrBeanlogeado.event.data.tipoevento.tipo}" />
+										</b:column>
+									</b:row>
+									<b:row>
+										<b:column span="4">
+											<b><h:outputLabel for="ubi" value="Ubicación:" /></b>
+										</b:column>
+										<b:column span="5">
+											<p:outputLabel id="ubi"
+												value="#{calusrBeanlogeado.event.data.sala.tipo}" />
+										</b:column>
+									</b:row>
+									<b:row>
+										<b:column span="4">
+											<b><h:outputLabel for="ca" value="Capacidad:" /></b>
+										</b:column>
+										<b:column span="5">
+											<p:outputLabel id="ca"
+												value="#{calusrBeanlogeado.event.data.cantidad}" />
+										</b:column>
+									</b:row>
+									<b:row>
+										<b:column span="4">
+											<b><h:outputLabel for="co" value="Costo:" /></b>
+										</b:column>
+										<b:column span="2">
+											<p:outputLabel id="co"
+												value="#{calusrBeanlogeado.event.data.costo}" />
+										</b:column>
+									</b:row>
 									<p:commandButton id="addButton" value="Inscribete"
 										action="#{calusrBeanlogeado.irInscripcion}"
+										rendered="#{!calusrBeanlogeado.event.data.interno}"
 										oncomplete="PF('myschedule').update();PF('eventDialog').hide();">
 										<p:tooltip id="toolTipTrac1" for="addButton"
 											value="Bot&oacute;n para registrarse al evento"
 											trackMouse="true" />
 									</p:commandButton>
-								</h:panelGrid>
-							</div>
-						</div>
+								</b:column>
+							</b:row>
+						</h:panelGrid>
 					</p:dialog>
 				</h:form>
 				<script type="text/javascript">
@@ -226,7 +279,7 @@
 			<p:tab title="Lista de Eventos">
 				<div class="div4">
 					<h:form id="form4">
-						<p:growl id="message4" showDetail="true" />
+						<p:growl id="message4" showDetail="false" />
 
 						<p:commandButton id="trackimprimir"
 							value="Imprimir Lista de Eventos" icon="ui-icon-print">
@@ -268,7 +321,7 @@
 							</p:panelGrid>
 						</p:dialog>
 
-						<p:dataTable id="dt" value="#{calusrBean.listEvenAct}" rows="5"
+						<p:dataTable id="dt" value="#{calusrBeanlogeado.listEvenAct}" rows="5"
 							var="reg" reflow="true"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
 							paginator="true" emptyMessage="No hay información almacenada">
@@ -286,9 +339,8 @@
 										fileName="usuarios_registrados" pageOnly="true" />
 								</h:commandLink>
 							</f:facet>
-							<p:column id="f1" filterBy="#{reg.nombre}" sortBy="#{reg.nombre}"
-								headerText="Nombres de Eventos">
-								<h:outputText value="#{reg.nombre}"></h:outputText>
+							<p:column id="f1" headerText="Nombres de Eventos">
+								<h:outputText value="#{calusrBeanlogeado.valorInterno(reg)}"></h:outputText>
 							</p:column>
 							<p:column headerText="Costo" sortBy="#{reg.costo}">
 								<h:outputText value="#{reg.costo}"></h:outputText>
@@ -322,8 +374,7 @@
 							</p:column>
 							<p:column headerText="Opciones" exportable="false">
 								<p:commandButton id="addButton" value="Inscribete"
-									action="#{calusrBeanlogeado.irInscripcion}"
-									oncomplete="PF('myschedule').update();PF('eventDialog').hide();">
+									action="#{calusrBeanlogeado.irInscripcion1(reg)}" update=":message5">
 									<p:tooltip id="toolTipTrac1" for="addButton"
 										value="Bot&oacute;n para registrarse al evento"
 										trackMouse="true" />

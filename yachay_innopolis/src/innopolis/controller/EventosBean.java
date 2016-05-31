@@ -74,7 +74,8 @@ public class EventosBean {
 	private Integer idusr;
 	private String sms;
 	private Integer sala;
-
+	private Boolean interno;
+	
 	/**** Mod Eventos *****/
 	private Timestamp fActualInicio, fActualFin;
 	private Evento modEv;
@@ -188,6 +189,7 @@ public class EventosBean {
 		nombreusuario = "";
 		apellidousuario = "";
 		mostrar = false;
+		interno = false;
 		idusr = session.getIdUsr();
 		descripcionubicacion = "Descripción de la Sala";
 		descripcionrecurso = "Descripción de Recurso";
@@ -199,6 +201,14 @@ public class EventosBean {
 
 	public String getDescripcionrecurso() {
 		return descripcionrecurso;
+	}
+	
+	public Boolean getInterno() {
+		return interno;
+	}
+	
+	public void setInterno(Boolean interno) {
+		this.interno = interno;
 	}
 
 	public Time getHorafin() {
@@ -2077,6 +2087,7 @@ public class EventosBean {
 		nombre = ev.getNombre();
 		asignarNombreImagen();
 		descripcion = ev.getDescripcion();
+		interno = ev.getInterno();
 		// lugar = ev.getLugar();
 		costo = ev.getCosto();
 		fi = ev.getFechaInicio();
@@ -2404,11 +2415,8 @@ public class EventosBean {
 												null));
 					}
 				} else {
-					mEvento.editarEventos(idEvento, nombre, descripcion/*
-																		 * ,
-																		 * lugar
-																		 */,
-							imagen, fechaInicio, fechaFin, costo, cantidad);
+					mEvento.editarEventos(idEvento, nombre, descripcion,
+							imagen, fechaInicio, fechaFin, costo, cantidad,interno);
 					// reiniciamos datos (limpiamos el formulario)
 					idEvento = 0;
 					nombre = "";
@@ -2421,6 +2429,7 @@ public class EventosBean {
 					fechaInicio = null;
 					nombreusuario = "";
 					apellidousuario = "";
+					interno=false;
 					fechaFin = null;
 					costo = 0;
 					cantidad = null;
@@ -2512,7 +2521,7 @@ public class EventosBean {
 				// Editamos evento
 				mEvento.editarEventos(idEvento, nombre,
 						descripcion/* , lugar */, imagen, fechaInicio,
-						fechaFin, costo, cantidad);
+						fechaFin, costo, cantidad,interno);
 				// reiniciamos datos de eventos
 				idEvento = 0;
 				nombre = "";
@@ -2527,6 +2536,7 @@ public class EventosBean {
 				costo = 0;
 				cantidad = 0;
 				sc = 0;
+				interno=false;
 				te = 0;
 				idusr = 0;
 				esave = false;

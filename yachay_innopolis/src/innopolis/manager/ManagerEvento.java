@@ -65,6 +65,7 @@ public class ManagerEvento {
 				r.setSala(sala);
 				r.setEstado(estadoeven);
 				r.setUsuario(usr);
+				r.setInterno(false);
 				r.setSms("No Notificado");
 				
 				mDAO.insertar(r);
@@ -106,6 +107,7 @@ public class ManagerEvento {
 				eventoTmp.setEstado("Pendiente");
 				eventoTmp.setUsuario(usr);
 				eventoTmp.setSms("No Notificado");
+				eventoTmp.setInterno(false);
 				return eventoTmp;
 			}
 			
@@ -124,7 +126,7 @@ public class ManagerEvento {
 		// editar los eventos
 		public void editarEventos(Integer id_evento, String nombre,
 				String descripcion,/* String lugar,*/ String imagen, Timestamp fecha_inicio, Timestamp fecha_fin,
-				float costo, Integer cantidad) throws Exception {
+				float costo, Integer cantidad, Boolean interno) throws Exception {
 			try {
 				Evento r = this.EventoByID(id_evento);
 				r.setIdEvento(id_evento);
@@ -138,6 +140,7 @@ public class ManagerEvento {
 				r.setCantidad(cantidad);
 				r.setTipoevento(te);
 				r.setSala(sala);
+				r.setInterno(interno);
 				mDAO.actualizar(r);
 				System.out.println("bien_mod_evento");
 			} catch (Exception e) {

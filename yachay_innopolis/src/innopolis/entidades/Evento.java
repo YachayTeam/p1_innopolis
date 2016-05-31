@@ -1,7 +1,9 @@
 package innopolis.entidades;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -43,6 +45,8 @@ public class Evento implements Serializable {
 	private String nombre;
 
 	private String sms;
+	
+	private Boolean interno;
 
 	//bi-directional many-to-one association to Sala
 	@ManyToOne
@@ -69,6 +73,14 @@ public class Evento implements Serializable {
 	private List<Inscripcione> inscripciones;
 
 	public Evento() {
+	}
+	
+	public Boolean getInterno() {
+		return this.interno;
+	}
+
+	public void setInterno(Boolean interno) {
+		this.interno = interno;
 	}
 
 	public Integer getIdEvento() {

@@ -1,6 +1,5 @@
 package innopolis.controller;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,10 +34,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-
-
-
-
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.ServletContext;
@@ -57,7 +52,6 @@ import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.UploadedFile;
 
-
 @SessionScoped
 @ManagedBean
 public class CalusrBeanlogeado implements Serializable {
@@ -65,42 +59,62 @@ public class CalusrBeanlogeado implements Serializable {
 	private ManagerEvento manager;
 	private ManagerLogin managerlog;
 
+	private boolean interno;
+
 	private Evento e;
 	private ScheduleModel eventModel;
 	private ScheduleEvent event = new DefaultScheduleEvent();
-	
-	//camposnuevos
-	ManagerInscripedit managerins;	
-	
+
+	// camposnuevos
+	ManagerInscripedit managerins;
+
 	private Integer id_campo;
 	private String etiqueta;
 	private String campo;
-		
-	
-	//buscar por tipo evento
+
+	// buscar por tipo evento
 	private Integer te;
-	
-	//buscar por ubicacion
+
+	// buscar por ubicacion
 	private Integer sala;
-	
-	//envio de correo a los administradores
-	private String smscoradmin; 
+
+	// envio de correo a los administradores
+	private String smscoradmin;
 	private String smscorusu;
 	private String correosadmin;
-	
+
 	// calendario
 	private Date date;
 	private Date fi;
 	private Date ff;
-	
+
+	private Timestamp hora_fin;
+
+	public void setHora_fin(Timestamp hora_fin) {
+		this.hora_fin = hora_fin;
+	}
+
+	public Timestamp getHora_fin() {
+		return hora_fin;
+	}
+
 	public Date getDate() {
 		date = new Date();
 		return date;
 	}
-	
+
+	public boolean isInterno() {
+		return interno;
+	}
+
+	public void setInterno(boolean interno) {
+		this.interno = interno;
+	}
+
 	public Date getFi() {
 		return fi;
 	}
+
 	public void setFi(Date fi) {
 		this.fi = fi;
 	}
@@ -112,6 +126,7 @@ public class CalusrBeanlogeado implements Serializable {
 	public void setFf(Date ff) {
 		this.ff = ff;
 	}
+
 	/**
 	 * @return the te
 	 */
@@ -120,11 +135,13 @@ public class CalusrBeanlogeado implements Serializable {
 	}
 
 	/**
-	 * @param te the te to set
+	 * @param te
+	 *            the te to set
 	 */
 	public void setTe(Integer te) {
 		this.te = te;
 	}
+
 	/**
 	 * @return the sala
 	 */
@@ -133,11 +150,13 @@ public class CalusrBeanlogeado implements Serializable {
 	}
 
 	/**
-	 * @param sala the sala to set
+	 * @param sala
+	 *            the sala to set
 	 */
 	public void setSala(Integer sala) {
 		this.sala = sala;
 	}
+
 	/**
 	 * @return the id_campo
 	 */
@@ -146,7 +165,8 @@ public class CalusrBeanlogeado implements Serializable {
 	}
 
 	/**
-	 * @param id_campo the id_campo to set
+	 * @param id_campo
+	 *            the id_campo to set
 	 */
 	public void setId_campo(Integer id_campo) {
 		this.id_campo = id_campo;
@@ -160,7 +180,8 @@ public class CalusrBeanlogeado implements Serializable {
 	}
 
 	/**
-	 * @param etiqueta the etiqueta to set
+	 * @param etiqueta
+	 *            the etiqueta to set
 	 */
 	public void setEtiqueta(String etiqueta) {
 		this.etiqueta = etiqueta;
@@ -174,11 +195,13 @@ public class CalusrBeanlogeado implements Serializable {
 	}
 
 	/**
-	 * @param campo the campo to set
+	 * @param campo
+	 *            the campo to set
 	 */
 	public void setCampo(String campo) {
 		this.campo = campo;
 	}
+
 	/**
 	 * @return the smscoradmin
 	 */
@@ -187,7 +210,8 @@ public class CalusrBeanlogeado implements Serializable {
 	}
 
 	/**
-	 * @param smscoradmin the smscoradmin to set
+	 * @param smscoradmin
+	 *            the smscoradmin to set
 	 */
 	public void setSmscoradmin(String smscoradmin) {
 		this.smscoradmin = smscoradmin;
@@ -201,7 +225,8 @@ public class CalusrBeanlogeado implements Serializable {
 	}
 
 	/**
-	 * @param smscorusu the smscorusu to set
+	 * @param smscorusu
+	 *            the smscorusu to set
 	 */
 	public void setSmscorusu(String smscorusu) {
 		this.smscorusu = smscorusu;
@@ -215,15 +240,14 @@ public class CalusrBeanlogeado implements Serializable {
 	}
 
 	/**
-	 * @param correosadmin the correosadmin to set
+	 * @param correosadmin
+	 *            the correosadmin to set
 	 */
 	public void setCorreosadmin(String correosadmin) {
 		this.correosadmin = correosadmin;
 	}
 
-
-
-	//INSCRIPCIONES usuario no logeado///
+	// INSCRIPCIONES usuario no logeado///
 	private Integer idInscripcion;
 	private String apellido;
 	private String correo;
@@ -236,143 +260,161 @@ public class CalusrBeanlogeado implements Serializable {
 	private Evento evento;
 	private UploadedFile file;
 	private Integer id_evento;
-	private List<Inscripcione> listadoInscripciones;		
+	private List<Inscripcione> listadoInscripciones;
 
 	private UsuarioHelp session;
-	
 
 	public CalusrBeanlogeado() {
 		managerlog = new ManagerLogin();
 		session = SessionBean.verificarSession();
 		nombre = session.getNombre();
-		apellido=session.getApellido();
-		correo=session.getCorreo();
-		
+		apellido = session.getApellido();
+		correo = session.getCorreo();
+
 		manager = new ManagerEvento();
 		eventModel = new DefaultScheduleModel();
 		managerins = new ManagerInscripedit();
 		List<Evento> listado = mayorActual();
-			for (Evento e : listado) {
-				if (e.getEstado().equals("Activado")){
-						event = new DefaultScheduleEvent(e.getNombre(),e.getFechaInicio(),
-						e.getFechaFin(), e);
-						((DefaultScheduleEvent) event).setStyleClass(e.getSala().getColorsala().getColor());//dependiendo del to cambio de style, algo1,algo2
-							eventModel.addEvent(event);
-			}
-			else
-			{
+		for (Evento e : listado) {
+			if (e.getEstado().equals("Activado")) {
+				if (e.getInterno()) {
+					event = new DefaultScheduleEvent("Reunión Privada",
+							e.getFechaInicio(), e.getFechaFin(), e);
+					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
+							.getColorsala().getColor());// dependiendo del to
+														// cambio de style,
+														// algo1,algo2
+					eventModel.addEvent(event);
+				} else if (!e.getInterno()) {
+					event = new DefaultScheduleEvent(e.getNombre(),
+							e.getFechaInicio(), e.getFechaFin(), e);
+					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
+							.getColorsala().getColor());// dependiendo del to
+														// cambio de style,
+														// algo1,algo2
+					eventModel.addEvent(event);
+				}
+			} else {
 				System.out.println("no hay datos");
 			}
-			}
+		}
 	}
 
-			//////////////
-			// metodo para mostrar los EventosTipos en Eventos
-			public List<SelectItem> getListaEveTipo() {
-				List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-				List<Tipoevento> tipoevento = manager.findAllTipoEventos();
-				for (Tipoevento t : tipoevento) {
-					SelectItem item = new SelectItem(t.getIdTipoEvento(), t.getTipo());
-					listadoSI.add(item);
-				}
-				return listadoSI;
-			}
-			
-			// metodo para mostrar sala en Eventos
-			public List<SelectItem> getListaUbicacion() {
-				List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-				List<Sala> sala = manager.findAllSalas();
-				for (Sala t : sala) {
-					SelectItem item = new SelectItem(t.getIdSala(), t.getTipo());
-					listadoSI.add(item);
-				}
-				return listadoSI;
-			}
-			
-			// metodo para asignar el TipoEvento al Evento
-			public void asignarTipoeve() {
-				manager.asignarTipoevento(te);
-				System.out.println(te);
-				eventModel = new DefaultScheduleModel();
-				List<Evento> listado = mayorActual();
-				System.out.print("tam "+listado.size());
-				for (Evento e : listado) {
-					System.out.println(te);
-					if (e.getEstado().equals("Activado")){
-						if (e.getTipoevento().getIdTipoEvento()==te){
-							event = new DefaultScheduleEvent(e.getNombre(),e.getFechaInicio(),
-							e.getFechaFin(), e);
-							((DefaultScheduleEvent) event).setStyleClass(e.getSala().getColorsala().getColor());//dependiendo del to cambio de style, algo1,algo2
-							eventModel.addEvent(event);
-						}
-					else if(te==0)
-					{
-						refresh();
-					}
-				}
-				}
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Calendario Actualizado", null));
-			}	
-			
-			// metodo para asignar el TipoEvento al Evento
-			public void asignarsala() {
-				manager.asignarSala(sala);
-				System.out.println(sala);
-				eventModel = new DefaultScheduleModel();
-				List<Evento> listado = mayorActual();
-				System.out.print("tam "+listado.size());
-				for (Evento e : listado) {
-					System.out.println(sala);
-					if (e.getEstado().equals("Activado")){
-						if (e.getSala().getIdSala()==sala){
-							event = new DefaultScheduleEvent(e.getNombre(),e.getFechaInicio(),
-							e.getFechaFin(), e);
-						((DefaultScheduleEvent) event).setStyleClass(e.getSala().getColorsala().getColor());//dependiendo del to cambio de style, algo1,algo2
-							eventModel.addEvent(event);
-						}
-					else if(sala==0)
-					{
-						refresh();
-					}
-				}
-				}
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Calendario Actualizado", null));
-			}	
-			
-			// metodo para asignar el TipoEvento al Evento
-			public void asignarsalaimp() {
-				manager.asignarSala(sala);
-				System.out.println(sala);			
-			}	
+	// ////////////
+	// metodo para mostrar los EventosTipos en Eventos
+	public List<SelectItem> getListaEveTipo() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		List<Tipoevento> tipoevento = manager.findAllTipoEventos();
+		for (Tipoevento t : tipoevento) {
+			SelectItem item = new SelectItem(t.getIdTipoEvento(), t.getTipo());
+			listadoSI.add(item);
+		}
+		return listadoSI;
+	}
 
+	// metodo para mostrar sala en Eventos
+	public List<SelectItem> getListaUbicacion() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		List<Sala> sala = manager.findAllSalas();
+		for (Sala t : sala) {
+			SelectItem item = new SelectItem(t.getIdSala(), t.getTipo());
+			listadoSI.add(item);
+		}
+		return listadoSI;
+	}
 
-			
-			
-			//escoger el tipo de evento a mostrar
-			public String actucalenda(){
-			eventModel = new DefaultScheduleModel();
-			List<Evento> listado = mayorActual();
-			System.out.print("tam "+listado.size());
-			for (Evento e : listado) {
-				System.out.println(te);
-				if (e.getEstado().equals("Activado")){
-					if (e.getTipoevento().getIdTipoEvento()==te){
-						event = new DefaultScheduleEvent(e.getNombre(),e.getFechaInicio(),
-						e.getFechaFin(), e);
-						((DefaultScheduleEvent) event).setStyleClass(e.getSala().getColorsala().getColor());//dependiendo del to cambio de style, algo1,algo2
-						eventModel.addEvent(event);
-					}
-				else if(te==0)
-				{
+	// metodo para asignar el TipoEvento al Evento
+	public void asignarTipoeve() {
+		manager.asignarTipoevento(te);
+		System.out.println(te);
+		eventModel = new DefaultScheduleModel();
+		List<Evento> listado = mayorActual();
+		System.out.print("tam " + listado.size());
+		for (Evento e : listado) {
+			System.out.println(te);
+			if (e.getEstado().equals("Activado")) {
+				if (e.getTipoevento().getIdTipoEvento() == te) {
+					event = new DefaultScheduleEvent(e.getNombre(),
+							e.getFechaInicio(), e.getFechaFin(), e);
+					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
+							.getColorsala().getColor());// dependiendo del to
+														// cambio de style,
+														// algo1,algo2
+					eventModel.addEvent(event);
+				} else if (te == 0) {
 					refresh();
 				}
 			}
+		}
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Calendario Actualizado", null));
+	}
+
+	// metodo para asignar el TipoEvento al Evento
+	public void asignarsala() {
+		manager.asignarSala(sala);
+		System.out.println(sala);
+		eventModel = new DefaultScheduleModel();
+		List<Evento> listado = mayorActual();
+		System.out.print("tam " + listado.size());
+		for (Evento e : listado) {
+			System.out.println(sala);
+			if (e.getEstado().equals("Activado")) {
+				if (e.getSala().getIdSala() == sala) {
+					event = new DefaultScheduleEvent(e.getNombre(),
+							e.getFechaInicio(), e.getFechaFin(), e);
+					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
+							.getColorsala().getColor());// dependiendo del to
+														// cambio de style,
+														// algo1,algo2
+					eventModel.addEvent(event);
+				} else if (sala == 0) {
+					refresh();
+				}
 			}
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Calendario Actualizado", null));
-			return "";
+		}
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Calendario Actualizado", null));
+	}
+
+	// metodo para asignar el TipoEvento al Evento
+	public void asignarsalaimp() {
+		manager.asignarSala(sala);
+		System.out.println(sala);
+	}
+
+	// escoger el tipo de evento a mostrar
+	public String actucalenda() {
+		eventModel = new DefaultScheduleModel();
+		List<Evento> listado = mayorActual();
+		System.out.print("tam " + listado.size());
+		for (Evento e : listado) {
+			System.out.println(te);
+			if (e.getEstado().equals("Activado")) {
+				if (e.getTipoevento().getIdTipoEvento() == te) {
+					event = new DefaultScheduleEvent(e.getNombre(),
+							e.getFechaInicio(), e.getFechaFin(), e);
+					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
+							.getColorsala().getColor());// dependiendo del to
+														// cambio de style,
+														// algo1,algo2
+					eventModel.addEvent(event);
+				} else if (te == 0) {
+					refresh();
+				}
 			}
-	
-	
+		}
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Calendario Actualizado", null));
+		return "";
+	}
+
 	public ScheduleModel getEventModel() {
 		return eventModel;
 	}
@@ -401,268 +443,300 @@ public class CalusrBeanlogeado implements Serializable {
 		return manager.findAllEventos();
 	}
 
-	/*SESSION*/
+	/* SESSION */
 	public UsuarioHelp getSession() {
 		return session;
 	}
-		
+
 	// ////////////////////////////////////////////////////////////CALENDARIO//////////////////////////////////////////////////////////////////
 
-	
-	public List<Evento> mayorActual(){
+	public List<Evento> mayorActual() {
 		List<Evento> le = new ArrayList<Evento>();
-		Date date= new Date();
-		Timestamp fecha_actual= new Timestamp(date.getTime());
-		System.out.println("cas: "+fecha_actual.toString());
+		Date date = new Date();
+		Timestamp fecha_actual = new Timestamp(date.getTime());
+		System.out.println("cas: " + fecha_actual.toString());
 		for (Evento e : getListEvento()) {
-			if ( e.getFechaInicio().after(fecha_actual) || e.getFechaFin().after(fecha_actual) || e.getFechaInicio().compareTo(fecha_actual)==0 ){
+			if (e.getFechaInicio().after(fecha_actual)
+					|| e.getFechaFin().after(fecha_actual)
+					|| e.getFechaInicio().compareTo(fecha_actual) == 0) {
 				le.add(e);
 			}
 		}
 		return le;
 	}
-	
-	
-	public String refresh(){
+
+	public String refresh() {
 		eventModel = new DefaultScheduleModel();
 		List<Evento> listado = mayorActual();
-		System.out.print("tam "+listado.size());
+		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
-			if (e.getEstado().equals("Activado")){
-				event = new DefaultScheduleEvent(e.getNombre(),e.getFechaInicio(),
-				e.getFechaFin(), e);
-				((DefaultScheduleEvent) event).setStyleClass(e.getSala().getColorsala().getColor());//dependiendo del to cambio de style, algo1,algo2
+			if (e.getEstado().equals("Activado")) {
+				event = new DefaultScheduleEvent(e.getNombre(),
+						e.getFechaInicio(), e.getFechaFin(), e);
+				((DefaultScheduleEvent) event).setStyleClass(e.getSala()
+						.getColorsala().getColor());// dependiendo del to cambio
+													// de style, algo1,algo2
 				eventModel.addEvent(event);
-		}
-		else
-		{
-			System.out.println("no hay datos");
-		}
+			} else {
+				System.out.println("no hay datos");
+			}
 		}
 		return "calendario?faces-redirect=true";
 	}
-	
+
 	public void onEventSelect(SelectEvent selectEvent) {
 		event = (ScheduleEvent) selectEvent.getObject();
 	}
-	
-	///////////////////////////////////////////////////////////////////INSCRIPCIONES USUARIO SIN LOGEARSE///////////////////////////////////////////////////////////////
+
+	// /////////////////////////////////////////////////////////////////INSCRIPCIONES
+	// USUARIO SIN
+	// LOGEARSE///////////////////////////////////////////////////////////////
 	public Integer getIdInscripcion() {
 		return idInscripcion;
 	}
-
 
 	public void setIdInscripcion(Integer idInscripcion) {
 		this.idInscripcion = idInscripcion;
 	}
 
-
 	public String getApellido() {
 		return apellido;
 	}
-
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
 
-
 	public String getCorreo() {
 		return correo;
 	}
-
 
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
 
-
 	public Integer getEstado() {
 		return estado;
 	}
-
 
 	public void setEstado(Integer estado) {
 		this.estado = estado;
 	}
 
-
 	public Timestamp getFechaInscripcion() {
 		return fechaInscripcion;
 	}
-
 
 	public void setFechaInscripcion(Timestamp fechaInscripcion) {
 		this.fechaInscripcion = fechaInscripcion;
 	}
 
-
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}
-
 
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 
-
 	public String getImagenPago() {
 		return imagenPago;
 	}
-
 
 	public void setImagenPago(String imagenPago) {
 		this.imagenPago = imagenPago;
 	}
 
-
 	public String getNombre() {
 		return nombre;
 	}
-
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-
 	public String getObservacion() {
 		return observacion;
 	}
-
 
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
 
-
 	public Evento getEvento() {
 		return evento;
 	}
-
 
 	public Integer getId_evento() {
 		return id_evento;
 	}
 
-
 	public void setId_evento(Integer id_evento) {
 		this.id_evento = id_evento;
 	}
-
 
 	public List<Inscripcione> getListadoInscripciones() {
 		listadoInscripciones = manager.findAllInscripciones();
 		return listadoInscripciones;
 	}
-	
+
 	public UploadedFile getFile() {
 		return file;
 	}
-	
+
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
-	
-	//editar imagen
-	public void changeImg(Inscripcione ins){
-		setImagenPago(ins.getImagenPago());;
+
+	// editar imagen
+	public void changeImg(Inscripcione ins) {
+		setImagenPago(ins.getImagenPago());
+		;
 	}
-	
-	//IR A INSCRIPCION
-	public String irInscripcion(){
+
+	// IR A INSCRIPCION
+	public String irInscripcion() {
 		imagenPago = "sin_pago.jpg";
 		evento = (Evento) event.getData();
 		return "formulariousrlog?faces-redirect=true";
-		//return "frm_ins?faces-redirect=true";
+		// return "frm_ins?faces-redirect=true";
 	}
 
-	public String inscribirse(){
-		String resp ="";
-		/*if(getImagenPago()==null){
-		setImagenPago("sin_pago.jpg");
-		}*/
-		if(getObservacion()==null){
+	public String irInscripcion1(Evento ev) {
+		String r = "";
+		imagenPago = "sin_pago.jpg";
+		System.out.println(ev.getInterno());
+		if (ev.getInterno()) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"El evento es privado", null));
+		} else if (!ev.getInterno()) {
+			r = "formulariousrlog?faces-redirect=true";
+		}
+
+		return r;
+		// return "frm_ins?faces-redirect=true";
+	}
+
+	public String inscribirse() {
+		String resp = "";
+		/*
+		 * if(getImagenPago()==null){ setImagenPago("sin_pago.jpg"); }
+		 */
+		if (getObservacion() == null) {
 			setObservacion("sin observacion");
 		}
-		
-		if(getEvento().getCosto()>0 && getImagenPago().equals("sin_pago.jpg")){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"El evento posee pago y necesita imagen del comprobante", null));
-		}else{
+
+		if (getEvento().getCosto() > 0
+				&& getImagenPago().equals("sin_pago.jpg")) {
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									FacesMessage.SEVERITY_WARN,
+									"El evento posee pago y necesita imagen del comprobante",
+									null));
+		} else {
 			try {
-				//FECHA Y HORA ACTUAL
+				// FECHA Y HORA ACTUAL
 				Calendar fecha_hora = Calendar.getInstance();
-				setFechaInscripcion( new Timestamp(fecha_hora.getTimeInMillis()));
-				//Ingreso
-				manager.insertarInscripcion(getEvento(),getFechaInscripcion(), 0, getNombre(), getApellido(), getCorreo(), getImagenPago(), getObservacion());
-				
-				DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");
-				smscoradmin = "El Sr/ra. "+getNombre()+" "+getApellido()+", envi&oacute; una solicitud de Inscripci&oacute;n para un Evento; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
-			             +"Los datos del usuario son:"
-			             + "<br/> Nombre: "+getNombre()+""
-			             + "<br/> Apellido: "+getApellido()+""
-			             + "<br/> Nombre del Evento: "+getEvento().getNombre()+""
-			             + "<br/> Fecha de Inscripci&oacute;n: "+date.format(getFechaInscripcion()).toString()+""
-			             + "<br/> Obervaci&oacute;n : "+getObservacion();				
-				smscorusu = "Sr/ra.  "+getNombre()+" "+getApellido()+", su petici&oacute;n de solicitud de Inscripci&oacute;n para un Evento del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&oacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
-						+"Sus datos de Inscripci&oacute;n son:"
-			             + "<br/> Nombre: "+getNombre()+""
-			             + "<br/> Apellido: "+getApellido()+""
-			             + "<br/> Nombre del Evento: "+getEvento().getNombre()+""
-			             + "<br/> Fecha de Inscripci&oacute;n: "+date.format(getFechaInscripcion()).toString()+""
-			             + "<br/> Obervaci&oacute;n : "+getObservacion();	
-				
+				setFechaInscripcion(new Timestamp(fecha_hora.getTimeInMillis()));
+				// Ingreso
+				manager.insertarInscripcion(getEvento(), getFechaInscripcion(),
+						0, getNombre(), getApellido(), getCorreo(),
+						getImagenPago(), getObservacion());
+
+				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+				smscoradmin = "El Sr/ra. "
+						+ getNombre()
+						+ " "
+						+ getApellido()
+						+ ", envi&oacute; una solicitud de Inscripci&oacute;n para un Evento; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
+						+ "Los datos del usuario son:" + "<br/> Nombre: "
+						+ getNombre() + "" + "<br/> Apellido: " + getApellido()
+						+ "" + "<br/> Nombre del Evento: "
+						+ getEvento().getNombre() + ""
+						+ "<br/> Fecha de Inscripci&oacute;n: "
+						+ date.format(getFechaInscripcion()).toString() + ""
+						+ "<br/> Obervaci&oacute;n : " + getObservacion();
+				smscorusu = "Sr/ra.  "
+						+ getNombre()
+						+ " "
+						+ getApellido()
+						+ ", su petici&oacute;n de solicitud de Inscripci&oacute;n para un Evento del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&oacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
+						+ "Sus datos de Inscripci&oacute;n son:"
+						+ "<br/> Nombre: " + getNombre() + ""
+						+ "<br/> Apellido: " + getApellido() + ""
+						+ "<br/> Nombre del Evento: " + getEvento().getNombre()
+						+ "" + "<br/> Fecha de Inscripci&oacute;n: "
+						+ date.format(getFechaInscripcion()).toString() + ""
+						+ "<br/> Obervaci&oacute;n : " + getObservacion();
+
 				getcorreosusu();
 				System.out.println(correosadmin);
-				
-				Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-				Mail.generateAndSendEmail(getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
-				
-				correosadmin="";
-				smscoradmin="";
-				smscorusu="";		
-				
-				
-				//managerins.insertarcampos(etiqueta, campo);
-			    setObservacion("");setImagenPago("sin_pago.jpg");campo="";
-				resp="calendario?faces-redirect=true";//Enviar a un resumen de inscripcion o pagina de exito
+
+				Mail.generateAndSendEmail(correosadmin,
+						"Notificación de YACHAY/REGECE  ", smscoradmin);
+				Mail.generateAndSendEmail(getCorreo(),
+						"Notificación de YACHAY/REGECE  ", smscorusu);
+
+				correosadmin = "";
+				smscoradmin = "";
+				smscorusu = "";
+
+				// managerins.insertarcampos(etiqueta, campo);
+				setObservacion("");
+				setImagenPago("sin_pago.jpg");
+				campo = "";
+				resp = "calendario?faces-redirect=true";// Enviar a un resumen
+														// de inscripcion o
+														// pagina de exito
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al intentar inscribirse al evento", null));
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_ERROR,
+										"Error al intentar inscribirse al evento",
+										null));
 			}
 		}
 		return resp;
 	}
-	
-	//metodo para listar correos de ususariosadmin
-		public String getcorreosusu(){			
-			try
-			{
+
+	// metodo para listar correos de ususariosadmin
+	public String getcorreosusu() {
+		try {
 			List<Usuario> a = managerlog.findUsrsPrincipal();
 			System.out.println(a.size());
-			correosadmin="";
+			correosadmin = "";
 			for (Usuario u : a) {
-				correosadmin+=u.getCorreo()+",";
+				correosadmin += u.getCorreo() + ",";
 			}
 			int max = correosadmin.length();
-			correosadmin = correosadmin.substring(0, max-1).trim(); 
-			}
-			catch (Exception e) {
+			correosadmin = correosadmin.substring(0, max - 1).trim();
+		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Error..!!!",
 					"No se encuentran usuarios administradores"));
 			e.printStackTrace();
 		}
-			return correosadmin;
-		}
-	
-	public String cancelarIns(){
-		setNombre("");setApellido("");setCorreo("");setObservacion("");setImagenPago("sin_pago.jpg");
-		//System.out.println("cancela");
+		return correosadmin;
+	}
+
+	public String cancelarIns() {
+		setNombre("");
+		setApellido("");
+		setCorreo("");
+		setObservacion("");
+		setImagenPago("sin_pago.jpg");
+		// System.out.println("cancela");
 		return "index?faces-redirect=true";
 	}
-	
-		
+
 	// metodo para guardar la imagen en el servidor
 	public void ImagenServ(FileUploadEvent event) throws IOException {
 		file = event.getFile();
@@ -676,13 +750,14 @@ public class CalusrBeanlogeado implements Serializable {
 						.getCurrentInstance().getExternalContext().getContext();
 				String carpetaImagenes = (String) servletContext
 						.getRealPath(File.separatorChar + "imgevent");
-				
-				//AsignacionDeNombreImagen
+
+				// AsignacionDeNombreImagen
 				DateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
-				int int_nom = (int) Math.floor(Math.random()*9999+1);
-				String nombre_img = "img_"+int_nom+dateFormat.format(new Date())+".jpg";
+				int int_nom = (int) Math.floor(Math.random() * 9999 + 1);
+				String nombre_img = "img_" + int_nom
+						+ dateFormat.format(new Date()) + ".jpg";
 				setImagenPago(nombre_img);
-				
+
 				System.out.println("PAD------> " + carpetaImagenes);
 				System.out.println("name------> " + getImagenPago());
 
@@ -724,82 +799,119 @@ public class CalusrBeanlogeado implements Serializable {
 							"no se pudo seleccionar la imagen"));
 		}
 	}
-	
-	//metodo para listar los campos
-	public List<Camposnuevo> getListcamponuevo(){			
+
+	// metodo para listar los campos
+	public List<Camposnuevo> getListcamponuevo() {
 		List<Camposnuevo> a = managerins.findAllcamposnuevo();
-		List<Camposnuevo> l1 = new ArrayList<Camposnuevo>();			
-		for (Camposnuevo t : a ){
-						l1.add(t);
+		List<Camposnuevo> l1 = new ArrayList<Camposnuevo>();
+		for (Camposnuevo t : a) {
+			l1.add(t);
 		}
 		return l1;
 	}
-	
-	
+
 	/**
 	 * Imprime un reporte de los datos de un contrato
 	 */
 	public void imprimirRptDocumento() {
-			try {
-				ServletContext servletContext = (ServletContext) FacesContext
-	                    .getCurrentInstance().getExternalContext().getContext();
-				
-				String carpetaReportes = (String) servletContext
-	                    .getRealPath(File.separatorChar + "reports");
-				String rutaReporte="";
-				Connection conexion = DriverManager.getConnection("jdbc:postgresql://10.1.0.158:5432/bd_inno?user=adm_bicichay&password=y-4IO4SDwu_!");
+		try {
+			ServletContext servletContext = (ServletContext) FacesContext
+					.getCurrentInstance().getExternalContext().getContext();
 
-				Map<String, Object> parametros = new HashMap<String, Object>();
-				parametros.put("pFechaInicio",getFi());
-				parametros.put("pFechaFin",getFf());
-				if(getSala()!=0 && getFi() !=null && getFf() !=null)
-				{
-					System.out.println(rutaReporte+"   entra a el if con los 3 parametros");
-					parametros.put("pSala",getSala());
-					rutaReporte= carpetaReportes+File.separatorChar +"reporteeventostodoscon.jasper";
-				}
-				else
-				{
-					rutaReporte= carpetaReportes+File.separatorChar +"reporteeventostodos.jasper";
-					System.out.println(rutaReporte);
-					parametros.put("pSala",getSala());
-				}
-				parametros.put("pImagen",carpetaReportes+File.separatorChar+"yachay-logo1.png");
-				//parametros.put("SUBREPORT_DIR", carpetaReportes+File.separatorChar+"");
+			String carpetaReportes = (String) servletContext
+					.getRealPath(File.separatorChar + "reports");
+			String rutaReporte = "";
+			Connection conexion = DriverManager
+					.getConnection("jdbc:postgresql://10.1.0.158:5432/bd_inno?user=adm_bicichay&password=y-4IO4SDwu_!");
+
+			Map<String, Object> parametros = new HashMap<String, Object>();
+			parametros.put("pFechaInicio", getFi());
+			parametros.put("pFechaFin", getFf());
+			if (getSala() != 0 && getFi() != null && getFf() != null) {
+				System.out.println(rutaReporte
+						+ "   entra a el if con los 3 parametros");
+				parametros.put("pSala", getSala());
+				rutaReporte = carpetaReportes + File.separatorChar
+						+ "reporteeventostodoscon.jasper";
+			} else {
+				rutaReporte = carpetaReportes + File.separatorChar
+						+ "reporteeventostodos.jasper";
 				System.out.println(rutaReporte);
-				JasperPrint informe = JasperFillManager.fillReport(rutaReporte, parametros, conexion);
-
-				HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-				response.addHeader("Content-disposition","attachment; filename=jsfReporte.pdf");
-				ServletOutputStream stream = response.getOutputStream();
-				
-				JasperExportManager.exportReportToPdfStream(informe, stream);
-				
-				stream.flush();
-				stream.close();
-				FacesContext.getCurrentInstance().responseComplete();
-				System.out.println("nada de nada");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Se imprimio correctamente.", null));
-				rutaReporte="";
-				sala=null;
-				fi=null;
-				ff=null;
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "error al imprimir.", null));
-				e.printStackTrace();
+				parametros.put("pSala", getSala());
 			}
+			parametros.put("pImagen", carpetaReportes + File.separatorChar
+					+ "yachay-logo1.png");
+			// parametros.put("SUBREPORT_DIR",
+			// carpetaReportes+File.separatorChar+"");
+			System.out.println(rutaReporte);
+			JasperPrint informe = JasperFillManager.fillReport(rutaReporte,
+					parametros, conexion);
+
+			HttpServletResponse response = (HttpServletResponse) FacesContext
+					.getCurrentInstance().getExternalContext().getResponse();
+			response.addHeader("Content-disposition",
+					"attachment; filename=jsfReporte.pdf");
+			ServletOutputStream stream = response.getOutputStream();
+
+			JasperExportManager.exportReportToPdfStream(informe, stream);
+
+			stream.flush();
+			stream.close();
+			FacesContext.getCurrentInstance().responseComplete();
+			System.out.println("nada de nada");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Se imprimio correctamente.", null));
+			rutaReporte = "";
+			sala = null;
+			fi = null;
+			ff = null;
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"error al imprimir.", null));
+			e.printStackTrace();
+		}
 	}
-	
-	public String cancelarImpresion(){
-		fi=null;
-		ff=null;
-		sala=null;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Impresión Cancelada", null));
-		//System.out.println("cancela");
+
+	public String cancelarImpresion() {
+		fi = null;
+		ff = null;
+		sala = null;
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Impresión Cancelada", null));
+		// System.out.println("cancela");
 		return "calendario";
 	}
-	
-	
-	///////////////////////////////////////////////////////////////////INSCRIPCIONES USUARIO LOGEADO///////////////////////////////////////////////////////////////
+
+	// metodo para listar los registros
+	public List<Evento> getListEvenAct() {
+		List<Evento> a = manager.findAllEventosOrdenados();
+		List<Evento> l1 = new ArrayList<Evento>();
+		Date date1 = new Date();
+		for (Evento t : a) {
+			hora_fin = new Timestamp(date1.getTime());
+			if (t.getEstado().equals("Activado")
+					&& t.getFechaFin().after(hora_fin)) {
+				l1.add(t);
+			}
+		}
+		return l1;
+	}
+
+	public String valorInterno(Evento ev) {
+		if (ev.getInterno())
+			return "Reunión Privada";
+		else
+			return ev.getNombre();
+	}
+
+	// /////////////////////////////////////////////////////////////////INSCRIPCIONES
+	// USUARIO
+	// LOGEADO///////////////////////////////////////////////////////////////
 
 }
