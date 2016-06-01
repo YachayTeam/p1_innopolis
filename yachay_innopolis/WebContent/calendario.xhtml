@@ -121,7 +121,7 @@
 							</p:calendar>
 							<p:outputLabel value="Ubicación: "></p:outputLabel>
 							<p:selectOneMenu styleClass="t" value="#{calusrBeanlogeado.sala}">
-								<f:selectItem itemLabel="Lista de Salas" itemValue="" />
+								<f:selectItem itemLabel="Lista de Salas" itemValue="0" />
 								<f:selectItems value="#{calusrBeanlogeado.listaUbicacion}" />
 								<p:ajax listener="#{calusrBeanlogeado.asignarsalaimp()}">
 								</p:ajax>
@@ -129,10 +129,10 @@
 							<h:commandButton id="trackimpri" class="ui-state-default"
 								value="Imprimir"
 								action="#{calusrBeanlogeado.imprimirRptDocumento()}"
-								update="messages">
+								update="form messages">
 							</h:commandButton>
 							<p:commandButton id="trackcsal" value="Cerrar"
-								icon="ui-icon-close" onclick="PF('dlg2').close();"
+								onclick="PF('dlg2').close();"
 								update="form messages"
 								action="#{calusrBeanlogeado.cancelarImpresion}">
 							</p:commandButton>
@@ -314,7 +314,7 @@
 									update=":messages">
 								</h:commandButton>
 								<p:commandButton id="trackcsal" value="Cancelar"
-									icon="ui-icon-close" onclick="PF('dlg1').close();"
+									onclick="PF('dlg1').close();"
 									update="form4 message4"
 									action="#{calusrBeanlogeado.cancelarImpresion}">
 								</p:commandButton>

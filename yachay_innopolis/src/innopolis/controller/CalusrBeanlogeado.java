@@ -33,7 +33,6 @@ import innopolis.manager.ManagerLogin;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.ServletContext;
@@ -99,6 +98,7 @@ public class CalusrBeanlogeado implements Serializable {
 	}
 
 	public Date getDate() {
+		sala = 0;
 		date = new Date();
 		return date;
 	}
@@ -265,38 +265,47 @@ public class CalusrBeanlogeado implements Serializable {
 	private UsuarioHelp session;
 
 	public CalusrBeanlogeado() {
-		managerlog = new ManagerLogin();
-		session = SessionBean.verificarSession();
-		nombre = session.getNombre();
-		apellido = session.getApellido();
-		correo = session.getCorreo();
+		try {
+			managerlog = new ManagerLogin();
+			session = SessionBean.verificarSession();
+			nombre = session.getNombre();
+			apellido = session.getApellido();
+			correo = session.getCorreo();
 
-		manager = new ManagerEvento();
-		eventModel = new DefaultScheduleModel();
-		managerins = new ManagerInscripedit();
-		List<Evento> listado = mayorActual();
-		for (Evento e : listado) {
-			if (e.getEstado().equals("Activado")) {
-				if (e.getInterno()) {
-					event = new DefaultScheduleEvent("Reunión Privada",
-							e.getFechaInicio(), e.getFechaFin(), e);
-					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-							.getColorsala().getColor());// dependiendo del to
-														// cambio de style,
-														// algo1,algo2
-					eventModel.addEvent(event);
-				} else if (!e.getInterno()) {
-					event = new DefaultScheduleEvent(e.getNombre(),
-							e.getFechaInicio(), e.getFechaFin(), e);
-					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-							.getColorsala().getColor());// dependiendo del to
-														// cambio de style,
-														// algo1,algo2
-					eventModel.addEvent(event);
+			manager = new ManagerEvento();
+			eventModel = new DefaultScheduleModel();
+			managerins = new ManagerInscripedit();
+			List<Evento> listado = mayorActual();
+			for (Evento e : listado) {
+				if (e.getEstado().equals("Activado")) {
+					Usuario u = managerlog.findususarioByID(session.getIdUsr());
+
+					if (u.getIdUsr() == e.getUsuario().getIdUsr()) {
+						event = new DefaultScheduleEvent(e.getNombre(),
+								e.getFechaInicio(), e.getFechaFin(), e);
+						((DefaultScheduleEvent) event).setStyleClass(e
+								.getSala().getColorsala().getColor());
+						eventModel.addEvent(event);
+					}else if (e.getInterno()) {
+						event = new DefaultScheduleEvent("Reunión Privada",
+								e.getFechaInicio(), e.getFechaFin(), e);
+						((DefaultScheduleEvent) event).setStyleClass(e
+								.getSala().getColorsala().getColor());
+						eventModel.addEvent(event);
+					} else if (!e.getInterno()) {
+						event = new DefaultScheduleEvent(e.getNombre(),
+								e.getFechaInicio(), e.getFechaFin(), e);
+						((DefaultScheduleEvent) event).setStyleClass(e
+								.getSala().getColorsala().getColor());
+						eventModel.addEvent(event);
+					}
+				} else {
+					System.out.println("no hay datos");
 				}
-			} else {
-				System.out.println("no hay datos");
 			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 
@@ -335,9 +344,7 @@ public class CalusrBeanlogeado implements Serializable {
 					event = new DefaultScheduleEvent(e.getNombre(),
 							e.getFechaInicio(), e.getFechaFin(), e);
 					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-							.getColorsala().getColor());// dependiendo del to
-														// cambio de style,
-														// algo1,algo2
+							.getColorsala().getColor());
 					eventModel.addEvent(event);
 				} else if (te == 0) {
 					refresh();
@@ -362,9 +369,7 @@ public class CalusrBeanlogeado implements Serializable {
 					event = new DefaultScheduleEvent(e.getNombre(),
 							e.getFechaInicio(), e.getFechaFin(), e);
 					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-							.getColorsala().getColor());// dependiendo del to
-														// cambio de style,
-														// algo1,algo2
+							.getColorsala().getColor());
 					eventModel.addEvent(event);
 				} else if (sala == 0) {
 					refresh();
@@ -393,9 +398,7 @@ public class CalusrBeanlogeado implements Serializable {
 					event = new DefaultScheduleEvent(e.getNombre(),
 							e.getFechaInicio(), e.getFechaFin(), e);
 					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-							.getColorsala().getColor());// dependiendo del to
-														// cambio de style,
-														// algo1,algo2
+							.getColorsala().getColor());
 					eventModel.addEvent(event);
 				} else if (te == 0) {
 					refresh();
@@ -467,8 +470,7 @@ public class CalusrBeanlogeado implements Serializable {
 				event = new DefaultScheduleEvent(e.getNombre(),
 						e.getFechaInicio(), e.getFechaFin(), e);
 				((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-						.getColorsala().getColor());// dependiendo del to cambio
-													// de style, algo1,algo2
+						.getColorsala().getColor());
 				eventModel.addEvent(event);
 			} else {
 				System.out.println("no hay datos");
@@ -817,23 +819,37 @@ public class CalusrBeanlogeado implements Serializable {
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("pFechaInicio", getFi());
 			parametros.put("pFechaFin", getFf());
-			if (getSala() != 0 && getFi() != null && getFf() != null) {
+
+			if (sala != 0 && getFi() != null && getFf() != null) {
+				parametros.put("pSala", getSala());
 				System.out.println(rutaReporte
 						+ "   entra a el if con los 3 parametros");
-				parametros.put("pSala", getSala());
 				rutaReporte = carpetaReportes + File.separatorChar
 						+ "reporteeventostodoscon.jasper";
-			} else {
+				System.out.println(carpetaReportes + File.separatorChar
+						+ "yachay-logo1.png");
+
+			} else if (sala == 0 && getFi() == null && getFf() == null) {
 				rutaReporte = carpetaReportes + File.separatorChar
 						+ "reporteeventostodos.jasper";
 				System.out.println(rutaReporte);
+				System.out.println(carpetaReportes + File.separatorChar
+						+ "yachay-logo1.png");
 				parametros.put("pSala", getSala());
+
+			} else if (sala == 0 && getFi() != null && getFf() != null) {
+				rutaReporte = carpetaReportes + File.separatorChar
+						+ "reporteeventostodossin.jasper";
+				System.out.println(rutaReporte);
+				System.out.println(carpetaReportes + File.separatorChar
+						+ "yachay-logo1.png");
 			}
 			parametros.put("pImagen", carpetaReportes + File.separatorChar
 					+ "yachay-logo1.png");
 			// parametros.put("SUBREPORT_DIR",
 			// carpetaReportes+File.separatorChar+"");
 			System.out.println(rutaReporte);
+
 			JasperPrint informe = JasperFillManager.fillReport(rutaReporte,
 					parametros, conexion);
 
