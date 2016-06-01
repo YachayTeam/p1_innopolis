@@ -279,14 +279,16 @@ public class CalusrBeanlogeado implements Serializable {
 			for (Evento e : listado) {
 				if (e.getEstado().equals("Activado")) {
 					Usuario u = managerlog.findususarioByID(session.getIdUsr());
-
-					if (u.getIdUsr() == e.getUsuario().getIdUsr()) {
+					System.out.println("tipo de usuario"
+							+ u.getTipo().getIdTipo());
+					if (u.getIdUsr() == e.getUsuario().getIdUsr()
+							|| u.getTipo().getIdTipo() == 4) {
 						event = new DefaultScheduleEvent(e.getNombre(),
 								e.getFechaInicio(), e.getFechaFin(), e);
 						((DefaultScheduleEvent) event).setStyleClass(e
 								.getSala().getColorsala().getColor());
 						eventModel.addEvent(event);
-					}else if (e.getInterno()) {
+					} else if (e.getInterno()) {
 						event = new DefaultScheduleEvent("Reunión Privada",
 								e.getFechaInicio(), e.getFechaFin(), e);
 						((DefaultScheduleEvent) event).setStyleClass(e
@@ -307,6 +309,25 @@ public class CalusrBeanlogeado implements Serializable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+
+	public String valorInterno(Evento ev) {
+		Usuario u;
+		String nombre = "";
+		try {
+			u = managerlog.findususarioByID(session.getIdUsr());
+			if (u.getIdUsr() == ev.getUsuario().getIdUsr() || u.getTipo().getIdTipo() == 4) {
+				nombre = ev.getNombre();
+			} else if (ev.getInterno()) {
+				nombre = "Reunión Privada";
+			} else if (!ev.getInterno()) {
+				nombre = ev.getNombre();
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return nombre;
 	}
 
 	// ////////////
@@ -905,13 +926,6 @@ public class CalusrBeanlogeado implements Serializable {
 			}
 		}
 		return l1;
-	}
-
-	public String valorInterno(Evento ev) {
-		if (ev.getInterno())
-			return "Reunión Privada";
-		else
-			return ev.getNombre();
 	}
 
 	// /////////////////////////////////////////////////////////////////INSCRIPCIONES
