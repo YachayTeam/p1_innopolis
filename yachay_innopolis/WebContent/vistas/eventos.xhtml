@@ -28,7 +28,7 @@
 <hr/>
 <div class="div1">
 <h:form id="form1">
-	<p:growl id="message1" showDetail="true" />
+	<p:growl id="message1" showDetail="false" />
 	<p:panel id="panel1"  header="Registro de Eventos">
 	<p:messages id="msn"></p:messages>
 	 <div class="ui-grid ui-grid-responsive">
@@ -115,7 +115,7 @@
 </div>		    
 <div class="div2">
 <h:form id="form2">
-		<p:growl id="message2" showDetail="true" />
+		<p:growl id="message2" showDetail="false" />
 	<p:panel id="panel2" header="Lista de Eventos Registrados">
 		<p:dataTable id="dt"  value="#{eventosBean.listRegEventos}" rows="8" var="reg" reflow="true" sortOrder="descending"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"

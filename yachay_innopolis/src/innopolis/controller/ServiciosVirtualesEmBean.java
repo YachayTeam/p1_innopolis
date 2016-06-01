@@ -311,15 +311,14 @@ public class ServiciosVirtualesEmBean implements Serializable{
 			llenar();
 			try {			
 			url= managerservirt.asignarTiposervurl(tiposervicio.getIdTp()).getUrl();
-			System.out.println(url);
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Servicio Listo..!!!",  "Listo ") );
+	        context.addMessage(null, new FacesMessage("Servicio asignado",null) );
 			} 
 			catch (Exception e) {
 				// TODO: handle exception
 				url="";
 				FacesContext context = FacesContext.getCurrentInstance();
-		        context.addMessage(null, new FacesMessage("Error..!!!",  "No tiene permisos para ingresar") );
+		        context.addMessage(null, new FacesMessage("No tiene permisos para ingresar",null) );
 		        }
 			return "home";	
 			}	
@@ -357,7 +356,7 @@ public class ServiciosVirtualesEmBean implements Serializable{
 			if(managerservirt.usuarioReg(idusr,tiposervicio.getIdTp()).equals(true))
 			{
 				FacesContext context = FacesContext.getCurrentInstance();
-		        context.addMessage(null, new FacesMessage("Información..!!!","Espera al mensaje de confirmación del servicio"));
+		        context.addMessage(null, new FacesMessage("Espera al mensaje de confirmación del servicio",null));
 			}
 			else
 			{
@@ -395,19 +394,19 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				tiposervicio = new Tiposervicio();
 				idSvr=null;
 				FacesContext context = FacesContext.getCurrentInstance();
-		        context.addMessage(null, new FacesMessage("Registrado..!!!",  "Registro Creado, espere al mensaje de confirmación. ") );
+		        context.addMessage(null, new FacesMessage("Registro Creado, espere al mensaje de confirmación",null) );
 				resp ="home?faces-redirect=true";
 				}
 				else
 				{
 					FacesContext context = FacesContext.getCurrentInstance();
-			        context.addMessage(null, new FacesMessage("Error..!!!",  "Escoga un servicio ") );
+			        context.addMessage(null, new FacesMessage("Debe escoger un servicio",null) );
 				}
 			}			
 			
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Error..!!!",  "Registro no creado escoga un servicio ") );
+	        context.addMessage(null, new FacesMessage("Registro no creado escoga un servicio",null) );
 		};
 		return  resp;
 	}
@@ -417,7 +416,6 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				try
 				{
 				List<Usuario> a = managerlog.findUsrsPrincipal();
-				System.out.println(a.size());
 				correosadmin="";
 				for (Usuario u : a) {
 					correosadmin+=u.getCorreo()+",";
@@ -427,8 +425,7 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				}
 				catch (Exception e) {
 				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Error..!!!",
-						"No se encuentran usuarios administradores"));
+				context.addMessage(null, new FacesMessage("No se encuentran usuarios administradores",null));
 				e.printStackTrace();
 			}
 				return correosadmin;
@@ -449,7 +446,7 @@ public class ServiciosVirtualesEmBean implements Serializable{
 		tiposervicio = null;
 		idSvr=null;
 		FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Registro Actualizado ") );
+        context.addMessage(null, new FacesMessage("Registro actualizado",null) );
 		return "aprovadorserviciovirtual?faces-redirect=true";
 	}
 
@@ -502,8 +499,6 @@ public class ServiciosVirtualesEmBean implements Serializable{
 						for(Serviciosvirtregi t:a){		
 							for(Tiposervicio s:b){
 								if(t.getUsuario().getIdUsr().equals(session.getIdUsr()) && t.getTipoestado().getIdEstado()==2 && t.getTiposervicio().getIdTp()==s.getIdTp()){
-									
-									System.out.println("dsadsada");							
 									System.out.println(s.getIdTp()+" "+s.getNombreServicio()+" "+s.getUrl());
 									SelectItem item=new SelectItem(s.getIdTp(),s.getNombreServicio(),s.getUrl());					
 									listadoTS.add(item);
@@ -570,7 +565,7 @@ public class ServiciosVirtualesEmBean implements Serializable{
 		public String cambiarEstadoServ(Tiposervicio ser){
 			try {					
 					FacesContext context = FacesContext.getCurrentInstance();
-		        	context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioEstadotiposer(ser.getIdTp())));
+		        	context.addMessage(null, new FacesMessage("Información: "+managerservirt.cambioEstadotiposer(ser.getIdTp()),null));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -586,7 +581,7 @@ public class ServiciosVirtualesEmBean implements Serializable{
 		//limpiamos los datos				        
 				try {
 						tiposervicio = managerservirt.findServicioTipoByID(1);
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion Cancelada", null));
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -609,7 +604,7 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				}
 				else
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo la notificación", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Se ha enviado al correo la notificación", null));
 				}
 					
 			} catch (Exception e) {

@@ -351,19 +351,19 @@ public class RegistroBean implements Serializable {
 		String a="ingresousuario";
 		if (this.repetidosc()==false){
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Correo Erroneo..!!!",  "Los correos ingresados no coinciden") );
+	        context.addMessage(null, new FacesMessage("Correo Erroneo..!!! Los correos ingresados no coinciden",null) );
 		}else if (this.repetidosp()==false){
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Contraseña Erronea..!!!",  "Las contraseñas ingresadas no coinciden") );
+	        context.addMessage(null, new FacesMessage("Contraseña Erronea..!!! Las contraseñas ingresadas no coinciden",null) );
 		//}else if (this.calias(alias)==true){
 		//	FacesContext context = FacesContext.getCurrentInstance();
 	    //   context.addMessage(null, new FacesMessage("Alias Repetido..!!!",  "El Alias ya esta siendo utilizado") );
 		}else if(this.ccedula(cedula)){
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Cédula Repetido..!!!",  "La cédula/pasaporte ya esta siendo utilizada") );	
+	        context.addMessage(null, new FacesMessage("Cédula Repetido..!!! La cédula/pasaporte ya está siendo utilizada",null) );	
 		}else if(this.ccorreo(correo)){
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Correo Repetido..!!!",  "El correo ya esta siendo utilizado") );
+	        context.addMessage(null, new FacesMessage("Correo Repetido..!!! El correo ya está siendo utilizado",null) );
 		}else
 			{
 		try{
@@ -408,8 +408,7 @@ public class RegistroBean implements Serializable {
 			smscorusu="";
 			tipoestusr = manager.EstadoByID(1);
 				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Registrado..!!!",
-						"Usuario Creado espere la activacion del mismo"));
+				context.addMessage(null, new FacesMessage("Registrado..!!! Usuario creado espere la activación del mismo",null));
 				a="index";
 			//}
 		//	else{
@@ -418,8 +417,7 @@ public class RegistroBean implements Serializable {
 		
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"Usuario no pudo ser Creado "));
+			context.addMessage(null, new FacesMessage("Error..!!! El usuario no pudo ser creado",null));
 			e.printStackTrace();
 		}
 		}

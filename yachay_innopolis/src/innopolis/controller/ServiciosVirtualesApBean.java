@@ -339,17 +339,17 @@ public class ServiciosVirtualesApBean implements Serializable{
 			try {
 				if(ser.getTipoestado().getNombreestado().equals(("Aprobado")))
 	        	{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"La inscripción ya esta aprobada", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"La inscripción se encuentra aprobada", null));
      		
 		        	}
 		        	else
 		        	{
 				FacesContext context = FacesContext.getCurrentInstance();
-	        	context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioDisEstadoapro(ser.getIdSvr())));		
+	        	context.addMessage(null, new FacesMessage("Información: "+managerservirt.cambioDisEstadoapro(ser.getIdSvr()),null));		
 	        	managerservirt.cambioSMS(ser.getIdSvr());
 		        	}
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al aprobar inscripcion", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al aprobar inscripción", null));
 			}
 			return "";
 		}
@@ -358,7 +358,7 @@ public class ServiciosVirtualesApBean implements Serializable{
 			try {
 				if(ser.getTipoestado().getNombreestado().equals(("Negado")))
 	        	{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"La inscripción ya esta negada", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"La inscripción se encuentra negada", null));
      		
 		        	}
 		        	else
@@ -368,7 +368,7 @@ public class ServiciosVirtualesApBean implements Serializable{
 		        	managerservirt.cambioSMS(ser.getIdSvr());
 		        	}
 				} catch (Exception e) {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al negar inscripcion", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al negar inscripción", null));
 				}			
 			return "";
 		}
@@ -376,7 +376,7 @@ public class ServiciosVirtualesApBean implements Serializable{
 		public String cambiarEstadoServ(Tiposervicio ser){
 			try {					
 					FacesContext context = FacesContext.getCurrentInstance();
-		        	context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioEstadotiposer(ser.getIdTp())));
+		        	context.addMessage(null, new FacesMessage("Información: "+managerservirt.cambioEstadotiposer(ser.getIdTp()),null));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -408,7 +408,7 @@ public class ServiciosVirtualesApBean implements Serializable{
 		//limpiamos los datos				        
 				try {
 						tiposervicio = managerservirt.findServicioTipoByID(1);
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion Cancelada", null));
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -421,7 +421,7 @@ public class ServiciosVirtualesApBean implements Serializable{
 		
 		
 		public String cambioEnvioSms(){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificación Aceptada ", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificación aceptada ", null));
 			return "";
 		}
 		
@@ -444,7 +444,7 @@ public class ServiciosVirtualesApBean implements Serializable{
 				{
 					if(tipoestado.getNombreestado().equals("Pendiente"))
 					{
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Indique si se aprueba o niega la solicitud a un servicio virtual ", null));
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Indique si se aprueba o niega la solicitud a un servicio virtual", null));
 					}
 					else
 					{

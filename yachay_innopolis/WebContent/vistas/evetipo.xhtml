@@ -24,7 +24,7 @@
 <!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
 <hr/>
 <h:form id="form1" >
-	<p:growl id="message" showDetail="true" />
+	<p:growl id="message" showDetail="false" />
 	<p:panel id="panel1"  header="Registro de Tipos de Eventos">
 		<p:panelGrid columns="6" >
 			<h:outputText value="Tipo* :"/>
@@ -42,7 +42,7 @@
 </h:form>
 <hr/>
 <h:form id="form2">
-<p:growl id="message2" showDetail="true" />
+<p:growl id="message2" showDetail="false" />
 	<p:panel id="panel2" header="Lista de Tipo de Eventos">
 		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" 
 		paginator="true" rows="8"  value="#{tipoeventosBean.listaTipoevento}" reflow="true" var="lu" emptyMessage="No hay información almacenada">

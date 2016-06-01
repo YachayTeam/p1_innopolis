@@ -121,12 +121,10 @@ public class TipoeventosBean implements Serializable{
 			idcolor=0;
 			color = new Coloreve();
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Registrado..!!!",
-					"Evento Tipo Creado "));
+			context.addMessage(null, new FacesMessage("Registrado tipo evento creado",null));
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Registrado..!!!",
-					"Evento Tipo NO Creado "));
+			context.addMessage(null, new FacesMessage("Error tipo evento no creado",null));
 		}
 		//}		
 		return "evetipo";
@@ -149,19 +147,17 @@ public class TipoeventosBean implements Serializable{
 			descripcion="";
 			//idcolor=null;			
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Actualizado..!!!",
-					"Evento Tipo Editado "));
+			context.addMessage(null, new FacesMessage("Actualizado tipo evento editado",null));
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Registrado..!!!",
-					"Evento Tipo NO Editado "));
+			context.addMessage(null, new FacesMessage("Error tipo evento no editado",null));
 		}
 		return "";
 	}
 	
 	public String irTeventos(){
 		FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelado!", "Actualización Cancelada"));
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización cancelada",null));
       //limpiamos los datos
 		tipo="";
 		descripcion="";
@@ -184,7 +180,6 @@ public class TipoeventosBean implements Serializable{
 	// metodo para asignar el TipoEvento al Evento
 			public String asignarTipocolor() {
 				manager.asignarTipocolor(idcolor);
-				System.out.println(idcolor);
 				return "";
 			}	
 	

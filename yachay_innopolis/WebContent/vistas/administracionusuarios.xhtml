@@ -32,7 +32,7 @@
 </div>
 <div class="div3">
 <h:form id="form3" >
-	<p:growl id="message3" showDetail="true" />
+	<p:growl id="message3" showDetail="false" />
 	<p:panel id="panel3"  header="Ingreso de Usuarios">
 		<p:panelGrid columns="4" > 
 			<h:outputText value="C&eacute;dula/Pasaporte*: "/>
@@ -125,7 +125,7 @@
 </div>
 <div class="div2">
 <h:form id="form2">
-		<p:growl id="message2" showDetail="true" />
+		<p:growl id="message2" showDetail="false" />
 	<p:panel id="panel2" header="Lista de Registrados">
 		<p:dataTable id="dt" value="#{usuariosBean.listRegServi}" rows="8" var="reg"  reflow="true"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"

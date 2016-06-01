@@ -23,7 +23,7 @@
 	</h:form>
 	<hr/> 
 	<h:form id="form">
-		<p:growl id="message" showDetail="true" />
+		<p:growl id="message" showDetail="false" />
 		<p:panel id="panel" header="Datos de Inscripci&oacute;n">
 			<p:panelGrid columns="4">
 				<h:outputText value="Nombres* : " />
@@ -51,7 +51,7 @@
 		</p:panel>
 	</h:form>
 	<h:form id="form2">
-	<p:growl id="message2" showDetail="true" />
+	<p:growl id="message2" showDetail="false" />
 	<p:panel id="panel2" header="Campos nuevos">
 				<h:dataTable id="campos" value="#{inscripediBean.inputs}"  reflow="true" var="input">			 
 			        <h:column>
@@ -69,7 +69,7 @@
 </h:form>
 
 <h:form id="form3">
-	<p:growl id="message3" showDetail="true" />
+	<p:growl id="message3" showDetail="false" />
 	<p:panel id="panel3" header="Campos guardados">
 				<h:dataTable id="campos" value="#{inscripediBean.listcamponuevo}" var="reg">			 
 			        <h:column>

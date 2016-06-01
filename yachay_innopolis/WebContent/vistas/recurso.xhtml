@@ -26,7 +26,7 @@
 <hr/>
 <div class="div1">
 <h:form id="form1">
-	<p:growl id="message" showDetail="true" />
+	<p:growl id="message" showDetail="false" />
 	<p:panel id="panel1"  header="Registro de Recursos Adicionales">
 		<p:panelGrid columns="4" >
 			<h:outputText value="Nombre* : "/>
@@ -65,7 +65,7 @@
 <div class="div3">
 <hr />
 <h:form id="form2">
-	<p:growl id="message2" showDetail="true" />
+	<p:growl id="message2" showDetail="false" />
 	<p:panel id="panel2" header="Lista de Recursos Adicionales">
 		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
 		{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" reflow="true" rows="8"  value="#{recursosBean.listRegistro}" var="lu" emptyMessage="No hay información almacenada">

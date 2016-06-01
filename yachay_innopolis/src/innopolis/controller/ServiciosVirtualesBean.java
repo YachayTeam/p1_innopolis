@@ -260,7 +260,7 @@ public class ServiciosVirtualesBean implements Serializable{
 			try {
 				if (this.cnombreestipser(nomservicio)==true){
 					FacesContext context = FacesContext.getCurrentInstance();
-			        context.addMessage(null, new FacesMessage("Nombre Repetido..!!!",  "El Nombre ya esta siendo utilizado") );
+			        context.addMessage(null, new FacesMessage("El nombre se encuentra utilizado",null) );
 				}
 				else{								
 				managerservirt.insertarTipoServicio(getIdestadotipser(), nomservicio, url);
@@ -343,7 +343,7 @@ public class ServiciosVirtualesBean implements Serializable{
 		public String cambiarEstadoServ(Tiposervicio ser){
 			try {					
 					FacesContext context = FacesContext.getCurrentInstance();
-		        	context.addMessage(null, new FacesMessage("INFORMACION",managerservirt.cambioEstadotiposer(ser.getIdTp())));
+		        	context.addMessage(null, new FacesMessage("Información: "+managerservirt.cambioEstadotiposer(ser.getIdTp()),null));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -362,7 +362,7 @@ public class ServiciosVirtualesBean implements Serializable{
 					setIdservi(0);		
 					resp = "CrudServicio";
 					FacesContext context = FacesContext.getCurrentInstance();
-			        context.addMessage(null, new FacesMessage("Actualizado..!!!",  "Servicio Actualizado ") );
+			        context.addMessage(null, new FacesMessage("Servicio actualizado",null) );
 					}
 				catch (Exception e) {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar servicio",null));
@@ -396,7 +396,7 @@ public class ServiciosVirtualesBean implements Serializable{
 		//limpiamos los datos				        
 				try {
 						tiposervicio = managerservirt.findServicioTipoByID(1);
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion Cancelada", null));
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

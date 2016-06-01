@@ -326,12 +326,10 @@ public class CalusrBeanlogeado implements Serializable {
 	// metodo para asignar el TipoEvento al Evento
 	public void asignarTipoeve() {
 		manager.asignarTipoevento(te);
-		System.out.println(te);
 		eventModel = new DefaultScheduleModel();
 		List<Evento> listado = mayorActual();
 		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
-			System.out.println(te);
 			if (e.getEstado().equals("Activado")) {
 				if (e.getTipoevento().getIdTipoEvento() == te) {
 					event = new DefaultScheduleEvent(e.getNombre(),
@@ -355,12 +353,10 @@ public class CalusrBeanlogeado implements Serializable {
 	// metodo para asignar el TipoEvento al Evento
 	public void asignarsala() {
 		manager.asignarSala(sala);
-		System.out.println(sala);
 		eventModel = new DefaultScheduleModel();
 		List<Evento> listado = mayorActual();
 		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
-			System.out.println(sala);
 			if (e.getEstado().equals("Activado")) {
 				if (e.getSala().getIdSala() == sala) {
 					event = new DefaultScheduleEvent(e.getNombre(),
@@ -384,7 +380,6 @@ public class CalusrBeanlogeado implements Serializable {
 	// metodo para asignar el TipoEvento al Evento
 	public void asignarsalaimp() {
 		manager.asignarSala(sala);
-		System.out.println(sala);
 	}
 
 	// escoger el tipo de evento a mostrar
@@ -393,7 +388,6 @@ public class CalusrBeanlogeado implements Serializable {
 		List<Evento> listado = mayorActual();
 		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
-			System.out.println(te);
 			if (e.getEstado().equals("Activado")) {
 				if (e.getTipoevento().getIdTipoEvento() == te) {
 					event = new DefaultScheduleEvent(e.getNombre(),
@@ -454,7 +448,6 @@ public class CalusrBeanlogeado implements Serializable {
 		List<Evento> le = new ArrayList<Evento>();
 		Date date = new Date();
 		Timestamp fecha_actual = new Timestamp(date.getTime());
-		System.out.println("cas: " + fecha_actual.toString());
 		for (Evento e : getListEvento()) {
 			if (e.getFechaInicio().after(fecha_actual)
 					|| e.getFechaFin().after(fecha_actual)
@@ -605,7 +598,6 @@ public class CalusrBeanlogeado implements Serializable {
 	public String irInscripcion1(Evento ev) {
 		String r = "";
 		imagenPago = "sin_pago.jpg";
-		System.out.println(ev.getInterno());
 		if (ev.getInterno()) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -711,7 +703,6 @@ public class CalusrBeanlogeado implements Serializable {
 	public String getcorreosusu() {
 		try {
 			List<Usuario> a = managerlog.findUsrsPrincipal();
-			System.out.println(a.size());
 			correosadmin = "";
 			for (Usuario u : a) {
 				correosadmin += u.getCorreo() + ",";
@@ -733,7 +724,6 @@ public class CalusrBeanlogeado implements Serializable {
 		setCorreo("");
 		setObservacion("");
 		setImagenPago("sin_pago.jpg");
-		// System.out.println("cancela");
 		return "index?faces-redirect=true";
 	}
 
@@ -858,7 +848,6 @@ public class CalusrBeanlogeado implements Serializable {
 			stream.flush();
 			stream.close();
 			FacesContext.getCurrentInstance().responseComplete();
-			System.out.println("nada de nada");
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -884,7 +873,6 @@ public class CalusrBeanlogeado implements Serializable {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Impresión Cancelada", null));
-		// System.out.println("cancela");
 		return "calendario";
 	}
 

@@ -90,10 +90,8 @@ public class UsuariosBean implements Serializable {
 		{
 			FacesContext context = FacesContext.getCurrentInstance();
 	        context.addMessage(null, new FacesMessage("error usuarios vacios",null) );
-	        System.out.println("login pero sin datos");
 		}
 		else{
-			System.out.println(session.getIdUsr()+" "+session.getNombre()+" "+session.getApellido());
 			idusrsug=session.getIdUsr();
 			nombresug=session.getNombre();
 			apellidosug=session.getApellido();
@@ -588,11 +586,11 @@ public class UsuariosBean implements Serializable {
 	public String crearUsuario() {
 		if (this.repetidosc()==false){
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Correo Erroneo..!!!",  "Los correos ingresados no coinciden") );
+	        context.addMessage(null, new FacesMessage("Correo Erroneo..!!! Los correos ingresados no coinciden",  null) );
 		}
 		else if (this.repetidosp()==false){
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Contraseña Erronea..!!!",  "Las contraseñas ingresadas no coinciden") );
+	        context.addMessage(null, new FacesMessage("Contraseña Erronea..!!! Las contraseñas ingresadas no coinciden",null) );
 		}
 		//else if (this.calias(alias)==true){
 		//	FacesContext context = FacesContext.getCurrentInstance();
@@ -600,11 +598,11 @@ public class UsuariosBean implements Serializable {
 		//}
 		else if(this.ccedula(cedula)){
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Cédula Repetido..!!!",  "La cédula ya esta siendo utilizada") );
+	        context.addMessage(null, new FacesMessage("Cédula Repetida..!!! La cédula ya esta siendo utilizada",null) );
 			}
 		else if(this.ccorreo(correo)){
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Correo Repetido..!!!",  "El correo ya esta siendo utilizado") );
+	        context.addMessage(null, new FacesMessage("Correo Repetido..!!! El correo ya esta siendo utilizado",null) );
 			}
 		else
 			{
@@ -628,8 +626,7 @@ public class UsuariosBean implements Serializable {
 			idUsuario=null;
 			tipoestusr = manager.EstadoByID(1);
 				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Registrado..!!!",
-						"Usuario Creado "));
+				context.addMessage(null, new FacesMessage("Registrado..!!! Usuario creado ",null));
 		//	}
 				//	else{
 				//		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Cédula no valida",null));
@@ -637,8 +634,7 @@ public class UsuariosBean implements Serializable {
 		
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"Usuario no pudo ser Creado "));
+			context.addMessage(null, new FacesMessage("Error..!!! Usuario no pudo ser creado ",null));
 			e.printStackTrace();
 		}
 		}
@@ -687,14 +683,13 @@ public class UsuariosBean implements Serializable {
 	  */
 	//metodo para cambiar el estado del usuarios
 		public String cambiarEstado(Usuario usr){
-			System.out.println(usr.getTipo().getIdTipo());
 			if (usr.getTipo().getIdTipo()==2){
 				FacesContext context = FacesContext.getCurrentInstance();
-	        	context.addMessage(null, new FacesMessage("IMPORTANTE","No se ha añadido ningun tipo al usuario"));
+	        	context.addMessage(null, new FacesMessage("IMPORTANTE, No se ha añadido ningun tipo al usuario",null));
 			}else{
 			try {													
 					FacesContext context = FacesContext.getCurrentInstance();
-		        	context.addMessage(null, new FacesMessage("INFORMACION",manager.cambioDisEstadousr(usr.getIdUsr())));
+		        	context.addMessage(null, new FacesMessage(manager.cambioDisEstadousr(usr.getIdUsr()),null));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -731,8 +726,6 @@ public class UsuariosBean implements Serializable {
 	//accion para llamar al manager
 	public String actualizarUsuario(){
 			   try {
-					System.out.println(tipo);
-					System.out.println(empreestu+" ////"+cargptitu);
 						manager.cambio(idUsuario, principal);
 						manager.editarusuario(idUsuario, cedula, nombre, Utilidades.Encriptar(password), apellido, alias, correo, interes,empreestu,cargptitu,principal,tipo);
 						cedula="";
@@ -748,8 +741,7 @@ public class UsuariosBean implements Serializable {
 						idUsuario=null;
 						tipoestusr = manager.EstadoByID(1);
 							FacesContext context = FacesContext.getCurrentInstance();
-							context.addMessage(null, new FacesMessage("Realizado..!!!",
-									"Usuario Modificado "));				   
+							context.addMessage(null, new FacesMessage("Realizado..!!!, Usuario modificado",null));				   
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -779,7 +771,7 @@ public class UsuariosBean implements Serializable {
 			e.printStackTrace();
 		}
 
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización Cancelada", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
 			return "administracionusuarios";					
 		}
 
@@ -805,7 +797,7 @@ public class UsuariosBean implements Serializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Envío Cancelado", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Envío cancelado", null));
 			return "administracionusuarios";					
 		}
 	// metodo para mostrar los Tipos en Usuarios
@@ -889,11 +881,9 @@ public class UsuariosBean implements Serializable {
 				try {
 	  				if(sms.equals("No Notificado"))
 	  				{	
-	  					System.out.println("si entra1");
-	  					System.out.println("nosequees: "+tipoestusr+"   :asdsadsadsadas");
 	  					if(tipoest.equals("Pendiente"))
 	  					{
-	  						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Indique si se activa o niega el estado del usuario. ", null));
+	  						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Indique si se activa o niega el estado del usuario", null));
 	  					}
 	  					else if(tipoest.equals("Activado"))
 	  					{
@@ -938,7 +928,7 @@ public class UsuariosBean implements Serializable {
 	  				}				
 	  				else
 	  				{
-	  					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo la notificación", null));
+	  					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Se ha enviado al correo la notificación", null));
 	  				}				
 	  					
 	  			} catch (Exception e) {
@@ -948,7 +938,7 @@ public class UsuariosBean implements Serializable {
 	  		}			
 	   
 	  		public String cambioEnvioSms(){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificación Aceptada ", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificación aceptada ", null));
 				return "";
 			}
 	  			  	 
@@ -1001,9 +991,6 @@ public class UsuariosBean implements Serializable {
 	  		public String crearsugerencia() {
 	  			try{
 	  			cargasuge();
-	  			System.out.println(idusrsug);
-	  			System.out.println(correosug);
-	  			System.out.println(getSugerenciatext());
 	  			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");
 	  			Usuario usr = manager.UsuarioByID(idusrsug);
 	  			smscoradmin = "El Sr/ra. "+usr.getNombre()+" "+usr.getApellido()+", envi&oacute; una sugerencia.; <br/>"
@@ -1028,10 +1015,10 @@ public class UsuariosBean implements Serializable {
 	  			sugerenciafecha=null;
 	  			idsuge=null;
 			    FacesContext context = FacesContext.getCurrentInstance();
-  				context.addMessage(null, new FacesMessage("Sugerencia almacenada..!!!","La sugerencia se guardó "));
+  				context.addMessage(null, new FacesMessage("Sugerencia almacenada..!!! La sugerencia se guardó correctamente",null));
 	  			} catch (Exception e) {
 	  				FacesContext context = FacesContext.getCurrentInstance();
-	  				context.addMessage(null, new FacesMessage("Error..!!!","No se pudo guardar "));
+	  				context.addMessage(null, new FacesMessage("Error..!!! No se pudo guardar la sugerencia",null));
 	  				e.printStackTrace();
 	  			}
 	  			return "";
@@ -1073,7 +1060,6 @@ public class UsuariosBean implements Serializable {
 				try {
 	  				if(smssuge.equals("No Revisada"))
 	  				{	
-	  					System.out.println("si entra1");	  					
 	  					manager.cambioSMSenviosugerencia(idsuge);
 	  					Mail.sendMailsolousr(correo, "Sugerencia a YACHAY/REGECE  ", smscor);
 	  				    //limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
@@ -1094,7 +1080,7 @@ public class UsuariosBean implements Serializable {
 	  				}				
 	  				else
 	  				{
-	  					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo la notificación", null));
+	  					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Se ha enviado al correo la notificación", null));
 	  				}				
 	  					
 	  			} catch (Exception e) {
@@ -1118,7 +1104,7 @@ public class UsuariosBean implements Serializable {
 	  			sugerenciatext = "";
 	  			empreestu="";
 				cargptitu="";
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización Cancelada", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
 				return "sugerencialist?faces-redirect=true";					
 			}	
 	  		
@@ -1127,7 +1113,6 @@ public class UsuariosBean implements Serializable {
 				try
 				{
 				List<Usuario> a = managerlog.findUsrsPrincipal();
-				System.out.println(a.size());
 				correosadmin="";
 				for (Usuario u : a) {
 					correosadmin+=u.getCorreo()+",";
@@ -1137,8 +1122,7 @@ public class UsuariosBean implements Serializable {
 				}
 				catch (Exception e) {
 				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Error..!!!",
-						"No se encuentran usuarios administradores"));
+				context.addMessage(null, new FacesMessage("Error..!!! No se encuentran usuarios administradores",null));
 				e.printStackTrace();
 			}
 				return correosadmin;
@@ -1183,7 +1167,7 @@ public class UsuariosBean implements Serializable {
 			public List<String> interes(Usuario t){
 				List<String> v= new ArrayList<String>();
 				if (t==null){
-					System.out.println("vacio");
+
 				}else{
 				
 				List<Interesesmid> i = manager.findAllInteresesmid();

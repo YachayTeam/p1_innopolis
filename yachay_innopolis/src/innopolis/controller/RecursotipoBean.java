@@ -219,10 +219,9 @@ public class RecursotipoBean implements Serializable{
 			setIdRectipo(0);
 			idcolor=null;
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Actualizado..!!!",
-					"Ubicación Editado "));
+			context.addMessage(null, new FacesMessage("Ubicación editada",null));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar la Ubicación",null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al modificar la ubicación",null));
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
 		}
 		
@@ -231,7 +230,7 @@ public class RecursotipoBean implements Serializable{
 	
 	public String cancelarModificacion(){
 		setTiponom("");setIdRectipo(0);idcolor=null;setDescripcion("");setImagen("300.jpg");
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización Cancelada", null));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
 		return "";
 	}
 	
@@ -251,7 +250,6 @@ public class RecursotipoBean implements Serializable{
 // metodo para asignar el TipoEvento al Evento
 	public String asignarTipocolor() {
 		manager.asignarTipocolor(idcolor);
-		System.out.println(idcolor);
 		return "";
 	}	
 

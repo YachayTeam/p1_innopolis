@@ -451,7 +451,6 @@ public class SolicitudApBean {
 		List<Solicicabecera> l1 = new ArrayList<Solicicabecera>();
 		try {
 			for (Solicicabecera t : a) {
-				System.out.println(session.getIdUsr() + "hasta aqui");
 				if (t.getSoliciestado().getIdSolest().equals(3)) {
 					l1.add(t);
 				}
@@ -472,7 +471,6 @@ public class SolicitudApBean {
 		List<Solicicabecera> l1 = new ArrayList<Solicicabecera>();
 		try {
 			for (Solicicabecera t : a) {
-				System.out.println(session.getIdUsr() + "hasta aqui");
 				if (t.getSoliciestado().getIdSolest().equals(3)
 						&& t.getIdusr().equals(session.getIdUsr())) {
 					l1.add(t);
@@ -543,7 +541,7 @@ public class SolicitudApBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Solicitud ya aprobada", null));
+							"La solicitud se encuentra aprobada", null));
 		} else {
 			try {
 				manager.cambioSMS(solicitud.getIdSolcab());
@@ -568,7 +566,7 @@ public class SolicitudApBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Solicitud ya negada", null));
+							"La solicitud se encuentra negada", null));
 		} else {
 			try {
 				manager.cambioSMS(solicitud.getIdSolcab());
@@ -617,7 +615,7 @@ public class SolicitudApBean {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_WARN,
-									"La solicitud debe estar aprobada o negada para realizar una notificacion",
+									"La solicitud debe estar aprobada o negada para enviar una notificación",
 									null));
 		} else {
 			try {
@@ -628,7 +626,7 @@ public class SolicitudApBean {
 									null,
 									new FacesMessage(
 											FacesMessage.SEVERITY_INFO,
-											"Ya se ha enviado al correo la notificación anteriormente",
+											"Se ha enviado al correo la notificación anteriormente",
 											null));
 				} else {
 					manager.cambioSMSenvio(id_sol);
@@ -638,13 +636,13 @@ public class SolicitudApBean {
 					FacesContext.getCurrentInstance().addMessage(
 							null,
 							new FacesMessage(FacesMessage.SEVERITY_INFO,
-									"Notificacion correcta", null));
+									"Notificación correcta", null));
 				}
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al enviar notificacion", null));
+								"Error al enviar notificación", null));
 			}
 		}
 		return "";
@@ -688,7 +686,7 @@ public class SolicitudApBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear la solicitud.", null));
+							"Error al crear la solicitud", null));
 		}
 		return resp;
 	}
@@ -697,7 +695,7 @@ public class SolicitudApBean {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Notificación Aceptada ", null));
+						"Notificación Aceptada", null));
 		return "";
 	}
 
@@ -719,10 +717,9 @@ public class SolicitudApBean {
 			 */
 			else if (esRecursoAnadido(id_recurso, h_inicio, h_fin))
 				throw new Exception(
-						"El recurso ya se encuentra agregado dentro del horario");
+						"El recurso se encuentra agregado dentro del horario");
 
 			else {
-				System.out.println("entra cacacc");
 				Recurso rec = manager.findRecursoByID(getId_recurso());
 				// if(getcapacidad_recurso()<=rec.getCapacidad()){
 				Solicidetalle det = new Solicidetalle();
@@ -771,7 +768,7 @@ public class SolicitudApBean {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_INFO,
-										"La cantidad es mayor a la del recurso solicitado.",
+										"La cantidad es mayor a la del recurso solicitado",
 										null));
 			} else if (manager.controlarcantidadmanager(getId_recurso(),
 					getcapacidad_recurso(), h_fin, h_inicio) == false) {
@@ -779,7 +776,7 @@ public class SolicitudApBean {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Aun hay una cantidad del articulo libre.",
+								"Aun hay una cantidad del articulo libre",
 								null));
 			}
 		} catch (Exception e) {
@@ -792,7 +789,6 @@ public class SolicitudApBean {
 	public boolean esRecursoAnadido(Integer id_recurso, Timestamp horaInicio,
 			Timestamp horaFin) {
 		List<Solicidetalle> listado = listDetalles;
-		System.out.println("etra aca");
 		boolean resp = false;
 		for (Solicidetalle solicidetalle : listado) {
 			if (solicidetalle.getRecurso().getIdRecurso().intValue() == id_recurso
@@ -813,7 +809,7 @@ public class SolicitudApBean {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Seleccione ubicación", null));
+								"Seleccione la ubicación", null));
 			}/*
 			 * else
 			 * if(capacidad_recurso==null||capacidad_recurso.intValue()<=0){
@@ -828,7 +824,6 @@ public class SolicitudApBean {
 				for (Recurso p : listadoRecurso) {
 					if (id_recursotipo
 							.equals(p.getRecursotipo().getIdRectipo())) {
-						System.out.println(id_recursotipo);
 						Recurso rec = manager
 								.findRecursoByID(getId_recursotipo());
 						Solicidetalle det = new Solicidetalle();
@@ -883,7 +878,7 @@ public class SolicitudApBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Edicion errónea", null));
+							"Edición errónea", null));
 		}
 		return resp;
 	}
@@ -962,7 +957,7 @@ public class SolicitudApBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Seleccione horario para continuar.", null));
+							"Seleccione horario para continuar", null));
 		} else {
 			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(h_inicio));
@@ -975,13 +970,13 @@ public class SolicitudApBean {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_WARN,
-										"La fecha de solicitud no debe ser menor a la actual.",
+										"La fecha de solicitud no debe ser menor a la actual",
 										null));
 			} else if (h_fin.getTime() <= h_inicio.getTime()) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Verifique su horario de solicitud.", null));
+								"Verifique su horario de solicitud", null));
 			} else if ((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion
 					.horaMayorIgual(getHorafin()))) {
 				FacesContext
@@ -990,7 +985,7 @@ public class SolicitudApBean {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_WARN,
-										"La hora de solicitud no debe ser menor a la actual.",
+										"La hora de solicitud no debe ser menor a la actual",
 										null));
 			} else {
 				select = this.getlistaRecursosLibres();
@@ -1064,25 +1059,22 @@ public class SolicitudApBean {
 				response.addHeader("Content-disposition",
 						"attachment; filename=jsfReporte.pdf");
 				ServletOutputStream stream = response.getOutputStream();
-				System.out.println("aca");
 				JasperExportManager.exportReportToPdfStream(informe, stream);
 				stream.flush();
 				stream.close();
 				FacesContext.getCurrentInstance().responseComplete();
-				System.out.println("aca2");
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"error al crear reporte.", null));
-				System.out.println("error");
+								"Error al crear reporte", null));
 				e.printStackTrace();
 			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Aún no se aprueba o niega la solicitud.", null));
+							"Aún no se aprueba o niega la solicitud", null));
 		}
 	}
 

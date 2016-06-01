@@ -21,7 +21,7 @@
 <p:dialog header="Ingreso al Sistema" resizable="false" closable="false" closeOnEscape="false"  widgetVar="dlg3" modal="true" showEffect="explode" hideEffect="bounce" height="200">
 <p:panel id="panel1"  style="border:none;">
 <h:form id="form2" >
-	<p:growl id="message2" showDetail="true"  life="2000"/>	
+	<p:growl id="message2" showDetail="false"  life="2000"/>	
 		<h:panelGrid columns="2" cellpadding="5">
             <h:outputLabel for="alias" value="Usuario: " />
             <p:inputText id="alias" value="#{sessionBean.nick}" label="alias" requiredMessage="Alias Requerido" required="true">

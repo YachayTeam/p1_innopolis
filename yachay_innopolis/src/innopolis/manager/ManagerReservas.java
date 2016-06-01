@@ -91,7 +91,6 @@ private ManagerDAO mDAO;
 			//r.setRecursotipo(rt);
 			mDAO.actualizar(r);
 		} catch (Exception e) {
-			System.out.println("Error_mod_recurso");
 			e.printStackTrace();
 		}
 	}
@@ -504,8 +503,8 @@ private ManagerDAO mDAO;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		for (Recursosactivo recursosactivo : listado) {
-			System.out.println(dateFormat.format(recursosactivo.getHoraFin().getTime()).toString()+"aca1");
-			System.out.println(dateFormat.format(fecha_seleccionadaini).toString()+"aca2");
+//			System.out.println(dateFormat.format(recursosactivo.getHoraFin().getTime()).toString()+"aca1");
+//			System.out.println(dateFormat.format(fecha_seleccionadaini).toString()+"aca2");
 			if(dateFormat.format(recursosactivo.getHoraFin().getTime()).toString().equals(dateFormat.format(fecha_seleccionadaini.getTime()).toString())){
 				resultado.add(recursosactivo);
 			}

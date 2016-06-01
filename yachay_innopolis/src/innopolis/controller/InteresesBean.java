@@ -14,8 +14,8 @@ import javax.faces.application.FacesMessage;
 
 @SessionScoped
 @ManagedBean
-public class InteresesBean implements Serializable{
-	//https://github.com/YachayTeam/p1_innopolis/blob/32169dd0b6e81dad04a03a741b89a956e0527ffa/yachay_innopolis/src/innopolis/manager/ManagerInnopolis.java
+public class InteresesBean implements Serializable {
+	// https://github.com/YachayTeam/p1_innopolis/blob/32169dd0b6e81dad04a03a741b89a956e0527ffa/yachay_innopolis/src/innopolis/manager/ManagerInnopolis.java
 	private static final long serialVersionUID = 1L;
 	private ManagerLogin manager;
 	private Integer id_interes;
@@ -26,14 +26,15 @@ public class InteresesBean implements Serializable{
 		session = SessionBean.verificarSession();
 		manager = new ManagerLogin();
 	}
-	
-		public Integer getId_interes() {
+
+	public Integer getId_interes() {
 		return id_interes;
 	}
 
 	public void setId_interes(Integer id_interes) {
 		this.id_interes = id_interes;
 	}
+
 	/**
 	 * @return the nombreinteres
 	 */
@@ -42,7 +43,8 @@ public class InteresesBean implements Serializable{
 	}
 
 	/**
-	 * @param nombreinteres the nombreinteres to set
+	 * @param nombreinteres
+	 *            the nombreinteres to set
 	 */
 	public void setNombreinteres(String nombreinteres) {
 		this.nombreinteres = nombreinteres;
@@ -51,7 +53,7 @@ public class InteresesBean implements Serializable{
 	public List<Interes> getlistainteres() {
 		return manager.findAllIntereses();
 	}
-	
+
 	/**
 	 * @return the session
 	 */
@@ -60,36 +62,35 @@ public class InteresesBean implements Serializable{
 	}
 
 	/**
-	 * @param session the session to set
+	 * @param session
+	 *            the session to set
 	 */
 	public void setSession(UsuarioHelp session) {
 		this.session = session;
 	}
-	
+
 	public String accioninsertarInteres() {
-		System.out.println(nombreinteres);
-		if(this.ccinteres(nombreinteres)==true)
-		{
-			System.out.println(nombreinteres+"ccienteres");
+		if (this.ccinteres(nombreinteres) == true) {
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Interes Repetido..!!!",  "El interes ya está siendo utilizado") );
-		}	
-		else
-		{
-		try {
-			System.out.println(nombreinteres+"ingreso");
-			manager.insertarInteres(nombreinteres);
-			//limpiar datos
-			nombreinteres="";
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Registrado..!!!",
-					"Interés Creado "));
-		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("No Registrado..!!!",
-					"Interés NO Creado "));
+			context.addMessage(
+					null,
+					new FacesMessage(
+							"Interes Repetido..!!! El interés ya está siendo utilizado",
+							null));
+		} else {
+			try {
+				manager.insertarInteres(nombreinteres);
+				// limpiar datos
+				nombreinteres = "";
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(
+						"Registrado..!!! Interés creado", null));
+			} catch (Exception e) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(
+						"No registrado..!!! Interés no creado", null));
+			}
 		}
-		}		
 		return "intereses";
 	}
 
@@ -100,39 +101,39 @@ public class InteresesBean implements Serializable{
 	}
 
 	public String accionActualizarInteres() throws Exception {
-		
+
 		try {
-			manager.editarInteres(id_interes,nombreinteres);
-			//limpiar datos
-			id_interes=null;
-			nombreinteres="";			
+			manager.editarInteres(id_interes, nombreinteres);
+			// limpiar datos
+			id_interes = null;
+			nombreinteres = "";
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Actualizado..!!!",
-					"Interés Editado "));
+			context.addMessage(null, new FacesMessage("Actualizado..!!! Interés editado",null));
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("No Registrado..!!!",
-					"Interés NO Editado "));
+			context.addMessage(null, new FacesMessage("No Registrado..!!! Interés no editado",null));
 		}
 		return "";
 	}
-	
-	public String irintereses(){
+
+	public String irintereses() {
 		FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelado!", "Actualización Cancelada"));
-      //limpiamos los datos
-		nombreinteres="";
-		id_interes=null;
-		return "";					
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Cancelado, actualización cancelada",null));
+		// limpiamos los datos
+		nombreinteres = "";
+		id_interes = null;
+		return "";
 	}
+
 	// metodo para comprobar el alias
-			public boolean ccinteres(String nombreinteres){
-				List<Interes> u = manager.findAllIntereses();
-				for (Interes us : u) {
-					if (nombreinteres.equals(us.getNombreInt())){
-						return true;
-					}
-				}
-				return false;
+	public boolean ccinteres(String nombreinteres) {
+		List<Interes> u = manager.findAllIntereses();
+		for (Interes us : u) {
+			if (nombreinteres.equals(us.getNombreInt())) {
+				return true;
 			}
+		}
+		return false;
+	}
 }

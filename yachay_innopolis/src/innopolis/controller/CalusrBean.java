@@ -270,7 +270,6 @@ public class CalusrBean implements Serializable {
 		List<Evento> le = new ArrayList<Evento>();
 		Date date = new Date();
 		Timestamp fecha_actual = new Timestamp(date.getTime());
-		System.out.println("cas: " + fecha_actual.toString());
 		for (Evento e : getListEvento()) {
 			if (e.getFechaInicio().after(fecha_actual)
 					|| e.getFechaFin().after(fecha_actual)
@@ -331,12 +330,10 @@ public class CalusrBean implements Serializable {
 	// metodo para asignar el TipoEvento al Evento
 	public void asignarTipoeve() {
 		manager.asignarTipoevento(te);
-		System.out.println(te);
 		eventModel = new DefaultScheduleModel();
 		List<Evento> listado = mayorActual();
 		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
-			System.out.println(te);
 			if (e.getEstado().equals("Activado")) {
 				if (e.getTipoevento().getIdTipoEvento() == te) {
 					event = new DefaultScheduleEvent(e.getNombre(),
@@ -354,18 +351,16 @@ public class CalusrBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario Actualizado", null));
+						"Calendario actualizado", null));
 	}
 
 	// metodo para asignar el TipoEvento al Evento
 	public void asignarsala() {
 		manager.asignarSala(sala);
-		System.out.println(sala);
 		eventModel = new DefaultScheduleModel();
 		List<Evento> listado = mayorActual();
 		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
-			System.out.println(sala);
 			if (e.getEstado().equals("Activado")) {
 				if (e.getSala().getIdSala() == sala) {
 					event = new DefaultScheduleEvent(e.getNombre(),
@@ -383,7 +378,7 @@ public class CalusrBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario Actualizado", null));
+						"Calendario actualizado", null));
 	}
 
 	// escoger el tipo de evento a mostrar
@@ -392,7 +387,6 @@ public class CalusrBean implements Serializable {
 		List<Evento> listado = mayorActual();
 		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
-			System.out.println(te);
 			if (e.getEstado().equals("Activado")) {
 				if (e.getTipoevento().getIdTipoEvento() == te) {
 					event = new DefaultScheduleEvent(e.getNombre(),
@@ -410,7 +404,7 @@ public class CalusrBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario Actualizado", null));
+						"Calendario actualizado", null));
 		return "";
 	}
 
@@ -429,7 +423,6 @@ public class CalusrBean implements Serializable {
 	// metodo para asignar el TipoEvento al Evento
 	public void asignarTiporec() {
 		managerre.asignarRecurso(rec);
-		System.out.println(rec);
 		eventModel = new DefaultScheduleModel();
 		List<Evento> listado = mayorActual();
 		List<Solicicabecera> solilist = managerre.findAllSolicitudCabecera();
@@ -439,15 +432,12 @@ public class CalusrBean implements Serializable {
 
 		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
-			System.out.println(rec);
 			if (e.getEstado().equals("Activado")) {
 				event = new DefaultScheduleEvent(e.getNombre(),
 						e.getFechaInicio(), e.getFechaFin(), e);
 				System.out.print("tam " + solilist.size());
 
 				for (Solicicabecera s : solilist) {
-					System.out.println(e.getSolicicabecera());
-					System.out.println(s.getIdSolcab());
 					if (e.getSolicicabecera().equals(s.getIdSolcab())) {
 						for (Solicidetalle sd : solidetlist) {
 							if (s.getSolicidetalles().equals(sd.getIdSoldet())) {
@@ -485,7 +475,7 @@ public class CalusrBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario Actualizado", null));
+						"Calendario actualizado", null));
 	}
 
 	// escoger el tipo de evento a mostrar
@@ -494,7 +484,6 @@ public class CalusrBean implements Serializable {
 		List<Evento> listado = mayorActual();
 		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
-			System.out.println(te);
 			if (e.getEstado().equals("Activado")) {
 				if (e.getTipoevento().getIdTipoEvento() == te) {
 					event = new DefaultScheduleEvent(e.getNombre(),
@@ -511,7 +500,7 @@ public class CalusrBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario Actualizado", null));
+						"Calendario actualizado", null));
 		return "";
 	}
 
@@ -635,8 +624,6 @@ public class CalusrBean implements Serializable {
 		;
 	}
 
-	
-	
 	// IR A INSCRIPCION
 	public String irInscripcion() {
 		imagenPago = "sin_pago.jpg";
@@ -644,12 +631,11 @@ public class CalusrBean implements Serializable {
 		return "formulario?faces-redirect=true";
 		// return "frm_ins?faces-redirect=true";
 	}
-	
+
 	// IR A INSCRIPCION
 	public String irInscripcion1(Evento ev) {
 		String r = "";
 		imagenPago = "sin_pago.jpg";
-		System.out.println(ev.getInterno());
 		if (ev.getInterno()) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -745,7 +731,7 @@ public class CalusrBean implements Serializable {
 								null,
 								new FacesMessage(FacesMessage.SEVERITY_INFO,
 										"Ingresado",
-										"Se registro correctamente, espere el mensaje de confirmación."));
+										"Se registro correctamente, espere el mensaje de confirmación"));
 			} catch (Exception e) {
 				FacesContext
 						.getCurrentInstance()
@@ -764,7 +750,6 @@ public class CalusrBean implements Serializable {
 	public String getcorreosusu() {
 		try {
 			List<Usuario> a = managerlog.findUsrsPrincipal();
-			System.out.println(a.size());
 			correosadmin = "";
 			for (Usuario u : a) {
 				correosadmin += u.getCorreo() + ",";
@@ -773,8 +758,7 @@ public class CalusrBean implements Serializable {
 			correosadmin = correosadmin.substring(0, max - 1).trim();
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"No se encuentran usuarios administradores"));
+			context.addMessage(null, new FacesMessage("No se encuentran usuarios administradores",null));
 			e.printStackTrace();
 		}
 		return correosadmin;
@@ -786,7 +770,6 @@ public class CalusrBean implements Serializable {
 		setCorreo("");
 		setObservacion("");
 		setImagenPago("sin_pago.jpg");
-		// System.out.println("cancela");
 		return "index?faces-redirect=true";
 	}
 
@@ -828,13 +811,12 @@ public class CalusrBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Correcto:", "Carga correcta"));
+								"Correcto: carga correcta",null));
 
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-								"no se pudo subir la imagen"));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se pudo subir la imagen",null));
 				e.printStackTrace();
 			} finally {
 				if (inputStream != null) {
@@ -848,8 +830,7 @@ public class CalusrBean implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-							"no se pudo seleccionar la imagen"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se pudo seleccionar la imagen",null));
 		}
 	}
 

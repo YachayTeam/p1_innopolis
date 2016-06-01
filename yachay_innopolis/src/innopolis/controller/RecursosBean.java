@@ -31,8 +31,8 @@ import org.primefaces.model.UploadedFile;
 
 @SessionScoped
 @ManagedBean
-public class RecursosBean implements Serializable{
-	
+public class RecursosBean implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	private ManagerReservas manager;
@@ -44,29 +44,31 @@ public class RecursosBean implements Serializable{
 	private Integer stock;
 	private String nombre;
 	private Integer rd;
-	private  Integer rt;
-	
+	private Integer rt;
+
 	private UsuarioHelp session;
-	
-	//imagenes
-		private UploadedFile file;
-		private String g;
-		
-	public RecursosBean(){
-		/*Session*/
+
+	// imagenes
+	private UploadedFile file;
+	private String g;
+
+	public RecursosBean() {
+		/* Session */
 		session = SessionBean.verificarSession();
 		manager = new ManagerReservas();
-		imagen="300.jpg";
-		capacidad=0;
-		stock=0;
+		imagen = "300.jpg";
+		capacidad = 0;
+		stock = 0;
 	}
-	
+
 	public Integer getStock() {
 		return stock;
 	}
+
 	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
+
 	public Integer getIdRecurso() {
 		return idRecurso;
 	}
@@ -131,10 +133,10 @@ public class RecursosBean implements Serializable{
 		this.rt = rt;
 	}
 
-	public List<Recurso> getListRegistro(){
+	public List<Recurso> getListRegistro() {
 		return manager.findAllRecurso();
 	}
-	
+
 	/**
 	 * @return the session
 	 */
@@ -143,235 +145,256 @@ public class RecursosBean implements Serializable{
 	}
 
 	/**
-	 * @param session the session to set
+	 * @param session
+	 *            the session to set
 	 */
 	public void setSession(UsuarioHelp session) {
 		this.session = session;
 	}
 
-	//accion para invocar el manager y crear recurso
-	public String crearRecurso(){
-		/*if(rt.equals(-1)){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Seleccione tipo recurso",null));
-		}else{*/
-			try {
-				manager.insertarRecurso(capacidad, descripcion, lugar, nombre, imagen/*,stock*/);
-				//reiniciamos datos (limpiamos el formulario)
-				capacidad=0;
-				descripcion="";
-				lugar="";
-				//stock=0;
-				nombre="";
-				imagen = "300.jpg";
-				rd=1;
-				rt=0;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registrado..!!!",  "Recurso Almacenado ") );
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al crear recurso",null));
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),null));
-			};
-		//}
+	// accion para invocar el manager y crear recurso
+	public String crearRecurso() {
+		/*
+		 * if(rt.equals(-1)){ FacesContext.getCurrentInstance().addMessage(null,
+		 * new
+		 * FacesMessage(FacesMessage.SEVERITY_WARN,"Seleccione tipo recurso",
+		 * null)); }else{
+		 */
+		try {
+			manager.insertarRecurso(capacidad, descripcion, lugar, nombre,
+					imagen/* ,stock */);
+			// reiniciamos datos (limpiamos el formulario)
+			capacidad = 0;
+			descripcion = "";
+			lugar = "";
+			// stock=0;
+			nombre = "";
+			imagen = "300.jpg";
+			rd = 1;
+			rt = 0;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Registrado..!!! Recurso creado", null));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Error al crear el recurso", null));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
+							.getMessage(), null));
+		}
+		;
+		// }
 		return "";
 	}
-		
-	//metodo para mostrar los RecursosTipos en Recursos
-	public List<SelectItem> getListaRecTipo(){
-		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-		List<Recursotipo> listadoRecursos=manager.findAllTipoRecurso();
-		
-		for(Recursotipo t:listadoRecursos){
-			SelectItem item=new SelectItem(t.getIdRectipo(),t.getTipo());
+
+	// metodo para mostrar los RecursosTipos en Recursos
+	public List<SelectItem> getListaRecTipo() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		List<Recursotipo> listadoRecursos = manager.findAllTipoRecurso();
+
+		for (Recursotipo t : listadoRecursos) {
+			SelectItem item = new SelectItem(t.getIdRectipo(), t.getTipo());
 			listadoSI.add(item);
 		}
 		return listadoSI;
 	}
 
-	//metodo para asignar el RecursoTipo al Recurso
-	public String asignarRecTipo(){
+	// metodo para asignar el RecursoTipo al Recurso
+	public String asignarRecTipo() {
 		manager.asignarRecursoTipo(rt);
 		return "";
 	}
-	
-	//metodo para mostrar los RecursosDisponibles en Recursos
-	public List<SelectItem> getListaRecDisponibles(){
-		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-		List<Recursodisponible> listadoRecursos=manager.findAllRecursoDisponibles();
-		
-		for(Recursodisponible t:listadoRecursos){
-			SelectItem item=new SelectItem(t.getIdRecdisponible(),t.getDisponible());
+
+	// metodo para mostrar los RecursosDisponibles en Recursos
+	public List<SelectItem> getListaRecDisponibles() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		List<Recursodisponible> listadoRecursos = manager
+				.findAllRecursoDisponibles();
+
+		for (Recursodisponible t : listadoRecursos) {
+			SelectItem item = new SelectItem(t.getIdRecdisponible(),
+					t.getDisponible());
 			listadoSI.add(item);
 		}
 		return listadoSI;
 	}
 
-	//metodo para asignar el RecursoDisponible al Recurso
-	public String asignarRecDisponible(){
+	// metodo para asignar el RecursoDisponible al Recurso
+	public String asignarRecDisponible() {
 		manager.asignarRecursoDisponible(rd);
 		return "";
 	}
-	
-	//accion para cargar los datos en el formulario
-	public String cargarRecursos(Recurso t){
-		idRecurso=t.getIdRecurso();
-		capacidad=t.getCapacidad();
-		nombre= t.getNombre();
+
+	// accion para cargar los datos en el formulario
+	public String cargarRecursos(Recurso t) {
+		idRecurso = t.getIdRecurso();
+		capacidad = t.getCapacidad();
+		nombre = t.getNombre();
 		asignarNombreImagen();
-		lugar=t.getLugar();
-		descripcion=t.getDescripcion();
-		imagen=t.getImagen();
-		//stock=t.getStock();
-		//rt=t.getRecursotipo().getIdRectipo();
+		lugar = t.getLugar();
+		descripcion = t.getDescripcion();
+		imagen = t.getImagen();
+		// stock=t.getStock();
+		// rt=t.getRecursotipo().getIdRectipo();
 		return "";
 	}
-	
-	//accion para modificar los recursos
-	public String actualizarRecurso(){
-		try
-		{			
-		manager.editarRecurso(idRecurso, capacidad, descripcion, lugar, nombre, imagen/*,stock, rt*/);
-		//limpiamos los datos
-		capacidad=0;
-		descripcion="";
-		lugar="";
-		nombre="";
-		imagen = "300.jpg";
-		rd=1;
-		//stock=0;
-		g="";
-		//rt=0;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Actualizado..!!!",  "Recurso Actualizado ") );
-		}
-		catch(Exception e) {
+
+	// accion para modificar los recursos
+	public String actualizarRecurso() {
+		try {
+			manager.editarRecurso(idRecurso, capacidad, descripcion, lugar,
+					nombre, imagen/* ,stock, rt */);
+			// limpiamos los datos
+			capacidad = 0;
+			descripcion = "";
+			lugar = "";
+			nombre = "";
+			imagen = "300.jpg";
+			rd = 1;
+			// stock=0;
+			g = "";
+			// rt=0;
+			FacesContext.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage("Actualizado..!!! Recurso actualizado",null));
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return "recurso";
-		
+
 	}
-	
-	//activar y desactivar
-	public String cambiarEstado(Recurso r){
+
+	// activar y desactivar
+	public String cambiarEstado(Recurso r) {
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("INFORMACION",manager.cambioDisRecurso(r.getIdRecurso())));
-			
+			context.addMessage(
+					null,
+					new FacesMessage("Información "+manager.cambioDisRecurso(r
+							.getIdRecurso()),null));
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return "";
 	}
-	
-	//------ traslados--------
-	
-	public String irRecurso(){
+
+	// ------ traslados--------
+
+	public String irRecurso() {
 		FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelado!", "Actualizacion Cancelada"));
-      //limpiamos los datos
-        idRecurso=0;
-		capacidad=0;
-		descripcion="";
-		lugar="";
-		//stock=0;
-		nombre="";
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Cancelado actualizacion cancelada",null));
+		// limpiamos los datos
+		idRecurso = 0;
+		capacidad = 0;
+		descripcion = "";
+		lugar = "";
+		// stock=0;
+		nombre = "";
 		setImagen("300.jpg");
-		rd=1;
-		rt=0;
-		return "";					
+		rd = 1;
+		rt = 0;
+		return "";
 	}
-	
-	public String irRec(){
+
+	public String irRec() {
 		return "recurso";
 	}
-	
-	public String irTrecurso(){
+
+	public String irTrecurso() {
 		return "rectipo?faces-redirect=true";
 	}
-	public String irEvento(){
-		System.out.println("SI");
+
+	public String irEvento() {
 		return "eventos";
-	}			
-	
+	}
+
 	// metodo para guardar la imagen en el servidor
-			public void ImagenServ(FileUploadEvent event) throws IOException {
-				file = event.getFile();
-				InputStream inputStream = null;
-				OutputStream outputStream = null;
+	public void ImagenServ(FileUploadEvent event) throws IOException {
+		file = event.getFile();
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
 
-				if (file != null) {
-					try {
-						// Tomar PAD REAL
-						ServletContext servletContext = (ServletContext) FacesContext
-								.getCurrentInstance().getExternalContext().getContext();
-						String carpetaImagenes = (String) servletContext
-								.getRealPath(File.separatorChar + "imgevent");
-						setImagen(g);
-						System.out.println("PAD------> " + carpetaImagenes);
-						System.out.println("name------> " + getImagen());
-						outputStream = new FileOutputStream(new File(carpetaImagenes
-								+ File.separatorChar + getImagen()));
-						inputStream = file.getInputstream();
+		if (file != null) {
+			try {
+				// Tomar PAD REAL
+				ServletContext servletContext = (ServletContext) FacesContext
+						.getCurrentInstance().getExternalContext().getContext();
+				String carpetaImagenes = (String) servletContext
+						.getRealPath(File.separatorChar + "imgevent");
+				setImagen(g);
+				System.out.println("PAD------> " + carpetaImagenes);
+				System.out.println("name------> " + getImagen());
+				outputStream = new FileOutputStream(new File(carpetaImagenes
+						+ File.separatorChar + getImagen()));
+				inputStream = file.getInputstream();
 
-						int read = 0;
-						byte[] bytes = new byte[1024];
+				int read = 0;
+				byte[] bytes = new byte[1024];
 
-						while ((read = inputStream.read(bytes)) != -1) {
-							outputStream.write(bytes, 0, read);
-						}
+				while ((read = inputStream.read(bytes)) != -1) {
+					outputStream.write(bytes, 0, read);
+				}
 
-						FacesContext.getCurrentInstance().addMessage(
-								null,
-								new FacesMessage(FacesMessage.SEVERITY_INFO,
-										"Correcto:", "Carga correcta"));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Correcto: Carga correcta",null));
 
-					} catch (Exception e) {
-						FacesContext.getCurrentInstance().addMessage(
-								null,
-								new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-										"no se pudo subir la imagen"));
-						e.printStackTrace();
-					} finally {
-						if (inputStream != null) {
-							inputStream.close();
-						}
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: No se pudo subir la imagen",null));
+				e.printStackTrace();
+			} finally {
+				if (inputStream != null) {
+					inputStream.close();
+				}
 
-						if (outputStream != null) {
-							outputStream.close();
-						}
-					}
-				} else {
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-									"no se pudo seleccionar la imagen"));
-				}	
+				if (outputStream != null) {
+					outputStream.close();
+				}
 			}
-		
-		// metodo para poner el nombre a la imagen
-				public void asignarNombreImagen() {
-					if (getNombre().trim().isEmpty()) {
-						System.out.println("Vacio");
-					} else {
-						DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmm");
-						g="img_"+getNombre()+dateFormat.format(new Date())+".jpg";
-						System.out.println(g);
-					}
-				}
-		// metodo para poner el nombre a la imagen
-				public void nombreImagen(String n) {
-					List<Sala> li= manager.findAllSalas();
-					for (Sala e : li) {
-						if (e.getImagen().contains(n)){
-							g=e.getImagen();
-						}
-					}
-					System.out.println(g);
-				}
-			//envios
-				//ir a sugerencias lista
-		  		public String ircreacioneventos(){				
-					return "evetipo?faces-redirect=true";					
-				}	
-		  		public String irsalas(){				
-					return "salas?faces-redirect=true";					
-				}	
-		  		
+		} else {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: No se pudo seleccionar la imagen",null));
+		}
+	}
+
+	// metodo para poner el nombre a la imagen
+	public void asignarNombreImagen() {
+		if (getNombre().trim().isEmpty()) {
+		} else {
+			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmm");
+			g = "img_" + getNombre() + dateFormat.format(new Date()) + ".jpg";
+			System.out.println(g);
+		}
+	}
+
+	// metodo para poner el nombre a la imagen
+	public void nombreImagen(String n) {
+		List<Sala> li = manager.findAllSalas();
+		for (Sala e : li) {
+			if (e.getImagen().contains(n)) {
+				g = e.getImagen();
+			}
+		}
+		System.out.println(g);
+	}
+
+	// envios
+	// ir a sugerencias lista
+	public String ircreacioneventos() {
+		return "evetipo?faces-redirect=true";
+	}
+
+	public String irsalas() {
+		return "salas?faces-redirect=true";
+	}
+
 }

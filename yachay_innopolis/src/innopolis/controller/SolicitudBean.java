@@ -452,7 +452,6 @@ public class SolicitudBean {
 	//Metodos proceso de ejecucion
 	public String crearNuevaSolicitud(){
 		String resp="";
-		System.out.println(getActividad()+"+++++++"+getObjetivo());
 		try {
 			//SolicitudTemporal
 			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), new Date(), getSession().getIdUsr()); 
@@ -462,19 +461,19 @@ public class SolicitudBean {
 			notificacion ="";
 			resp="";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud", null));
 		}
 		return resp;
 	}
 	
 	public String insertarDetalleSolicitud(){
 		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud ya fue guardada.", null));			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud fue guardada anteriormente", null));			
 			return "";
 		}
 		else
 			if(fi.after(ff)){	
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La Fecha Inicio debe ser menor que la Fecha Fin", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha inicio debe ser menor que la fecha fin", null));
 			}
 			try{//insertar
 			manager.agregarSolicitudDetalleTmp(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio);
@@ -497,12 +496,12 @@ public class SolicitudBean {
 			if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==true)
 			{
 				agregardetalle=true;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La cantidad es mayor a la del recurso solicitado.", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La cantidad es mayor a la del recurso solicitado", null));
 			}
 			else if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==false)
 			{
 				agregardetalle=false;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aun hay una cantidad del articulo libre.", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aun hay una cantidad del articulo libre", null));
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
@@ -511,7 +510,7 @@ public class SolicitudBean {
 	
 	public String insertarDetalleSolicitudlista(){
 		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud ya fue guardada.", null));			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud fue guardada", null));			
 			return "";
 		}		
 			try{//insertar
@@ -525,7 +524,7 @@ public class SolicitudBean {
 						System.out.println(p.getIdRecurso()+ " CON NUM RECURSO " +p.getRecursotipo().getIdRectipo());
 					}
 			}
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Los recursos se añadieron.", null));			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Los recursos se añadieron", null));			
 			id_recurso=-1; 
 			capacidad_recurso=1;
 			//LIMPIAR LISTADO
@@ -559,7 +558,7 @@ public class SolicitudBean {
 		
 	public String quitarDetalleSolicitud(Solicidetalle det){
 		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud ya fue guardada."));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud fue guardada"));
 			return "";
 		}
 		
@@ -574,14 +573,12 @@ public class SolicitudBean {
 	
 	public String guardarSolicitud(){	
 		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud ya fue guardada y enviada para aprobación."));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud fue guardada y enviada para aprobación"));
 			return "home";
 		}
 		try {
-			System.out.println("entra a guardarsoli");
 			manager.guardarSolicitudTemporalsinev(solicitudCabTem);
 			//agregarlistadecorreos principal
-			System.out.println("entra aca2");
 					
 			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
 			smscoradmin = "El Sr/ra. "+direccion+" "+justificacion+", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
@@ -598,7 +595,6 @@ public class SolicitudBean {
 		             + "<br/> Fecha de Inicio: "+date.format(fi).toString()+""
 		       		 + "<br/> Fecha de Fin: "+date.format(ff).toString()+"";
 			getcorreosusu();
-			System.out.println(correosadmin);
 			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
 			Mail.sendMailsolousr(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
 			
@@ -612,9 +608,9 @@ public class SolicitudBean {
 			fi=null;
 			ff=null;
 			setActividad("");setObjetivo("");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Su solicitud fue enviada espere el mensaje de confirmacion al correo."));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Su solicitud fue enviada espere el mensaje de confirmación al correo."));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(),"asasadas"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(),null));
 		}
 		
 		return "home";
@@ -625,7 +621,6 @@ public class SolicitudBean {
 			try
 			{
 			List<Usuario> a = managerlog.findUsrsPrincipal();
-			System.out.println(a.size());
 			correosadmin="";
 			for (Usuario u : a) {
 				correosadmin+=u.getCorreo()+",";
@@ -635,8 +630,7 @@ public class SolicitudBean {
 			}
 			catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"No se encuentran usuarios administradores"));
+			context.addMessage(null, new FacesMessage("No se encuentran usuarios administradores",null));
 			e.printStackTrace();
 		}
 			return correosadmin;
@@ -659,18 +653,16 @@ public class SolicitudBean {
 		public void cargarRecursos(){
 			h_inicio = new Timestamp(fi.getTime());
 			h_fin = new Timestamp(ff.getTime());
-			System.out.println("Entra a cargarrecursos con fecha inicio: "+h_inicio+" fecha fin: "+h_fin);
 			if(h_fin==null || h_inicio==null){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione horario para continuar.", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione horario para continuar", null));
 			}else{
 				//Modificacion de Horas
 				setHorainicio(this.fechaAtiempo(h_inicio));
 				setHorafin(this.fechaAtiempo(h_fin));
-				System.out.println("Entra a cargarrecursos con hora inicio: "+getHorainicio()+" hora fin: "+getHorafin());
 				if(!Validacion.fechaMayorIgual(h_inicio) ||!Validacion.fechaMayorIgual(h_fin) ){	
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual.", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual", null));
 				}else if(h_fin.getTime()<=h_inicio.getTime()){
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud.", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud", null));
 				}//else if((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion.horaMayorIgual(getHorafin()))){
 				//	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La hora de solicitud no debe ser menor a la actual.", null));
 			//	}
@@ -754,7 +746,7 @@ public class SolicitudBean {
 			r="solres";
 		}
 		else{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar Recursos", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar recursos", null));
 		}
 		return r; 
 	}
@@ -793,11 +785,9 @@ public class SolicitudBean {
 			String resp="";
 			try {
 				//SolicitudTemporal
-				System.out.println(getActividad());
-				System.out.println(getObjetivo());
 				if(actividad.equals("") && objetivo.equals(""))
 				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud", null));
 				}
 				else
 				{
@@ -814,10 +804,10 @@ public class SolicitudBean {
 				select2 = new ArrayList<SelectItem>();
 				h_inicio = null;
 				h_fin = null;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Datos almacenados...", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Datos almacenados correctamente", null));
 				}
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud", null));
 			}
 			
 			return resp;
@@ -826,10 +816,9 @@ public class SolicitudBean {
 	public void veri1(){
 		try {
 			//SolicitudTemporal
-			System.out.println(getActividad());
 			actividad=getActividad();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud.", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud", null));
 		}
 		}
 	public void mostrara()

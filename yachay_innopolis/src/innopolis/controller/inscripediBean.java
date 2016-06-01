@@ -241,7 +241,7 @@ public class inscripediBean implements Serializable {
 						//reiniciamos datos (limpiamos el formulario)
 					    input.setValue("");			
 						id_campo=0;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingresado..!!!",  "Campo almacenado ") );
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Campo almacenado correctamente",null) );
 						}
 						else
 						{
@@ -283,7 +283,7 @@ public class inscripediBean implements Serializable {
 		        input.setLabel("Ingrese nombre de campo a crear");
 		        input.setValue("");
 		        inputs1.add(input);
-		        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Por favor..!!!",  "Ingrese uno por uno los campos ") );
+		        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingrese uno por uno los campos",null));
 		    }
 
 		    public List<Input> getInputs() {
@@ -306,7 +306,7 @@ public class inscripediBean implements Serializable {
 
 				try {				
 					manager.eliminarcampo(camponu.getIdCampo());
-					 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exito..!!!",  "El campo ha sido eliminado. ") );
+					 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("El campo ha sido eliminado",null));
 				} catch (Exception e) {
 					FacesContext.getCurrentInstance().addMessage(null,
 							new FacesMessage(e.getMessage()));
@@ -335,7 +335,7 @@ public class inscripediBean implements Serializable {
 				id_campo=null;
 				etiqueta="";
 				campo="";
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cancelado...!!!", "Actualizacion cancelada"));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada",null));
 					return "frm_insedit";					
 				}
 		    

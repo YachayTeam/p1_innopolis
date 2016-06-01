@@ -25,7 +25,7 @@
 <hr/>
 	<h:form id="form">
 	<p:panel id="panel" header="Solicitudes Aprobadas">
-		<p:growl id="msn"></p:growl>
+		<p:growl id="msn" showDetail="false"></p:growl>
 		<p:dataTable id="dtsol" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
 		{PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true"  reflow="true" rows="8"
 		value="#{solicitudApBean.listadoaprobxus}" var="sol" emptyMessage="No hay información almacenada">

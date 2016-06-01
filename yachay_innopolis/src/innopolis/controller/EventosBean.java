@@ -75,7 +75,7 @@ public class EventosBean {
 	private String sms;
 	private Integer sala;
 	private Boolean interno;
-	
+
 	/**** Mod Eventos *****/
 	private Timestamp fActualInicio, fActualFin;
 	private Evento modEv;
@@ -202,11 +202,11 @@ public class EventosBean {
 	public String getDescripcionrecurso() {
 		return descripcionrecurso;
 	}
-	
+
 	public Boolean getInterno() {
 		return interno;
 	}
-	
+
 	public void setInterno(Boolean interno) {
 		this.interno = interno;
 	}
@@ -928,7 +928,7 @@ public class EventosBean {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Debe seleccionar un Tipo de Evento", null));
+								"Debe seleccionar un tipo de evento", null));
 			} else if (fi.after(ff)) {
 				FacesContext
 						.getCurrentInstance()
@@ -936,10 +936,9 @@ public class EventosBean {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_WARN,
-										"La Fecha Inicio debe ser menor que la Fecha Fin",
+										"La fecha inicio debe ser menor que la fecha Fin",
 										null));
 			} else {
-				System.out.println("entro al guardar evento");
 
 				fechaInicio = new Timestamp(fi.getTime());
 				fechaFin = new Timestamp(ff.getTime());
@@ -1016,13 +1015,13 @@ public class EventosBean {
 				idusr = 0;
 				esave = false;
 				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Registrado..!!!",
-						"Evento Creado "));
+				context.addMessage(null, new FacesMessage(
+						"Registrado el evento fue creado", null));
 			}
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"Evento no pudo ser Creado "));
+			context.addMessage(null, new FacesMessage(
+					"El evento no pudo ser creado", null));
 			e.printStackTrace();
 		}
 		return "";
@@ -1039,10 +1038,9 @@ public class EventosBean {
 			int max = correosadminsoleve.length();
 			correosadminsoleve = correosadminsoleve.substring(0, max - 1)
 					.trim();
-			System.out.println(correosadminsoleve);
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
+			context.addMessage(null, new FacesMessage(
 					"No se encuentran usuarios administradores"));
 			e.printStackTrace();
 		}
@@ -1077,7 +1075,7 @@ public class EventosBean {
 		System.out.println(ev.getEstado());
 		if (esave == true) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("El evento ya cuenta con una solicitud."));
+					new FacesMessage("El evento cuenta con una solicitud"));
 			return "";
 		} else if (!Validacion.fechaMayorIgual(ev.getFechaFin())) {
 			FacesContext
@@ -1086,7 +1084,7 @@ public class EventosBean {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_WARN,
-									"La fecha de solicitud no debe ser menor a la actual.",
+									"La fecha de solicitud no debe ser menor a la actual",
 									null));
 			return "";
 		} else if (ev.getEstado().equals("Activado")) {
@@ -1096,7 +1094,7 @@ public class EventosBean {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_WARN,
-									"El evento yá se encuentra Activado, no se puede solicitar.",
+									"El evento se encuentra activado, no se puede solicitar",
 									null));
 			return "";
 		}
@@ -1138,8 +1136,10 @@ public class EventosBean {
 		String a = "";
 		System.out.println(ev.getEstado());
 		if (esave == true) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("El evento ya cuenta con una solicitud."));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage("El evento cuenta con una solicitud",
+							null));
 			return "";
 		} else if (!Validacion.fechaMayorIgual(ev.getFechaFin())) {
 			FacesContext
@@ -1148,7 +1148,7 @@ public class EventosBean {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_WARN,
-									"La fecha de solicitud no debe ser menor a la actual.",
+									"La fecha de solicitud no debe ser menor a la actual",
 									null));
 			return "";
 		} else if (ev.getEstado().equals("Activado")) {
@@ -1158,7 +1158,7 @@ public class EventosBean {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_WARN,
-									"El evento yá se encuentra Activado, no se puede solicitar.",
+									"El evento se encuentra activado, no se puede solicitar",
 									null));
 			return "";
 		}
@@ -1204,8 +1204,6 @@ public class EventosBean {
 			fechaInicio = null;
 			fechaFin = null;
 			eventoidedicio = ev.getIdEvento();
-			System.out.println(eventoidedicio);
-			System.out.println("entra sin solicitud");
 			fechaInicio = ev.getFechaInicio();
 			fechaFin = ev.getFechaInicio();
 			idusr = session.getIdUsr();
@@ -1217,7 +1215,6 @@ public class EventosBean {
 			setH_inicio(ev.getFechaInicio());
 			setH_fin(ev.getFechaFin());
 			veri();
-			System.out.print("sin solicitud");
 			editarEventoSS = true;
 			a = "soldet3?faces-redirect=true";
 		}
@@ -1228,10 +1225,11 @@ public class EventosBean {
 	// metodo para ir a solicitud y guardar el evento en un temporal
 	public String irSolicitud1admin(Evento ev) {
 		solivalor = true;
-		System.out.println(ev.getEstado());
 		if (esave == true) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("El evento ya cuenta con una solicitud."));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage("El evento cuenta con una solicitud",
+							null));
 			return "";
 		} else if (!Validacion.fechaMayorIgual(ev.getFechaFin())) {
 			FacesContext
@@ -1240,7 +1238,7 @@ public class EventosBean {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_WARN,
-									"La fecha de solicitud no debe ser menor a la actual.",
+									"La fecha de solicitud no debe ser menor a la actual",
 									null));
 			return "";
 		} else if (ev.getEstado().equals("Activado")) {
@@ -1250,7 +1248,7 @@ public class EventosBean {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_WARN,
-									"El evento yá se encuentra Activado, no se puede solicitar.",
+									"El evento se encuentra Activado, no se puede solicitar",
 									null));
 			return "";
 		}
@@ -1289,9 +1287,7 @@ public class EventosBean {
 										null));
 			}
 		} catch (Exception e) {
-			System.out.println("aca si no tiene solicitud");
 			eventoidedicio = ev.getIdEvento();
-			System.out.println("entra sin solicitud");
 			fechaInicio = ev.getFechaInicio();
 			fechaFin = ev.getFechaInicio();
 			idusr = session.getIdUsr();
@@ -1316,7 +1312,7 @@ public class EventosBean {
 		String a = "";
 		if (esave == true) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("El evento ya cuenta con una solicitud."));
+					new FacesMessage("El evento cuenta con una solicitud"));
 			return "";
 		} else if (!Validacion.fechaMayorIgual(ff)) {
 			FacesContext
@@ -1325,14 +1321,12 @@ public class EventosBean {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_WARN,
-									"La fecha de solicitud no debe ser menor a la actual.",
+									"La fecha de solicitud no debe ser menor a la actual",
 									null));
 			return "";
 		} else {
 			try {
 				int sala1 = mReserv.findSalaByID(sala).getCapacidad();
-				System.out.println(sala1);
-				System.out.println(cantidad);
 				if (cantidad <= sala1) {
 					fechaInicio = new Timestamp(fi.getTime());
 					fechaFin = new Timestamp(ff.getTime());
@@ -1358,11 +1352,11 @@ public class EventosBean {
 									null,
 									new FacesMessage(
 											FacesMessage.SEVERITY_WARN,
-											"El numero de personas excede la capacidad de la sala.",
+											"El número de personas excede la capacidad de la sala",
 											null));
 				}
 			} catch (Exception e) {
-				System.out.print("ir a solicitud no creo el evento temporal");
+				System.out.print("Ir a solicitud no creo el evento temporal");
 			}
 			return a;
 		}
@@ -1374,7 +1368,7 @@ public class EventosBean {
 		String a = "";
 		if (esave == true) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("El evento ya cuenta con una solicitud."));
+					new FacesMessage("El evento cuenta con una solicitud."));
 			return "";
 		} else if (!Validacion.fechaMayorIgual(ff)) {
 			FacesContext
@@ -1383,7 +1377,7 @@ public class EventosBean {
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_WARN,
-									"La fecha de solicitud no debe ser menor a la actual.",
+									"La fecha de solicitud no debe ser menor a la actual",
 									null));
 			return "";
 		} else {
@@ -1416,7 +1410,7 @@ public class EventosBean {
 									null,
 									new FacesMessage(
 											FacesMessage.SEVERITY_WARN,
-											"El numero de personas excede la capacidad de la sala.",
+											"El número de personas excede la capacidad de la sala",
 											null));
 				}
 			} catch (Exception e) {
@@ -1452,7 +1446,7 @@ public class EventosBean {
 		try {
 			mEvento.insertarEventoTem();
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("Evento Creado"));
+					new FacesMessage("Evento creado correctamente", null));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(e.getMessage()));
@@ -1485,12 +1479,11 @@ public class EventosBean {
 			idusr = 0;
 			esave = false;
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Campos Limpios.",
-					"Limpio"));
+			context.addMessage(null, new FacesMessage("Campos Limpios", null));
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"Evento no pudo ser Limpiado "));
+			context.addMessage(null, new FacesMessage(
+					"El evento no pudo ser limpiado", null));
 			e.printStackTrace();
 		}
 
@@ -1527,13 +1520,13 @@ public class EventosBean {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Correcto:", "Carga correcta"));
+								"Correcto: Carga correcta", null));
 
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-								"no se pudo subir la imagen"));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Error: No se pudo subir la imagen", null));
 				e.printStackTrace();
 			} finally {
 				if (inputStream != null) {
@@ -1547,8 +1540,8 @@ public class EventosBean {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-							"no se pudo seleccionar la imagen"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Error: No se pudo seleccionar la imagen", null));
 		}
 	}
 
@@ -1588,7 +1581,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear la solicitud.", null));
+							"Error al crear la solicitud", null));
 		}
 		return resp;
 	}
@@ -1598,7 +1591,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"La solicitud ya fue guardada.", null));
+							"La solicitud fue guardada", null));
 			return "";
 		}
 		try {
@@ -1624,7 +1617,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"La solicitud ya fue guardada.", null));
+							"La solicitud fue guardada.", null));
 			return "";
 		}
 		try {// insertar
@@ -1642,7 +1635,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Los recursos se añadieron.", null));
+							"Los recursos se añadieron", null));
 			id_recurso = -1;
 			capacidad_recurso = 0;
 			// LIMPIAR LISTADO
@@ -1668,7 +1661,7 @@ public class EventosBean {
 	public String quitarDetalleSolicitud(Solicidetalle det) {
 		if (solicitudCabTmpGuardada == true) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("La solicitud ya fue guardada."));
+					new FacesMessage("La solicitud fue guardada", null));
 			return "";
 		}
 
@@ -1685,13 +1678,9 @@ public class EventosBean {
 	// metodo para guardar la solicitud
 	public String guardarSolicitud() {
 		String rsp = "";
-		System.out.println(actividad);
-		System.out.println(objetivo);
-		System.out.println(h_inicio);
-		System.out.println(h_fin);
 		if (solicitudCabTmpGuardada == true) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("La solicitud ya fue guardada."));
+					new FacesMessage("La solicitud fue guardada", null));
 			return "";
 		}
 
@@ -1756,7 +1745,8 @@ public class EventosBean {
 						.addMessage(
 								null,
 								new FacesMessage(
-										"Su solicitud fue enviada espere el correo de confirmacion."));
+										"Su solicitud fue enviada espere el correo de confirmación",
+										null));
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(e.getMessage()));
@@ -1781,7 +1771,6 @@ public class EventosBean {
 				}
 			} else
 				try {
-					System.out.println("acadebenetrarporqsihayevento");
 					int scID = mReserv
 							.guardarSolicitudTemporal(solicitudCabTem);
 					mEvento.asignarSolcab(scID);
@@ -1845,7 +1834,7 @@ public class EventosBean {
 							.addMessage(
 									null,
 									new FacesMessage(
-											"Su solicitud fue enviada espere el correo de confirmacion."));
+											"Su solicitud fue enviada espere el correo de confirmación"));
 				} catch (Exception e) {
 					FacesContext.getCurrentInstance().addMessage(null,
 							new FacesMessage(e.getMessage()));
@@ -1858,16 +1847,11 @@ public class EventosBean {
 	// metodo para guardar la solicitud
 	public String guardarSolicitude() {
 		String rsp = "";
-		System.out.println(actividad);
-		System.out.println(objetivo);
-		System.out.println(h_inicio);
-		System.out.println(h_fin);
 		if (solicitudCabTmpGuardada == true) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("La solicitud ya fue guardada."));
+					new FacesMessage("La solicitud ya fue guardada", null));
 			return "";
 		}
-		System.out.println(solicitudCabTem.getSolicidetalles().size() == 0);
 		if (solicitudCabTem.getSolicidetalles().size() == 0) {
 			try {
 				mReserv.guardarSolicitudTemporal(solicitudCabTem);
@@ -1944,7 +1928,8 @@ public class EventosBean {
 						.addMessage(
 								null,
 								new FacesMessage(
-										"Su solicitud fue enviada espere el correo de confirmacion."));
+										"Su solicitud fue enviada espere el correo de confirmación",
+										null));
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(e.getMessage()));
@@ -1967,8 +1952,8 @@ public class EventosBean {
 			System.out.println(correosadminsolreceve);
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"No se encuentran usuarios administradores"));
+			context.addMessage(null, new FacesMessage(
+					"No se encuentran usuarios administradores", null));
 			e.printStackTrace();
 		}
 		return correosadminsolreceve;
@@ -1979,7 +1964,6 @@ public class EventosBean {
 		try {
 			mReserv.quitarrecursosactivos();
 			cargarTipoRecursos();
-			System.out.println("se cargan los recursos");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -1993,7 +1977,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Seleccione horario para continuar.", null));
+							"Seleccione horario para continuar", null));
 		} else {
 			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(h_inicio));
@@ -2010,13 +1994,13 @@ public class EventosBean {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_WARN,
-										"La fecha de solicitud no debe ser menor a la actual.",
+										"La fecha de solicitud no debe ser menor a la actual",
 										null));
 			} else if (h_fin.getTime() <= h_inicio.getTime()) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Verifique su horario de solicitud.", null));
+								"Verifique su horario de solicitud", null));
 				// }else if((!Validacion.horaMayorIgual(getHorainicio()) ||
 				// !Validacion.horaMayorIgual(getHorafin()))){
 				// FacesContext.getCurrentInstance().addMessage(null, new
@@ -2136,7 +2120,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Debe seleccionar Recursos", null));
+							"Debe seleccionar recursos", null));
 			System.out.print(r);
 		}
 		return r;
@@ -2287,8 +2271,8 @@ public class EventosBean {
 		esave = false;
 		FacesContext.getCurrentInstance().addMessage(
 				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelado...!!!",
-						"Actualización cancelada"));
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Actualización cancelada", null));
 		return "soleven";
 	}
 
@@ -2316,8 +2300,8 @@ public class EventosBean {
 		esave = false;
 		FacesContext.getCurrentInstance().addMessage(
 				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelado...!!!",
-						"Actualización cancelada"));
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Actualización cancelada", null));
 		return "eventos";
 	}
 
@@ -2356,12 +2340,12 @@ public class EventosBean {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Debe seleccionar un Tipo de Evento", null));
+								"Debe seleccionar un tipo de evento", null));
 			} else if (sala.equals(-1) || sala.equals(null) || sala.equals(0)) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Debe seleccionar una Sala", null));
+								"Debe seleccionar una sala", null));
 			} else if (fi.after(ff)) {
 				FacesContext
 						.getCurrentInstance()
@@ -2369,7 +2353,7 @@ public class EventosBean {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_WARN,
-										"La Fecha Inicio debe ser menor que la Fecha Fin",
+										"La fecha inicio debe ser menor que la fecha fin",
 										null));
 			} else if (estadoeven.equals("Pendiente")) {
 				fechaInicio = new Timestamp(fi.getTime());
@@ -2416,7 +2400,8 @@ public class EventosBean {
 					}
 				} else {
 					mEvento.editarEventos(idEvento, nombre, descripcion,
-							imagen, fechaInicio, fechaFin, costo, cantidad,interno);
+							imagen, fechaInicio, fechaFin, costo, cantidad,
+							interno);
 					// reiniciamos datos (limpiamos el formulario)
 					idEvento = 0;
 					nombre = "";
@@ -2429,7 +2414,7 @@ public class EventosBean {
 					fechaInicio = null;
 					nombreusuario = "";
 					apellidousuario = "";
-					interno=false;
+					interno = false;
 					fechaFin = null;
 					costo = 0;
 					cantidad = null;
@@ -2442,37 +2427,33 @@ public class EventosBean {
 					g = "";
 					FacesContext.getCurrentInstance().addMessage(
 							null,
-							new FacesMessage("Editado..!!!",
-									"Evento Editado correctamente"));
+							new FacesMessage("Evento editado correctamente",
+									null));
 				}
 			}
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"Evento no pudo ser Editado "));
+			context.addMessage(null, new FacesMessage(
+					"Evento no pudo ser editado", null));
 			e.printStackTrace();
 		}
 		return resp;
 	}
 
 	public String adicionarDetalles() {
-		// System.out.println("metodo");
 		try {
 			if (id_recurso == null || id_recurso == -1) {
-				// System.out.println("sin recurso");
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
 								"Seleccione recurso", null));
 			} else if (capacidad_recurso == null
 					|| capacidad_recurso.intValue() <= 0) {
-				// System.out.println("sin cantidad");
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
 								"Escriba la cantidad del recurso", null));
 			} else {
-				// System.out.println("va a adicionar");
 				Recurso rec = mReserv.findRecursoByID(getId_recurso());
 				if (getcapacidad_recurso() <= rec.getCapacidad()) {
 					Solicidetalle det = new Solicidetalle();
@@ -2485,7 +2466,6 @@ public class EventosBean {
 							.findSolicitudCabeceraById(idEvSol));
 					// agregar a la lista
 					listDetSolEv.add(det);
-					// System.out.println("agrega");
 					// Setea Variables
 					id_recurso = -1;
 					capacidad_recurso = 0;
@@ -2521,7 +2501,7 @@ public class EventosBean {
 				// Editamos evento
 				mEvento.editarEventos(idEvento, nombre,
 						descripcion/* , lugar */, imagen, fechaInicio,
-						fechaFin, costo, cantidad,interno);
+						fechaFin, costo, cantidad, interno);
 				// reiniciamos datos de eventos
 				idEvento = 0;
 				nombre = "";
@@ -2536,7 +2516,7 @@ public class EventosBean {
 				costo = 0;
 				cantidad = 0;
 				sc = 0;
-				interno=false;
+				interno = false;
 				te = 0;
 				idusr = 0;
 				esave = false;
@@ -2579,7 +2559,6 @@ public class EventosBean {
 		String resp = "";
 		try {
 			// SolicitudTemporal
-			System.out.println("entra aca por q veri sirve");
 			solicitudCabTem = mReserv.crearSolicitudTmp(getDireccion(),
 					getActividad(), getObjetivo(), getJustificacion(),
 					new Date(), getSession().getIdUsr());
@@ -2597,12 +2576,12 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Datos almacenados...", null));
+							"Datos almacenados correctamente", null));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear la solicitud.", null));
+							"Error al crear la solicitud", null));
 		}
 		return resp;
 	}
@@ -2611,10 +2590,6 @@ public class EventosBean {
 		String resp = "";
 		try {
 			// SolicitudTemporal
-			System.out.println(actividad);
-			System.out.println(objetivo);
-			System.out.println(h_inicio);
-			System.out.println(h_fin);
 			solicitudCabTem = mReserv.crearSolicitudTmp(getDireccion(),
 					getActividad(), getObjetivo(), getJustificacion(),
 					new Date(), getSession().getIdUsr());
@@ -2632,12 +2607,12 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Datos almacenados...", null));
+							"Datos almacenados", null));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear la solicitud.", null));
+							"Error al crear la solicitud", null));
 		}
 		return resp;
 	}
@@ -2649,7 +2624,7 @@ public class EventosBean {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"La inscripción ya está activada", null));
+								"La inscripción se encuentra activada", null));
 
 			} else {
 				mEvento.cambioSMS(eve.getIdEvento());
@@ -2664,7 +2639,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al activar inscripción", null));
+							"Error al activar la inscripción", null));
 		}
 		return "";
 	}
@@ -2672,10 +2647,14 @@ public class EventosBean {
 	public String negarevento(Evento eve) {
 		try {
 			if (eve.getEstado().equals(("Desactivado"))) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"La inscripción ya está desactivada", null));
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_INFO,
+										"La inscripción se encuentra desactivada",
+										null));
 
 			} else {
 				eve.setEstado("Desactivado");
@@ -2700,10 +2679,14 @@ public class EventosBean {
 	public String negareventoxus(Evento eve) {
 		try {
 			if (eve.getEstado().equals(("Desactivado"))) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"La inscripción ya está desactivada", null));
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_INFO,
+										"La inscripción se encuentra desactivada",
+										null));
 			} else if (eve.getEstado().equals("Activado")) {
 				FacesContext
 						.getCurrentInstance()
@@ -2711,7 +2694,7 @@ public class EventosBean {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_INFO,
-										"La inscripción ya está Activada, Envie el mensaje para cancelar el Evento",
+										"La inscripción se encuentra activada, envie el mensaje para cancelar el Evento",
 										null));
 			} else if (eve.getEstado().equals("Pendiente")) {
 				eve.setEstado("Desactivado");
@@ -2834,9 +2817,6 @@ public class EventosBean {
 	// Envia el mensaje de cancelacion de evento
 	public String enviarmensajeactivacionevento(Evento ev) {
 		try {
-			System.out.println("si entra1");
-			System.out.println(sms);
-			System.out.println(idEvento);
 			if (!estadoeven.equals("Pendiente") && sms.equals("No Notificado")) {
 				mEvento.cambioSMSenvio(idEvento);
 				Usuario u = manager.findususarioByID(idusr);
@@ -2892,11 +2872,14 @@ public class EventosBean {
 				idusr = 0;
 				smscor = "";
 				correosadmin = "";
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Se encuentra Pendiente el Evento",
-								"Indique si Activa o Desactiva el Evento"));
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_INFO,
+										"Evento Pendiente indique si Activa o Desactiva",
+										null));
 			} else if (sms.equals("Notificado")) {
 				// limpiamos los datos
 				nombre = "";
@@ -2922,7 +2905,7 @@ public class EventosBean {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Ya se Envio el Mensaje", null));
+								"Ya se envió el mensaje", null));
 			}
 
 		} catch (Exception e) {
@@ -2937,7 +2920,6 @@ public class EventosBean {
 	// Envia el mensaje de cancelacion de evento
 	public String enviarmensaje(Evento ev) {
 		try {
-			System.out.println("si entra1");
 			if (estadoeven.equals("Activado")) {
 				getcorreosusua();
 				Mail.sendMailsolousr(session.getCorreo(),
@@ -3020,8 +3002,8 @@ public class EventosBean {
 			System.out.println(correosadmin);
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"No se encuentran usuarios administradores"));
+			context.addMessage(null, new FacesMessage(
+					"No se encuentran usuarios administradores", null));
 			e.printStackTrace();
 		}
 		return correosadmin;
@@ -3051,7 +3033,7 @@ public class EventosBean {
 		correosadmin = "";
 		FacesContext.getCurrentInstance().addMessage(
 				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Envío Cancelado",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Envío cancelado",
 						null));
 		return "soleven";
 	}
@@ -3080,7 +3062,7 @@ public class EventosBean {
 		correosadmin = "";
 		FacesContext.getCurrentInstance().addMessage(
 				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Envío Cancelado",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Envío cancelado",
 						null));
 		return "eventos";
 	}
@@ -3257,10 +3239,9 @@ public class EventosBean {
 			 */
 			else if (esRecursoAnadido(id_recurso, h_inicio, h_fin))
 				throw new Exception(
-						"El recurso ya se encuentra agregado dentro del horario");
+						"El recurso se encuentra agregado dentro del horario");
 
 			else {
-				System.out.println("entra cacac");
 				Recurso rec = mReserv.findRecursoByID(getId_recurso());
 				// if(getcapacidad_recurso()<=rec.getCapacidad()){
 				Solicidetalle det = new Solicidetalle();
@@ -3298,7 +3279,6 @@ public class EventosBean {
 	public boolean esRecursoAnadido(Integer id_recurso, Timestamp horaInicio,
 			Timestamp horaFin) {
 		List<Solicidetalle> listado = listDetalles;
-		System.out.println("etra aca");
 		boolean resp = false;
 		for (Solicidetalle solicidetalle : listado) {
 			if (solicidetalle.getRecurso().getIdRecurso().intValue() == id_recurso
@@ -3340,7 +3320,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Edicion errónea", null));
+							"Edición errónea", null));
 		}
 		return resp;
 	}
@@ -3361,7 +3341,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Edicion errónea", null));
+							"Edición errónea", null));
 		}
 		return resp;
 	}
@@ -3387,7 +3367,7 @@ public class EventosBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Seleccione horario para continuar.", null));
+							"Seleccione horario para continuar", null));
 		} else {
 			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(h_inicio));
@@ -3400,13 +3380,13 @@ public class EventosBean {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_WARN,
-										"La fecha de solicitud no debe ser menor a la actual.",
+										"La fecha de solicitud no debe ser menor a la actual",
 										null));
 			} else if (h_fin.getTime() <= h_inicio.getTime()) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Verifique su horario de solicitud.", null));
+								"Verifique su horario de solicitud", null));
 				// }else if((!Validacion.horaMayorIgual(getHorainicio()) ||
 				// !Validacion.horaMayorIgual(getHorafin()))){
 				// FacesContext.getCurrentInstance().addMessage(null, new
@@ -3451,7 +3431,7 @@ public class EventosBean {
 						+ "Imprimireventoreporte.jasper";
 				// rutaReporte=
 				// "reports"+File.separatorChar+"rptContratoBicicletas.jasper";
-				
+
 				Connection conexion = DriverManager
 						.getConnection("jdbc:postgresql://10.1.0.158:5432/bd_inno?user=adm_bicichay&password=y-4IO4SDwu_!");
 
@@ -3479,24 +3459,23 @@ public class EventosBean {
 				stream.flush();
 				stream.close();
 				FacesContext.getCurrentInstance().responseComplete();
-				System.out.println("nada de nada");
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Se imprimio correctamente.", null));
+								"Se imprimió correctamente", null));
 
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"error al imprimir.", null));
+								"Error al imprimir", null));
 				e.printStackTrace();
 			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Aún no se aprueba o niega el evento.", null));
+							"Aún no se aprueba o niega el evento", null));
 		}
 	}
 
@@ -3518,7 +3497,7 @@ public class EventosBean {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_INFO,
-										"La cantidad es mayor a la del recurso solicitado.",
+										"La cantidad es mayor a la del recurso solicitado",
 										null));
 			} else if (mReserv.controlarcantidadmanager(getId_recurso(),
 					getcapacidad_recurso(), h_fin, h_inicio) == false) {
@@ -3526,7 +3505,7 @@ public class EventosBean {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Aun hay una cantidad del articulo libre.",
+								"Aun hay una cantidad del articulo libre",
 								null));
 			}
 		} catch (Exception e) {
