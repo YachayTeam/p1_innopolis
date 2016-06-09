@@ -34,7 +34,7 @@
 	  <div class="ui-grid-row">
 	  <div class="ui-grid-col-2">
 	  <h:outputText value="Vista Previa"/>      			 			 
-   			 <p:graphicImage id="imagen2" value="/imgevent/#{eventosBean.imagen}" width="150" height="150" />
+   			 <p:graphicImage id="imagen2" value="/resources/img/imgevent/#{eventosBean.imagen}" width="150" height="150" />
    		<h:outputText value="Imagen:"/>
 			 <p:fileUpload mode="advanced" dragDropSupport="true" update=":form1:message1 :form1:imagen2" sizeLimit="2097152"
 			 multiple="false" invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" fileLimitMessage="Solo una imagen por evento"		 
@@ -96,7 +96,7 @@
 						</p:ajax>
 					</p:selectOneMenu>
 			</h:panelGroup>
-                 <p:graphicImage id="imagen" value="/imgevent/#{eventosBean.imagensala}" width="100" height="100" />
+                 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{eventosBean.imagensala}" width="100" height="100" />
                  <h:outputText id="descr" value="#{eventosBean.descripcionubicacion}" />
 			<h:outputText value=""/>
    			<h:outputText value=""/>
@@ -157,7 +157,7 @@
 			<h:outputText value="#{reg.cantidad}"></h:outputText>
 			</p:column>
 			<p:column width="152" headerText="Imagen" exportable="false">
-			<p:graphicImage width="150" height="150" value="/imgevent/#{reg.imagen}"></p:graphicImage>
+			<p:graphicImage width="150" height="150" value="/resources/img/imgevent/#{reg.imagen}"></p:graphicImage>
 			</p:column>	
 			<p:column id="f6"  headerText="Estado" sortBy="#{reg.estado}" filterBy="#{reg.estado}">
 			<h:outputText value="#{reg.estado}"></h:outputText>
@@ -235,7 +235,7 @@
 			invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" fileLimitMessage="Solo una imagen por evento"
     		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"   uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/> 
    			 <h:outputText value="Vista Previa:"/>   			 
-   			 <p:graphicImage id="imagen" value="/imgevent/#{eventosBean.imagen}" width="150" height="150" />	   			
+   			 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{eventosBean.imagen}" width="150" height="150" />	   			
    			<p:commandButton id="trackeditarev"  style="width:100%"  icon="ui-icon-pencil" value="Editar Evento" action="#{eventosBean.EditarEvento}" update=":form2:panel2 :form2:message2">
    				<p:ajax listener="#{eventosBean.asignarTipoeve()}"></p:ajax>
    				<p:ajax listener="#{eventosBean.asignarsala()}"></p:ajax>

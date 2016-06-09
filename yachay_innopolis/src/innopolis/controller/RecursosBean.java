@@ -287,7 +287,7 @@ public class RecursosBean implements Serializable {
 	public String irRecurso() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Cancelado actualizacion cancelada",null));
+				"Actualización cancelada",null));
 		// limpiamos los datos
 		idRecurso = 0;
 		capacidad = 0;
@@ -324,8 +324,9 @@ public class RecursosBean implements Serializable {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-				String carpetaImagenes = (String) servletContext
-						.getRealPath(File.separatorChar + "imgevent");
+//				String carpetaImagenes = (String) servletContext
+//						.getRealPath(File.separatorChar + "imgevent");
+				String carpetaImagenes = "/opt/wildfly/standalone/img/img_regece/imgevent/";
 				setImagen(g);
 				System.out.println("PAD------> " + carpetaImagenes);
 				System.out.println("name------> " + getImagen());

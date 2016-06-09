@@ -42,7 +42,7 @@
     		</p:fileUpload>
     		
 	 	 	<h:outputText value="Vista Previa: "/>      			 			 
-   			<p:graphicImage id="imagen" value="/imgevent/#{recursotipoBean.imagen}" width="150" height="150" />
+   			<p:graphicImage id="imagen" value="/resources/img/imgevent/#{recursotipoBean.imagen}" width="150" height="150" />
 			
 			<p:commandButton id="trackguardar" update="panel1 :form2:panel2 message" value="Agregar" action="#{recursotipoBean.crearNuevoRecursoTipo}">
 			<p:tooltip id="toolTipTrack1" for="trackguardar" value="Bot&oacute;n para crear una Ubicaci&oacute;n" trackMouse="true" />

@@ -784,9 +784,9 @@ public class CalusrBean implements Serializable {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-				String carpetaImagenes = (String) servletContext
-						.getRealPath(File.separatorChar + "imgevent");
-
+//				String carpetaImagenes = (String) servletContext
+//						.getRealPath(File.separatorChar + "imgevent");
+				String carpetaImagenes = "/opt/wildfly/standalone/img/img_regece/imgevent/";
 				// AsignacionDeNombreImagen
 				DateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
 				int int_nom = (int) Math.floor(Math.random() * 9999 + 1);

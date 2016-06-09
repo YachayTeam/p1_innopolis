@@ -1,5 +1,7 @@
 CREATE EXTENSION dblink;
 
+--o copiarte todito esto
+
 -- dblink_connect now restricts non-superusers to password
 -- authenticated connections
 CREATE OR REPLACE FUNCTION dblink_connect (text)

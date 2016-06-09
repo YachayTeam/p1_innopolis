@@ -54,7 +54,7 @@
 			 uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{salasBean.ImagenServ}">
     		</p:fileUpload>
 	 	 	<h:outputText value="Vista Previa: "/>      			 			 
-   			<p:graphicImage id="imagen" value="/imgevent/#{salasBean.imagen}" width="150" height="150" />
+   			<p:graphicImage id="imagen" value="/resources/img/imgevent/#{salasBean.imagen}" width="150" height="150" />
 		    <h:outputText value=""/>      			 			 
 			<p:commandButton id="trackguardar" update="panel1 :form2:panel2 message" value="Agregar" action="#{salasBean.crearNuevoRecursoTipo}">
 			<p:tooltip id="toolTipTrack1" for="trackguardar" value="Bot&oacute;n para crear una Sala" trackMouse="true" />
@@ -89,7 +89,7 @@
 				<h:outputText value="#{lu.capacidad}"></h:outputText>
 			</p:column>
 			<p:column width="152" headerText="Imagen" exportable="false">
-			<p:graphicImage width="150" height="150" value="/imgevent/#{lu.imagen}"></p:graphicImage>
+			<p:graphicImage width="150" height="150" value="/resources/img/imgevent/#{lu.imagen}"></p:graphicImage>
 			</p:column>	
 			<p:column headerText="Color">
 				<h:outputText value="#{lu.colorsala.color}"  style="color: \##{lu.colorsala.colorcod}"></h:outputText>
@@ -145,7 +145,7 @@
 			uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{salasBean.ImagenServ}">
     		</p:fileUpload> 
    			 <h:outputText value="Vista Previa: "/>   			 
-   			 <p:graphicImage id="imagen" value="/imgevent/#{salasBean.imagen}" width="150" height="150" />
+   			 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{salasBean.imagen}" width="150" height="150" />
 			<p:commandButton id="trackedi" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-disk" action="#{salasBean.modificarSala}">
 			<p:tooltip id="toolTipTrack3" for="trackedi" value="Bot&oacute;n para editar la Sala" trackMouse="true" />
 			</p:commandButton>

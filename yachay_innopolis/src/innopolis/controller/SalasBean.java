@@ -358,8 +358,9 @@ public class SalasBean implements Serializable {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-				String carpetaImagenes = (String) servletContext
-						.getRealPath(File.separatorChar + "imgevent");
+//				String carpetaImagenes = (String) servletContext
+//						.getRealPath(File.separatorChar + "imgevent");
+				String carpetaImagenes = "/opt/wildfly/standalone/img/img_regece/imgevent/";
 				setImagen(g);
 				System.out.println("PAD------> " + carpetaImagenes);
 				System.out.println("name------> " + getImagen());

@@ -50,7 +50,7 @@
 			 uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{recursosBean.ImagenServ}">
     		</p:fileUpload>
     		<h:outputText value="Vista Previa: "/>      			 			 
-   			<p:graphicImage id="imagen" value="/imgevent/#{recursosBean.imagen}" width="150" height="150" />
+   			<p:graphicImage id="imagen" value="/resources/img/imgevent/#{recursosBean.imagen}" width="150" height="150" />
 			<p:commandButton id="trackcrea" style="width:100%" update="panel1 :form2:panel2 message" value="Insertar" action="#{recursosBean.crearRecurso}">
 			<p:tooltip id="toolTipTrack1" for="trackcrea" value="Bot&oacute;n para crear un recurso" trackMouse="true" />
 			</p:commandButton>
@@ -89,7 +89,7 @@
 				<h:outputText value="#{lu.descripcion}"></h:outputText>
 			</p:column>
 			<p:column width="152" headerText="Imagen" exportable="false">
-			<p:graphicImage width="150" height="150" value="/imgevent/#{lu.imagen}"></p:graphicImage>
+			<p:graphicImage width="150" height="150" value="/resources/img/imgevent/#{lu.imagen}"></p:graphicImage>
 			</p:column>	
 			<!-- p:column id="f10" exportable="false" filterBy="#{lu.recursotipo.colorrec.color}" sortBy="#{lu.recursotipo.colorrec.color}" headerText="Color Recurso">
 				<h:outputText value="#{lu.recursotipo.colorrec.color}" style="background-color: \##{lu.recursotipo.colorrec.colorcod}"></h:outputText>
@@ -121,7 +121,7 @@
 			<h:outputText value="Descripci&oacute;n: "/>
 			<p:inputTextarea id="des" value="#{recursosBean.descripcion}">
 		    </p:inputTextarea>
-			<h:outputText value="Lugar: "/>
+			<h:outputText value="Tipo Recurso: "/>
 			<p:inputText required="false" id="lug" value="#{recursosBean.lugar}" requiredMessage="Requerido" >
 			</p:inputText>
 			<h:outputText value="Imagen:"/>
@@ -131,7 +131,7 @@
 			uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{recursosBean.ImagenServ}">
     		</p:fileUpload> 
    			 <h:outputText value="Vista Previa:"/>   			 
-   			 <p:graphicImage id="imagen" value="/imgevent/#{recursosBean.imagen}" width="150" height="150" />
+   			 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{recursosBean.imagen}" width="150" height="150" />
 			<p:commandButton id="trackactu" update="message2" value="Actualizar" icon="ui-icon-disk" onclick="PF('dlg1').close();"  action="#{recursosBean.actualizarRecurso}">
 			<p:tooltip id="toolTipTrack6" for="trackactu" value="Bot&oacute;n para actualizar" trackMouse="true" />
 			</p:commandButton>
