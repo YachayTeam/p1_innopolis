@@ -18,6 +18,7 @@
 		<class>innopolis.entidades.Interes</class>
 		<class>innopolis.entidades.Interesesmid</class>
 		<class>innopolis.entidades.Interinscam</class>
+		<class>innopolis.entidades.RegeceParametro</class>
 		<class>innopolis.entidades.Recurso</class>
 		<class>innopolis.entidades.Recursodisponible</class>
 		<class>innopolis.entidades.Recursosactivo</class>

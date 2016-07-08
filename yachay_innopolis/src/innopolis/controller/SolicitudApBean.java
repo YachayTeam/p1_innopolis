@@ -15,10 +15,11 @@ import java.util.Map;
 
 import innopolis.entidades.*;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -40,6 +41,9 @@ import org.primefaces.model.ScheduleModel;
 @ManagedBean
 public class SolicitudApBean {
 	private ManagerReservas manager;
+	
+	@EJB
+	private ManagerBuscar mb;
 
 	// Atributo de solicitud
 	// Cabecera
@@ -598,10 +602,16 @@ public class SolicitudApBean {
 		estadoSol = solicitud.getSoliciestado();
 		correo = usuarioxid(solicitud.getIdusr()).getCorreo();
 		DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-		sms = "Le informamos que la solicitud de la fecha: "
+		sms =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+				+ "<meta name='viewport' content='width=device-width'></head><body>"
+				+ "Le informamos que la solicitud de la fecha: "
 				+ date.format(solicitud.getFecha()).toString()
 				+ " con la actividad: " + solicitud.getActividad() + " ,fue "
-				+ solicitud.getSoliciestado().getEstado();
+				+ solicitud.getSoliciestado().getEstado()
+				+ "<br/> Saludos cordiales, "
+				+ "<br/> Sistema de REGECE Yachay EP"
+		        + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+		
 		return "";
 	}
 
@@ -630,8 +640,11 @@ public class SolicitudApBean {
 											null));
 				} else {
 					manager.cambioSMSenvio(id_sol);
-					Mail.sendMailsolousr(correo,
-							"Peticion de Solicitud YACHAY/REGECE  ", sms);
+//					Mail.sendMailsolousr(correo,
+//							"Peticion de Solicitud YACHAY/REGECE  ", sms);
+					
+					mb.envioMailWS(correo, "Peticion de Solicitud YACHAY/REGECE", sms);
+					
 					manager.notificarSolicitud(id_sol);
 					FacesContext.getCurrentInstance().addMessage(
 							null,

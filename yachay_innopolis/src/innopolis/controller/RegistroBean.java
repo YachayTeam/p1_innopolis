@@ -5,13 +5,14 @@ import innopolis.entidades.Interes;
 import innopolis.entidades.Tipoestadousr;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.Utilidades;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerLogin;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -46,6 +47,9 @@ public class RegistroBean implements Serializable {
 	private String smscorusu;
 	private String correosadmin;
 
+	
+	@EJB
+	private ManagerBuscar mb;
 	
 	//intereses
 	private Integer[] arrayTipoLogin;
@@ -372,23 +376,37 @@ public class RegistroBean implements Serializable {
 			setPassword(Utilidades.Encriptar(getPassword()));//MD5 PASS
 			manager.registrarUsuario(cedula, alias, apellido, correo, nombre, password,sms,empreestu,cargptitu,arrayTipoLogin);
 			//agregarlistadecorreos principal
-			smscoradmin = "El usuario con apellido "+apellido+" con nombre "+nombre+"; Requiere la aprobaci&oacute;n o negaci&oacute;n del registro al sistema; <br/>"
-		             +"los datos del usuario son:"
+			smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					 + "<meta name='viewport' content='width=device-width'></head><body>"
+					 + "El usuario con apellido "+apellido+" con nombre "+nombre+"; Requiere la aprobaci&oacute;n o negaci&oacute;n del registro al sistema; <br/>"
+		             + "los datos del usuario son:"
 		             + "<br/> C&eacute;dula: "+cedula+""
 		             + "<br/> Nombre: "+nombre+""
 		             + "<br/> Apellido: "+apellido+""
-		             + "\n Correo: "+correo+"";
+		             + "\n Correo: "+correo+""
+		             + "<br/> Saludos cordiales, "
+				  	 + "<br/> Sistema de REGECE Yachay EP"
+		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 			
-			smscorusu = "Sr/ra.  "+nombre+" "+apellido+", su petici&oacute;n de acceso al sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
+			smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					 + "<meta name='viewport' content='width=device-width'></head><body>"
+					 + "Sr/ra.  "+nombre+" "+apellido+", su petici&oacute;n de acceso al sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 					 +"sus datos son: "
 		             + "<br/> C&eacute;dula: "+cedula+""
 		             + "<br/> Nombre: "+nombre+""
 		             + "<br/> Apellido: "+apellido+""
-		             + "<br/> Correo: "+correo+"";
+		             + "<br/> Correo: "+correo+""
+		             + "<br/> Saludos cordiales, "
+				  	 + "<br/> Sistema de REGECE Yachay EP"
+		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 			
 			getcorreosusu();
-			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-			Mail.sendMailsolousr(correo, "Notificación de YACHAY/REGECE  ", smscorusu);
+//			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
+//			Mail.sendMailsolousr(correo, "Notificación de YACHAY/REGECE  ", smscorusu);
+
+			mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
+			mb.envioMailWS(correo, "Notificación de YACHAY/REGECE", smscorusu);
+			
 			cedula="";
 			alias="";
 			nombre="";

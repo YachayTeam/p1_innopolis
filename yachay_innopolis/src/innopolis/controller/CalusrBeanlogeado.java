@@ -25,11 +25,12 @@ import innopolis.entidades.Sala;
 import innopolis.entidades.Tipoevento;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerInscripedit;
 import innopolis.manager.ManagerLogin;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -57,6 +58,9 @@ public class CalusrBeanlogeado implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ManagerEvento manager;
 	private ManagerLogin managerlog;
+	
+	@EJB
+	private ManagerBuscar mb;
 
 	private boolean interno;
 
@@ -664,7 +668,9 @@ public class CalusrBeanlogeado implements Serializable {
 						getImagenPago(), getObservacion());
 
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-				smscoradmin = "El Sr/ra. "
+				smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "El Sr/ra. "
 						+ getNombre()
 						+ " "
 						+ getApellido()
@@ -675,8 +681,14 @@ public class CalusrBeanlogeado implements Serializable {
 						+ getEvento().getNombre() + ""
 						+ "<br/> Fecha de Inscripci&oacute;n: "
 						+ date.format(getFechaInscripcion()).toString() + ""
-						+ "<br/> Obervaci&oacute;n : " + getObservacion();
-				smscorusu = "Sr/ra.  "
+						+ "<br/> Obervaci&oacute;n : " + getObservacion()+""
+						+ "<br/> Saludos cordiales, "
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+				
+				smscorusu =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "Sr/ra.  "
 						+ getNombre()
 						+ " "
 						+ getApellido()
@@ -687,15 +699,22 @@ public class CalusrBeanlogeado implements Serializable {
 						+ "<br/> Nombre del Evento: " + getEvento().getNombre()
 						+ "" + "<br/> Fecha de Inscripci&oacute;n: "
 						+ date.format(getFechaInscripcion()).toString() + ""
-						+ "<br/> Obervaci&oacute;n : " + getObservacion();
+						+ "<br/> Obervaci&oacute;n : " + getObservacion()+""
+						+ "<br/> Saludos cordiales, "
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 				getcorreosusu();
 				System.out.println(correosadmin);
 
-				Mail.generateAndSendEmail(correosadmin,
-						"Notificación de YACHAY/REGECE  ", smscoradmin);
-				Mail.generateAndSendEmail(getCorreo(),
-						"Notificación de YACHAY/REGECE  ", smscorusu);
+//				Mail.generateAndSendEmail(correosadmin,
+//						"Notificación de YACHAY/REGECE  ", smscoradmin);
+//				Mail.generateAndSendEmail(getCorreo(),
+//						"Notificación de YACHAY/REGECE  ", smscorusu);
+				
+				mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
+				mb.envioMailWS(getCorreo(), "Notificación de YACHAY/REGECE", smscorusu);
+				
 
 				correosadmin = "";
 				smscoradmin = "";

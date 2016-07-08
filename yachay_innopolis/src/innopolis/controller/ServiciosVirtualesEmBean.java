@@ -10,10 +10,11 @@ import innopolis.entidades.Tipoestado;
 import innopolis.entidades.Tiposervicio;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerLogin;
 import innopolis.manager.ManagerRecursosVirtuales;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -28,6 +29,9 @@ public class ServiciosVirtualesEmBean implements Serializable{
 	private ManagerRecursosVirtuales managerservirt;
 	private ManagerLogin managerlog;
 
+	@EJB
+	private ManagerBuscar mb;
+	
 	private Integer idSvr;
 	private Integer idestado;
 	private Integer idservi;
@@ -363,27 +367,41 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				if(!tiposervicio.equals(-1))
 				{					
 				managerservirt.insertarserviciovirtual(idusr, tema);
-				smscoradmin = "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envi&oacute; una solicitud para un Servicio Virtual; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
+				smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						 + "<meta name='viewport' content='width=device-width'></head><body>"
+					  	 + "El Sr/ra. "+session.getNombre()+" "+session.getApellido()+", envi&oacute; una solicitud para un Servicio Virtual; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 			             +"Los datos del usuario son:"
 			             + "<br/> C&eacute;dula: "+session.getCedula()+""
 			             + "<br/> Nombre: "+session.getNombre()+""
 			             + "<br/> Apellido: "+session.getApellido()+""
 			             + "<br/> Correo: "+session.getCorreo()+""
-			             + "<br/> Tema: "+tema+"";				
-				smscorusu = "Sr/ra.  "+session.getNombre()+" "+session.getApellido()+", su petici&oacute;n de solicitud del Servicio que brinda el sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
+			             + "<br/> Tema: "+tema
+			             + "<br/> Saludos cordiales, "
+					  	 + "<br/> Sistema de REGECE Yachay EP"
+			             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+				
+				smscorusu =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						 + "<meta name='viewport' content='width=device-width'></head><body>"
+						 + "Sr/ra.  "+session.getNombre()+" "+session.getApellido()+", su petici&oacute;n de solicitud del Servicio que brinda el sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 						 +"Sus datos del usuario son:"
 			             + "<br/> C&eacute;dula: "+session.getCedula()+""
 			             + "<br/> Nombre: "+session.getNombre()+""
 			             + "<br/> Apellido: "+session.getApellido()+""
 			             + "<br/> Correo: "+session.getCorreo()+""
-			             + "<br/> Tema: "+tema+"";
+			             + "<br/> Tema: "+tema
+			             + "<br/> Saludos cordiales, "
+					  	 + "<br/> Sistema de REGECE Yachay EP"
+			             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 				
 				getcorreosusu();
 				System.out.println(correosadmin);
 				
+//				Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
+//				Mail.sendMailsolousr(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
 				
-				Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-				Mail.sendMailsolousr(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
+				mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
+				mb.envioMailWS(correo, "Notificación de YACHAY/REGECE", smscorusu);
+				
 				correosadmin="";
 				smscoradmin="";
 				smscorusu="";				
@@ -599,7 +617,25 @@ public class ServiciosVirtualesEmBean implements Serializable{
 				if(serv.getSms().equals("No Notificado"))
 				{
 					managerservirt.cambioSMSenvio(serv.getIdSvr());
-					Mail.generateAndSendEmail(serv.getUsuario().getCorreo(), "Notificación de Centro de Emprendimiento YACHAY/REGECE","El usuario con apellido "+serv.getUsuario().getApellido()+" con nombre "+serv.getUsuario().getNombre()+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+".");
+//					Mail.generateAndSendEmail(serv.getUsuario().getCorreo(), 
+//							"Notificación de Centro de Emprendimiento YACHAY/REGECE", "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+//									 + "<meta name='viewport' content='width=device-width'></head><body>"
+//									 + "El usuario con apellido "
+//									 +serv.getUsuario().getApellido()+" con nombre "+serv.getUsuario().getNombre()+"; le informamos que su petición de registro a "
+//									 +serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+"."
+//									 + "<br/> Saludos cordiales, "
+//								  	 + "<br/> Sistema de REGECE Yachay EP"
+//						             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>");
+					
+					mb.envioMailWS(serv.getUsuario().getCorreo(), "Notificación de YACHAY/REGECE","<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+							 + "<meta name='viewport' content='width=device-width'></head><body>"
+							 + "El usuario con apellido "
+							 +serv.getUsuario().getApellido()+" con nombre "+serv.getUsuario().getNombre()+"; le informamos que su petición de registro a "
+							 +serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+"."
+							 + "<br/> Saludos cordiales, "
+						  	 + "<br/> Sistema de REGECE Yachay EP"
+				             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>");
+					
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo", null));
 				}
 				else

@@ -325,6 +325,17 @@ create table PUBLIC.TIPOESTADO (
 );
 
 /*==============================================================*/
+/* Table: REGECE_PARAMETROS                                     */
+/*==============================================================*/
+create table REGECE_PARAMETROS (
+   PAR_ID               VARCHAR(30)          not null,
+   PAR_NOMBRE           VARCHAR(50)          null,
+   PAR_VALOR            TEXT                 null,
+   constraint PK_REGECE_PARAMETROS primary key (PAR_ID)
+);
+
+
+/*==============================================================*/
 /* Table: TIPOESTADOUSR                                         */
 /*==============================================================*/
 create table TIPOESTADOUSR (

@@ -26,12 +26,13 @@ import innopolis.entidades.Soliciestado;
 import innopolis.entidades.Tipoevento;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerLogin;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -81,6 +82,9 @@ public class EventosBean {
 	private Evento modEv;
 	private Integer idEvSol;
 	private List<Solicidetalle> listDetSolEv;
+	
+	@EJB
+	private ManagerBuscar mb;
 
 	// solicitud
 	private List<SelectItem> select;
@@ -947,7 +951,9 @@ public class EventosBean {
 						fechaInicio, fechaFin, costo, cantidad, estadoeven);
 
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-				smscoradminsoleve = "El Sr/ra. "
+				smscoradminsoleve =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						 + "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "El Sr/ra. "
 						+ session.getNombre()
 						+ " "
 						+ session.getApellido()
@@ -963,9 +969,13 @@ public class EventosBean {
 						+ cantidad + "" + "<br/> Fecha de Inicio: "
 						+ date.format(fi).toString() + ""
 						+ "<br/> Fecha de Fin: " + date.format(ff).toString()
-						+ "";
+						+ "<br/> Saludos cordiales, "
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
-				smscorususoleve = "Sr/ra.  "
+				smscorususoleve =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						 + "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "Sr/ra.  "
 						+ session.getNombre()
 						+ " "
 						+ session.getApellido()
@@ -981,14 +991,20 @@ public class EventosBean {
 						+ cantidad + "" + "<br/> Fecha de Inicio: "
 						+ date.format(fi).toString() + ""
 						+ "<br/> Fecha de Fin: " + date.format(ff).toString()
-						+ "";
+						+ "<br/> Saludos cordiales, "
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 				getcorreosusub();
 
-				Mail.generateAndSendEmail(correosadminsoleve,
-						"Notificación de YACHAY/REGECE  ", smscoradminsoleve);
-				Mail.sendMailsolousr(session.getCorreo(),
-						"Notificación de YACHAY/REGECE  ", smscorususoleve);
+//				Mail.generateAndSendEmail(correosadminsoleve,
+//						"Notificación de YACHAY/REGECE  ", smscoradminsoleve);
+//				Mail.sendMailsolousr(session.getCorreo(),
+//						"Notificación de YACHAY/REGECE  ", smscorususoleve);
+				
+				mb.envioMailWS(correosadminsoleve, "Notificación de YACHAY/REGECE", smscoradminsoleve);
+				mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorususoleve);
+				
 
 				eventoidedicio = null;
 				correosadminsoleve = "";
@@ -1720,10 +1736,14 @@ public class EventosBean {
 
 				getcorreosusuc();
 				System.out.println(correosadminsolreceve);
-				Mail.generateAndSendEmail(correosadminsolreceve,
-						"Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
-				Mail.sendMailsolousr(session.getCorreo(),
-						"Notificación de YACHAY/REGECE  ", smscorususolreceve);
+//				Mail.generateAndSendEmail(correosadminsolreceve,
+//						"Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
+//				Mail.sendMailsolousr(session.getCorreo(),
+//						"Notificación de YACHAY/REGECE  ", smscorususolreceve);
+
+				mb.envioMailWS(correosadminsolreceve, "Notificación de YACHAY/REGECE", smscoradminsolreceve);
+				mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorususolreceve);
+				
 
 				correosadminsolreceve = "";
 				smscoradminsolreceve = "";
@@ -1779,7 +1799,9 @@ public class EventosBean {
 					solicitudCabTmpGuardada = true;
 
 					DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-					smscoradminsolreceve = "El Sr/ra. "
+					smscoradminsolreceve = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+							+ "<meta name='viewport' content='width=device-width'></head><body>"
+							+ "El Sr/ra. "
 							+ direccion
 							+ " "
 							+ justificacion
@@ -1790,9 +1812,14 @@ public class EventosBean {
 							+ "<br/> Fecha de petici&oacute;n: "
 							+ date.format(h_inicio).toString() + ""
 							+ "<br/> Fecha de petici&oacute;n: "
-							+ date.format(h_fin).toString() + "";
+							+ date.format(h_fin).toString() 
+							+ "<br/> Saludos cordiales, "
+							+ "<br/> Sistema de REGECE Yachay EP"
+							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
-					smscorususolreceve = "Sr/ra.  "
+					smscorususolreceve = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+							+ "<meta name='viewport' content='width=device-width'></head><body>"
+							+ "Sr/ra.  "
 							+ direccion
 							+ " "
 							+ justificacion
@@ -1803,17 +1830,23 @@ public class EventosBean {
 							+ "<br/> Fecha de petici&oacute;n: "
 							+ date.format(h_inicio).toString() + ""
 							+ "<br/> Fecha de petici&oacute;n: "
-							+ date.format(h_fin).toString() + "";
+							+ date.format(h_fin).toString() 
+							+ "<br/> Saludos cordiales, "
+							+ "<br/> Sistema de REGECE Yachay EP"
+							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 					getcorreosusuc();
 					System.out.println(correosadminsolreceve);
-					Mail.generateAndSendEmail(correosadminsolreceve,
-							"Notificación de YACHAY/REGECE  ",
-							smscoradminsolreceve);
-					Mail.sendMailsolousr(session.getCorreo(),
-							"Notificación de YACHAY/REGECE  ",
-							smscorususolreceve);
+//					Mail.generateAndSendEmail(correosadminsolreceve,
+//							"Notificación de YACHAY/REGECE  ",
+//							smscoradminsolreceve);
+//					Mail.sendMailsolousr(session.getCorreo(),
+//							"Notificación de YACHAY/REGECE  ",
+//							smscorususolreceve);
 
+					mb.envioMailWS(correosadminsolreceve, "Notificación de YACHAY/REGECE", smscoradminsolreceve);
+					mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorususolreceve);
+					
 					correosadminsolreceve = "";
 					smscoradminsolreceve = "";
 					smscorususolreceve = "";
@@ -1877,7 +1910,9 @@ public class EventosBean {
 				ev.setSolicicabecera(getSolicitudCabTem());
 				solicitudCabTmpGuardada = true;
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-				smscoradminsolreceve = "El Sr/ra. "
+				smscoradminsolreceve = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "El Sr/ra. "
 						+ direccion
 						+ " "
 						+ justificacion
@@ -1888,9 +1923,14 @@ public class EventosBean {
 						+ "<br/> Fecha de petici&oacute;n: "
 						+ date.format(h_inicio).toString() + ""
 						+ "<br/> Fecha de petici&oacute;n: "
-						+ date.format(h_fin).toString() + "";
+						+ date.format(h_fin).toString() 
+						+ "<br/> Saludos cordiales, "
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
-				smscorususolreceve = "Sr/ra.  "
+				smscorususolreceve =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "Sr/ra.  "
 						+ direccion
 						+ " "
 						+ justificacion
@@ -1900,14 +1940,20 @@ public class EventosBean {
 						+ "<br/> Fecha de petici&oacute;n: "
 						+ date.format(h_inicio).toString() + ""
 						+ "<br/> Fecha de petici&oacute;n: "
-						+ date.format(h_fin).toString() + "";
+						+ date.format(h_fin).toString()
+						+ "<br/> Saludos cordiales, "
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 				getcorreosusuc();
 				System.out.println(correosadminsolreceve);
-				Mail.generateAndSendEmail(correosadminsolreceve,
-						"Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
-				Mail.sendMailsolousr(session.getCorreo(),
-						"Notificación de YACHAY/REGECE  ", smscorususolreceve);
+//				Mail.generateAndSendEmail(correosadminsolreceve,
+//						"Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
+//				Mail.sendMailsolousr(session.getCorreo(),
+//						"Notificación de YACHAY/REGECE  ", smscorususolreceve);
+				
+				mb.envioMailWS(correosadminsolreceve, "Notificación de YACHAY/REGECE", smscoradminsolreceve);
+				mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorususolreceve);
 
 				correosadminsolreceve = "";
 				smscoradminsolreceve = "";
@@ -2795,7 +2841,9 @@ public class EventosBean {
 		sms = ev.getSms();
 		try {
 			Usuario u = manager.findususarioByID(idusr);
-			smscor = "Sr/ra. " + u.getNombre() + " " + u.getApellido()
+			smscor =   "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					+ "<meta name='viewport' content='width=device-width'></head><body>"
+					+ "Sr/ra. " + u.getNombre() + " " + u.getApellido()
 					+ ", le informo que el Evento <br/>" + "con nombre: "
 					+ nombre
 					+ ".<br/> "
@@ -2807,7 +2855,10 @@ public class EventosBean {
 					+ ".<br/>" + "con fecha de inicio: " + fi + ".<br/>"
 					+ "con fecha final: " + ff + ".<br/>"
 					+ "con la cantidad de: " + cantidad + " personas.<br/>"
-					+ "ha sido " + estadoeven + ".<br/> ";
+					+ "ha sido " + estadoeven + ".<br/> "
+					+ "<br/> Saludos cordiales, "
+					+ "<br/> Sistema de REGECE Yachay EP"
+					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2822,8 +2873,12 @@ public class EventosBean {
 				mEvento.cambioSMSenvio(idEvento);
 				Usuario u = manager.findususarioByID(idusr);
 				System.out.println(u.getCorreo());
-				Mail.sendMailsolousr(u.getCorreo(),
-						"Cancelación Evento/REGECE  ", smscor);
+				
+//				Mail.sendMailsolousr(u.getCorreo(),
+//						"Cancelación Evento/REGECE", smscor);
+				
+				mb.envioMailWS(u.getCorreo(), "Cancelación Evento/REGECE ", smscor);
+
 				// limpiamos los datos notificaciones.inno@gmail.com
 				// innopolisyachay2015@gmail.com
 				idEvento = 0;
@@ -2923,10 +2978,15 @@ public class EventosBean {
 		try {
 			if (estadoeven.equals("Activado")) {
 				getcorreosusua();
-				Mail.sendMailsolousr(session.getCorreo(),
-						"Cancelación Evento/REGECE  ", smscor);
-				Mail.generateAndSendEmail(correosadmin,
-						"Cancelación Evento/REGECE  ", smscor);
+//				Mail.sendMailsolousr(session.getCorreo(),
+//						"Cancelación Evento/REGECE  ", smscor);
+//				Mail.generateAndSendEmail(correosadmin,
+//						"Cancelación Evento/REGECE  ", smscor);
+				
+				mb.envioMailWS(session.getCorreo(), "Cancelación Evento/REGECE ", smscor);
+				mb.envioMailWS(correosadmin, "Cancelación Evento/REGECE ", smscor);
+				
+				
 				// limpiamos los datos notificaciones.inno@gmail.com
 				// innopolisyachay2015@gmail.com
 				idEvento = 0;

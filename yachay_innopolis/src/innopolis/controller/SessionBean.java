@@ -10,9 +10,10 @@ import innopolis.entidades.Tipo;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.entidades.help.Utilidades;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerLogin;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -24,6 +25,9 @@ import javax.servlet.http.HttpSession;
 public class SessionBean {
 	private UsuarioHelp session;
     private ManagerLogin manager;
+    
+	@EJB
+	private ManagerBuscar mb;
     //log
     private String Cedula;
     private String pass;
@@ -344,14 +348,22 @@ public class SessionBean {
 					password = usr.getPassword();
 					passwordnuevo=Utilidades.Desencriptar(password);	
 					
-					smscor = "Sr/ra. "+nombre+" "+apellido+",sus datos son los siguientes: "
+					smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+							 + "<meta name='viewport' content='width=device-width'></head><body>"
+							 + "Sr/ra. "+nombre+" "+apellido+",sus datos son los siguientes: "
 				             + "<br/> C&eacute;dula: "+cedula+""
 				             + "<br/> Nombre: "+nombre+""
 				             + "<br/> Apellido: "+apellido+""
 				             + "<br/> Correo: "+correo+""				             
-							 + "<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es: "+passwordnuevo+"";
+							 + "<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es: "+passwordnuevo
+							 + "<br/> Saludos cordiales, "
+						  	 + "<br/> Sistema de REGECE Yachay EP"
+				             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 	
-					Mail.sendMailsolousr(correo, "Recuperación de contraseña YACHAY/REGECE  ", smscor);
+//					Mail.sendMailsolousr(correo, "Recuperación de contraseña YACHAY/REGECE  ", smscor);
+					
+					mb.envioMailWS(correo, "Recuperación de contraseña YACHAY/REGECE ", smscor);
+					
 				    //limpiamos los datos
 					cedula="";
 			        nombre="";

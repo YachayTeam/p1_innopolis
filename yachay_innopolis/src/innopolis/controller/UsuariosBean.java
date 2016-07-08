@@ -8,7 +8,7 @@ import innopolis.entidades.Tipoestadousr;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.entidades.help.Utilidades;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerLogin;
 
 import java.io.Serializable;
@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -32,6 +33,11 @@ public class UsuariosBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ManagerLogin manager;
 	private ManagerLogin managerlog;
+	
+	@EJB
+	private ManagerBuscar mb;
+	
+	
 	private Integer idUsuario;
 	private String alias;
 	private String apellido;
@@ -857,18 +863,28 @@ public class UsuariosBean implements Serializable {
 					try {
 						if(tipoest.equals("Activado"))
 						{
-						smscor = "Sr/ra.  "+nombre+" "+apellido+",le informamos que su petici&oacute;n de registro al sistema "
+						smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+								 + "<meta name='viewport' content='width=device-width'></head><body>"
+								 + "Sr/ra.  "+nombre+" "+apellido+",le informamos que su petici&oacute;n de registro al sistema "
 								 + "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento) con los datos"
 					             + "<br/> C&eacute;dula:"+cedula+""
 					             + "<br/> Nombre:"+nombre+""
 					             + "<br/> Apellido:"+apellido+""
 					             + "<br/> Correo:"+correo+""					         
-								 + "<br/> fue "+tipoest+";<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es: ";
+								 + "<br/> fue "+tipoest+";<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es:"
+								 + "<br/> Saludos cordiales, "
+								 + "<br/> Sistema de REGECE Yachay EP"
+								 + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 						}
 						else if(tipoest.equals("Desactivado"))
 						{
-						smscor = "Sr/ra.  "+nombre+" "+apellido+",le informamos que su petici&oacute;n de registro al sistema "
-								+ "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento se encuentra "+tipoest+".";						
+						smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+								+ "<meta name='viewport' content='width=device-width'></head><body>"
+								+ "Sr/ra.  "+nombre+" "+apellido+",le informamos que su petici&oacute;n de registro al sistema "
+								+ "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento se encuentra "+tipoest+"."
+								+ "<br/> Saludos cordiales, "
+								+ "<br/> Sistema de REGECE Yachay EP"
+								+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";						
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -888,8 +904,11 @@ public class UsuariosBean implements Serializable {
 	  					else if(tipoest.equals("Activado"))
 	  					{
 	  					manager.cambioSMSenvio(idUsuario);
-	  					Mail.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor+" "+Utilidades.Desencriptar(password)+" <br/> la URL del sistema REGECE: http://regece.yachay.gob.ec:8080/");
-	  				    //limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
+//	  					Mail.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor+" "+Utilidades.Desencriptar(password)+" <br/> la URL del sistema REGECE: http://regece.yachay.gob.ec:8080/");
+	  				    
+	  					mb.envioMailWS(correo, "Autorización a YACHAY/REGECE ", smscor+" "+Utilidades.Desencriptar(password)+" <br/> la URL del sistema REGECE: http://regece.yachay.gob.ec:8080/");	  					
+	  					
+	  					//limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
 	  					cedula="";
 	  					alias="";
 	  					nombre="";
@@ -908,7 +927,10 @@ public class UsuariosBean implements Serializable {
 	  					}
 	  					else if(tipoest.equals("Desactivado"))
 	  					{manager.cambioSMSenvio(idUsuario);
-	  					Mail.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor);
+//	  					Mail.sendMailsolousr(correo, "Autorización a YACHAY/REGECE  ", smscor);
+	  					
+	  					mb.envioMailWS(correo,"Autorización a YACHAY/REGECE", smscor);
+	  					
 	  				    //limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
 	  					cedula="";
 	  					alias="";
@@ -993,22 +1015,36 @@ public class UsuariosBean implements Serializable {
 	  			cargasuge();
 	  			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");
 	  			Usuario usr = manager.UsuarioByID(idusrsug);
-	  			smscoradmin = "El Sr/ra. "+usr.getNombre()+" "+usr.getApellido()+", envi&oacute; una sugerencia.; <br/>"
+	  			smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						 + "<meta name='viewport' content='width=device-width'></head><body>"
+	  					 + "El Sr/ra. "+usr.getNombre()+" "+usr.getApellido()+", envi&oacute; una sugerencia.; <br/>"
 			             +"Los datos del usuario son:"
 			             + "<br/> C&eacute;dula: "+usr.getCedula()+""
 			             + "<br/> Nombre: "+usr.getNombre()+""
 			             + "<br/> Apellido: "+usr.getApellido()+""
 			             + "<br/> Correo: "+usr.getCorreo()+""
 			             + "<br/> Fecha: "+date.format(sugerenciafecha).toString()+""
-			             + "<br/> Sugerencia: "+sugerenciatext+"";	
+			             + "<br/> Sugerencia: "+sugerenciatext
+			             + "<br/> Saludos cordiales, "
+					  	 + "<br/> Sistema de REGECE Yachay EP"
+			             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 	  			
-	  			smscorreosugerenc = "El usuario con apellido "+usr.getApellido()+" con nombre "+usr.getNombre()
-	  					+"; le informamos que su sugerencia al sistema REGECE ser&aacute; revisada.<br/> "
-	  					+"Su sugerencia es: "+sugerenciatext+"";
+	  			smscorreosugerenc = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>"
+						 + "<meta name='viewport' content='width=device-width'></head><body>"
+	  					 + "El usuario con apellido "+usr.getApellido()+" con nombre "+usr.getNombre()
+	  					 +"; le informamos que su sugerencia al sistema REGECE ser&aacute; revisada.<br/> "
+	  					 +"Su sugerencia es: "+sugerenciatext
+	  					 + "<br/> Saludos cordiales, "
+					  	 + "<br/> Sistema de REGECE Yachay EP"
+			             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 	  			
 	  			getcorreosusu();
-	  			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-	  			Mail.sendMailsolousr(usr.getCorreo(), "Envío de Sugerencia a YACHAY/REGECE  ", smscorreosugerenc);
+//	  			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
+//	  			Mail.sendMailsolousr(usr.getCorreo(), "Envío de Sugerencia a YACHAY/REGECE  ", smscorreosugerenc);
+	  			
+	  			mb.envioMailWS(correosadmin,"Notificación de YACHAY/REGECE ", smscoradmin);
+	  			mb.envioMailWS(usr.getCorreo(),"Envío de Sugerencia a YACHAY/REGECE", smscorreosugerenc);
+	  			
 	  			manager.insertarSugerencia(idusrsug, getSugerenciatext(), sugerenciafecha);
 	  			sugerenciatext = "";
 	  			correosadmin="";
@@ -1039,14 +1075,19 @@ public class UsuariosBean implements Serializable {
 				date.format(sugerenciafecha).toString();
 	  			sugerenciatext = suge.getSugerencia();
 						try {
-							smscor = "Sr/ra.  "+nombre+" "+apellido+",le informamos que su sugerencia al sistema "
+							smscor =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+									 + "<meta name='viewport' content='width=device-width'></head><body>"
+								 	 + "Sr/ra.  "+nombre+" "+apellido+",le informamos que su sugerencia al sistema "
 									 + "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento) con los datos"
 						             + "<br/> C&eacute;dula:"+cedula+""
 						             + "<br/> Nombre:"+nombre+""
 						             + "<br/> Apellido:"+apellido+""
 						             + "<br/> Correo:"+correo+""	
 						             + "<br/> En la fecha:"+sugerenciafecha+""	
-									 + "<br/> fue revisada por los administradores, agradecemos de antemano su sugerencia. ";
+									 + "<br/> fue revisada por los administradores, agradecemos de antemano su sugerencia."
+									 + "<br/> Saludos cordiales, "
+								  	 + "<br/> Sistema de REGECE Yachay EP"
+						             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 							
 						} catch (Exception e) {
 							
@@ -1061,7 +1102,10 @@ public class UsuariosBean implements Serializable {
 	  				if(smssuge.equals("No Revisada"))
 	  				{	
 	  					manager.cambioSMSenviosugerencia(idsuge);
-	  					Mail.sendMailsolousr(correo, "Sugerencia a YACHAY/REGECE  ", smscor);
+//	  					Mail.sendMailsolousr(correo, "Sugerencia a YACHAY/REGECE  ", smscor);
+	  					
+	  					mb.envioMailWS(correo,"Sugerencia a YACHAY/REGECE", smscor);
+	  					
 	  				    //limpiamos los datos   notificaciones.inno@gmail.com  innopolisyachay2015@gmail.com
 	  					cedula="";
 	  					alias="";

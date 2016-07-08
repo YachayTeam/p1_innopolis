@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
@@ -36,14 +37,14 @@
 				<h:outputText value="" />
 				<h:outputText value="" />
 				<h:outputText value="" />
-				<h:outputText value="Cédula/Pasaporte* :" />
+				<h:outputLabel value="Cédula/Pasaporte* :"  for="cedula"/>
 				<p:inputText required="true" id="cedula"
 					value="#{registroBean.cedula}"
 					requiredMessage="Requerida/o Cédula/Pasaporte">
 				</p:inputText>
 				<h:outputText value="" />
 				<h:outputText value="" />
-				<h:outputText value="Apellidos* :" />
+				<h:outputLabel value="Apellidos* :"  for="apellidos"/>
 				<p:inputText required="true" id="apellidos"
 					value="#{registroBean.apellido}"
 					requiredMessage="Requerido Apellidos"
@@ -52,7 +53,7 @@
 				</p:inputText>
 				<h:outputText value="" />
 				<h:outputText value="" />
-				<h:outputText value="Nombres* :" />
+				<h:outputLabel value="Nombres* :"  for="nombres"/>
 				<p:inputText required="true" id="nombres"
 					value="#{registroBean.nombre}" requiredMessage="Requerido Nombres"
 					validatorMessage="El nombre debe contener solo letras">
@@ -60,7 +61,7 @@
 				</p:inputText>
 				<h:outputText value="" />
 				<h:outputText value="" />
-				<h:outputText value="Correo* :" />
+				<h:outputLabel value="Correo* :" for="correo"/>
 				<p:inputText required="true" id="correo"
 					requiredMessage="Por favor ingrese su Correo."
 					validatorMessage="Formato de correo inv&aacute;lido"
@@ -70,7 +71,7 @@
 				</p:inputText>
 				<h:outputText value="" />
 				<h:outputText value="" />
-				<h:outputText value="Repetir Correo* :" />
+				<h:outputLabel value="Repetir Correo* :" for="correo1"/>
 				<p:inputText required="true" id="correo1"
 					validatorMessage="Formato de correo invalido"
 					value="#{registroBean.rcorreo}"
@@ -86,7 +87,7 @@
 			</p:inputText> 
 			<h:outputText value=""/-->
 				<h:outputText value="" />
-				<h:outputText value="Contraseña* :" />
+				<h:outputLabel value="Contraseña* :"  for="pass"/>
 				<p:password required="true" id="pass" redisplay="true"
 					value="#{registroBean.password}" feedback="true"
 					requiredMessage="Requerida Contraseña" goodLabel="Buena"
@@ -96,7 +97,7 @@
 				</p:password>
 				<h:outputText value="" />
 				<h:outputText value="" />
-				<h:outputText value="Repetir Contraseña* :" />
+				<h:outputLabel value="Repetir Contraseña* :" for="pass1"/>
 				<p:password required="true" id="pass1" redisplay="true"
 					value="#{registroBean.rpassword}" feedback="true"
 					requiredMessage="Requerido Contraseña" goodLabel="Buena"
@@ -109,8 +110,8 @@
 				<h:outputText value="" />
 				<h:outputText value="" />
 
-				<h:outputText value="¿Qué actividad realizas?" />
-				<p:selectOneRadio value="#{registroBean.panel1}">
+				<h:outputLabel value="¿Qué actividad realizas?" for="act"/>
+				<p:selectOneRadio id="act" value="#{registroBean.panel1}">
 					<f:selectItem itemLabel="Trabajas" itemValue="Show-Panel1" />
 					<f:selectItem itemLabel="Estudias" itemValue="Show-Panel2" />
 					<f:ajax render="payment-amount-panel" />
@@ -161,7 +162,7 @@
 				</p:panelGrid>
 				<h:outputText value="" />
 				<h:outputText value="" />
-				<h:outputText value="Seleccion de Intereses*: " />
+				<h:outputLabel value="Seleccion de Intereses*: " for="menu"/>
 				<p:selectCheckboxMenu required="true" id="menu"
 					value="#{registroBean.arrayTipoLogin}" label="-------"
 					panelStyle="width:250px" requiredMessage="Requerido Intéres">

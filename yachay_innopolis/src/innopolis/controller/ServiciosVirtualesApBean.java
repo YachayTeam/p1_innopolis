@@ -10,9 +10,10 @@ import innopolis.entidades.Tipoestado;
 import innopolis.entidades.Tiposervicio;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerRecursosVirtuales;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -45,6 +46,8 @@ public class ServiciosVirtualesApBean implements Serializable{
 	
 	private String nombreestipser;
 	
+	@EJB
+	private ManagerBuscar mb;
 	
 	private List<Serviciosvirtregi> liservicioreg;
 	private List<Tiposervicio> tiposervli;
@@ -433,7 +436,13 @@ public class ServiciosVirtualesApBean implements Serializable{
 			usuario = serv.getUsuario();
 			sms = serv.getSms();
 			correo= serv.getUsuario().getCorreo();
-			smscor="El usuario con apellido "+serv.getUsuario().getApellido()+" con nombre "+serv.getUsuario().getNombre()+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+".";
+			smscor= "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					+ "<meta name='viewport' content='width=device-width'></head><body>"
+					+ "El usuario con apellido "+serv.getUsuario().getApellido()+" con nombre "+serv.getUsuario().getNombre()
+					+"; le informamos que su petición de registro a "+serv.getTiposervicio().getNombreServicio()+" fue "+serv.getTipoestado().getNombreestado()+"."
+					+ "<br/> Saludos cordiales, "
+				  	+ "<br/> Sistema de REGECE Yachay EP"
+		            + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 			return "";
 		}
 		//correo
@@ -449,7 +458,8 @@ public class ServiciosVirtualesApBean implements Serializable{
 					else
 					{
 					managerservirt.cambioSMSenvio(idSvr);
-					Mail.sendMailsolousr(correo, "Petición de Solicitud a Servicios Virtuales YACHAY/REGECE  ", smscor);
+//					Mail.sendMailsolousr(correo, "Petición de Solicitud a Servicios Virtuales YACHAY/REGECE  ", smscor);
+					mb.envioMailWS(correo, "Petición de Solicitud a Servicios Virtuales YACHAY/REGECE", smscor);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo", null));
 					}
 				}				

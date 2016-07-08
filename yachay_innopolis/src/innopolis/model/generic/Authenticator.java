@@ -1,4 +1,4 @@
-package innopolis.manager;
+package innopolis.model.generic;
 
 import javax.mail.PasswordAuthentication;
 

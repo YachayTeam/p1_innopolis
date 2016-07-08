@@ -3,13 +3,14 @@ package innopolis.controller;
 import innopolis.entidades.Evento;
 import innopolis.entidades.Inscripcione;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerEvento;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -38,6 +39,9 @@ public class InscripcionApBean implements Serializable{
 	private Integer id_evento;
 	private List<Inscripcione> listadoInscripciones;
 	
+	
+	@EJB
+	private ManagerBuscar mb;
 	
 	private UsuarioHelp session;
 	
@@ -223,7 +227,12 @@ public class InscripcionApBean implements Serializable{
 		observacion=inscripcion.getObservacion();
 		evento=inscripcion.getEvento();
 		sms=inscripcion.getSms();		
-		smscor="Le informamos que la inscripcion de: "+inscripcion.getEvento().getNombre()+" ,fue "+inscripcion.getEstado();
+		smscor="<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+				+ "<meta name='viewport' content='width=device-width'></head><body>"
+				+ "Le informamos que la inscripcion de: "+inscripcion.getEvento().getNombre()+" ,fue "+inscripcion.getEstado()
+				+ "<br/> Saludos cordiales, "
+				+ "<br/> Sistema de REGECE Yachay EP"
+		        + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";;
 		return "";
 	}
 
@@ -235,7 +244,9 @@ public class InscripcionApBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La inscripción no ha sido aprobada o negada para notificarla", null));
 		}else{
 			try {
-				Mail.sendMailsolousr(correo, "Petición de Inscripcion YACHAY/REGECE  ", smscor);
+//				Mail.sendMailsolousr(correo, "Petición de Inscripcion YACHAY/REGECE  ", smscor);
+				mb.envioMailWS(correo, "Petición de Inscripcion YACHAY/REGECE", smscor);
+				
 				managerEv.notificarInscripcion(idInscripcion, "notificada");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Notificación correcta", null));
 			} catch (Exception e) {

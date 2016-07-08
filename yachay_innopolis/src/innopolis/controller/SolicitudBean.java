@@ -14,11 +14,12 @@ import innopolis.entidades.Solicidetalle;
 import innopolis.entidades.Soliciestado;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.UsuarioHelp;
-import innopolis.manager.Mail;
+import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerLogin;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -34,6 +35,9 @@ import org.primefaces.model.ScheduleModel;
 public class SolicitudBean {
 	private ManagerReservas manager;
 	private ManagerLogin managerlog;
+	
+	@EJB
+	private ManagerBuscar mb;
 	
 	//Atributo de solicitud
 	//Cabecera
@@ -581,23 +585,37 @@ public class SolicitudBean {
 			//agregarlistadecorreos principal
 					
 			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
-			smscoradmin = "El Sr/ra. "+direccion+" "+justificacion+", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
+			smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					 + "<meta name='viewport' content='width=device-width'></head><body>"
+					 + "El Sr/ra. "+direccion+" "+justificacion+", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 		             +"los datos de la solicitud son:"
 		             + "<br/> Actividad: "+actividad+""
 		             + "<br/> Objetivo: "+objetivo+""
 		             + "<br/> Fecha de Inicio: "+date.format(fi).toString()+""
-					 + "<br/> Fecha de Fin: "+date.format(ff).toString()+"";
+					 + "<br/> Fecha de Fin: "+date.format(ff).toString()
+					 + "<br/> Saludos cordiales, "
+				  	 + "<br/> Sistema de REGECE Yachay EP"
+		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 			
-			smscorusu = "Sr/ra.  "+direccion+" "+justificacion+", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
+			smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					 + "<meta name='viewport' content='width=device-width'></head><body>"
+					 + "Sr/ra.  "+direccion+" "+justificacion+", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 					 +"los datos su solicitud son:"
 		             + "<br/> Actividad: "+actividad+""
 		             + "<br/> Objetivo: "+objetivo+""
 		             + "<br/> Fecha de Inicio: "+date.format(fi).toString()+""
-		       		 + "<br/> Fecha de Fin: "+date.format(ff).toString()+"";
+		       		 + "<br/> Fecha de Fin: "+date.format(ff).toString()
+		       		 + "<br/> Saludos cordiales, "
+				  	 + "<br/> Sistema de REGECE Yachay EP"
+		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 			getcorreosusu();
-			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-			Mail.sendMailsolousr(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
 			
+//			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
+//			Mail.sendMailsolousr(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
+			
+			mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
+			mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorusu);
+
 			
 			solicitudCabTmpGuardada=true;
 			correosadmin="";
