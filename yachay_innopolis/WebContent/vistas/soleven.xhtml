@@ -193,7 +193,7 @@
 	
 		<br/>  	    
 		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="false"  header="Información Eventos" showEffect="clip" hideEffect="clip">
-		<p:panelGrid  columns="2" >
+		<p:panelGrid  columns="4" >
 		<h:outputText value="Nombre del Evento:"/>
 			<p:inputText   id="nombre" value="#{eventosBean.nombre}" >
 				<p:ajax listener="#{eventosBean.asignarNombreImagen}" />
@@ -236,9 +236,7 @@
     		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"   uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/> 
    			 <h:outputText value="Vista Previa:"/>   			 
    			 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{eventosBean.imagen}" width="150" height="150" />	   			
-   			<p:commandButton id="trackeditarev"  style="width:100%"  icon="ui-icon-pencil" value="Editar Evento" action="#{eventosBean.EditarEvento}" update=":form2:panel2 :form2:message2">
-   				<p:ajax listener="#{eventosBean.asignarTipoeve()}"></p:ajax>
-   				<p:ajax listener="#{eventosBean.asignarsala()}"></p:ajax>
+   			<p:commandButton id="trackeditarev"  style="width:100%"  icon="ui-icon-pencil" value="Editar Evento" action="#{eventosBean.editarEvento}" update=":form2:panel2 :form2:message2">
    			<p:tooltip id="toolTipTrack5" for="trackeditarev" value="Bot&oacute;n para Editar Evento" trackMouse="true" />
    			</p:commandButton>
    			<p:commandButton id="trackcerr" update=":form2:panel2" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{eventosBean.irEvento}">

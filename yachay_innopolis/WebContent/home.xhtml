@@ -55,6 +55,11 @@
 				</p:menuitem>
 				<p:menuitem value="Sugerencias" icon="ui-icon-comment"
 					onclick="PF('dlg2').show()" />
+					
+				<p:menuitem value="Perfil de Usuario"  icon="ui-icon-person" action="/vistas/perfilu.xhtml" url ="/vistas/perfilu.xhtml">
+					<p:ajax listener="#{sessionBean.perfilUsuario}"></p:ajax>	
+				</p:menuitem>
+				
 				<f:facet name="options">
 					<p:commandButton type="button" value="#{sessionBean.nom}"
 						disabled="true" icon="ui-icon-person" />
@@ -67,7 +72,7 @@
 
 			<p:dialog widgetVar="dlg2" modal="true" closable="true"
 				closeOnEscape="true" header="Registrar Sugerencia"
-				showEffect="explode" hideEffect="bounce" height="260">
+				showEffect="explode" hideEffect="bounce" height="250">
 				<h:outputText
 					value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
 				<p:panelGrid columns="2">
@@ -82,40 +87,21 @@
 						value="#{usuariosBean.sugerenciatext}">
 						<f:validateLength minimum="5" />
 					</p:inputTextarea>
+					<h:outputText value="" />
 					<p:commandButton id="trackedi" value="Aceptar" icon="ui-icon-check"
-						onclick="start()" widgetVar="startButton1" update=":form1 "
+						widgetVar="startButton1" update=":form1 " onclick="PF('dlgLoad').show();"
+						oncomplete="PF('dlgLoad').hide();"
 						action="#{usuariosBean.crearsugerencia}">
-						<p:tooltip id="t3" for="trackedi"
-							value="Bot&oacute;n para enviar la sugerencia" trackMouse="true" />
 					</p:commandButton>
-					<br />
-					<br />
-					<p:progressBar id="progressBarClient" widgetVar="pbClient"
-						style="width:200px" />
 				</p:panelGrid>
 			</p:dialog>
+			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:form>
+					<p:graphicImage value="/resources/img/loader.gif" />
+				</h:form>
+			</p:dialog>
 		</h:form>
-
-		<script type="text/javascript">
-				function start() {
-				    PF('startButton1').disable();
-				 
-				    window['progress'] = setInterval(function() {
-				        var pbClient = PF('pbClient'),
-				        oldValue = pbClient.getValue(),
-				        newValue = oldValue + 40;
-				 
-				        pbClient.setValue(pbClient.getValue() + 20);
-				 
-				        if(newValue === 100) {
-				            clearInterval(window['progress']);
-				            PF('pbClient').setValue(0);
-				        }
-				 
-				 
-				    }, 1000);
-				}
-				</script>
 	</div>
 
 	<div class="centrarinno">

@@ -35,7 +35,7 @@
 	<p:growl id="message3" showDetail="false" />
 	<p:panel id="panel3"  header="Ingreso de Usuarios">
 		<p:panelGrid columns="4" > 
-			<h:outputText value="C&eacute;dula/Pasaporte*: "/>
+			<h:outputText value="C&eacute;dula/Pasaporte/RUC*: "/>
 			<p:inputText required="true" id="cedula"  value="#{usuariosBean.cedula}" requiredMessage="Requerido C&eacute;dula/Pasaporte">
 			</p:inputText>
 			<h:outputText value="Nombres*: "/>
@@ -54,6 +54,23 @@
 			<p:inputText required="true" id="correo1" validatorMessage="Formato de correo invalido" value="#{usuariosBean.rcorreo}" requiredMessage="Por favor Ingrese su Correo." >
 			<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			</p:inputText>
+
+			<h:outputText for="direcc" value="Dirección* : " style="padding:10px;" />
+			<p:inputText id="direcc"  required="true" value="#{usuariosBean.direccion}" requiredMessage="Requerido Dirección"></p:inputText>
+			
+			<h:outputText value="Teléfono* : "  for="telef" style="padding:10px;"/>
+			<p:inputText id="telef" required="true" value="#{usuariosBean.telefono}"
+					requiredMessage="Requerido Teléfono" maxlength="10"
+					validatorMessage="Campo teléfono debe ingresar solo n&uacute;meros.">
+					<f:validateRegex pattern="[0-9]+" />
+			</p:inputText>
+			
+			<h:outputLabel value="Celular : "  for="celu" style="padding:10px;"/>
+				<p:inputText id="celu" required="true" value="#{usuariosBean.celular}"
+					requiredMessage="Requerido Celular" maxlength="10"
+					validatorMessage="Campo celular debe ingresar solo n&uacute;meros.">
+					<f:validateRegex pattern="[0-9]+" />
+				</p:inputText>
 		    <h:outputText value="Contraseña*: "/>
 			<p:password required="true" id="pass" redisplay="true" value="#{usuariosBean.password}" feedback="true" requiredMessage="Requerido Contraseña" 
 			goodLabel="Buena" strongLabel="Fuerte" weakLabel="Débil" promptLabel="Por favor ingrese contraseña"
@@ -142,7 +159,7 @@
                 <p:dataExporter type="pdf" target="dt" fileName="usuarios_registrados" pageOnly="true"/>
             </h:commandLink>
             </f:facet>		
-			<p:column id="f1" filterBy="#{reg.cedula}" sortBy="#{reg.cedula}"  headerText="C&eacute;dula/Pasaporte">
+			<p:column id="f1" filterBy="#{reg.cedula}" sortBy="#{reg.cedula}"  headerText="C&eacute;dula/Pasaporte/RUC">
 				<h:outputText value="#{reg.cedula}"></h:outputText>
 			</p:column>			
 			<p:column id="f2" filterBy="#{reg.apellido}" sortBy="#{reg.apellido}" headerText="Apellidos/Nombres">
@@ -193,7 +210,7 @@
 		
 		<p:dialog widgetVar="dlg1" modal="true" closable="true" closeOnEscape="true"  header="Información" showEffect="clip" hideEffect="clip">
 		<p:panelGrid columns="3" >
-			<h:outputText value="C&eacute;dula/Pasaporte: "/>
+			<h:outputText value="C&eacute;dula/Pasaporte/RUC: "/>
 			<p:inputText id="cedula"   value="#{usuariosBean.cedula}"></p:inputText>
 			<h:outputText value=""/>
 			<h:outputText value="Apellidos: "/>
@@ -204,7 +221,20 @@
 			<h:outputText value=""/>
 			<h:outputText value="Correo*: "/>
 			<p:inputText  id="correo"  validatorMessage="Formato de correo inv&aacute;lido" value="#{usuariosBean.correo}">
-			</p:inputText>			
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value="Dirección*: "/>
+			<p:inputText  id="direccion" value="#{usuariosBean.direccion}">
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value="Teléfono*: "/>
+			<p:inputText  id="telefono" value="#{usuariosBean.telefono}">
+			</p:inputText>
+			<h:outputText value=""/>
+			<h:outputText value="Celular*: "/>
+			<p:inputText  id="celular"   value="#{usuariosBean.celular}">
+			</p:inputText>
+						
 			<!--h:outputText value=""/>
 			<h:outputText value="Alias: "/>
 			<p:inputText id="alias" value="#{usuariosBean.alias}"></p:inputText >

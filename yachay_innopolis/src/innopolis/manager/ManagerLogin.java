@@ -53,13 +53,16 @@ public class ManagerLogin implements Serializable {
 
 	// insertar los usuarios
 	public void insertarusuarios(String cedula, String alias, String apellido,
-			String correo, String nombre, String password, String empresinsti,
+			String correo,String direccion,String telefono,String celular, String nombre, String password, String empresinsti,
 			String cargotitulo, Integer[] listado) throws Exception {
 		Usuario usr = new Usuario();
 		usr.setCedula(cedula);
 		usr.setAlias(alias);
 		usr.setApellido(apellido);
 		usr.setCorreo(correo);
+		usr.setDireccion(direccion);
+		usr.setTelefono(telefono);
+		usr.setCelular(celular);
 		usr.setNombre(nombre);
 		usr.setPassword(password);
 		usr.setTipoestadousr(this.EstadoByID(2));// Toma Activado
@@ -126,7 +129,7 @@ public class ManagerLogin implements Serializable {
 
 	// REGISTRARSE
 	public void registrarUsuario(String cedula, String alias, String apellido,
-			String correo, String nombre, String password, String sms,
+			String correo,String direccion,String telefono,String celular, String nombre, String password, String sms,
 			String empresestu, String cargoinstitu, Integer[] listado)
 			throws Exception {
 		Usuario usr = new Usuario();
@@ -134,6 +137,9 @@ public class ManagerLogin implements Serializable {
 		usr.setAlias(alias);
 		usr.setApellido(apellido);
 		usr.setCorreo(correo);
+		usr.setDireccion(direccion);
+		usr.setTelefono(telefono);
+		usr.setCelular(celular);
 		usr.setNombre(nombre);
 		usr.setPassword(password);
 		usr.setTipoestadousr(this.EstadoByID(1));// Toma Pendiente
@@ -178,16 +184,18 @@ public class ManagerLogin implements Serializable {
 
 	// editar los usuarios
 	public void editarusuario(Integer id_usr, String cedula, String nombre,
-			String password, String apellido, String alias, String correo,
+			String password, String apellido, String alias, String correo, String direccion, String telefono,String celular,
 			String interes, String empresestu, String cargotitulo,
 			boolean principal, Integer tipo /* , Integer[] listTipo */)
 			throws Exception {
 		Usuario usr = this.UsuarioByID(id_usr);
-		;
 		usr.setCedula(cedula);
 		usr.setAlias(alias);
 		usr.setApellido(apellido);
 		usr.setCorreo(correo);
+		usr.setDireccion(direccion);
+		usr.setTelefono(telefono);
+		usr.setCelular(celular);
 		usr.setNombre(nombre);
 		usr.setPassword(password);
 		t = findtipoxid(tipo);
@@ -196,6 +204,24 @@ public class ManagerLogin implements Serializable {
 		usr.setEmpresestdu(empresestu);
 		usr.setCargotitulo(cargotitulo);
 		usr.setPrincipal(principal);
+		mDAO.actualizar(usr);
+	}
+	
+	// editar los usuarios
+	public void editarusuarioperfil(Integer id_usr, String nombre,String password, 
+			String apellido, String correo, String direccion, 
+			String telefono,String celular, String empresestu,String cargotitulo /* , Integer[] listTipo */)
+			throws Exception {
+		Usuario usr = this.UsuarioByID(id_usr);
+		usr.setApellido(apellido);
+		usr.setCorreo(correo);
+		usr.setDireccion(direccion);
+		usr.setTelefono(telefono);
+		usr.setCelular(celular);
+		usr.setNombre(nombre);
+		usr.setPassword(password);
+		usr.setEmpresestdu(empresestu);
+		usr.setCargotitulo(cargotitulo);
 		mDAO.actualizar(usr);
 	}
 
@@ -824,6 +850,11 @@ public class ManagerLogin implements Serializable {
 	@SuppressWarnings("unchecked")
 	public List<Interesesmid> findAllInteresesmid() {
 		return mDAO.findAll(Interesesmid.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Interesesmid> findAllInteresesmidxid(Integer userId) {
+		return mDAO.findWhere(Interesesmid.class, " o.usuario.idUsr = "+userId+" ", null);
 	}
 
 	// buscar tipoevento por ID

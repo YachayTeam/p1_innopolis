@@ -13,9 +13,9 @@
 <body>
 <h:form>  
     <p:menubar>
-             <p:menuitem value="Gestión de Recursos" action="/vistas/recurso.xhtml" icon="ui-icon-suitcase" />
          <f:facet name="options">
         	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
+        	<p:commandButton id="tracksalir" value="Volver"  action="/vistas/recurso.xhtml" icon="ui-icon-suitcase"></p:commandButton>
         </f:facet>
     </p:menubar>
 </h:form>

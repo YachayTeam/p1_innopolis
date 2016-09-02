@@ -29,6 +29,9 @@ public class RegistroBean implements Serializable {
 	private String apellido;
 	private String cedula;
 	private String correo;
+	private String direccion;
+	private String telefono;
+	private String celular;
 	private String interes;
 	private String nombre;
 	private String password;
@@ -124,6 +127,30 @@ public class RegistroBean implements Serializable {
 
 	public void setCorreo(String correo) {
 		this.correo = correo;
+	}
+	
+	public String getDireccion() {
+		return direccion;
+	}
+	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	
+	public String getTelefono() {
+		return telefono;
+	}
+	
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	
+	public String getCelular() {
+		return celular;
+	}
+	
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 
 	public String getInteres() {
@@ -374,7 +401,7 @@ public class RegistroBean implements Serializable {
 			//if(valida(cedula)==true)
 		//	{		
 			setPassword(Utilidades.Encriptar(getPassword()));//MD5 PASS
-			manager.registrarUsuario(cedula, alias, apellido, correo, nombre, password,sms,empreestu,cargptitu,arrayTipoLogin);
+			manager.registrarUsuario(cedula, alias, apellido, correo,direccion,telefono,celular, nombre, password,sms,empreestu,cargptitu,arrayTipoLogin);
 			//agregarlistadecorreos principal
 			smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 					 + "<meta name='viewport' content='width=device-width'></head><body>"
@@ -384,6 +411,9 @@ public class RegistroBean implements Serializable {
 		             + "<br/> Nombre: "+nombre+""
 		             + "<br/> Apellido: "+apellido+""
 		             + "\n Correo: "+correo+""
+		             + "\n Direcci&oacute;n: "+direccion+""
+		             + "\n Tel&eacute;fono: "+telefono+""
+		             + "\n Celular: "+celular+""
 		             + "<br/> Saludos cordiales, "
 				  	 + "<br/> Sistema de REGECE Yachay EP"
 		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
@@ -396,6 +426,9 @@ public class RegistroBean implements Serializable {
 		             + "<br/> Nombre: "+nombre+""
 		             + "<br/> Apellido: "+apellido+""
 		             + "<br/> Correo: "+correo+""
+		              + "\n Direcci&oacute;n: "+direccion+""
+		             + "\n Tel&eacute;fono: "+telefono+""
+		             + "\n Celular: "+celular+""
 		             + "<br/> Saludos cordiales, "
 				  	 + "<br/> Sistema de REGECE Yachay EP"
 		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
@@ -412,6 +445,9 @@ public class RegistroBean implements Serializable {
 			nombre="";
 			apellido="";
 			correo="";
+			direccion="";
+			telefono="";
+			celular="";
 			rcorreo="";
 			password="";
 			rpassword="";

@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -125,6 +126,7 @@ public class EventosBean {
 	// sacar la descripcion del tipo de ubicacion
 	private boolean mostrar;
 	private String descripcionubicacion;
+	private String stock;
 	private String imagentipo;
 
 	private String descripcionrecurso;
@@ -197,6 +199,7 @@ public class EventosBean {
 		idusr = session.getIdUsr();
 		descripcionubicacion = "Descripción de la Sala";
 		descripcionrecurso = "Descripción de Recurso";
+		stock = "stock";
 	}
 
 	public void setDescripcionrecurso(String descripcionrecurso) {
@@ -205,6 +208,14 @@ public class EventosBean {
 
 	public String getDescripcionrecurso() {
 		return descripcionrecurso;
+	}
+	
+	public String getStock() {
+		return stock;
+	}
+	
+	public void setStock(String stock) {
+		this.stock = stock;
 	}
 
 	public Boolean getInterno() {
@@ -1011,7 +1022,9 @@ public class EventosBean {
 				smscoradminsoleve = "";
 				smscorususoleve = "";
 				descripcionubicacion = "";
+				stock ="stock";
 				descripcionrecurso = "";
+				stock ="stock";
 				imagensala = "300.jpg";
 				// reiniciamos datos (limpiamos el formulario)
 				nombre = "";
@@ -1440,6 +1453,7 @@ public class EventosBean {
 		String r = "";
 		if (solivalor == true) {
 			descripcionrecurso = "Descripción de Recurso";
+			stock ="stock";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";
@@ -1447,6 +1461,7 @@ public class EventosBean {
 			r = "eventos?faces-redirect=true";
 		} else {
 			descripcionrecurso = "Descripción de Recurso";
+			stock ="stock";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";
@@ -1575,9 +1590,8 @@ public class EventosBean {
 	}
 
 	// metodo para asignar el TipoEvento al Evento
-	public String asignarTipoeve() {
+	public void asignarTipoeve() {
 		mEvento.asignarTipoevento(te);
-		return "";
 	}
 
 	// /////////////////////////////////solicitudes//////////////////////////////////////////////////////////////////
@@ -2258,6 +2272,7 @@ public class EventosBean {
 		esave = false;
 		descripcionubicacion = "Descripción de la Ubicación";
 		descripcionrecurso = "Descripción de Recurso";
+		stock ="stock";
 		imagen = "300.jpg";
 		return "soleven?faces-redirect=true";
 	}
@@ -2277,6 +2292,7 @@ public class EventosBean {
 		sc = 0;
 		descripcionubicacion = "";
 		descripcionrecurso = "";
+		stock ="stock";
 		imagensala = "300.jpg";
 		te = 0;
 		idusr = 0;
@@ -2316,11 +2332,8 @@ public class EventosBean {
 		imagensala = "300.jpg";
 		idusr = 0;
 		esave = false;
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Actualización cancelada", null));
-		return "soleven";
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
+		return "soleven?faces-redirect=true";
 	}
 
 	public String irEvento1() {
@@ -2345,11 +2358,8 @@ public class EventosBean {
 		apellidousuario = "";
 		idusr = 0;
 		esave = false;
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Actualización cancelada", null));
-		return "eventos";
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
+		return "eventos?faces-redirect=true";
 	}
 
 	public String irEvento2() {
@@ -2357,11 +2367,12 @@ public class EventosBean {
 	}
 
 	// metodo para edicion de los eventos y solicitud
-	public String EditarEvento() {
-		String resp = "";
+	public void editarEvento() {
 		try {
-			if (estadoeven.equals("Activado")
-					|| estadoeven.equals("Desactivado")) {
+			asignarTipoeve();
+			asignarsala();
+			
+			if (estadoeven.equals("Activado")|| estadoeven.equals("Desactivado")) {
 				idEvento = null;
 				nombre = "";
 				descripcion = "";
@@ -2378,51 +2389,29 @@ public class EventosBean {
 				te = 0;
 				idusr = 0;
 				esave = false;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Activado/Desactivado no se puede modificar",
-								null));
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Activado/Desactivado no se puede modificar",null));
 			} else if (te.equals(-1) || te.equals(null) || te.equals(0)) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Debe seleccionar un tipo de evento", null));
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar un tipo de evento", null));
 			} else if (sala.equals(-1) || sala.equals(null) || sala.equals(0)) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Debe seleccionar una sala", null));
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar una sala", null));
 			} else if (fi.after(ff)) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_WARN,
-										"La fecha inicio debe ser menor que la fecha fin",
-										null));
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"La fecha inicio debe ser menor que la fecha fin",null));
 			} else if (estadoeven.equals("Pendiente")) {
 				fechaInicio = new Timestamp(fi.getTime());
 				fechaFin = new Timestamp(ff.getTime());
 
 				Solicicabecera evsolcab = modEv.getSolicicabecera();
 				// Si se modifica fechas y tiene solicitud
-				if ((fActualInicio.compareTo(fechaInicio) == -1 || fActualFin
-						.compareTo(fechaFin) == -1) && evsolcab != null) {
+				if ((fActualInicio.compareTo(fechaInicio) == -1 || fActualFin.compareTo(fechaFin) == -1) && evsolcab != null) {
 					// Validar si la solicitud no esta aprobada o negada
-					if (evsolcab.getSoliciestado().getIdSolest() != 3
-							|| evsolcab.getSoliciestado().getIdSolest() != 4) {
+					if (evsolcab.getSoliciestado().getIdSolest() != 3|| evsolcab.getSoliciestado().getIdSolest() != 4) {
 						// Cargar datos solicitud
 						idEvSol = evsolcab.getIdSolcab();
 						idusr = evsolcab.getIdusr();
 						direccion = evsolcab.getDireccion();
-						DateFormat dateFormat = new SimpleDateFormat(
-								"dd/MM/yyyy");
-						String fi1 = new String(dateFormat.format(fechaInicio)
-								.toString());
-						String ff1 = new String(dateFormat.format(fechaFin)
-								.toString());
+						DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+						String fi1 = new String(dateFormat.format(fechaInicio).toString());
+						String ff1 = new String(dateFormat.format(fechaFin).toString());
 						actividad = getNombre() + ", " + fi1 + " - " + ff1;
 						justificacion = evsolcab.getJustificacion();
 						objetivo = evsolcab.getObjetivo();
@@ -2433,22 +2422,12 @@ public class EventosBean {
 						mReserv.quitarSolDetBySolicitud(idEvSol);
 						// Eliminar tabla ayuda
 						mReserv.quitarRecursoActivoBySol(idEvSol);
-						// redirecciona
-						resp = "msol";
+						
 					} else {
-						FacesContext
-								.getCurrentInstance()
-								.addMessage(
-										null,
-										new FacesMessage(
-												FacesMessage.SEVERITY_WARN,
-												"No se puede modificar el evento",
-												null));
+						FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"No se puede modificar el evento",null));
 					}
 				} else {
-					mEvento.editarEventos(idEvento, nombre, descripcion,
-							imagen, fechaInicio, fechaFin, costo, cantidad,
-							interno);
+					mEvento.editarEventos(idEvento, nombre, descripcion,imagen, fechaInicio, fechaFin, costo, cantidad,interno);
 					// reiniciamos datos (limpiamos el formulario)
 					idEvento = 0;
 					nombre = "";
@@ -2472,19 +2451,14 @@ public class EventosBean {
 					esave = false;
 					sala = null;
 					g = "";
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage("Evento editado correctamente",
-									null));
+					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Evento editado correctamente", null));
 				}
 			}
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(
-					"Evento no pudo ser editado", null));
+			context.addMessage(null, new FacesMessage("Evento no pudo ser editado", null));
 			e.printStackTrace();
 		}
-		return resp;
 	}
 
 	public String adicionarDetalles() {
@@ -2893,6 +2867,7 @@ public class EventosBean {
 				costo = 0;
 				descripcionubicacion = "";
 				descripcionrecurso = "";
+				stock ="stock";
 				imagensala = "300.jpg";
 				cantidad = 0;
 				sc = 0;
@@ -2916,6 +2891,7 @@ public class EventosBean {
 				ff = null;
 				descripcionubicacion = "";
 				descripcionrecurso = "";
+				stock ="stock";
 				imagensala = "300.jpg";
 				fechaInicio = null;
 				fechaFin = null;
@@ -2948,6 +2924,7 @@ public class EventosBean {
 				fechaFin = null;
 				descripcionubicacion = "";
 				descripcionrecurso = "";
+				stock ="stock";
 				imagensala = "300.jpg";
 				costo = 0;
 				cantidad = 0;
@@ -2996,6 +2973,7 @@ public class EventosBean {
 				imagen = "300.jpg";
 				descripcionubicacion = "";
 				descripcionrecurso = "";
+				stock ="stock";
 				imagensala = "300.jpg";
 				fi = null;
 				ff = null;
@@ -3023,6 +3001,7 @@ public class EventosBean {
 				ff = null;
 				descripcionubicacion = "";
 				descripcionrecurso = "";
+				stock ="stock";
 				imagensala = "300.jpg";
 				fechaInicio = null;
 				fechaFin = null;
@@ -3082,6 +3061,7 @@ public class EventosBean {
 		costo = 0;
 		descripcionubicacion = "";
 		descripcionrecurso = "";
+		stock ="stock";
 		imagensala = "300.jpg";
 		cantidad = 0;
 		sc = 0;
@@ -3112,6 +3092,7 @@ public class EventosBean {
 		cantidad = 0;
 		descripcionubicacion = "";
 		descripcionrecurso = "";
+		stock ="stock";
 		imagensala = "300.jpg";
 		sc = 0;
 		listDetalles = new ArrayList<Solicidetalle>();
@@ -3136,6 +3117,7 @@ public class EventosBean {
 		imagen = "300.jpg";
 		descripcionubicacion = "";
 		descripcionrecurso = "";
+		stock ="stock";
 		imagensala = "300.jpg";
 		fi = null;
 		ff = null;
@@ -3160,6 +3142,7 @@ public class EventosBean {
 		select2 = new ArrayList<SelectItem>();
 		descripcionubicacion = "Descripción de la Ubicación";
 		descripcionrecurso = "Descripción de Recurso";
+		stock ="stock";
 		imagen = "300.jpg";
 		solicitudCabTem = null;
 		return r;
@@ -3170,6 +3153,7 @@ public class EventosBean {
 		try {
 			rec = mReserv.findSalaByID(sala);
 			descripcionubicacion = rec.getDescripcion();
+			
 			imagensala = rec.getImagen();
 			mostrar = true;
 		} catch (Exception e) {
@@ -3183,6 +3167,7 @@ public class EventosBean {
 		try {
 			rec = mReserv.findRecursoByID(id_recurso);
 			descripcionrecurso = rec.getDescripcion();
+			stock = "En stock: "+ rec.getCapacidad().toString();
 			imagen = rec.getImagen();
 			mostrar = true;
 		} catch (Exception e) {
@@ -3221,6 +3206,7 @@ public class EventosBean {
 		select = new ArrayList<SelectItem>();
 		select2 = new ArrayList<SelectItem>();
 		descripcionubicacion = "Descripción de la Ubicación";
+		stock ="stock";
 		imagen = "300.jpg";
 		solicitudCabTem = null;
 	}
@@ -3231,6 +3217,7 @@ public class EventosBean {
 		lugar = "";
 		imagen = "300.jpg";
 		descripcionubicacion = "";
+		stock ="stock";
 		imagensala = "300.jpg";
 		h_inicio = new Timestamp(new Date().getTime());
 		h_fin = new Timestamp(new Date().getTime());
@@ -3277,9 +3264,8 @@ public class EventosBean {
 	}
 
 	// metodo para asignar el TipoEvento al Evento
-	public String asignarsala() {
+	public void asignarsala() {
 		mEvento.asignarSala(sala);
-		return "";
 	}
 
 	// Agregar quitar detalle
@@ -3371,6 +3357,7 @@ public class EventosBean {
 		try {
 			mReserv.editarDetallesSolicitud(id_sol, list_mas, list_menos);
 			descripcionrecurso = "Descripción de Recurso";
+			stock ="stock";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";
@@ -3392,6 +3379,7 @@ public class EventosBean {
 		try {
 			mReserv.editarDetallesSolicitud(id_sol, list_mas, list_menos);
 			descripcionrecurso = "Descripción de Recurso";
+			stock ="stock";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";

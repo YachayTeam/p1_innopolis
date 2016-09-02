@@ -33,7 +33,6 @@
 	<h:form id="form3" >
 	<p:panel id="panel2"  style="border:none;">
 	<p:growl id="message1" showDetail="false" />
-	
 			<p:panelGrid id="pgrid11" columns="4">
 				<h:outputText value="Nombre &lt;br/&gt; solicitante a cargo: " size="10" escape="false"/>		
 				<p:inputText id="nombreusuario" disabled="true" value="#{solicitudBean.direccion}"  size="20">
@@ -53,7 +52,7 @@
 		</p:panel>
 		
 		<p:panel id="panel3"  style="border:none;">
-			<p:panelGrid id="pgrid" columns="5" styleClass="ui-responsive">				
+			<p:panelGrid id="pgrid"  columns="5">				
 			<h:outputText value="Fecha Inicio*:"/>
 			<p:calendar required="true" mindate="#{solicitudBean.date}" requiredMessage="Requerido Fecha Inicio"  id="fechai" value="#{solicitudBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true">
 			<p:ajax  event="dateSelect" listener="#{solicitudBean.todoslorecursos}" update=":form3:pgrid :form3:msn"></p:ajax>
@@ -66,7 +65,7 @@
 				<h:outputText value="Recurso Adicional:" />
 				<h:panelGroup id="listrec">  
 					<p:selectOneMenu  value="#{solicitudBean.id_recurso}">
-						<p:ajax listener="#{solicitudBean.mostrara()}" update="imagen descr"> </p:ajax>
+						<p:ajax listener="#{solicitudBean.mostrara()}" update="imagen descr stock"> </p:ajax>
 						<f:selectItem  itemLabel="Selección Recurso" itemValue="-1" />
 						<f:selectItems value="#{solicitudBean.select}"/>
 						<p:ajax
@@ -74,9 +73,9 @@
 						</p:ajax>
 					</p:selectOneMenu>
 				</h:panelGroup>
-				 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{solicitudBean.imagen}" width="150" height="150" />
+				 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{solicitudBean.imagen}" width="100" height="100" />
                  <h:outputText id="descr" value="#{solicitudBean.descripcionubicacion}" />
-   				<h:outputText value="" />
+                 <h:outputText id="stock" value="#{solicitudBean.stock}" />
 				<h:outputText value="Cantidad*: " />
 				<p:inputText value="#{solicitudBean.capacidad_recurso}" size="1" required="true" requiredMessage="Requerido Cantidad del Recurso" validatorMessage="Solo Numeros entre 1 y 1000">
 				<p:ajax	listener="#{solicitudBean.controlarcantidad()}" update=":form3:pgrid :form3:msn"></p:ajax>

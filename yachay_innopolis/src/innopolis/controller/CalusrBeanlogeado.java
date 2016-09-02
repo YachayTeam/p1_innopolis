@@ -58,7 +58,7 @@ public class CalusrBeanlogeado implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ManagerEvento manager;
 	private ManagerLogin managerlog;
-	
+
 	@EJB
 	private ManagerBuscar mb;
 
@@ -255,6 +255,9 @@ public class CalusrBeanlogeado implements Serializable {
 	private Integer idInscripcion;
 	private String apellido;
 	private String correo;
+	private String direccion;
+	private String telefono;
+	private String celular;
 	private Integer estado;
 	private Timestamp fechaInscripcion;
 	private Integer idUsuario;
@@ -275,7 +278,9 @@ public class CalusrBeanlogeado implements Serializable {
 			nombre = session.getNombre();
 			apellido = session.getApellido();
 			correo = session.getCorreo();
-
+			direccion = session.getDireccion();
+			telefono = session.getTelefono();
+			celular = session.getCelular();
 			manager = new ManagerEvento();
 			eventModel = new DefaultScheduleModel();
 			managerins = new ManagerInscripedit();
@@ -320,7 +325,8 @@ public class CalusrBeanlogeado implements Serializable {
 		String nombre = "";
 		try {
 			u = managerlog.findususarioByID(session.getIdUsr());
-			if (u.getIdUsr() == ev.getUsuario().getIdUsr() || u.getTipo().getIdTipo() == 4) {
+			if (u.getIdUsr() == ev.getUsuario().getIdUsr()
+					|| u.getTipo().getIdTipo() == 4) {
 				nombre = ev.getNombre();
 			} else if (ev.getInterno()) {
 				nombre = "Reunión Privada";
@@ -579,6 +585,30 @@ public class CalusrBeanlogeado implements Serializable {
 		return observacion;
 	}
 
+	public String getDireccion() {
+		return direccion;
+	}
+	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	
+	public String getTelefono() {
+		return telefono;
+	}
+	
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	
+	public String getCelular() {
+		return celular;
+	}
+	
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+	
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
@@ -664,7 +694,7 @@ public class CalusrBeanlogeado implements Serializable {
 				setFechaInscripcion(new Timestamp(fecha_hora.getTimeInMillis()));
 				// Ingreso
 				manager.insertarInscripcion(getEvento(), getFechaInscripcion(),
-						0, getNombre(), getApellido(), getCorreo(),
+						0, getNombre(), getApellido(), getCorreo(),getDireccion(),getTelefono(),getCelular(),
 						getImagenPago(), getObservacion());
 
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
@@ -675,18 +705,26 @@ public class CalusrBeanlogeado implements Serializable {
 						+ " "
 						+ getApellido()
 						+ ", envi&oacute; una solicitud de Inscripci&oacute;n para un Evento; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
-						+ "Los datos del usuario son:" + "<br/> Nombre: "
-						+ getNombre() + "" + "<br/> Apellido: " + getApellido()
-						+ "" + "<br/> Nombre del Evento: "
-						+ getEvento().getNombre() + ""
+						+ "Los datos del usuario son:"
+						+ "<br/> Nombre: "
+						+ getNombre()
+						+ ""
+						+ "<br/> Apellido: "+ getApellido()+ ""
+						+ "<br/> Direcci&oacute;n : "+ getDireccion()+ ""
+						+ "<br/> Tel&eacute;fono : "+ getTelefono()+ ""
+						+ "<br/> Cedula : "+ getCelular()+ ""
+						+ "<br/> Nombre del Evento: "
+						+ getEvento().getNombre()
+						+ ""
 						+ "<br/> Fecha de Inscripci&oacute;n: "
-						+ date.format(getFechaInscripcion()).toString() + ""
-						+ "<br/> Obervaci&oacute;n : " + getObservacion()+""
+						+ date.format(getFechaInscripcion()).toString()
+						+ ""
+						+ "<br/> Obervaci&oacute;n : "+ getObservacion()+ ""
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
 						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-				
-				smscorusu =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+
+				smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "Sr/ra.  "
 						+ getNombre()
@@ -694,12 +732,19 @@ public class CalusrBeanlogeado implements Serializable {
 						+ getApellido()
 						+ ", su petici&oacute;n de solicitud de Inscripci&oacute;n para un Evento del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&oacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 						+ "Sus datos de Inscripci&oacute;n son:"
-						+ "<br/> Nombre: " + getNombre() + ""
-						+ "<br/> Apellido: " + getApellido() + ""
-						+ "<br/> Nombre del Evento: " + getEvento().getNombre()
-						+ "" + "<br/> Fecha de Inscripci&oacute;n: "
-						+ date.format(getFechaInscripcion()).toString() + ""
-						+ "<br/> Obervaci&oacute;n : " + getObservacion()+""
+						+ "<br/> Nombre: "+ getNombre()+ ""
+						+ "<br/> Direcci&oacute;n: " + getDireccion()+ ""
+						+ "<br/> Tel&eacute;fono: " + getTelefono()+ ""
+						+ "<br/> Celular: " + getCelular()+ ""
+						+ "<br/> Nombre del Evento: "
+						+ getEvento().getNombre()
+						+ ""
+						+ "<br/> Fecha de Inscripci&oacute;n: "
+						+ date.format(getFechaInscripcion()).toString()
+						+ ""
+						+ "<br/> Obervaci&oacute;n : "
+						+ getObservacion()
+						+ ""
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
 						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
@@ -707,14 +752,15 @@ public class CalusrBeanlogeado implements Serializable {
 				getcorreosusu();
 				System.out.println(correosadmin);
 
-//				Mail.generateAndSendEmail(correosadmin,
-//						"Notificación de YACHAY/REGECE  ", smscoradmin);
-//				Mail.generateAndSendEmail(getCorreo(),
-//						"Notificación de YACHAY/REGECE  ", smscorusu);
-				
-				mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
-				mb.envioMailWS(getCorreo(), "Notificación de YACHAY/REGECE", smscorusu);
-				
+				// Mail.generateAndSendEmail(correosadmin,
+				// "Notificación de YACHAY/REGECE  ", smscoradmin);
+				// Mail.generateAndSendEmail(getCorreo(),
+				// "Notificación de YACHAY/REGECE  ", smscorusu);
+
+				mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE",
+						smscoradmin);
+				mb.envioMailWS(getCorreo(), "Notificación de YACHAY/REGECE",
+						smscorusu);
 
 				correosadmin = "";
 				smscoradmin = "";
@@ -764,6 +810,9 @@ public class CalusrBeanlogeado implements Serializable {
 		setNombre("");
 		setApellido("");
 		setCorreo("");
+		setDireccion("");
+		setTelefono("");
+		setCelular("");
 		setObservacion("");
 		setImagenPago("sin_pago.jpg");
 		return "index?faces-redirect=true";
@@ -780,8 +829,8 @@ public class CalusrBeanlogeado implements Serializable {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-//				String carpetaImagenes = (String) servletContext
-//						.getRealPath(File.separatorChar + "imgevent");
+				// String carpetaImagenes = (String) servletContext
+				// .getRealPath(File.separatorChar + "imgevent");
 				String carpetaImagenes = "/opt/wildfly/standalone/img/img_regece/imgevent/";
 				// AsignacionDeNombreImagen
 				DateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
@@ -946,9 +995,4 @@ public class CalusrBeanlogeado implements Serializable {
 		}
 		return l1;
 	}
-
-	// /////////////////////////////////////////////////////////////////INSCRIPCIONES
-	// USUARIO
-	// LOGEADO///////////////////////////////////////////////////////////////
-
 }

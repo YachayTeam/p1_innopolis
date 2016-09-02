@@ -33,13 +33,30 @@
 		<div class="ui-grid-col-4">
 			<p:panelGrid columns="2">
 				<h:outputText value="Nombres* : " />
-				<p:inputText required="true" value="#{calusrBean.nombre}" requiredMessage="Requerido Nombre"></p:inputText>
+				<p:inputText required="true" value="#{calusrBean.nombre}" requiredMessage="Requerido Nombre"
+				validatorMessage="Solo ingrese letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+				</p:inputText>
 				<h:outputText value="Apellidos* : "/>
-				<p:inputText required="true" value="#{calusrBean.apellido}" requiredMessage="Requerido Apellido"></p:inputText>
+				<p:inputText required="true" value="#{calusrBean.apellido}" requiredMessage="Requerido Apellido"
+				validatorMessage="Solo ingrese letras">
+				<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+				</p:inputText>
 				<h:outputText value="Correo* :" />
 				<p:inputText required="true" value="#{calusrBean.correo}" requiredMessage="Requerido Correo" validatorMessage="Formato de correo inv&aacute;lido">
 				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 				</p:inputText>
+				<h:outputText value="Dirección* : " />
+				<p:inputText required="true" value="#{calusrBean.direccion}" requiredMessage="Requerido Dirección"></p:inputText>
+				<h:outputText value="Teléfono* : " />
+				<p:inputText required="true" value="#{calusrBean.telefono}" requiredMessage="Requerido Teléfono" maxlength="10" validatorMessage="Campo teléfono debe ingresar solo n&uacute;meros.">
+				<f:validateRegex pattern="[0-9]+" />
+				</p:inputText>
+				<h:outputText value="Celular : " />
+				<p:inputText required="true" value="#{calusrBean.celular}" requiredMessage="Requerido Celular" maxlength="10" validatorMessage="Campo celular debe ingresar solo n&uacute;meros.">
+				<f:validateRegex pattern="[0-9]+" />
+				</p:inputText>
+				
 				<h:outputText value="Comprobante de Pago: "/>
 				<p:fileUpload id="tracksubir" required="true" mode="advanced" dragDropSupport="false" update=":form:message :form:imagen" 
 					sizeLimit="3145728" fileLimit="1" allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"

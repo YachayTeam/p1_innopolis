@@ -43,6 +43,9 @@ public class UsuariosBean implements Serializable {
 	private String apellido;
 	private String cedula;
 	private String correo;
+	private String direccion;
+	private String telefono;
+	private String celular;
 	private String interes;
 	private String nombre;
 	private String password;
@@ -221,6 +224,30 @@ public class UsuariosBean implements Serializable {
 
 	public void setCorreo(String correo) {
 		this.correo = correo;
+	}
+	
+	public String getDireccion() {
+		return direccion;
+	}
+	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	
+	public String getTelefono() {
+		return telefono;
+	}
+	
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	
+	public String getCelular() {
+		return celular;
+	}
+	
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 
 	public String getInteres() {
@@ -617,12 +644,15 @@ public class UsuariosBean implements Serializable {
 			//{
 			interes="Ninguno";
 			setPassword(Utilidades.Encriptar(getPassword()));//PASS
-			manager.insertarusuarios(cedula, alias, apellido, correo, nombre, password,empreestu,cargptitu,arrayTipoLogin);
+			manager.insertarusuarios(cedula.trim(), alias.trim(), apellido.trim(), correo.trim(), direccion.trim(), telefono.trim(), celular.trim(), nombre.trim(), password.trim(),empreestu,cargptitu,arrayTipoLogin);
 			cedula="";
 			alias="";
 			nombre="";
 			apellido="";
 			correo="";
+			direccion="";
+			telefono="";
+			celular="";
 			rcorreo="";
 			password="";
 			rpassword="";
@@ -710,6 +740,9 @@ public class UsuariosBean implements Serializable {
 			nombre = u.getNombre();
 			apellido = u.getApellido();
 			correo = u.getCorreo();
+			direccion=u.getDireccion();
+			telefono = u.getTelefono();
+			celular = u.getCelular();
 			password= Utilidades.Desencriptar(u.getPassword());
 			alias = u.getAlias();
 			cedula = u.getCedula();
@@ -733,12 +766,15 @@ public class UsuariosBean implements Serializable {
 	public String actualizarUsuario(){
 			   try {
 						manager.cambio(idUsuario, principal);
-						manager.editarusuario(idUsuario, cedula, nombre, Utilidades.Encriptar(password), apellido, alias, correo, interes,empreestu,cargptitu,principal,tipo);
+						manager.editarusuario(idUsuario, cedula.trim() , nombre.trim(), Utilidades.Encriptar(password), apellido.trim(), alias.trim(), correo.trim(),direccion.trim(),telefono.trim(),celular.trim(), interes,empreestu,cargptitu,principal,tipo);
 						cedula="";
 						alias="";
 						nombre="";
 						apellido="";
 						correo="";
+						direccion="";
+						telefono="";
+						celular="";
 						password="";
 						interes="";
 						tipo=0;
@@ -764,6 +800,9 @@ public class UsuariosBean implements Serializable {
 			nombre="";
 			apellido="";
 			correo="";
+			direccion="";
+			telefono="";
+			celular="";
 			rcorreo="";
 			password="";
 			rpassword="";
@@ -791,6 +830,9 @@ public class UsuariosBean implements Serializable {
 				nombre="";
 				apellido="";
 				correo="";
+				direccion="";
+				telefono="";
+				celular="";
 				rcorreo="";
 				password="";
 				rpassword="";
@@ -855,6 +897,9 @@ public class UsuariosBean implements Serializable {
 					nombre = usr.getNombre();
 					apellido = usr.getApellido();
 					correo = usr.getCorreo();
+					direccion=usr.getDireccion();
+					telefono=usr.getTelefono();
+					celular=usr.getCelular();
 					alias = usr.getAlias();
 					sms = usr.getSms();
 					password = usr.getPassword();	
@@ -870,7 +915,10 @@ public class UsuariosBean implements Serializable {
 					             + "<br/> C&eacute;dula:"+cedula+""
 					             + "<br/> Nombre:"+nombre+""
 					             + "<br/> Apellido:"+apellido+""
-					             + "<br/> Correo:"+correo+""					         
+					             + "<br/> Correo:"+correo+""	
+					             + "<br/> Dirección:"+direccion+""
+					             + "<br/> Teléfono:"+telefono+""
+					             + "<br/> Celular:"+celular+""
 								 + "<br/> fue "+tipoest+";<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es:"
 								 + "<br/> Saludos cordiales, "
 								 + "<br/> Sistema de REGECE Yachay EP"
@@ -914,6 +962,9 @@ public class UsuariosBean implements Serializable {
 	  					nombre="";
 	  					apellido="";
 	  					correo="";
+	  					direccion="";
+	  					telefono="";
+	  					celular="";
 	  					rcorreo="";
 	  					password="";
 	  					rpassword="";
@@ -937,6 +988,9 @@ public class UsuariosBean implements Serializable {
 	  					nombre="";
 	  					apellido="";
 	  					correo="";
+	  					direccion="";
+	  					telefono="";
+	  					celular="";
 	  					rcorreo="";
 	  					password="";
 	  					rpassword="";
@@ -1023,6 +1077,9 @@ public class UsuariosBean implements Serializable {
 			             + "<br/> Nombre: "+usr.getNombre()+""
 			             + "<br/> Apellido: "+usr.getApellido()+""
 			             + "<br/> Correo: "+usr.getCorreo()+""
+			             + "<br/> Dirección: "+usr.getDireccion()+""
+			             + "<br/> Teléfono: "+usr.getTelefono()+""
+			             + "<br/> Celular: "+usr.getCelular()+""
 			             + "<br/> Fecha: "+date.format(sugerenciafecha).toString()+""
 			             + "<br/> Sugerencia: "+sugerenciatext
 			             + "<br/> Saludos cordiales, "
@@ -1069,6 +1126,8 @@ public class UsuariosBean implements Serializable {
 				apellido = suge.getUsuario().getApellido();
 				smssuge = suge.getSms();
 				correo = suge.getUsuario().getCorreo();
+				telefono = suge.getUsuario().getTelefono();
+				celular = suge.getUsuario().getCelular();
 				cedula = suge.getUsuario().getCedula();
 				sugerenciafecha= suge.getFecha();
 				DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");	
@@ -1083,12 +1142,13 @@ public class UsuariosBean implements Serializable {
 						             + "<br/> Nombre:"+nombre+""
 						             + "<br/> Apellido:"+apellido+""
 						             + "<br/> Correo:"+correo+""	
+						             + "<br/> Teléfono:"+telefono+""
+						             + "<br/> Celular:"+celular+""
 						             + "<br/> En la fecha:"+sugerenciafecha+""	
 									 + "<br/> fue revisada por los administradores, agradecemos de antemano su sugerencia."
 									 + "<br/> Saludos cordiales, "
 								  	 + "<br/> Sistema de REGECE Yachay EP"
 						             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-							
 						} catch (Exception e) {
 							
 							e.printStackTrace();
@@ -1112,6 +1172,9 @@ public class UsuariosBean implements Serializable {
 	  					nombre="";
 	  					apellido="";
 	  					correo="";
+	  					direccion="";
+	  					telefono="";
+	  					celular="";
 	  					rcorreo="";
 	  					password="";
 	  					rpassword="";
@@ -1142,6 +1205,9 @@ public class UsuariosBean implements Serializable {
 				apellido = "";
 				smssuge="";
 				correo = "";
+				direccion="";
+				telefono="";
+				celular="";
 				smscor="";
 				cedula = "";
 				sugerenciafecha=null;

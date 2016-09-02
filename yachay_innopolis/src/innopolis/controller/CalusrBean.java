@@ -196,6 +196,9 @@ public class CalusrBean implements Serializable {
 	private Integer idInscripcion;
 	private String apellido;
 	private String correo;
+	private String direccion;
+	private String telefono;
+	private String celular;
 	private Integer estado;
 	private Timestamp fechaInscripcion;
 	private Integer idUsuario;
@@ -452,15 +455,7 @@ public class CalusrBean implements Serializable {
 											if (rec.getRecursotipo().equals(
 													rectipo.getIdRectipo())) {
 												((DefaultScheduleEvent) event)
-														.setStyleClass(rectipo
-																.getColorrec()
-																.getColor());// dependiendo
-																				// del
-																				// to
-																				// cambio
-																				// de
-																				// style,
-																				// algo1,algo2
+														.setStyleClass(rectipo.getColorrec().getColor());// dependiendodel to cambiodestyle,algo1,algo2
 												eventModel.addEvent(event);
 											}
 										}
@@ -532,6 +527,30 @@ public class CalusrBean implements Serializable {
 
 	public void setCorreo(String correo) {
 		this.correo = correo;
+	}
+	
+	public String getDireccion() {
+		return direccion;
+	}
+	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	
+	public String getTelefono() {
+		return telefono;
+	}
+	
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	
+	public String getCelular() {
+		return celular;
+	}
+	
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 
 	public Integer getEstado() {
@@ -666,12 +685,7 @@ public class CalusrBean implements Serializable {
 				&& getImagenPago().equals("sin_pago.jpg")) {
 			FacesContext
 					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_WARN,
-									"El evento posee pago y necesita imagen del comprobante",
-									null));
+					.addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El evento posee pago y necesita imagen del comprobante",null));
 		} else {
 			try {
 				// FECHA Y HORA ACTUAL
@@ -679,8 +693,8 @@ public class CalusrBean implements Serializable {
 				setFechaInscripcion(new Timestamp(fecha_hora.getTimeInMillis()));
 				// Ingreso
 				manager.insertarInscripcion(getEvento(), getFechaInscripcion(),
-						0, getNombre(), getApellido(), getCorreo(),
-						getImagenPago(), getObservacion());
+						0, getNombre().trim(), getApellido().trim(), getCorreo().trim(),getDireccion().trim(),getTelefono().trim(),getCelular().trim(),
+						getImagenPago(), getObservacion().trim());
 
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 				smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
@@ -690,12 +704,14 @@ public class CalusrBean implements Serializable {
 						+ " "
 						+ getApellido()
 						+ ", envi&oacute; una solicitud de Inscripci&oacute;n para un Evento; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
-						+ "Los datos del usuario son:" + "<br/> Nombre: "
-						+ getNombre() + "" + "<br/> Apellido: " + getApellido()
-						+ "" + "<br/> Nombre del Evento: "
-						+ getEvento().getNombre() + ""
-						+ "<br/> Fecha de Inscripci&oacute;n: "
-						+ date.format(getFechaInscripcion()).toString() + ""
+						+ "Los datos del usuario son:" 
+						+ "<br/> Nombre: "+getNombre() + "" 
+						+ "<br/> Apellido: " + getApellido()+ ""
+						+ "<br/> Dirección: " + getDireccion()+ ""
+						+ "<br/> Teléfono: " + getTelefono()+ ""
+						+ "<br/> Celular: " + getCelular()+ ""
+						+ "<br/> Nombre del Evento: "+ getEvento().getNombre() + ""
+						+ "<br/> Fecha de Inscripci&oacute;n: "+ date.format(getFechaInscripcion()).toString() + ""
 						+ "<br/> Obervaci&oacute;n : " + getObservacion()+ ""
 						+ "<br/> Saludos cordiales, "
 				  	    + "<br/> Sistema de REGECE Yachay EP"
@@ -711,6 +727,9 @@ public class CalusrBean implements Serializable {
 						+ "Sus datos de Inscripci&oacute;n son:"
 						+ "<br/> Nombre: " + getNombre() + ""
 						+ "<br/> Apellido: " + getApellido() + ""
+						+ "<br/> Dirección: " + getDireccion()+ ""
+						+ "<br/> Teléfono: " + getTelefono()+ ""
+						+ "<br/> Celular: " + getCelular()+ ""
 						+ "<br/> Nombre del Evento: " + getEvento().getNombre()
 						+ "" + "<br/> Fecha de Inscripci&oacute;n: "
 						+ date.format(getFechaInscripcion()).toString() + ""
@@ -787,6 +806,9 @@ public class CalusrBean implements Serializable {
 		setNombre("");
 		setApellido("");
 		setCorreo("");
+		setDireccion("");
+		setTelefono("");
+		setCelular("");
 		setObservacion("");
 		setImagenPago("sin_pago.jpg");
 		return "index?faces-redirect=true";

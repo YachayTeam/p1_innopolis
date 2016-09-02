@@ -30,7 +30,6 @@
 <h:form id="form1">
 	<p:growl id="message1" showDetail="false" />
 	<p:panel id="panel1"  header="Registro de Eventos">
-	<p:messages id="msn"></p:messages>
 	 <div class="ui-grid ui-grid-responsive">
 	  <div class="ui-grid-row">
 	  <div class="ui-grid-col-2">
@@ -64,11 +63,11 @@
 			<h:outputText value=""/>
 			<h:outputText value="Fecha Inicio*:"/>
 			<p:calendar required="true" mindate="#{eventosBean.date}" requiredMessage="Requerido Fecha Inicio"  id="fechai" value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true" >
-				<p:ajax  event="dateSelect" listener="#{eventosBean.todaslasalas}" update=":form1 :form1:msn"></p:ajax>
+				<p:ajax  event="dateSelect" listener="#{eventosBean.todaslasalas}" update=":form1"></p:ajax>
 			</p:calendar>
 			<h:outputText value="Fecha Fin*:"/>
 			<p:calendar required="true" mindate="#{eventosBean.date}" requiredMessage="Requerido Fecha Fin"  id="fechaf" value="#{eventosBean.ff}" pattern="yyyy/MM/dd HH:mm" mask="true">
-				<p:ajax  event="dateSelect" listener="#{eventosBean.todaslasalas}" update=":form1 :form1:msn"></p:ajax>
+				<p:ajax  event="dateSelect" listener="#{eventosBean.todaslasalas}" update=":form1"></p:ajax>
 			</p:calendar>
 			<h:outputText value=""/>
 			<h:outputText value="Costo:"/>
@@ -206,7 +205,7 @@
 							
 		<br/>  	    
 		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="false"  header="Información Eventos" showEffect="clip" hideEffect="clip">
-		<p:panelGrid  columns="2" >
+		<p:panelGrid  columns="4" >
 		<h:outputText value="Usuario Solicitante:"/>
 		<h:outputText value="#{eventosBean.nombreusuario} #{eventosBean.apellidousuario}"/>
 		<h:outputText value="Nombre del Evento:"/>
@@ -253,7 +252,7 @@
     		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"   uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/> 
    			 <h:outputText value="Vista Previa:"/>   			 
    			 <p:graphicImage id="imagen1" value="/resources/img/imgevent/#{eventosBean.imagen}" width="150" height="150" />					
-   			<p:commandButton id="trackeditarev"  style="width:100%"  icon="ui-icon-pencil" value="Editar Evento" action="#{eventosBean.EditarEvento}" update=":form2:panel2 :form2:message2">
+   			<p:commandButton id="trackeditarev"  style="width:100%"  icon="ui-icon-pencil" value="Editar Evento" action="#{eventosBean.editarEvento}" update=":form2:panel2 :form2:message2">
    				<p:ajax listener="#{eventosBean.asignarTipoeve()}"></p:ajax>
    				<p:ajax listener="#{eventosBean.asignarsala()}"></p:ajax>
    			<p:tooltip id="toolTipTrack5" for="trackeditarev" value="Bot&oacute;n para Editar Evento" trackMouse="true" />

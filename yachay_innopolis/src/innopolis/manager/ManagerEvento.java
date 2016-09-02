@@ -315,10 +315,12 @@ public class ManagerEvento {
 		return (Inscripcione) mDAO.findById(Inscripcione.class, id_inscrip);
 	}
 	
-	public void insertarInscripcion(Evento eventoInscripcion, Timestamp fechaInscripcion, Integer idUsuario, String nombre, String apellido, String correo, String imagenPago, String observacion) throws Exception{
+	public void insertarInscripcion(Evento eventoInscripcion, Timestamp fechaInscripcion, Integer idUsuario, String nombre, String apellido, String correo,String direccion
+			,String telefono,String celular, String imagenPago, String observacion) throws Exception{
 		Inscripcione ins = new Inscripcione();
 		ins.setFechaInscripcion(fechaInscripcion);
 		ins.setIdUsuario(idUsuario);ins.setNombre(nombre);ins.setApellido(apellido);ins.setCorreo(correo);
+		ins.setDireccion(direccion);ins.setTelefono(telefono);ins.setCelular(celular);
 		ins.setEvento(eventoInscripcion);ins.setEstado("sin aprobar");ins.setSms("sin notificar");
 		ins.setImagenPago(imagenPago);ins.setObservacion(observacion);
 		mDAO.insertar(ins);

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="styleser.css" />
+	<link rel="shortcut icon" type="image/x-icon"
+		href="../resources/img/favicon.ico" />
+
+	<title>Perfil de Usuario</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:menubar>
+			<f:facet name="options">
+				<p:commandButton type="button" value="#{sessionBean.nom}"
+					disabled="true" icon="ui-icon-person" />
+				<p:commandButton id="tracksalir" value="Volver" action="/home.xhtml"
+					icon="ui-icon-home">
+				</p:commandButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<hr />
+		<h:form id="form3">
+			<p:growl id="message3" showDetail="false" />
+			<p:panel id="panel3" header="Perfil de Usuarios" style="margin-left: 50px;margin-right: 50px;">
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="C&eacute;dula/Pasaporte/RUC*: " style="padding:10px;"/>
+					</b:column>
+					<b:column span="2">
+						<p:inputText id="cedula" disabled="true"
+							value="#{sessionBean.cedula}">
+						</p:inputText>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Nombres*: " style="padding:10px;"/>
+					</b:column>
+					<b:column span="2">
+						<p:inputText required="true" id="nombres"
+							value="#{sessionBean.nombre}" requiredMessage="Requerido Nombres"
+							validatorMessage="El Nombre debe contener solo letras">
+							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+						</p:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Apellidos*: " style="padding:10px;"/>
+					</b:column>
+					<b:column span="2">
+						<p:inputText required="true" id="apellidos"
+							value="#{sessionBean.apellido}"
+							requiredMessage="Requerido Apellidos"
+							validatorMessage="El Apellido debe contener solo letras">
+							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+						</p:inputText>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Correo*: " style="padding:10px;"/>
+					</b:column>
+					<b:column span="2">
+						<p:inputText required="true" id="correo"
+							validatorMessage="Formato de correo invalido"
+							value="#{sessionBean.correo}"
+							requiredMessage="Por favor Ingrese su Correo.">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Teléfono* : " for="telef"
+							style="padding:10px;" />
+					</b:column>
+					<b:column span="2">
+						<p:inputText id="telef" required="true" 
+							value="#{sessionBean.telefono}"
+							requiredMessage="Requerido Teléfono" maxlength="10"
+							validatorMessage="Campo teléfono debe ingresar solo n&uacute;meros.">
+							<f:validateRegex pattern="[0-9]+" />
+						</p:inputText>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Celular : " for="celu" style="padding:10px;" />
+					</b:column>
+					<b:column span="2">
+						<p:inputText id="celu" required="true"
+							value="#{sessionBean.celular}"
+							requiredMessage="Requerido Celular" maxlength="10"
+							validatorMessage="Campo celular debe ingresar solo n&uacute;meros.">
+							<f:validateRegex pattern="[0-9]+" />
+						</p:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+				<h:outputLabel value="Contraseña*: " />
+				</b:column>
+					<b:column span="2">
+				<p:password required="true" id="pass" redisplay="true"
+					value="#{sessionBean.password}" feedback="true"
+					requiredMessage="Requerido Contraseña" goodLabel="Buena"
+					strongLabel="Fuerte" weakLabel="Débil"
+					promptLabel="Por favor ingrese contraseña"
+					validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+					<f:validateRegex pattern="[a-zA-Z0-9.]+" />
+					<f:validateLength minimum="7" />
+				</p:password>
+				</b:column>
+				<b:column span="2">
+				<h:outputLabel value="¿Qué actividad realizas?" size="10" 
+					escape="false" />
+				</b:column>
+				<b:column span="2">
+				<p:selectOneRadio value="#{sessionBean.panel1}">
+					<f:selectItem itemLabel="&nbsp; Trabajas" itemValue="Show-Panel1" />
+					<f:selectItem itemLabel="&nbsp; Estudias" itemValue="Show-Panel2" />
+					<f:ajax render="payment-amount-panel" />
+				</p:selectOneRadio>
+				</b:column>
+				</b:row>
+				<b:row>
+				<b:column span="3"></b:column>
+				<b:column span="7">
+				<p:panelGrid style="border:0px;margin:0 auto;width:400px;"
+					id="payment-amount-panel" columns="2">
+					<p:fieldset rendered="#{sessionBean.panel1 == 'Show-Panel1'}">
+						<p:inputText required="true" id="empresa"
+							requiredMessage="Por favor ingrese su empresa"
+							validatorMessage="Formato inv&aacute;lido"
+							value="#{sessionBean.empreestu}">
+							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+						</p:inputText>
+						<label id="text" style="visibility: visible;" for="chkBox">
+							Ingrese la Empresa</label>
+						<p:inputText required="true" id="titul"
+							requiredMessage="Por favor ingrese su cargo"
+							validatorMessage="Formato inv&aacute;lido"
+							value="#{sessionBean.cargptitu}">
+							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+						</p:inputText>
+						<label id="text1" style="visibility: visible;" for="chkBox">
+							Cargo que desempeña</label>
+						<h:outputText value="" />
+					</p:fieldset>
+					<p:fieldset rendered="#{sessionBean.panel1 == 'Show-Panel2'}">
+						<p:inputText required="true" id="empresa1"
+							requiredMessage="Por favor ingrese su institución."
+							validatorMessage="Formato inv&aacute;lido"
+							value="#{sessionBean.empreestu}">
+							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+						</p:inputText>
+						<label id="text" style="visibility: visible;" for="chkBox">
+							Nombre de la Institución</label>
+						<p:inputText required="true" id="titul1"
+							requiredMessage="Por favor ingrese su título."
+							validatorMessage="Formato inv&aacute;lido"
+							value="#{sessionBean.cargptitu}">
+							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+						</p:inputText>
+						<label id="text1" style="visibility: visible;" for="chkBox">
+							Ingrese su Título</label>
+						<h:outputText value="" />
+					</p:fieldset>
+				</p:panelGrid>
+					</b:column>
+				</b:row>
+				<b:row>
+				 <b:column span="2">
+				<h:outputLabel value="Interés: " />
+				</b:column>
+				 <b:column span="2">
+<!--         		<p:selectManyCheckbox required="true" id="menu1" -->
+<!-- 						value="#{sessionBean.arrayTipoLogin}" layout="grid" columns="3" -->
+<!-- 						style="font-weight: normal;"> -->
+<!-- 						<f:selectItems value="#{sessionBean.listaIntereses}" -->
+<!-- 							itemValue="#{sessionBean.intereses.idInteres}" var="intereses" -->
+<!-- 							style="font-weight: normal;" -->
+<!-- 							itemLabel="#{sessionBean.intereses.nombreInt}" /> -->
+<!-- 					</p:selectManyCheckbox> -->
+					
+				<p:dataList value="#{sessionBean.interesedicion()}" var="interes"
+					emptyMessage="Ningun permiso registrado">
+            					#{interes}
+        			</p:dataList>	
+        			
+        		</b:column>
+        		</b:row>
+        		<br/>
+        		<b:row>
+        		<b:column span="2"></b:column>
+ 				<b:column span="3">
+				<p:commandButton value="Actualizar" onclick="PF('cd').show()"></p:commandButton>
+ 				
+ 				<p:confirmDialog header="Confirmar Actualización"
+				message="Está seguro de que los datos son v&aacute;lidos"
+				showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" onclick="PF('dlgLoad').show();"
+					oncomplete="PF('dlgLoad').hide();"
+					action="#{sessionBean.actualizarUsuario}"
+					widgetVar="startButton1" update="form3 :form3:message3">
+				</p:commandButton>
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('cd').hide()"></p:commandButton>
+			</p:confirmDialog>
+			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:form>
+					<p:graphicImage value="/resources/img/loader.gif" />
+				</h:form>
+			</p:dialog>
+				</b:column>
+				</b:row>
+			</p:panel>
+		</h:form>
+</h:body>
+</html>

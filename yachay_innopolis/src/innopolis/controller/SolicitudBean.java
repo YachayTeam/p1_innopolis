@@ -88,6 +88,7 @@ public class SolicitudBean {
 	//sacar la descripcion del tipo de ubicacion
 	private boolean mostrar;
 	private String descripcionubicacion;
+	private String stock;
 	private String imagen;
 	
 	private boolean agregardetalle;
@@ -107,6 +108,7 @@ public class SolicitudBean {
 		objetivo="";
 		capacidad_recurso=1;
 		descripcionubicacion="Descripción del Recurso";
+		stock = "stock";
 		imagen="300.jpg";
 	}
 	
@@ -434,6 +436,15 @@ public class SolicitudBean {
 	public void setDescripcionubicacion(String descripcionubicacion) {
 		this.descripcionubicacion = descripcionubicacion;
 	}
+	
+	public String getStock() {
+		return stock;
+	}
+	
+	public void setStock(String stock) {
+		this.stock = stock;
+	}
+	
 	/**
 	 * @return the imagen
 	 */
@@ -622,6 +633,7 @@ public class SolicitudBean {
 			smscoradmin="";
 			smscorusu="";
 			descripcionubicacion="Descripción de la Ubicación";
+			stock ="stock";
 			imagen="300.jpg";
 			fi=null;
 			ff=null;
@@ -697,7 +709,7 @@ public class SolicitudBean {
 			List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin,horainicio,horafin);
 			for(Recurso p:listadoRecurso){
 				int contador= manager.findContadorRecurso(h_inicio,h_fin, p.getIdRecurso());
-				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+Integer.toString(contador));
+				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre());//+" - "+Integer.toString(contador));
 				listadoSI.add(item);
 			}
 			return listadoSI;
@@ -790,6 +802,7 @@ public class SolicitudBean {
 		fi=null;
 		ff=null;
 		descripcionubicacion="Descripción de la Ubicación";
+		stock= "stock";
 		imagen="300.jpg";
 		select = new ArrayList<SelectItem>();
 		select2 = new ArrayList<SelectItem>();
@@ -846,6 +859,7 @@ public class SolicitudBean {
 			rec = manager.findRecursoByID(id_recurso);
 			descripcionubicacion = rec.getDescripcion();
 			imagen=rec.getImagen();
+			stock = "En stock: "+ rec.getCapacidad().toString();
 			mostrar=true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

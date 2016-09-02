@@ -25,6 +25,12 @@ public class Inscripcione implements Serializable {
 	private String apellido;
 
 	private String correo;
+	
+	private String direccion;
+	
+	private String telefono;
+	
+	private String celular;
 
 	private String estado;
 
@@ -133,6 +139,30 @@ public class Inscripcione implements Serializable {
 
 	public void setSms(String sms) {
 		this.sms = sms;
+	}
+	
+	public String getDireccion() {
+		return direccion;
+	}
+	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	
+	public String getTelefono() {
+		return telefono;
+	}
+	
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	
+	public String getCelular() {
+		return celular;
+	}
+	
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 
 	public Evento getEvento() {

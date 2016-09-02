@@ -135,5 +135,5 @@ INSERT INTO inter VALUES (default, 1, 11);
 /*INSERT INTO inter VALUES (default, 1, 12);
 INSERT INTO inter VALUES (default, 1, 13);*/
 
-INSERT INTO usuario  VALUES (1, 2, 1,'root' , 'root', 'root', 'root@correo.com', 'root' , 'Juz2xAZXhrH/1qLbW91EXA==' , 'Ninguno', 'Notificado','false','yachay','funcionario');/*admin.12345*/
+INSERT INTO usuario  VALUES (1, 2, 1,'root' , 'root', 'root', 'root@correo.com', 'root' , 'Juz2xAZXhrH/1qLbW91EXA==' ,'062547123','0939407204','26', 'Ninguno', 'Notificado','false','yachay','funcionario');/*admin.12345*/
 update contadores set valor=2 where id_contador=2;
