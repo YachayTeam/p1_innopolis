@@ -93,6 +93,8 @@ public class SolicitudBean {
 	
 	private boolean agregardetalle;
 	
+	int contador=0;
+	
 	public SolicitudBean() {
 		session = SessionBean.verificarSession();
 		manager = new ManagerReservas();
@@ -106,7 +108,8 @@ public class SolicitudBean {
 		agregardetalle = true;
 		actividad="";
 		objetivo="";
-		capacidad_recurso=1;
+		contador=0;
+		capacidad_recurso=null;
 		descripcionubicacion="Descripción del Recurso";
 		stock = "stock";
 		imagen="300.jpg";
@@ -471,7 +474,7 @@ public class SolicitudBean {
 			//SolicitudTemporal
 			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), new Date(), getSession().getIdUsr()); 
 			id_recurso=-1; 
-			capacidad_recurso=1;
+			capacidad_recurso=null;
 			solicitudCabTmpGuardada=false;
 			notificacion ="";
 			resp="";
@@ -491,16 +494,21 @@ public class SolicitudBean {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha inicio debe ser menor que la fecha fin", null));
 			}
 			try{//insertar
-			manager.agregarSolicitudDetalleTmp(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio);
-			agregardetalle=true;
-			id_recurso=-1;
-		    capacidad_recurso=1;
+				controlarcantidad();
+				if(agregardetalle == true)
+				{
+					manager.agregarSolicitudDetalleTmp(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio);
+					id_recurso=-1;
+					agregardetalle=false;
+					capacidad_recurso=null;
+				}
 			} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-			agregardetalle=true;
+			agregardetalle=false;
 			id_recurso=-1; 
-		    capacidad_recurso=1;
-		}				
+			capacidad_recurso=null;
+		}
+			
 		return "";
 	}
 	
@@ -508,15 +516,25 @@ public class SolicitudBean {
 	public void controlarcantidad()
 	{
 		try {
-			if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==true)
+			if(id_recurso == -1)
 			{
-				agregardetalle=true;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La cantidad es mayor a la del recurso solicitado", null));
-			}
-			else if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==false)
-			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Debe seleccionar el recurso a solicitar", null));
 				agregardetalle=false;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aun hay una cantidad del articulo libre", null));
+			}
+			else{
+				if(capacidad_recurso==null){
+					capacidad_recurso=-1;
+				}
+				if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==true)
+				{
+					agregardetalle=true;
+				}
+				else if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==false)
+				{
+					agregardetalle=false;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error debe especificar el recurso o "
+							+ "La cantidad es mayor a la del recurso solicitado", null));
+				}
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
@@ -541,7 +559,7 @@ public class SolicitudBean {
 			}
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Los recursos se añadieron", null));			
 			id_recurso=-1; 
-			capacidad_recurso=1;
+			capacidad_recurso=null;
 			//LIMPIAR LISTADO
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
@@ -549,7 +567,7 @@ public class SolicitudBean {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
 			//LIMPIAR LISTADO
 			id_recurso=-1; 
-			capacidad_recurso=1;
+			capacidad_recurso=null;
 			//LIMPIAR LISTADO
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
@@ -694,8 +712,8 @@ public class SolicitudBean {
 				}else if(h_fin.getTime()<=h_inicio.getTime()){
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud", null));
 				}//else if((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion.horaMayorIgual(getHorafin()))){
-				//	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La hora de solicitud no debe ser menor a la actual.", null));
-			//	}
+//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La hora de solicitud no debe ser menor a la actual.", null));
+//				}
 				else{
 					select = this.getlistaRecursosLibres();
 					//select2 = this.getlistaTipoRecursosLibres();
@@ -708,8 +726,7 @@ public class SolicitudBean {
 			List<SelectItem> listadoSI=new ArrayList<SelectItem>();
 			List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin,horainicio,horafin);
 			for(Recurso p:listadoRecurso){
-				int contador= manager.findContadorRecurso(h_inicio,h_fin, p.getIdRecurso());
-				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre());//+" - "+Integer.toString(contador));
+				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre());
 				listadoSI.add(item);
 			}
 			return listadoSI;
@@ -852,6 +869,7 @@ public class SolicitudBean {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud", null));
 		}
 		}
+	
 	public void mostrara()
 	{
 		Recurso rec;
@@ -859,7 +877,8 @@ public class SolicitudBean {
 			rec = manager.findRecursoByID(id_recurso);
 			descripcionubicacion = rec.getDescripcion();
 			imagen=rec.getImagen();
-			stock = "En stock: "+ rec.getCapacidad().toString();
+			contador= manager.findContadorRecurso(h_inicio,h_fin, rec.getIdRecurso());
+			stock = "En stock: "+ contador;
 			mostrar=true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

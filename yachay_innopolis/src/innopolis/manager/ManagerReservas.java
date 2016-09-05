@@ -219,10 +219,6 @@ private ManagerDAO mDAO;
 		//Validaciones de proceso
 		if(soliTemp == null)
 			throw new Exception("Error primero debe crear y guardar una solicitud en el formulario de datos.");
-		if(id_recurso==null||id_recurso== -1)
-			throw new Exception("Error debe especificar el recurso.");
-		if(cantidad==null||cantidad.intValue()<=0)
-			throw new Exception("Error debe especificar la cantidad del recurso.");
 		//Busqueda Recurso Libre--- Cargar en el list recursos libres por fecha y Hora
 		if(esRecursoAnadido(id_recurso,soliTemp, horaInicio, horaFin))
 			throw new Exception("El recurso ya se encuentra agregado dentro del horario");
@@ -245,12 +241,12 @@ private ManagerDAO mDAO;
 		r = this.findRecursoByID(id_recurso);
 		//Validaciones de proceso
 		int cantidadrecurso = this.valorrestarectrusoactivo(r.getIdRecurso(),horaInicio,horaFin);
-		System.out.println(cantidad+"entra al agregar cantidad");
-		System.out.println(cantidadrecurso+"entra al agregar cantidad recurso");
-		if(cantidad >cantidadrecurso)	
-			return true;
-		else	
+		System.out.println(cantidad+" entra al agregar cantidad");
+		System.out.println(cantidadrecurso+" entra al agregar cantidad recurso");
+		if(cantidad > cantidadrecurso)	
 			return false;
+		else	
+			return true;
 	}
 	
 	
@@ -522,7 +518,7 @@ private ManagerDAO mDAO;
 		for (Recurso recurso : listado) {
 				//Comparar las cantidades
 			int contador=recurso.getCapacidad();
-				if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRecurso(),hora_inicio, hora_fin,horainicio,horafin/* recurso.getCapacidad(),*/ ) || this.esRecursoDesactivado(recurso.getIdRecurso())){
+				if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRecurso(),hora_inicio, hora_fin,horainicio,horafin/* recurso.getCapacidad(),*/ ) && this.esRecursoDesactivado(recurso.getIdRecurso())){
 					for(Recursosactivo c: listadoRecursoactivo)
 					{
 						if(recurso.getIdRecurso().equals(c.getIdRecurso()))
@@ -1032,25 +1028,32 @@ private ManagerDAO mDAO;
 	return rt;
 	}
 	
-	///////////////////salas////////////////////////
-	//Carga de recursos disponibles verificando si esta ocupado
-	public List<Sala> findAllSalasDisponibles(Timestamp hora_inicio, Timestamp hora_fin){
+	public List<Sala> findAllSalasDisponibles(Timestamp hora_inicio, Timestamp hora_fin,Time horainicio, Time horafin){
 		List<Sala> listado = this.findAllSalas();
 		List<Sala> resultados = this.findAllSalas();
-		for (Sala Sala : listado) {
-			if(this.findSalasSolicitadosLibreByHorario(Sala.getIdSala(), Sala.getCapacidad(), hora_inicio, hora_fin) || this.esSalaDesactivado(Sala.getIdSala())){
-				resultados.remove(Sala);
-				//System.out.println("quita "+recurso.getNombre());
+		List<Salasactiva> listadoSalasactivo= this.findAllSalaOcupadoByHorario(hora_inicio, hora_fin, horainicio, horafin);
+		for (Sala sala : listado) {
+			if(this.findSalasSolicitadosLibreByHorario(sala.getIdSala(), sala.getCapacidad(), hora_inicio, hora_fin,horainicio,horafin) && this.esSalaDesactivado(sala.getIdSala())){
+				for(Salasactiva c: listadoSalasactivo)
+				{
+					if(sala.getIdSala().equals(c.getIdSala()))
+					{
+						System.out.println("no agrego este:"+sala.getTipo());
+						resultados.remove(sala);
+						System.out.println("quita "+sala.getTipo());
+					}
+				}
 			}
 		}
 		return resultados;
 	}
+	
 	//Devuelve un valor booleano para conocer si se encuentra ocupado o no el recurso
-	public boolean findSalasSolicitadosLibreByHorario(Integer id_sala, Integer capacidad, Timestamp hora_inicio, Timestamp hora_fin){
-		List<Salasactiva> listado = this.findAllSalaOcupadoByHorario(hora_inicio, hora_fin);
+	public boolean findSalasSolicitadosLibreByHorario(Integer id_sala, Integer capacidad, Timestamp hora_inicio, Timestamp hora_fin,Time horainicio, Time horafin){
+		List<Salasactiva> listado = this.findAllSalaOcupadoByHorario(hora_inicio, hora_fin,horainicio,horafin);
 		//System.out.println("listado "+listado.size());
-		for (Salasactiva recursosactivo : listado) {
-			if(recursosactivo.getIdSala().intValue()==id_sala.intValue()){
+		for (Salasactiva salasactivo : listado) {
+			if(salasactivo .getIdSala().intValue()==id_sala.intValue()){
 				return true;
 			}
 		}
@@ -1058,16 +1061,15 @@ private ManagerDAO mDAO;
 		return false;
 	}
 	
-	//RecursosXHora
-	//Devuelve los recursos que esten ocupados de una fecha en un horario
-	public ArrayList<Salasactiva> findAllSalaOcupadoByHorario(Timestamp hora_inicio, Timestamp hora_fin){
+	//SalasXHora
+	//Devuelve las salas que esten ocupados de una fecha en un horario
+	public ArrayList<Salasactiva> findAllSalaOcupadoByHorario(Timestamp hora_inicio, Timestamp hora_fin, Time horainicio, Time horafin){
 		ArrayList<Salasactiva> resultado = new ArrayList<Salasactiva>();
-		List<Salasactiva> listado = this.findAllSalasOcupadoByFecha(hora_inicio);
-		
-		for (Salasactiva recursosactivo : listado) {
-			if( (hora_inicio.getTime()>=recursosactivo.getHoraInicio().getTime() && hora_inicio.getTime()<recursosactivo.getHoraFin().getTime()) && 
-			(hora_fin.getTime()>recursosactivo.getHoraInicio().getTime() && hora_fin.getTime()<=recursosactivo.getHoraFin().getTime()) ){
-				resultado.add(recursosactivo);
+		List<Salasactiva> listado = this.findAllSalasOcupadoByFecha(hora_fin);
+		for (Salasactiva salasactivo : listado) {
+			if( (horainicio.before(Validacion.fechaAtiempo(salasactivo.getHoraInicio())) && horainicio.after(Validacion.fechaAtiempo(salasactivo.getHoraFin()))) || 
+					(horafin.before(Validacion.fechaAtiempo(salasactivo.getHoraInicio())) && horafin.after(Validacion.fechaAtiempo(salasactivo.getHoraFin())))){
+				resultado.add(salasactivo);
 			}
 		}
 		//System.out.println("OcupadosByHorario "+resultado.size());
@@ -1083,11 +1085,13 @@ private ManagerDAO mDAO;
 			List<Salasactiva> listado = this.findAllSalasSolicitados();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			
-			for (Salasactiva recursosactivo : listado) {
-				System.out.println(dateFormat.format(recursosactivo.getHoraFin()).toString()+"aca1");
-				System.out.println(dateFormat.format(fecha_seleccionada).toString()+"aca2");
-				if(dateFormat.format(recursosactivo.getHoraFin()).toString().equals(dateFormat.format(fecha_seleccionada).toString())){
-					resultado.add(recursosactivo);
+			for (Salasactiva salasactivo : listado) {
+				String fecha1= dateFormat.format(salasactivo.getHoraFin()).toString();
+				System.out.println(dateFormat.format(salasactivo.getHoraFin()).toString()+" aca1");
+				String fecha2 =dateFormat.format(fecha_seleccionada).toString();
+				System.out.println(dateFormat.format(fecha_seleccionada).toString()+" aca2");
+ 				if(fecha1.equals(fecha2)){
+					resultado.add(salasactivo);
 				}
 			}
 			//System.out.println("OcupadosByFecha "+resultado.size());

@@ -66,15 +66,14 @@
 						</p:ajax>
 					</p:selectOneMenu>
 				</h:panelGroup>
-				 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{eventosBean.imagen}" width="150" height="150" />
+				 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{eventosBean.imagen}" width="100" height="100" />
                  <h:outputText id="descr" value="#{eventosBean.descripcionrecurso}" />
-               	<h:outputText value="" />
+                 <h:outputText id="stock" value="#{eventosBean.stock}" />
 				<h:outputText value="Cantidad*: " />
 				<p:inputText value="#{eventosBean.capacidad_recurso}" size="1" required="true" requiredMessage="Requerido Cantidad del Recurso" validatorMessage="Solo Numeros entre 1 y 1000">
-					<p:ajax	listener="#{eventosBean.controlarcantidad()}" update=":form3:pgrid :form3:msn"></p:ajax>
 				</p:inputText>
 				<p:commandButton id="trackcrears"
-					action="#{eventosBean.agregarDetalle()}"  update="form3"
+					action="#{eventosBean.agregarDetalle()}"  update=":form3:pgrid :form3:msn"
 					icon="ui-icon-plusthick" value="agregar">
 					<p:tooltip id="toolTipTrac10" for="trackcrears" value="Bot&oacute;n para crear solicitud recurso" trackMouse="true" />
 				</p:commandButton>
@@ -123,15 +122,15 @@
 				</p:column>
 				<p:column>
 					<f:facet name="header">Opciones</f:facet>
-					<p:commandButton id="trackquit"  actionListener="#{eventosBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-closethick">
+					<p:commandButton id="trackquit"  actionListener="#{eventosBean.quitarDetalle(d)}"  process="@this"  icon="ui-icon-closethick">
 					<p:tooltip id="toolTipTrac6" for="trackquit" value="Bot&oacute;n para eliminar el recurso a solicitar" trackMouse="true" />
 					</p:commandButton> 
 				</p:column>
 			</p:dataTable>
 		</p:panel>
-			<p:commandButton id="trackregistrar" value="Actualizar" onclick="PF('cd').show()">
+			<p:commandButton id="trackregistrar" value="Actualizar" onclick="PF('cd').show()"  process="@this" >
 			</p:commandButton>
-		<p:confirmDialog header="Actualizar" message="Esta seguro de aprobar los datos?" showEffect="fade" hideEffect="explode" widgetVar="cd">
+		<p:confirmDialog header="Actualizar"  message="Esta seguro de aprobar los datos?" showEffect="fade" hideEffect="explode" widgetVar="cd">
 	        <p:commandButton value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" oncomplete="PF('cd').hide()" action="#{eventosBean.finalizarSolicitudED}" update=":form3"/>
 	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('cd').hide()"/>
 	    </p:confirmDialog>

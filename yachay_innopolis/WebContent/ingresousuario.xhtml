@@ -129,7 +129,7 @@
 			</b:row>
 			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Celular : " for="celu" style="padding:10px;" />
+					<h:outputLabel value="Celular* : " for="celu" style="padding:10px;" />
 				</b:column>
 				<b:column span="2">
 					<p:inputText id="celu" required="true"
@@ -183,66 +183,32 @@
 			</b:row>
 			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="¿Qué actividad realizas?" for="act"
+					<h:outputLabel value="Lugar de trabajo :" for="act1"
 						style="padding:10px;" />
 				</b:column>
 				<b:column span="2">
-					<p:selectOneRadio id="act" value="#{registroBean.panel1}">
-						<f:selectItem itemLabel="Trabajas" itemValue="Show-Panel1" />
-						<f:selectItem itemLabel="Estudias" itemValue="Show-Panel2" />
-						<f:ajax render="payment-amount-panel" />
-					</p:selectOneRadio>
+					<p:inputText required="false" id="act1" size="30"
+								requiredMessage="Por favor ingrese su empresa o institución."
+								validatorMessage="Formato inv&aacute;lido"
+								value="#{registroBean.empreestu}">
+								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+					</p:inputText>
 				</b:column>
 			</b:row>
 			<b:row>
-				<b:column span="7">
-					<p:panelGrid style="border:none;margin:0 auto;width:400px;"
-						id="payment-amount-panel" columns="2">
-						<p:fieldset rendered="#{registroBean.panel1 == 'Show-Panel1'}">
-							<p:inputText required="true" id="empresa"
-								requiredMessage="Por favor ingrese su empresa o institución."
-								validatorMessage="Formato inv&aacute;lido"
-								value="#{registroBean.empreestu}">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-							</p:inputText>
-							<label id="text"
-								style="visibility: visible; font-weight: normal;" for="chkBox">
-								Ingrese la Empresa</label>
-
-							<p:inputText required="true" id="titul"
-								requiredMessage="Por favor ingrese su cargo o título."
-								validatorMessage="Formato inv&aacute;lido"
-								value="#{registroBean.cargptitu}">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-							</p:inputText>
-							<label id="text1"
-								style="visibility: visible; font-weight: normal;" for="chkBox">
-								Cargo que desempeña</label>
-						</p:fieldset>
-						<p:fieldset rendered="#{registroBean.panel1 == 'Show-Panel2'}">
-							<p:inputText required="true" id="empresa1"
-								requiredMessage="Por favor ingrese su empresa o institución."
-								validatorMessage="Formato inv&aacute;lido"
-								value="#{registroBean.empreestu}">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-							</p:inputText>
-							<label id="text"
-								style="visibility: visible; font-weight: normal;" for="chkBox">
-								Nombre de la Institución</label>
-							<h:outputText value="" />
-							<p:inputText required="true" id="titul1"
-								requiredMessage="Por favor ingrese su cargo o título."
-								validatorMessage="Formato inv&aacute;lido"
-								value="#{registroBean.cargptitu}">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-							</p:inputText>
-							<label id="text1"
-								style="visibility: visible; font-weight: normal;" for="chkBox">
-								Ingrese su Título</label>
-						</p:fieldset>
-					</p:panelGrid>
+				<b:column span="2">
+					<h:outputLabel value="Cargo :" for="act2"
+						style="padding:10px;" />
 				</b:column>
-			</b:row>
+				<b:column span="2">
+					<p:inputText required="false" id="act2" size="30"
+								requiredMessage="Por favor ingrese su cargo."
+								validatorMessage="Formato inv&aacute;lido"
+								value="#{registroBean.cargptitu}">
+								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+							</p:inputText>
+				</b:column>
+				</b:row>
 			<b:row>
 				<b:column span="3">
 					<h:outputLabel value="Seleccion de Intereses*: "

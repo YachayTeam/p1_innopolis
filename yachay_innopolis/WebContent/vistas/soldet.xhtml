@@ -77,13 +77,12 @@
                  <h:outputText id="descr" value="#{solicitudBean.descripcionubicacion}" />
                  <h:outputText id="stock" value="#{solicitudBean.stock}" />
 				<h:outputText value="Cantidad*: " />
-				<p:inputText value="#{solicitudBean.capacidad_recurso}" size="1" required="true" requiredMessage="Requerido Cantidad del Recurso" validatorMessage="Solo Numeros entre 1 y 1000">
-				<p:ajax	listener="#{solicitudBean.controlarcantidad()}" update=":form3:pgrid :form3:msn"></p:ajax>
+				<p:inputText value="#{solicitudBean.capacidad_recurso}" size="1" required="true" requiredMessage="Requerido cantidad del recurso" validatorMessage="Solo números entre 1 y 1000">
 				</p:inputText>
 				<p:commandButton id="trackcrears"
-					action="#{solicitudBean.insertarDetalleSolicitud}" update="form3"
+					action="#{solicitudBean.insertarDetalleSolicitud}" update="form3 :form3:pgrid :form3:msn" 
 					icon="ui-icon-plusthick" value="agregar">
-					<p:tooltip id="toolTipTrac10" for="trackcrears" value="Bot&oacute;n para agregar recurso" trackMouse="true" />
+					<p:tooltip id="toolTipTrac10" for="trackcrears" value="Bot&oacute;n para agregar recurso"  trackMouse="true" />
 				</p:commandButton>				
 			</p:panelGrid>
 			<p:messages id="msn"></p:messages>
@@ -130,14 +129,14 @@
 				</p:column>				
 				<p:column>
 					<f:facet name="header">Opciones</f:facet>
-					<p:commandButton id="trackquit"   actionListener="#{solicitudBean.quitarDetalleSolicitud(d)}" update=":form3" icon="ui-icon-closethick">
+					<p:commandButton id="trackquit"   actionListener="#{solicitudBean.quitarDetalleSolicitud(d)}" process="@this"  icon="ui-icon-closethick">
 					<p:tooltip id="toolTipTrac6" for="trackquit" value="Bot&oacute;n para eliminar el recurso a solicitar" trackMouse="true" />
 					</p:commandButton> 
 				</p:column>
 			</p:dataTable>
 		</p:panel>
 		<p:commandButton id="trackcrear" value="Siguiente"
-					action="#{solicitudBean.irsolres}" update="form3 message1"
+					action="#{solicitudBean.irsolres}" update="form3 message1" process="@this"
 					icon="ui-icon-circle-arrow-e">
 					<p:tooltip id="toolTipTrac3" for="trackcrear" value="Siguiente paso" trackMouse="true" />
 					</p:commandButton>

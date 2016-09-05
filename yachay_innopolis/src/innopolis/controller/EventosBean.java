@@ -77,6 +77,8 @@ public class EventosBean {
 	private String sms;
 	private Integer sala;
 	private Boolean interno;
+	
+	int contador;
 
 	/**** Mod Eventos *****/
 	private Timestamp fActualInicio, fActualFin;
@@ -137,6 +139,7 @@ public class EventosBean {
 
 	// imgen de salas
 	private String imagensala;
+	private String capacidad;
 
 	// ///////////////////////////////////////////////////////////////////////////////////solicitud
 	// //////////////////////////////////////////////////////////
@@ -189,6 +192,7 @@ public class EventosBean {
 		imagen = "300.jpg";
 		imagensala = "300.jpg";
 		imgMost = "300.jpg";
+		contador=0;
 		imagentipo = "300.jpg";
 		direccion = session.getNombre();
 		justificacion = session.getApellido();
@@ -200,6 +204,7 @@ public class EventosBean {
 		descripcionubicacion = "Descripción de la Sala";
 		descripcionrecurso = "Descripción de Recurso";
 		stock = "stock";
+		capacidad="capacidad";
 	}
 
 	public void setDescripcionrecurso(String descripcionrecurso) {
@@ -216,6 +221,14 @@ public class EventosBean {
 	
 	public void setStock(String stock) {
 		this.stock = stock;
+	}
+	
+	public String getCapacidad() {
+		return capacidad;
+	}
+	
+	public void setCapacidad(String capacidad) {
+		this.capacidad = capacidad;
 	}
 
 	public Boolean getInterno() {
@@ -1023,8 +1036,8 @@ public class EventosBean {
 				smscorususoleve = "";
 				descripcionubicacion = "";
 				stock ="stock";
+				capacidad="capacidad";
 				descripcionrecurso = "";
-				stock ="stock";
 				imagensala = "300.jpg";
 				// reiniciamos datos (limpiamos el formulario)
 				nombre = "";
@@ -1210,7 +1223,7 @@ public class EventosBean {
 				setH_inicio(ev.getFechaInicio());
 				setH_fin(ev.getFechaFin());
 				// Cargar datos recurso
-				capacidad_recurso = 1;
+				capacidad_recurso = null;
 				// Listas
 				list_mas = new ArrayList<Solicidetalle>();
 				list_menos = new ArrayList<Solicidetalle>();
@@ -1355,6 +1368,10 @@ public class EventosBean {
 			return "";
 		} else {
 			try {
+				if(cantidad == 0){
+					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
+				}
+				else{
 				int sala1 = mReserv.findSalaByID(sala).getCapacidad();
 				if (cantidad <= sala1) {
 					fechaInicio = new Timestamp(fi.getTime());
@@ -1384,6 +1401,7 @@ public class EventosBean {
 											"El número de personas excede la capacidad de la sala",
 											null));
 				}
+				}
 			} catch (Exception e) {
 				System.out.print("Ir a solicitud no creo el evento temporal");
 			}
@@ -1400,17 +1418,14 @@ public class EventosBean {
 					new FacesMessage("El evento cuenta con una solicitud."));
 			return "";
 		} else if (!Validacion.fechaMayorIgual(ff)) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_WARN,
-									"La fecha de solicitud no debe ser menor a la actual",
-									null));
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"La fecha de solicitud no debe ser menor a la actual",null));
 			return "";
 		} else {
 			try {
+				if(cantidad == 0){
+					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
+				}
+				else{
 				int sala1 = mReserv.findSalaByID(sala).getCapacidad();
 				if (cantidad <= sala1) {
 					fechaInicio = new Timestamp(fi.getTime());
@@ -1433,14 +1448,8 @@ public class EventosBean {
 
 					a = "soldet3?faces-redirect=true";
 				} else if (cantidad > sala1) {
-					FacesContext
-							.getCurrentInstance()
-							.addMessage(
-									null,
-									new FacesMessage(
-											FacesMessage.SEVERITY_WARN,
-											"El número de personas excede la capacidad de la sala",
-											null));
+					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El número de personas excede la capacidad de la sala",null));
+				}
 				}
 			} catch (Exception e) {
 				System.out.print("ir a solicitud no creo el evento temporal");
@@ -1454,6 +1463,7 @@ public class EventosBean {
 		if (solivalor == true) {
 			descripcionrecurso = "Descripción de Recurso";
 			stock ="stock";
+			capacidad="capacidad";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";
@@ -1462,6 +1472,7 @@ public class EventosBean {
 		} else {
 			descripcionrecurso = "Descripción de Recurso";
 			stock ="stock";
+			capacidad="capacidad";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";
@@ -1604,7 +1615,7 @@ public class EventosBean {
 					getActividad(), getObjetivo(), getJustificacion(),
 					new Date(), getSession().getIdUsr());
 			id_recurso = -1;
-			capacidad_recurso = 1;
+			capacidad_recurso = null;
 			solicitudCabTmpGuardada = false;
 			notificacion = "";
 			resp = "";
@@ -1619,29 +1630,52 @@ public class EventosBean {
 
 	public String insertarDetalleSolicitud() {
 		if (solicitudCabTmpGuardada == true) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"La solicitud fue guardada", null));
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"La solicitud fue guardada anteriormente", null));
 			return "";
 		}
 		try {
-			mReserv.agregarSolicitudDetalleTmp(getId_recurso(),
-					getcapacidad_recurso(), h_fin, h_inicio);
+			controlarcantidad();
+			if(agregardetalle == true)
+			{
+			mReserv.agregarSolicitudDetalleTmp(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio);
 			id_recurso = -1;
-			agregardetalle = true;
-			capacidad_recurso = 1;
+			agregardetalle = false;
+			capacidad_recurso = null;
+			}
 			// LIMPIAR LISTADO
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(e.getMessage()));
 			id_recurso = -1;
-			agregardetalle = true;
-			capacidad_recurso = 1;
+			agregardetalle = false;
+			capacidad_recurso = null;
 			// LIMPIAR LISTADO
 		}
 		return "";
 	}
+	// CARGAR toods los recursos LIBRES
+		public void controlarcantidad() {
+			try {
+				if (id_recurso == -1) {
+					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Debe seleccionar el recurso a solicitar",null));
+					agregardetalle = false;
+				} else {
+					if (capacidad_recurso == null) {
+						capacidad_recurso = -1;
+					}
+					if (mReserv.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio) == true) {
+						agregardetalle = true;
+					} else if (mReserv.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio) == false) {
+						agregardetalle = false;
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error debe especificar el recurso o "
+								+ "La cantidad es mayor a la del recurso solicitado", null));
+					}
+				}
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(e.getMessage()));
+			}
+		}
 
 	public String insertarDetalleSolicitudlista() {
 		if (solicitudCabTmpGuardada == true) {
@@ -1668,7 +1702,7 @@ public class EventosBean {
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Los recursos se añadieron", null));
 			id_recurso = -1;
-			capacidad_recurso = 0;
+			capacidad_recurso = null;
 			// LIMPIAR LISTADO
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
@@ -1679,7 +1713,7 @@ public class EventosBean {
 					new FacesMessage(e.getMessage()));
 			// LIMPIAR LISTADO
 			id_recurso = -1;
-			capacidad_recurso = 0;
+			capacidad_recurso = null;
 			// LIMPIAR LISTADO
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
@@ -2293,6 +2327,7 @@ public class EventosBean {
 		descripcionubicacion = "";
 		descripcionrecurso = "";
 		stock ="stock";
+		capacidad="capacidad";
 		imagensala = "300.jpg";
 		te = 0;
 		idusr = 0;
@@ -2489,7 +2524,7 @@ public class EventosBean {
 					listDetSolEv.add(det);
 					// Setea Variables
 					id_recurso = -1;
-					capacidad_recurso = 0;
+					capacidad_recurso = null;
 					select = new ArrayList<SelectItem>();
 					h_inicio = new Timestamp(new Date().getTime());
 					h_fin = new Timestamp(new Date().getTime());
@@ -2584,10 +2619,9 @@ public class EventosBean {
 					getActividad(), getObjetivo(), getJustificacion(),
 					new Date(), getSession().getIdUsr());
 			id_recurso = -1;
-			capacidad_recurso = 0;
+			capacidad_recurso = null;
 			solicitudCabTmpGuardada = false;
 			id_recurso = -1;
-			capacidad_recurso = 0;
 			// objetivo="";
 			// LIMPIAR LISTADO
 			select = new ArrayList<SelectItem>();
@@ -2615,10 +2649,9 @@ public class EventosBean {
 					getActividad(), getObjetivo(), getJustificacion(),
 					new Date(), getSession().getIdUsr());
 			id_recurso = -1;
-			capacidad_recurso = 0;
+			capacidad_recurso = null;
 			solicitudCabTmpGuardada = false;
 			id_recurso = -1;
-			capacidad_recurso = 0;
 			// objetivo="";
 			// LIMPIAR LISTADO
 			select = new ArrayList<SelectItem>();
@@ -2868,6 +2901,7 @@ public class EventosBean {
 				descripcionubicacion = "";
 				descripcionrecurso = "";
 				stock ="stock";
+				capacidad="capacidad";
 				imagensala = "300.jpg";
 				cantidad = 0;
 				sc = 0;
@@ -2892,6 +2926,7 @@ public class EventosBean {
 				descripcionubicacion = "";
 				descripcionrecurso = "";
 				stock ="stock";
+				capacidad="capacidad";
 				imagensala = "300.jpg";
 				fechaInicio = null;
 				fechaFin = null;
@@ -2925,6 +2960,7 @@ public class EventosBean {
 				descripcionubicacion = "";
 				descripcionrecurso = "";
 				stock ="stock";
+				capacidad="capacidad";
 				imagensala = "300.jpg";
 				costo = 0;
 				cantidad = 0;
@@ -2974,6 +3010,7 @@ public class EventosBean {
 				descripcionubicacion = "";
 				descripcionrecurso = "";
 				stock ="stock";
+				capacidad="capacidad";
 				imagensala = "300.jpg";
 				fi = null;
 				ff = null;
@@ -3002,6 +3039,7 @@ public class EventosBean {
 				descripcionubicacion = "";
 				descripcionrecurso = "";
 				stock ="stock";
+				capacidad="capacidad";
 				imagensala = "300.jpg";
 				fechaInicio = null;
 				fechaFin = null;
@@ -3062,6 +3100,7 @@ public class EventosBean {
 		descripcionubicacion = "";
 		descripcionrecurso = "";
 		stock ="stock";
+		capacidad="capacidad";
 		imagensala = "300.jpg";
 		cantidad = 0;
 		sc = 0;
@@ -3093,6 +3132,7 @@ public class EventosBean {
 		descripcionubicacion = "";
 		descripcionrecurso = "";
 		stock ="stock";
+		capacidad="capacidad";
 		imagensala = "300.jpg";
 		sc = 0;
 		listDetalles = new ArrayList<Solicidetalle>();
@@ -3118,6 +3158,7 @@ public class EventosBean {
 		descripcionubicacion = "";
 		descripcionrecurso = "";
 		stock ="stock";
+		capacidad="capacidad";
 		imagensala = "300.jpg";
 		fi = null;
 		ff = null;
@@ -3149,12 +3190,12 @@ public class EventosBean {
 	}
 
 	public void mostrara() {
-		Sala rec;
+		Sala buscarsala;
 		try {
-			rec = mReserv.findSalaByID(sala);
-			descripcionubicacion = rec.getDescripcion();
-			
-			imagensala = rec.getImagen();
+			buscarsala = mReserv.findSalaByID(sala);
+			descripcionubicacion = buscarsala.getDescripcion();
+			imagensala = buscarsala.getImagen();
+			capacidad = "capacidad: "+ buscarsala.getCapacidad().toString();
 			mostrar = true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -3167,7 +3208,8 @@ public class EventosBean {
 		try {
 			rec = mReserv.findRecursoByID(id_recurso);
 			descripcionrecurso = rec.getDescripcion();
-			stock = "En stock: "+ rec.getCapacidad().toString();
+			contador= mReserv.findContadorRecurso(h_inicio,h_fin, rec.getIdRecurso());
+			stock = "En stock: "+ contador;
 			imagen = rec.getImagen();
 			mostrar = true;
 		} catch (Exception e) {
@@ -3190,6 +3232,7 @@ public class EventosBean {
 		costo = 0;
 		cantidad = 0;
 		sc = 0;
+		capacidad="capacidad";
 		te = 0;
 		idusr = 0;
 		sala = 0;
@@ -3232,7 +3275,7 @@ public class EventosBean {
 		esave = false;
 		smscor = "";
 		correosadmin = "";
-
+		capacidad="capacidad";
 		setId_recurso(-1);
 		setActividad("");
 		setObjetivo("");
@@ -3272,10 +3315,7 @@ public class EventosBean {
 	public void agregarDetalle() {
 		try {
 			if (id_recurso == null || id_recurso == -1)
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Seleccione recurso adicional", null));
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Seleccione recurso adicional", null));
 			/*
 			 * else
 			 * if(capacidad_recurso==null||capacidad_recurso.intValue()<=0){
@@ -3358,6 +3398,7 @@ public class EventosBean {
 			mReserv.editarDetallesSolicitud(id_sol, list_mas, list_menos);
 			descripcionrecurso = "Descripción de Recurso";
 			stock ="stock";
+			capacidad="capacidad";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";
@@ -3382,6 +3423,7 @@ public class EventosBean {
 			stock ="stock";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
+			capacidad="capacidad";
 			imgMost = "300.jpg";
 			imagentipo = "300.jpg";
 			// manager.aprobarSolicitudMOD(id_sol);
@@ -3411,38 +3453,20 @@ public class EventosBean {
 	public void cargarSalas() {
 		h_inicio = new Timestamp(fi.getTime());
 		h_fin = new Timestamp(ff.getTime());
-
 		if (h_fin == null || h_inicio == null) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Seleccione horario para continuar", null));
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Seleccione horario para continuar", null));
 		} else {
 			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(h_inicio));
 			setHorafin(this.fechaAtiempo(h_fin));
-			if (!Validacion.fechaMayorIgual(h_inicio)
-					|| !Validacion.fechaMayorIgual(h_fin)) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_WARN,
-										"La fecha de solicitud no debe ser menor a la actual",
-										null));
-			} else if (h_fin.getTime() <= h_inicio.getTime()) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Verifique su horario de solicitud", null));
-				// }else if((!Validacion.horaMayorIgual(getHorainicio()) ||
-				// !Validacion.horaMayorIgual(getHorafin()))){
-				// FacesContext.getCurrentInstance().addMessage(null, new
-				// FacesMessage(FacesMessage.SEVERITY_WARN,
-				// "La hora de solicitud no debe ser menor a la actual.",
-				// null));
-			} else {
+			if (!Validacion.fechaMayorIgual(h_inicio)|| !Validacion.fechaMayorIgual(h_fin)) {
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"La fecha de solicitud no debe ser menor a la actual",null));
+			} else if (h_fin.getTime()<=h_inicio.getTime()) {
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Verifique su horario de solicitud", null));
+			 }//else if((!Validacion.horaMayorIgual(getHorainicio()) ||!Validacion.horaMayorIgual(getHorafin()))){
+//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La hora de solicitud no debe ser menor a la actual.",null));
+//			} 
+			else {
 				select = this.getlistaSalasLibres();
 				// select2 = this.getlistaTipoRecursosLibres();
 			}
@@ -3451,14 +3475,10 @@ public class EventosBean {
 
 	// LISTADO DE RECURS
 	public List<SelectItem> getlistaSalasLibres() {
-
-		System.out.println(h_inicio + "+" + h_fin + "estas son");
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-		List<Sala> listadoRecurso = mReserv.findAllSalasDisponibles(h_inicio,
-				h_fin);
+		List<Sala> listadoRecurso = mReserv.findAllSalasDisponibles(h_inicio,h_fin,horainicio,horafin);
 		for (Sala p : listadoRecurso) {
-			SelectItem item = new SelectItem(p.getIdSala(), p.getTipo() + " - "
-					+ p.getCapacidad());
+			SelectItem item = new SelectItem(p.getIdSala(), p.getTipo());
 			listadoSI.add(item);
 		}
 		return listadoSI;
@@ -3534,32 +3554,5 @@ public class EventosBean {
 		return "";
 	}
 
-	// CARGAR toods los recursos LIBRES
-	public void controlarcantidad() {
-		try {
-			if (mReserv.controlarcantidadmanager(getId_recurso(),
-					getcapacidad_recurso(), h_fin, h_inicio) == true) {
-				agregardetalle = true;
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_INFO,
-										"La cantidad es mayor a la del recurso solicitado",
-										null));
-			} else if (mReserv.controlarcantidadmanager(getId_recurso(),
-					getcapacidad_recurso(), h_fin, h_inicio) == false) {
-				agregardetalle = false;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Aun hay una cantidad del articulo libre",
-								null));
-			}
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-		}
-	}
+	
 }

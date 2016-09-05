@@ -33,12 +33,12 @@
 						<h:outputLabel value="C&eacute;dula/Pasaporte/RUC*: " style="padding:10px;"/>
 					</b:column>
 					<b:column span="2">
-						<p:inputText id="cedula" disabled="true"
+						<p:inputText id="cedula" disabled="true" 
 							value="#{sessionBean.cedula}">
 						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Nombres*: " style="padding:10px;"/>
+						<h:outputLabel value="Nombres*: " style="padding:10px;" for="nombres"/>
 					</b:column>
 					<b:column span="2">
 						<p:inputText required="true" id="nombres"
@@ -50,7 +50,7 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Apellidos*: " style="padding:10px;"/>
+						<h:outputLabel value="Apellidos*: " style="padding:10px;" for="apellidos"/>
 					</b:column>
 					<b:column span="2">
 						<p:inputText required="true" id="apellidos"
@@ -61,7 +61,7 @@
 						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Correo*: " style="padding:10px;"/>
+						<h:outputLabel value="Correo*: " for="correo" style="padding:10px;"/>
 					</b:column>
 					<b:column span="2">
 						<p:inputText required="true" id="correo"
@@ -100,7 +100,7 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-				<h:outputLabel value="Contraseña*: " />
+				<h:outputLabel value="Contraseña*: " style="padding:10px;" for="pass"/>
 				</b:column>
 					<b:column span="2">
 				<p:password required="true" id="pass" redisplay="true"
@@ -114,66 +114,33 @@
 				</p:password>
 				</b:column>
 				<b:column span="2">
-				<h:outputLabel value="¿Qué actividad realizas?" size="10" 
-					escape="false" />
+				<h:outputLabel value="Lugar de trabajo: " size="10" escape="false" for="empresa" style="padding:10px;"/>
 				</b:column>
 				<b:column span="2">
-				<p:selectOneRadio value="#{sessionBean.panel1}">
-					<f:selectItem itemLabel="&nbsp; Trabajas" itemValue="Show-Panel1" />
-					<f:selectItem itemLabel="&nbsp; Estudias" itemValue="Show-Panel2" />
-					<f:ajax render="payment-amount-panel" />
-				</p:selectOneRadio>
-				</b:column>
-				</b:row>
-				<b:row>
-				<b:column span="3"></b:column>
-				<b:column span="7">
-				<p:panelGrid style="border:0px;margin:0 auto;width:400px;"
-					id="payment-amount-panel" columns="2">
-					<p:fieldset rendered="#{sessionBean.panel1 == 'Show-Panel1'}">
-						<p:inputText required="true" id="empresa"
-							requiredMessage="Por favor ingrese su empresa"
+				<p:inputText required="true" id="empresa"
+							requiredMessage="Por favor ingrese su lugar de trabajo"
 							validatorMessage="Formato inv&aacute;lido"
 							value="#{sessionBean.empreestu}">
 							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 						</p:inputText>
-						<label id="text" style="visibility: visible;" for="chkBox">
-							Ingrese la Empresa</label>
-						<p:inputText required="true" id="titul"
+				</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+					<h:outputLabel value="Cargo: " size="10" escape="false" for="cargo" style="padding:10px;"/>
+					</b:column>
+					<b:column span="2">
+					<p:inputText required="true" id="cargo"
 							requiredMessage="Por favor ingrese su cargo"
 							validatorMessage="Formato inv&aacute;lido"
 							value="#{sessionBean.cargptitu}">
 							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 						</p:inputText>
-						<label id="text1" style="visibility: visible;" for="chkBox">
-							Cargo que desempeña</label>
-						<h:outputText value="" />
-					</p:fieldset>
-					<p:fieldset rendered="#{sessionBean.panel1 == 'Show-Panel2'}">
-						<p:inputText required="true" id="empresa1"
-							requiredMessage="Por favor ingrese su institución."
-							validatorMessage="Formato inv&aacute;lido"
-							value="#{sessionBean.empreestu}">
-							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-						</p:inputText>
-						<label id="text" style="visibility: visible;" for="chkBox">
-							Nombre de la Institución</label>
-						<p:inputText required="true" id="titul1"
-							requiredMessage="Por favor ingrese su título."
-							validatorMessage="Formato inv&aacute;lido"
-							value="#{sessionBean.cargptitu}">
-							<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-						</p:inputText>
-						<label id="text1" style="visibility: visible;" for="chkBox">
-							Ingrese su Título</label>
-						<h:outputText value="" />
-					</p:fieldset>
-				</p:panelGrid>
 					</b:column>
 				</b:row>
 				<b:row>
 				 <b:column span="2">
-				<h:outputLabel value="Interés: " />
+				<h:outputLabel value="Interés: " style="padding:10px;"/>
 				</b:column>
 				 <b:column span="2">
 <!--         		<p:selectManyCheckbox required="true" id="menu1" -->
@@ -184,12 +151,10 @@
 <!-- 							style="font-weight: normal;" -->
 <!-- 							itemLabel="#{sessionBean.intereses.nombreInt}" /> -->
 <!-- 					</p:selectManyCheckbox> -->
-					
 				<p:dataList value="#{sessionBean.interesedicion()}" var="interes"
 					emptyMessage="Ningun permiso registrado">
             					#{interes}
         			</p:dataList>	
-        			
         		</b:column>
         		</b:row>
         		<br/>
