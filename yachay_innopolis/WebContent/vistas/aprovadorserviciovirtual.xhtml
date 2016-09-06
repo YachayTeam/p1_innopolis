@@ -112,7 +112,8 @@
 			<p:panelGrid columns="2" >			
             <h:outputText value="Mensaje a Enviar: "/>
 			<p:inputTextarea value="#{serviciosVirtualesApBean.smscor}"></p:inputTextarea>
-			<p:commandButton id="trackedi" onclick="start();" widgetVar="startButton1" update=":form2:panel2 :form2:message2" icon="ui-icon-comment" value="Aceptar" action="#{serviciosVirtualesApBean.enviarmensaje(reg1)}" >
+			<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();" oncomplete="PF('dlgLoad').hide();" 
+			widgetVar="startButton1" update=":form2:panel2 :form2:message2" icon="ui-icon-comment" value="Aceptar" action="#{serviciosVirtualesApBean.enviarmensaje(reg1)}" >
 			<p:tooltip id="t3" for="trackedi" value="Bot&oacute;n para enviar el sms" trackMouse="true" />
 			</p:commandButton>
 			<p:commandButton id="trackcerrlg" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg2').close();" update=":form2:panel2 :form2:message2" action="#{serviciosVirtualesApBean.irAprovador}">
@@ -121,28 +122,14 @@
 			<p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:120px"/>
 		</p:panelGrid>
 </p:dialog>		
+<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:form>
+					<p:graphicImage value="/resources/img/loader.gif" />
+				</h:form>
+			</p:dialog>
 	</p:panel>
 </h:form>
-<script type="text/javascript">
-				function start() {
-				    PF('startButton1').disable();
-				 
-				    window['progress'] = setInterval(function() {
-				        var pbClient = PF('pbClient'),
-				        oldValue = pbClient.getValue(),
-				        newValue = oldValue + 40;
-				 
-				        pbClient.setValue(pbClient.getValue() + 20);
-				 
-				        if(newValue === 100) {
-				            clearInterval(window['progress']);
-				            PF('pbClient').setValue(0);
-				        }
-				 
-				 
-				    }, 1000);
-				}
-				</script> 
 </div>
 </body>
 </html>

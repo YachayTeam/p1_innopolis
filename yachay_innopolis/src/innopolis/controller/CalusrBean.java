@@ -679,9 +679,7 @@ public class CalusrBean implements Serializable {
 		 */
 		if (getObservacion() == null) {
 			setObservacion("sin observacion");
-		}
-
-		if (getEvento().getCosto() > 0
+		}if (getEvento().getCosto() > 0
 				&& getImagenPago().equals("sin_pago.jpg")) {
 			FacesContext
 					.getCurrentInstance()
@@ -692,8 +690,7 @@ public class CalusrBean implements Serializable {
 				Calendar fecha_hora = Calendar.getInstance();
 				setFechaInscripcion(new Timestamp(fecha_hora.getTimeInMillis()));
 				// Ingreso
-				manager.insertarInscripcion(getEvento(), getFechaInscripcion(),
-						0, getNombre().trim(), getApellido().trim(), getCorreo().trim(),getDireccion().trim(),getTelefono().trim(),getCelular().trim(),
+				manager.insertarInscripcion(getEvento(), getFechaInscripcion(),0, getNombre().trim(), getApellido().trim(), getCorreo().trim(),getDireccion().trim(),getTelefono().trim(),getCelular().trim(),
 						getImagenPago(), getObservacion().trim());
 
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");

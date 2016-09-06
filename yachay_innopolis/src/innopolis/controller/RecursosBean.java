@@ -37,7 +37,7 @@ public class RecursosBean implements Serializable {
 
 	private ManagerReservas manager;
 	private Integer idRecurso;
-	private Integer capacidad;
+	private String capacidad;
 	private String descripcion;
 	private String imagen;
 	private String lugar;
@@ -57,7 +57,7 @@ public class RecursosBean implements Serializable {
 		session = SessionBean.verificarSession();
 		manager = new ManagerReservas();
 		imagen = "300.jpg";
-		capacidad = 0;
+		capacidad = "";
 		stock = 0;
 	}
 
@@ -77,11 +77,11 @@ public class RecursosBean implements Serializable {
 		this.idRecurso = idRecurso;
 	}
 
-	public Integer getCapacidad() {
+	public String getCapacidad() {
 		return capacidad;
 	}
 
-	public void setCapacidad(Integer capacidad) {
+	public void setCapacidad(String capacidad) {
 		this.capacidad = capacidad;
 	}
 
@@ -161,19 +161,33 @@ public class RecursosBean implements Serializable {
 		 * null)); }else{
 		 */
 		try {
-			manager.insertarRecurso(capacidad, descripcion, lugar, nombre,
-					imagen/* ,stock */);
-			// reiniciamos datos (limpiamos el formulario)
-			capacidad = 0;
-			descripcion = "";
-			lugar = "";
-			// stock=0;
-			nombre = "";
-			imagen = "300.jpg";
-			rd = 1;
-			rt = 0;
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("Registrado..!!! Recurso creado", null));
+			if (isNumeric(capacidad)) {
+				manager.insertarRecurso(Integer.parseInt(capacidad),
+						descripcion.trim(), lugar.trim(), nombre.trim(), imagen/*
+																				 * ,
+																				 * stock
+																				 */);
+				// reiniciamos datos (limpiamos el formulario)
+				capacidad = "";
+				descripcion = "";
+				lugar = "";
+				// stock=0;
+				nombre = "";
+				imagen = "300.jpg";
+				rd = 1;
+				rt = 0;
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										"Registrado..!!! Recurso creado", null));
+			} else {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"La cantidad debe ser numérica", null));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -184,9 +198,11 @@ public class RecursosBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
 							.getMessage(), null));
 		}
-		;
-		// }
 		return "";
+	}
+
+	public static boolean isNumeric(String str) {
+		return str.matches("[+-]?\\d*(\\.\\d+)?");
 	}
 
 	// metodo para mostrar los RecursosTipos en Recursos
@@ -230,7 +246,7 @@ public class RecursosBean implements Serializable {
 	// accion para cargar los datos en el formulario
 	public String cargarRecursos(Recurso t) {
 		idRecurso = t.getIdRecurso();
-		capacidad = t.getCapacidad();
+		capacidad = t.getCapacidad().toString();
 		nombre = t.getNombre();
 		asignarNombreImagen();
 		lugar = t.getLugar();
@@ -242,29 +258,24 @@ public class RecursosBean implements Serializable {
 	}
 
 	// accion para modificar los recursos
-	public String actualizarRecurso() {
+	public void actualizarRecurso() {
 		try {
-			manager.editarRecurso(idRecurso, capacidad, descripcion, lugar,
-					nombre, imagen/* ,stock, rt */);
-			// limpiamos los datos
-			capacidad = 0;
-			descripcion = "";
-			lugar = "";
-			nombre = "";
-			imagen = "300.jpg";
-			rd = 1;
-			// stock=0;
-			g = "";
-			// rt=0;
-			FacesContext.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage("Actualizado..!!! Recurso actualizado",null));
+			if (isNumeric(capacidad)) {
+			manager.editarRecurso(idRecurso, Integer.parseInt(capacidad),
+					descripcion.trim(), lugar.trim(), nombre.trim(), imagen/* ,stock, rt */);
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage("Actualizado..!!! Recurso actualizado",
+							null));
+			} else {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"La cantidad debe ser numérica", null));
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return "recurso";
-
 	}
 
 	// activar y desactivar
@@ -273,8 +284,8 @@ public class RecursosBean implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(
 					null,
-					new FacesMessage("Información "+manager.cambioDisRecurso(r
-							.getIdRecurso()),null));
+					new FacesMessage("Información "
+							+ manager.cambioDisRecurso(r.getIdRecurso()), null));
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -284,13 +295,10 @@ public class RecursosBean implements Serializable {
 
 	// ------ traslados--------
 
-	public String irRecurso() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Actualización cancelada",null));
+	public void irRecurso() {
 		// limpiamos los datos
 		idRecurso = 0;
-		capacidad = 0;
+		capacidad = "";
 		descripcion = "";
 		lugar = "";
 		// stock=0;
@@ -298,7 +306,6 @@ public class RecursosBean implements Serializable {
 		setImagen("300.jpg");
 		rd = 1;
 		rt = 0;
-		return "";
 	}
 
 	public String irRec() {
@@ -324,8 +331,8 @@ public class RecursosBean implements Serializable {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-//				String carpetaImagenes = (String) servletContext
-//						.getRealPath(File.separatorChar + "imgevent");
+				// String carpetaImagenes = (String) servletContext
+				// .getRealPath(File.separatorChar + "imgevent");
 				String carpetaImagenes = "/opt/wildfly/standalone/img/img_regece/imgevent/";
 				setImagen(g);
 				System.out.println("PAD------> " + carpetaImagenes);
@@ -344,12 +351,13 @@ public class RecursosBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Correcto: Carga correcta",null));
+								"Correcto: Carga correcta", null));
 
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: No se pudo subir la imagen",null));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Error: No se pudo subir la imagen", null));
 				e.printStackTrace();
 			} finally {
 				if (inputStream != null) {
@@ -363,7 +371,8 @@ public class RecursosBean implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: No se pudo seleccionar la imagen",null));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Error: No se pudo seleccionar la imagen", null));
 		}
 	}
 

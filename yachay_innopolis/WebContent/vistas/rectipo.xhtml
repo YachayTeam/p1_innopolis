@@ -27,11 +27,11 @@
 	<p:growl id="message" showDetail="false" />
 	<p:panel id="panel1"  header="Registro de Ubicaci&oacute;n">
 		<p:panelGrid columns="4" >
-			<h:outputText value="Ubicaci&oacute;n* :"/>
+			<h:outputText value="Ubicaci&oacute;n* :" for="tipo"/>
 			<p:inputText required="true" id="tipo" value="#{recursotipoBean.tiponom}" requiredMessage="Requerido Ubicaci&oacute;n" validatorMessage="Ubicaci&oacute;n Obligatorio">
 			<p:ajax listener="#{recursotipoBean.asignarNombreImagen}" />
 			</p:inputText>
-			<h:outputText value="Descripción* :"/>
+			<h:outputText value="Descripción* :" for="des"/>
 			<p:inputTextarea required="true" id="des"   rows="4" cols="21" autoResize="true" value="#{recursotipoBean.descripcion}" requiredMessage="Requerido Descripci&oacute;n" validatorMessage="Descripción Requerida">
 			</p:inputTextarea>
 			<h:outputText value="Imagen:"/>
@@ -97,14 +97,14 @@
    		
 	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Ubicaci&oacute;n" showEffect="clip" hideEffect="clip">
 	<p:panelGrid columns="2" >
-			<h:outputText value="Identificaci&oacute;n: "/>
-			<h:outputText value="#{recursotipoBean.idRectipo}" ></h:outputText>
-			<h:outputText value="Ubicaci&oacute;n*: "/>
+			<h:outputText value="Identificaci&oacute;n: " for="rect"/>
+			<h:outputText id="rect" value="#{recursotipoBean.idRectipo}" ></h:outputText>
+			<h:outputText value="Ubicaci&oacute;n*: " for="can"/>
 			<p:inputText id="can" value="#{recursotipoBean.tiponom}">
 						<p:ajax  listener="#{recursotipoBean.asignarNombreImagen}" />			
 			</p:inputText>
-			<h:outputText value="Descripción* :"/>
-			<p:inputTextarea   rows="4" cols="21" autoResize="true" value="#{recursotipoBean.descripcion}" >
+			<h:outputText value="Descripción* :" for="descrip"/>
+			<p:inputTextarea id="descrip" rows="4" cols="21" autoResize="true" value="#{recursotipoBean.descripcion}" >
 			</p:inputTextarea>
 			<h:outputText value="Imagen:"/>
 			<p:fileUpload mode="advanced" dragDropSupport="true" multiple="false" update="imagen" sizeLimit="2097152" 

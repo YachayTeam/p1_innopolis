@@ -95,8 +95,8 @@
 		<p:commandButton value="Enviar Solicitud" onclick="PF('cd').show()"></p:commandButton>			
 				
 				<p:confirmDialog header="Confirmar Solicitud" message="Esta seguro de que los datos son v&aacute;lidos" showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
-	        <p:commandButton id="trackenv" value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  oncomplete="PF('cd').hide()" 
-	       action="#{eventosBean.guardarSolicitud}" update=":form3:message5"   onclick="start()" widgetVar="startButton1">
+	        <p:commandButton id="trackenv" value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="PF('dlgLoad').show();" oncomplete="PF('dlgLoad').hide();PF('cd').hide();" 
+	       action="#{eventosBean.guardarSolicitud}" update=":form3:message5"  widgetVar="startButton1">
 	       	        <p:tooltip id="toolTipTrac2" for="trackenv" value="Bot&oacute;n para enviar la solicitud a ser aprobada" trackMouse="true" />
 	        </p:commandButton>
 	        <p:commandButton  value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('cd').hide()">
@@ -106,26 +106,12 @@
 	    </p:confirmDialog>			
 	</h:form>
 	
-	<script type="text/javascript">
-				function start() {
-				    PF('startButton1').disable();
-				 
-				    window['progress'] = setInterval(function() {
-				        var pbClient = PF('pbClient'),
-				        oldValue = pbClient.getValue(),
-				        newValue = oldValue + 20;
-				 
-				        pbClient.setValue(pbClient.getValue() + 20);
-				 
-				        if(newValue === 100) {
-				            clearInterval(window['progress']);
-				            PF('pbClient').setValue(0);
-				        }
-				 
-				 
-				    }, 1000);
-				}
-				</script> 
+	<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:form>
+					<p:graphicImage value="/resources/img/loader.gif" />
+				</h:form>
+			</p:dialog>
 	</p:panel>
 </body>
 </html>

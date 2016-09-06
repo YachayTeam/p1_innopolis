@@ -18,31 +18,44 @@
 	<div class="ecuador-iso">
 		<h:graphicImage id="bola" value="/resources/img/amalavida.png"></h:graphicImage>
 	</div>
-<ui:insert name="contenido"></ui:insert>
+	<ui:insert name="contenido"></ui:insert>
 	<div class="centrar">
-		<b:carousel id="parque" interval="3000" showControls="false" style="img-responsive:true;">
-				<b:carouselItem>
-				<center><p:graphicImage value="/resources/img/banner3.png"  style="width:100%;height:200px; width:1450px;" showControls="false"/></center>
+		<b:carousel id="parque" interval="3000" showControls="false"
+			style="img-responsive:true;">
+			<b:carouselItem>
+				<center>
+					<p:graphicImage value="/resources/img/banner3.png"
+						style="width:100%;height:200px; width:1450px;"
+						showControls="false" />
+				</center>
 			</b:carouselItem>
 			<b:carouselItem>
-				<center><p:graphicImage value="/resources/img/banner.png"  style="width:100%;height:200px; width:1450px;" showControls="false"/></center>
+				<center>
+					<p:graphicImage value="/resources/img/banner.png"
+						style="width:100%;height:200px; width:1450px;"
+						showControls="false" />
+				</center>
 			</b:carouselItem>
-				<b:carouselItem>
-				<center><p:graphicImage value="/resources/img/banner2.png"  style="width:100%;height:200px; width:1450px;" showControls="false"/></center>
+			<b:carouselItem>
+				<center>
+					<p:graphicImage value="/resources/img/banner2.png"
+						style="width:100%;height:200px; width:1450px;"
+						showControls="false" />
+				</center>
 			</b:carouselItem>
 		</b:carousel>
 		<h:form id="form1">
-			<p:growl id="message2" showDetail="false"/>
-<!-- 			<div class="ui-grid-row"> -->
-<!-- 				<div class="ui-grid-col-10" style="padding-left: 20%;"> -->
-<!-- 					<h1 align="center">REGECE</h1> -->
-<!-- 					<h3 align="center">(Reservas de Espacios y Gestión de Eventos -->
-<!-- 						del Centro de Emprendimiento)</h3> -->
-<!-- 				</div> -->
-<!-- 				<div class="ui-grid-col-2"> -->
-<!-- 					<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
+			<p:growl id="message2" showDetail="false" />
+			<!-- 			<div class="ui-grid-row"> -->
+			<!-- 				<div class="ui-grid-col-10" style="padding-left: 20%;"> -->
+			<!-- 					<h1 align="center">REGECE</h1> -->
+			<!-- 					<h3 align="center">(Reservas de Espacios y Gestión de Eventos -->
+			<!-- 						del Centro de Emprendimiento)</h3> -->
+			<!-- 				</div> -->
+			<!-- 				<div class="ui-grid-col-2"> -->
+			<!-- 					<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage> -->
+			<!-- 				</div> -->
+			<!-- 			</div> -->
 			<p:menubar>
 				<p:submenu label="Acciones/Actividades" icon="ui-icon-document">
 					<c:forEach var="te" items="#{sessionBean.la}">
@@ -55,11 +68,12 @@
 				</p:menuitem>
 				<p:menuitem value="Sugerencias" icon="ui-icon-comment"
 					onclick="PF('dlg2').show()" />
-					
-				<p:menuitem value="Perfil de Usuario"  icon="ui-icon-person" action="/vistas/perfilu.xhtml" url ="/vistas/perfilu.xhtml">
-					<p:ajax listener="#{sessionBean.perfilUsuario}"></p:ajax>	
+
+				<p:menuitem value="Perfil de Usuario" icon="ui-icon-person"
+					action="/vistas/perfilu.xhtml" url="/vistas/perfilu.xhtml">
+					<p:ajax listener="#{sessionBean.perfilUsuario}"></p:ajax>
 				</p:menuitem>
-				
+
 				<f:facet name="options">
 					<p:commandButton type="button" value="#{sessionBean.nom}"
 						disabled="true" icon="ui-icon-person" />
@@ -72,28 +86,57 @@
 
 			<p:dialog widgetVar="dlg2" modal="true" closable="true"
 				closeOnEscape="true" header="Registrar Sugerencia"
-				showEffect="explode" hideEffect="bounce" height="250">
-				<h:outputText
-					value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
-				<p:panelGrid columns="2">
-					<h:outputText value="Apellidos: " />
-					<p:inputText id="apellidos" value="#{usuariosBean.apellidosug}"
-						disabled="true"></p:inputText>
-					<h:outputText value="Nombres: " />
-					<p:inputText id="nombres" value="#{usuariosBean.nombresug}"
-						disabled="true"></p:inputText>
-					<h:outputText value="Sugerencia a Enviar: " />
-					<p:inputTextarea rows="4" cols="21" autoResize="true"
-						value="#{usuariosBean.sugerenciatext}">
-						<f:validateLength minimum="5" />
-					</p:inputTextarea>
-					<h:outputText value="" />
-					<p:commandButton id="trackedi" value="Aceptar" icon="ui-icon-check"
-						widgetVar="startButton1" update=":form1 " onclick="PF('dlgLoad').show();"
-						oncomplete="PF('dlgLoad').hide();"
-						action="#{usuariosBean.crearsugerencia}">
-					</p:commandButton>
-				</p:panelGrid>
+				showEffect="explode" hideEffect="bounce" height="300">
+				<b:row>
+					<b:column span="10">
+						<h:outputText style="padding:10px;margin-bottom:15px;"
+							value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputText value="Apellidos: " for="apellidos" style="padding:10px;margin-bottom:15px;" />
+					</b:column>
+					<b:column span="2">
+						<p:inputText id="apellidos" value="#{usuariosBean.apellidosug}" 
+							style="padding:10px;margin-bottom:15px;" disabled="true"></p:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputText value="Nombres: " for="nombres" style="padding:10px;" />
+					</b:column>
+					<b:column span="2">
+						<p:inputText id="nombres" value="#{usuariosBean.nombresug}"
+							style="padding:10px;margin-bottom:15px;" disabled="true"></p:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="3">
+						<h:outputText value="Sugerencia a Enviar: " for="sugere" style="padding:10px;" />
+					</b:column>
+					<b:column span="5">
+						<b:inputTextarea id="sugere" rows="6" value="#{usuariosBean.sugerenciatext}"  style="margin-bottom:15px;">
+							<f:validateLength minimum="5" />
+						</b:inputTextarea>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<p:commandButton id="trackedi" value="Enviar" icon="ui-icon-check"
+							widgetVar="startButton1" update=":form1 "
+							onclick="PF('dlgLoad').show();"
+							oncomplete="PF('dlgLoad').hide();"
+							action="#{usuariosBean.crearsugerencia}">
+						</p:commandButton>
+					</b:column>
+					<b:column span="2">
+						<p:commandButton id="trackvolver" value="Cerrar" icon="ui-icon-check"
+							widgetVar="startButton1" update=":form1 "
+							onclick="PF('dlg2').hide();">
+						</p:commandButton>
+					</b:column>
+				</b:row>
 			</p:dialog>
 			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
 				closable="false" resizable="false" showHeader="false">

@@ -39,7 +39,7 @@ public class SalasBean implements Serializable {
 	private Integer idRectipo;
 	private String tiponom;
 	private String descripcion;
-	private Integer capacidad;
+	private String capacidad;
 	private Colorrec color;
 	private List<Sala> listado;
 	private Integer idcolor;
@@ -56,7 +56,7 @@ public class SalasBean implements Serializable {
 	public SalasBean() {
 		session = SessionBean.verificarSession();
 		imagen = "300.jpg";
-		capacidad = null;
+		capacidad = "";
 		imgMost = "300.jpg";
 		manager = new ManagerReservas();
 		color = new Colorrec();
@@ -87,7 +87,7 @@ public class SalasBean implements Serializable {
 	/**
 	 * @return the capacidad
 	 */
-	public Integer getCapacidad() {
+	public String getCapacidad() {
 		return capacidad;
 	}
 
@@ -95,7 +95,7 @@ public class SalasBean implements Serializable {
 	 * @param capacidad
 	 *            the capacidad to set
 	 */
-	public void setCapacidad(Integer capacidad) {
+	public void setCapacidad(String capacidad) {
 		this.capacidad = capacidad;
 	}
 
@@ -234,10 +234,10 @@ public class SalasBean implements Serializable {
 	}
 
 	public String crearNuevoRecursoTipo() {
-
 		try {
-			manager.insertarSala(getTiponom(), getDescripcion(), getImagen(),
-					getCapacidad());
+			if (isNumeric(capacidad)) {
+			manager.insertarSala(getTiponom().trim(), getDescripcion().trim(), getImagen(),
+					Integer.parseInt(getCapacidad()));
 			tiponom = "";
 			imagen = "300.jpg";
 			idcolor = 0;
@@ -250,6 +250,12 @@ public class SalasBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Sala creada correctamente", null));
+			} else {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"La cantidad debe ser numérica", null));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -263,11 +269,15 @@ public class SalasBean implements Serializable {
 		}
 		return "";
 	}
+	
+	public static boolean isNumeric(String str) {
+		return str.matches("[+-]?\\d*(\\.\\d+)?");
+	}
 
 	public String cargarDatosRecTipo(Sala sala) {
 		idRectipo = sala.getIdSala();
 		tiponom = sala.getTipo();
-		capacidad = sala.getCapacidad();
+		capacidad = sala.getCapacidad().toString();
 		descripcion = sala.getDescripcion();
 		imagen = sala.getImagen();
 		idcolor = sala.getColorsala().getIdColorsala();
@@ -277,19 +287,18 @@ public class SalasBean implements Serializable {
 
 	public String modificarSala() {
 		try {
-			manager.editarSala(getIdRectipo(), getTiponom(), getDescripcion(),
-					getImagen(), getIdcolor(), getCapacidad());
-			setTiponom("");
-			descripcion = "";
-			capacidad = null;
-			imagen = "300.jpg";
-			setIdRectipo(0);
-			idcolor = null;
-			rd = 1;
-			g = "";
+			if (isNumeric(capacidad)) {
+			manager.editarSala(getIdRectipo(), getTiponom().trim(), getDescripcion().trim(),
+					getImagen(), getIdcolor(), Integer.parseInt(getCapacidad()));
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(
 					"Sala editada correctamente", null));
+			} else {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"La cantidad debe ser numérica", null));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -304,7 +313,7 @@ public class SalasBean implements Serializable {
 		return "";
 	}
 
-	public String cancelarModificacion() {
+	public void cancelarModificacion() {
 		setTiponom("");
 		setIdRectipo(0);
 		idcolor = null;
@@ -315,7 +324,6 @@ public class SalasBean implements Serializable {
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Actualización cancelada", null));
-		return "";
 	}
 
 	// ////////////

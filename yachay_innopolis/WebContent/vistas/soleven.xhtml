@@ -1,289 +1,367 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<h:outputStylesheet library="css" name="styleser.css" />
-<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
-<title>Solicitud de Eventos</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="styleser.css" />
+	<link rel="shortcut icon" type="image/x-icon"
+		href="../resources/img/favicon.ico" />
+	<title>Solicitud de Eventos</title>
 </h:head>
 <body>
-<h:form enctype="multipart/form-data">  
-    <p:menubar>      
-        	<p:menuitem value="Lista de Recursos Aprobados" action="/vistas/listarecursosaprobusu.xhtml" icon="ui-icon-bookmark" />         
-        <f:facet name="options">
-        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
-            <p:commandButton id="tracksalir" value="Volver"  action="/home.xhtml" icon="ui-icon-home">
-            <p:ajax listener="#{eventosBean.irvolver}"></p:ajax>
-            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
-            </p:commandButton>
-        </f:facet>
-    </p:menubar>
-</h:form>
-<hr/>
-<div class="div1">
-<h:form id="form1">
-   			<p:messages id="msn"></p:messages>
-	<p:growl id="message1" showDetail="false" />
-	<p:panel id="panel1"  header="Solicitud de Eventos">
-	 <div class="ui-grid ui-grid-responsive">
-	  <div class="ui-grid-row">
-	  <div class="ui-grid-col-2">
-	  <h:outputText value="Vista Previa"/>      			 			 
-   			 <p:graphicImage id="imagen2" value="/resources/img/imgevent/#{eventosBean.imagen}" width="150" height="150" />
-   		<h:outputText value="Imagen:"/>
-			 <p:fileUpload mode="advanced" dragDropSupport="true" update=":form1:message1 :form1:imagen2" sizeLimit="2097152"
-			 multiple="false" invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" fileLimitMessage="Solo una imagen por evento"		 
-    		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar" uploadLabel="Subir" 
-    		label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/>
-   		</div>
-   		 <div class="ui-grid-col-1">
-   		 	 <h:outputText value=":  "/>
-   		 </div>
-	 <div class="ui-grid-col-1">
-		<p:panelGrid  columns="5" id="pgrid" >
-			<h:outputText value="Nombre del Evento*:"/>
-			<p:inputText required="true" id="nombr" value="#{eventosBean.nombre}" requiredMessage="Requerido nombre">
-				<p:ajax  listener="#{eventosBean.asignarNombreImagen}" />
-			</p:inputText>
-			<h:outputText value="Tipo Evento*: "/>
-			<h:panelGroup>  
-					<p:selectOneMenu required="true" styleClass="t" value="#{eventosBean.te}" requiredMessage="Requerido evento">
-						<f:selectItem  itemLabel="Selección Tipo Evento" itemValue="" />
-						<f:selectItems value="#{eventosBean.listaEveTipo}" />
-						<p:ajax
-							listener="#{eventosBean.asignarTipoeve()}">
-						</p:ajax>
-					</p:selectOneMenu>
-			</h:panelGroup>	
-			<h:outputText value=""/>
-			<h:outputText value="Fecha Inicio*:"/>
-			<p:calendar required="true" mindate="#{eventosBean.date}" requiredMessage="Requerido Fecha Inicio"  id="fechai" value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true">
-					<p:ajax  event="dateSelect" listener="#{eventosBean.todaslasalas}" update=":form1:pgrid :form1:msn"></p:ajax>
-			</p:calendar>
-			<h:outputText value="Fecha Fin*:"/>
-			<p:calendar required="true" mindate="#{eventosBean.date}" requiredMessage="Requerido Fecha Fin"  id="fechaf" value="#{eventosBean.ff}" pattern="yyyy/MM/dd HH:mm" mask="true">
-					<p:ajax  event="dateSelect" listener="#{eventosBean.todaslasalas}" update=":form1:pgrid :form1:msn"></p:ajax>
-			</p:calendar>
-			<h:outputText value=""/>
-			<h:outputText value="Costo:"/>
-			<p:inputText  required="false" id="lugar" value="#{eventosBean.costo}" requiredMessage="Requerido costo">
-			<f:validateLength minimum="1"/>
-			</p:inputText>	
-			<h:outputText value="Número de personas*: "/>
-			<p:inputText  required="true" id="cap" value="#{eventosBean.cantidad}" requiredMessage="Requerido capacidad">
-			<f:validateLength minimum="1"/>
-			</p:inputText>		
-			<h:outputText value=""/>
-			<h:outputText value="Descripción:"/>
-			<p:inputTextarea required="true" id="cantid" value="#{eventosBean.descripcion}"  requiredMessage="Requerido descripci&oacute;n">
-			</p:inputTextarea>
-				<h:outputText value=""/>
-				<h:outputText value=""/>
-				<h:outputText value=""/>
-			<h:outputText value="Salas*: "/>
-			<h:panelGroup id="listitprec">  
-					<p:selectOneMenu required="true" styleClass="t" value="#{eventosBean.sala}" requiredMessage="Requerida sala">
-					<p:ajax listener="#{eventosBean.mostrara()}" update="imagen descr capacidad"> </p:ajax>
-						<f:selectItem  itemLabel="Selección Sala" itemValue="-1" />
-						<f:selectItems value="#{eventosBean.select}" />
-						<p:ajax
-							listener="#{eventosBean.asignarsala()}">
-						</p:ajax>
-					</p:selectOneMenu>
-			</h:panelGroup>
-                 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{eventosBean.imagensala}" width="100" height="100" />
-                 <h:outputText id="descr" value="#{eventosBean.descripcionubicacion}" />
-                 <h:outputText id="capacidad" value="#{eventosBean.capacidad}" />
-			<h:outputText value=""/>
-	         <p:commandButton id="trackregistrar" style="width:100%" update=":form1:panel1 :form2:panel2 message1" 
-	         value="Guardar Evento" action="#{eventosBean.irSolicitudnuevoeve()}">
-   			 <p:tooltip id="toolTipTrac1" for="trackregistrar" value="Bot&oacute;n para Registrar Eventos" trackMouse="true" />
-   			 </p:commandButton>   			 
-		</p:panelGrid>		
-		</div>
-		</div>
-		</div>
-	</p:panel>
-</h:form>
-</div>		    
-<div class="div2">
-<h:form id="form2">
-		<p:growl id="message2" showDetail="false" />
-	<p:panel id="panel2" header="Lista de Solicitudes de Eventos">
-		<p:dataTable id="dt"  value="#{eventosBean.listEvenUsu}" reflow="true" rows="8" var="reg"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
-                 paginator="true"  emptyMessage="No hay información almacenada">			
-			<f:facet name="{exp}">
-			<h:commandLink>
-                <p:button  value="Excel" />
-                <p:dataExporter type="xls" target="dt" fileName="resgitrados" pageOnly="true" />
-            </h:commandLink> 
-            <h:commandLink>
-                <p:button  value="Pdf" />
-                <p:dataExporter type="pdf" target="dt" fileName="registrados" pageOnly="true"/>
-            </h:commandLink>
-            </f:facet>
-            <p:column id="f0" filterBy="#{reg.usuario.nombre}" sortBy="#{reg.usuario.nombre}"  headerText="Solicitante">			
-				<h:outputText value="#{reg.usuario.nombre} #{reg.usuario.apellido} "></h:outputText>
-			</p:column>
-			<p:column id="f1" filterBy="#{reg.nombre}" sortBy="#{reg.nombre}"  headerText="Nombres de Eventos">			
-				<h:outputText value="#{reg.nombre}"></h:outputText>
-			</p:column>			
-			<p:column headerText="Costo" sortBy="#{reg.costo}">
-			<h:outputText value="#{reg.costo}"></h:outputText>
-			</p:column>
-			<p:column headerText="Fecha Inicio" sortBy="#{reg.fechaInicio}">
-			<h:outputText value="#{reg.fechaInicio}">
-				<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-			</h:outputText>
-			</p:column>	
-			<p:column headerText="Fecha Fin" sortBy="#{reg.fechaFin}">
-			<h:outputText value="#{reg.fechaFin}">
-				<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-			</h:outputText>
-			</p:column>	
-			<p:column id="f3" filterBy="#{reg.tipoevento.tipo}" sortBy="#{reg.tipoevento.tipo}" headerText="Tipo Evento">
-			<h:outputText value="#{reg.tipoevento.tipo}"></h:outputText>
-			</p:column>
-			<p:column id="f9" filterBy="#{reg.sala.tipo}" sortBy="#{reg.sala.tipo}"  headerText="Sala">			
-				<h:outputText value="#{reg.sala.tipo}" style="color: \##{reg.sala.colorsala.colorcod}"></h:outputText>
-			</p:column>
-			<p:column id="f4" filterBy="#{reg.cantidad}" sortBy="#{reg.cantidad}" width="70" headerText="Capacidad">
-			<h:outputText value="#{reg.cantidad}"></h:outputText>
-			</p:column>
-			<p:column width="152" headerText="Imagen" exportable="false">
-			<p:graphicImage width="150" height="150" value="/resources/img/imgevent/#{reg.imagen}"></p:graphicImage>
-			</p:column>	
-			<p:column id="f6"  headerText="Estado" sortBy="#{reg.estado}" filterBy="#{reg.estado}">
-			<h:outputText value="#{reg.estado}"></h:outputText>
-			</p:column>
-			<p:column id="f7" filterBy="#{reg.sms}" headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
-			<h:outputText value="#{reg.sms}"></h:outputText>
-			</p:column>						
-			<p:column headerText="Opciones" exportable="false">
-				
-				<p:commandButton id="trackeditar" icon="ui-icon-pencil" >
-				<p:tooltip id="toolTipTrack4" for="trackeditar" value="Bot&oacute;n para observar la Información del Evento" trackMouse="true" />
-				<p:ajax listener="#{eventosBean.CargarEventos(reg)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
-				</p:commandButton>	
-				 
-				<p:commandButton id="tracksolicitar" icon="ui-icon-suitcase" action="#{eventosBean.irSolicitud1(reg)}" update=":form2:panel2 :form2:message2">
-   				<p:tooltip id="toolTipTrac10" for="tracksolicitar" value="Bot&oacute;n para Solicitar un Recurso" trackMouse="true" />
-   			    </p:commandButton>
-   				 
-   				<p:commandButton id="trackcerrar" icon="ui-icon-circle-close" action="#{eventosBean.negareventoxus(reg)}" update=":form2:panel2 :form2:message2">
-    			<p:tooltip id="toolTipTrack12" for="trackcerrar" value="Bot&oacute;n para Desactivar el Evento" trackMouse="true" />
-    			</p:commandButton>   				 
-   				<p:commandButton id="trackcance" icon="ui-icon-mail-closed" >
-    			<p:tooltip id="toolTipTrack11" for="trackcance" value="Mensaje de Cancelación de Evento" trackMouse="true" />
-    			<p:ajax listener="#{eventosBean.asignarsmscancelacion(reg)}" update=":form2 :form2:message2" oncomplete="PF('dlg2').show();" />    			
-    			</p:commandButton>
-			</p:column>
-			<p:column headerText="Imprimir solicitud" exportable="false">    			
-    			<p:commandButton id="trackcer6" styleClass="btn btn-info" ajax="false" icon="ui-icon-print" action="#{eventosBean.imprimirRptDocumento(reg)}" update=":form2">
-    			<p:tooltip id="toolTipTrack9" for="trackcer6" value="Imprimir la solicitud" trackMouse="true" />
-    			</p:commandButton>
-    		</p:column>	
-		</p:dataTable>		
-	
-		<br/>  	    
-		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="false"  header="Información Eventos" showEffect="clip" hideEffect="clip">
-		<p:panelGrid  columns="4" >
-		<h:outputText value="Nombre del Evento:"/>
-			<p:inputText   id="nombre" value="#{eventosBean.nombre}" >
-				<p:ajax listener="#{eventosBean.asignarNombreImagen}" />
-			</p:inputText>	
-			<h:outputText value="Descripción:"/>
-			<p:inputText  id="descr" value="#{eventosBean.descripcion}" ></p:inputText>	
-			<h:outputText value="Costo:"/>
-			<p:inputText  id="costo" value="#{eventosBean.costo}" ></p:inputText>
-			<h:outputText value="Fecha Inicio:"/>
-			<p:calendar required="false" mindate="#{eventosBean.date}" requiredMessage="Requerido Fecha" id="fechai" value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true" />
-			<h:outputText value="Fecha Fin:"/>
-			<p:calendar required="false" mindate="#{eventosBean.date}" requiredMessage="Requerido Fecha" id="fechaf" value="#{eventosBean.ff}" pattern="yyyy/MM/dd HH:mm" mask="true" />
-			<h:outputText value="Tipo Evento:"/>
-			<h:panelGroup>  
-					<p:selectOneMenu required="false" styleClass="t" value="#{eventosBean.te}" requiredMessage="Requerido Evento">
-						<f:selectItems value="#{eventosBean.listaEveTipo}" />
-						<p:ajax
-							listener="#{eventosBean.asignarTipoeve()}">
-						</p:ajax>
-					</p:selectOneMenu>
-			</h:panelGroup>
-			<h:outputText value="Estado:"/> 
-			<h:outputText value="#{eventosBean.estadoeven}"></h:outputText>	
-			<h:outputText value="Capacidad:"/>
-			<p:inputText  id="cap" value="#{eventosBean.cantidad}"></p:inputText>
-			<h:outputText value="Sala: "/>
-			<h:panelGroup>  
-					<p:selectOneMenu required="false" styleClass="t" value="#{eventosBean.sala}" itemvalue="-1">
-						<f:selectItems value="#{eventosBean.listaSala}" />
-						<p:ajax
-							listener="#{eventosBean.asignarsala()}">
-						</p:ajax>
-					</p:selectOneMenu>
-			</h:panelGroup>
-			<h:outputText value="Estado Mensaje: "/>
-			<h:outputText value="#{eventosBean.sms}"></h:outputText>		
-			<h:outputText value="Imagen:"/>
-			<p:fileUpload mode="advanced" dragDropSupport="true" multiple="false" update="imagen" sizeLimit="2097152" 
-			invalidSizeMessage="Archivo excede limite 2 MB " invalidFileMessage="Tipo invalido, solo .jpeg" fileLimitMessage="Solo una imagen por evento"
-    		allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"   uploadLabel="Subir" label="Seleccionar" fileLimit="1" fileUploadListener="#{eventosBean.ImagenServ}"/> 
-   			 <h:outputText value="Vista Previa:"/>   			 
-   			 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{eventosBean.imagen}" width="150" height="150" />	   			
-   			<p:commandButton id="trackeditarev"  style="width:100%"  icon="ui-icon-pencil" value="Editar Evento" action="#{eventosBean.editarEvento}" update=":form2:panel2 :form2:message2">
-   			<p:tooltip id="toolTipTrack5" for="trackeditarev" value="Bot&oacute;n para Editar Evento" trackMouse="true" />
-   			</p:commandButton>
-   			<p:commandButton id="trackcerr" update=":form2:panel2" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{eventosBean.irEvento}">
-			<p:tooltip id="toolTipTrack6" for="trackcerr" value="Bot&oacute;n para Cancelar" trackMouse="true" />
-			</p:commandButton>
-		</p:panelGrid>
-		</p:dialog>
-		
-		<p:dialog widgetVar="dlg2" modal="true" closable="true" closeOnEscape="true"  header="Editar Mensaje" showEffect="clip" hideEffect="clip">
-			<h:outputText value="Al momento de enviar el mensaje,  &lt;br/&gt; espere a la notificación de confimación." escape="false"/>
-			<p:panelGrid columns="2" >			
-            <h:outputText value="Mensaje de Cancelación &lt;br/&gt; de Evento a Enviar: " escape="false"/>
-			<p:inputTextarea value="#{eventosBean.smscor}" rows="6" cols="33"></p:inputTextarea>
-			<p:commandButton id="trackedi" onclick="start();" widgetVar="startButton1" update=":form2 :form2:message2" icon="ui-icon-comment" value="Enviar Mensaje" action="#{eventosBean.enviarmensaje(reg1)}" >
-			<p:tooltip id="t3" for="trackedi" value="Bot&oacute;n para enviar el sms" trackMouse="true" />
-			</p:commandButton>
-			<p:commandButton id="trackcerrlg" value="Volver"  onclick="PF('dlg2').close();" update=":form2 :form2:message2" action="#{eventosBean.irAprovador1}">
-			<p:tooltip id="toolTipTrack20" for="trackcerrlg" value="Bot&oacute;n para cancelar la edici&oacute;n" trackMouse="true" />
-			</p:commandButton>
-			<p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:120px"/>
-		</p:panelGrid>
-		</p:dialog>		
-	</p:panel>	
-</h:form>
-<script type="text/javascript">
-				function start() {
-				    PF('startButton1').disable();
-				 
-				    window['progress'] = setInterval(function() {
-				        var pbClient = PF('pbClient'),
-				        oldValue = pbClient.getValue(),
-				        newValue = oldValue + 40;
-				 
-				        pbClient.setValue(pbClient.getValue() + 20);
-				 
-				        if(newValue === 100) {
-				            clearInterval(window['progress']);
-				            PF('pbClient').setValue(0);
-				        }
-				 
-				 
-				    }, 1000);
-				}
-				</script> 
-</div>
-<div class="div4">
-<!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
-</div>
+	<h:form enctype="multipart/form-data">
+		<p:menubar>
+			<p:menuitem value="Lista de Recursos Aprobados"
+				action="/vistas/listarecursosaprobusu.xhtml" icon="ui-icon-bookmark" />
+			<f:facet name="options">
+				<p:commandButton type="button" value="#{sessionBean.nom}"
+					disabled="true" icon="ui-icon-person" />
+				<p:commandButton id="tracksalir" value="Volver" action="/home.xhtml"
+					icon="ui-icon-home">
+					<p:ajax listener="#{eventosBean.irvolver}"></p:ajax>
+					<p:tooltip id="toolTipTrac10" for="tracksalir"
+						value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+				</p:commandButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<hr />
+	<div class="div1">
+		<h:form id="form1">
+			<p:messages id="msn"></p:messages>
+			<p:growl id="message1" showDetail="false" />
+			<p:panel id="panel1" header="Solicitud de Eventos">
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="ui-grid-col-2">
+							<h:outputText value="Vista Previa" />
+							<p:graphicImage id="imagen2"
+								value="/resources/img/imgevent/#{eventosBean.imagen}"
+								width="150" height="150" />
+							<h:outputText value="Imagen:" />
+							<p:fileUpload mode="advanced" dragDropSupport="true"
+								update=":form1:message1 :form1:imagen2" sizeLimit="2097152"
+								multiple="false"
+								invalidSizeMessage="Archivo excede limite 2 MB "
+								invalidFileMessage="Tipo invalido, solo .jpeg"
+								fileLimitMessage="Solo una imagen por evento"
+								allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"
+								uploadLabel="Subir" label="Seleccionar" fileLimit="1"
+								fileUploadListener="#{eventosBean.ImagenServ}" />
+						</div>
+						<div class="ui-grid-col-1">
+							<h:outputText value=":  " />
+						</div>
+						<div class="ui-grid-col-1">
+							<p:panelGrid columns="5" id="pgrid">
+								<h:outputText value="Nombre del Evento*:" />
+								<p:inputText required="true" id="nombr"
+									value="#{eventosBean.nombre}"
+									requiredMessage="Requerido nombre">
+									<p:ajax listener="#{eventosBean.asignarNombreImagen}" />
+								</p:inputText>
+								<h:outputText value="Tipo Evento*: " />
+								<h:panelGroup>
+									<p:selectOneMenu required="true" styleClass="t"
+										value="#{eventosBean.te}" requiredMessage="Requerido evento">
+										<f:selectItem itemLabel="Selección Tipo Evento" itemValue="" />
+										<f:selectItems value="#{eventosBean.listaEveTipo}" />
+										<p:ajax listener="#{eventosBean.asignarTipoeve()}">
+										</p:ajax>
+									</p:selectOneMenu>
+								</h:panelGroup>
+								<h:outputText value="" />
+								<h:outputText value="Fecha Inicio*:" />
+								<p:calendar required="true" mindate="#{eventosBean.date}"
+									requiredMessage="Requerido Fecha Inicio" id="fechai"
+									value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm"
+									mask="true">
+									<p:ajax event="dateSelect"
+										listener="#{eventosBean.todaslasalas}"
+										update=":form1:pgrid :form1:msn"></p:ajax>
+								</p:calendar>
+								<h:outputText value="Fecha Fin*:" />
+								<p:calendar required="true" mindate="#{eventosBean.date}"
+									requiredMessage="Requerido Fecha Fin" id="fechaf"
+									value="#{eventosBean.ff}" pattern="yyyy/MM/dd HH:mm"
+									mask="true">
+									<p:ajax event="dateSelect"
+										listener="#{eventosBean.todaslasalas}"
+										update=":form1:pgrid :form1:msn"></p:ajax>
+								</p:calendar>
+								<h:outputText value="" />
+								<h:outputText value="Costo:" />
+								<p:inputText required="false" id="lugar"
+									value="#{eventosBean.costo}" requiredMessage="Requerido costo">
+									<f:validateLength minimum="1" />
+								</p:inputText>
+								<h:outputText value="Número de personas*: " />
+								<p:inputText required="true" id="cap"
+									value="#{eventosBean.cantidad}" size="2"
+									requiredMessage="Requerido capacidad">
+								</p:inputText>
+								<h:outputText value="" />
+								<h:outputText value="Descripción:" />
+								<p:inputTextarea required="true" id="cantid"
+									value="#{eventosBean.descripcion}"
+									requiredMessage="Requerido descripci&oacute;n">
+								</p:inputTextarea>
+								<h:outputText value="" />
+								<h:outputText value="" />
+								<h:outputText value="" />
+								<h:outputText value="Salas*: " />
+								<h:panelGroup id="listitprec">
+									<p:selectOneMenu required="true" styleClass="t"
+										value="#{eventosBean.sala}" requiredMessage="Requerida sala">
+										<p:ajax listener="#{eventosBean.mostrara()}"
+											update="imagen descr capacidad">
+										</p:ajax>
+										<f:selectItem itemLabel="Selección Sala" itemValue="" />
+										<f:selectItems value="#{eventosBean.select}" />
+										<p:ajax listener="#{eventosBean.asignarsala()}">
+										</p:ajax>
+									</p:selectOneMenu>
+								</h:panelGroup>
+								<p:graphicImage id="imagen"
+									value="/resources/img/imgevent/#{eventosBean.imagensala}"
+									width="100" height="100" />
+								<h:outputText id="descr"
+									value="#{eventosBean.descripcionubicacion}" />
+								<h:outputText id="capacidad" value="#{eventosBean.capacidad}" />
+								<h:outputText value="" />
+								<p:commandButton id="trackregistrar" style="width:100%"
+									update=":form1:panel1 :form2:panel2 message1"
+									value="Guardar Evento"
+									action="#{eventosBean.irSolicitudnuevoeve()}">
+								</p:commandButton>
+							</p:panelGrid>
+						</div>
+					</div>
+				</div>
+			</p:panel>
+		</h:form>
+	</div>
+	<div class="div2">
+		<h:form id="form2">
+			<p:growl id="message2" showDetail="false" />
+			<p:panel id="panel2" header="Lista de Solicitudes de Eventos">
+				<p:dataTable id="dt" value="#{eventosBean.listEvenUsu}"
+					reflow="true" rows="8" var="reg" sortOrder="descending"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
+					paginator="true" emptyMessage="No hay información almacenada">
+					<f:facet name="{exp}">
+						<h:commandLink>
+							<p:button value="Excel" />
+							<p:dataExporter type="xls" target="dt" fileName="resgitrados"
+								pageOnly="true" />
+						</h:commandLink>
+						<h:commandLink>
+							<p:button value="Pdf" />
+							<p:dataExporter type="pdf" target="dt" fileName="registrados"
+								pageOnly="true" />
+						</h:commandLink>
+					</f:facet>
+					<p:column id="f0" filterBy="#{reg.usuario.nombre}"
+						sortBy="#{reg.usuario.nombre}" headerText="Solicitante">
+						<h:outputText
+							value="#{reg.usuario.nombre} #{reg.usuario.apellido} "></h:outputText>
+					</p:column>
+					<p:column id="f1" filterBy="#{reg.nombre}" sortBy="#{reg.nombre}"
+						headerText="Nombres de Eventos">
+						<h:outputText value="#{reg.nombre}"></h:outputText>
+					</p:column>
+					<p:column headerText="Costo" sortBy="#{reg.costo}">
+						<h:outputText value="#{reg.costo}"></h:outputText>
+					</p:column>
+					<p:column headerText="Fecha Inicio" sortBy="#{reg.fechaInicio}">
+						<h:outputText value="#{reg.fechaInicio}">
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Fecha Fin" sortBy="#{reg.fechaFin}">
+						<h:outputText value="#{reg.fechaFin}">
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+						</h:outputText>
+					</p:column>
+					<p:column id="f3" filterBy="#{reg.tipoevento.tipo}"
+						sortBy="#{reg.tipoevento.tipo}" headerText="Tipo Evento">
+						<h:outputText value="#{reg.tipoevento.tipo}"></h:outputText>
+					</p:column>
+					<p:column id="f9" filterBy="#{reg.sala.tipo}"
+						sortBy="#{reg.sala.tipo}" headerText="Sala">
+						<h:outputText value="#{reg.sala.tipo}"
+							style="color: \##{reg.sala.colorsala.colorcod}"></h:outputText>
+					</p:column>
+					<p:column id="f4" filterBy="#{reg.cantidad}"
+						sortBy="#{reg.cantidad}" width="70" headerText="Capacidad">
+						<h:outputText value="#{reg.cantidad}"></h:outputText>
+					</p:column>
+					<p:column width="152" headerText="Imagen" exportable="false">
+						<p:graphicImage width="150" height="150"
+							value="/resources/img/imgevent/#{reg.imagen}"></p:graphicImage>
+					</p:column>
+					<p:column id="f6" headerText="Estado" sortBy="#{reg.estado}"
+						filterBy="#{reg.estado}">
+						<h:outputText value="#{reg.estado}"></h:outputText>
+					</p:column>
+					<p:column id="f7" filterBy="#{reg.sms}"
+						headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
+						<h:outputText value="#{reg.sms}"></h:outputText>
+					</p:column>
+					<p:column headerText="Opciones" exportable="false">
+						<p:commandButton id="trackeditar" icon="ui-icon-pencil">
+							<p:ajax listener="#{eventosBean.CargarEventos(reg)}"
+								update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+							<p:tooltip id="toolTipTrack4" for="trackeditar"
+								value="Bot&oacute;n para observar la Información del Evento"
+								trackMouse="true" />
+						</p:commandButton>
+						<p:commandButton id="tracksolicitar" icon="ui-icon-suitcase"
+							action="#{eventosBean.irSolicitud1(reg)}"
+							update=":form2:panel2 :form2:message2">
+							<p:tooltip id="toolTipTrac10" for="tracksolicitar"
+								value="Bot&oacute;n para Solicitar un Recurso" trackMouse="true" />
+						</p:commandButton>
+						<p:commandButton id="trackcerrar" icon="ui-icon-circle-close"
+							action="#{eventosBean.negareventoxus(reg)}"
+							update=":form2:panel2 :form2:message2">
+							<p:tooltip id="toolTipTrack12" for="trackcerrar"
+								value="Bot&oacute;n para Desactivar el Evento" trackMouse="true" />
+						</p:commandButton>
+						<p:commandButton id="trackcance" icon="ui-icon-mail-closed">
+							<p:tooltip id="toolTipTrack11" for="trackcance"
+								value="Mensaje de Cancelación de Evento" trackMouse="true" />
+							<p:ajax listener="#{eventosBean.asignarsmscancelacion(reg)}"
+								update=":form2 :form2:message2" oncomplete="PF('dlg2').show();" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="Imprimir solicitud" exportable="false">
+						<p:commandButton id="trackcer6" styleClass="btn btn-info"
+							ajax="false" icon="ui-icon-print"
+							action="#{eventosBean.imprimirRptDocumento(reg)}" update=":form2">
+							<p:tooltip id="toolTipTrack9" for="trackcer6"
+								value="Imprimir la solicitud" trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<br />
+				<p:dialog widgetVar="dlg1" modal="true" closable="false"
+					closeOnEscape="false" header="Información Eventos"
+					showEffect="clip" hideEffect="clip">
+					<p:messages id="msj" closable="true" />
+					<p:panelGrid columns="4" id="panel4">
+						<h:outputText value="Nombre del Evento:" />
+						<p:inputText id="nombre" value="#{eventosBean.nombre}">
+							<p:ajax listener="#{eventosBean.asignarNombreImagen}" />
+						</p:inputText>
+						<h:outputText value="Descripción:" />
+						<b:inputTextarea id="descr" value="#{eventosBean.descripcion}"
+							rows="3"></b:inputTextarea>
+						<h:outputText value="Costo:" />
+						<p:inputText id="costo" value="#{eventosBean.costo}"></p:inputText>
+						<h:outputText value="Fecha Inicio:" />
+						<p:calendar required="false" mindate="#{eventosBean.date}"
+							requiredMessage="Requerido Fecha" id="fechai"
+							value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true" />
+						<h:outputText value="Fecha Fin:" />
+						<p:calendar required="false" mindate="#{eventosBean.date}"
+							requiredMessage="Requerido Fecha" id="fechaf"
+							value="#{eventosBean.ff}" pattern="yyyy/MM/dd HH:mm" mask="true" />
+						<h:outputText value="Tipo Evento:" />
+						<h:panelGroup>
+							<p:selectOneMenu required="false" styleClass="t"
+								value="#{eventosBean.te}" itemvalue=""
+								requiredMessage="Requerido Evento">
+								<f:selectItems value="#{eventosBean.listaEveTipo}" />
+								<p:ajax listener="#{eventosBean.asignarTipoeve()}">
+								</p:ajax>
+							</p:selectOneMenu>
+						</h:panelGroup>
+						<h:outputText value="Estado:" />
+						<h:outputText value="#{eventosBean.estadoeven}"></h:outputText>
+						<h:outputText value="Capacidad:" />
+						<p:inputText id="cap" value="#{eventosBean.cantidad}" size="2">
+						</p:inputText>
+						<h:outputText value="Sala: " />
+						<h:panelGroup>
+							<p:selectOneMenu required="false" styleClass="t"
+								value="#{eventosBean.sala}" itemvalue="">
+								<f:selectItems value="#{eventosBean.listaSala}" />
+								<p:ajax listener="#{eventosBean.asignarsala()}">
+								</p:ajax>
+							</p:selectOneMenu>
+						</h:panelGroup>
+						<h:outputText value="Estado Mensaje: " />
+						<h:outputText value="#{eventosBean.sms}"></h:outputText>
+						<h:outputText value="Imagen:" />
+						<p:fileUpload mode="advanced" dragDropSupport="true"
+							multiple="false" update="imagen" sizeLimit="2097152"
+							invalidSizeMessage="Archivo excede limite 2 MB "
+							invalidFileMessage="Tipo invalido, solo .jpeg"
+							fileLimitMessage="Solo una imagen por evento"
+							allowTypes="/(\.|\/)(jpe?g)$/" cancelLabel="Cancelar"
+							uploadLabel="Subir" label="Seleccionar" fileLimit="1"
+							fileUploadListener="#{eventosBean.ImagenServ}" />
+						<h:outputText value="Vista Previa:" />
+						<p:graphicImage id="imagen"
+							value="/resources/img/imgevent/#{eventosBean.imagen}" width="100"
+							height="100" />
+						<p:commandButton id="trackeditarev" style="width:100%"
+							icon="ui-icon-pencil" value="Editar Evento"
+							action="#{eventosBean.editarEvento()}"
+							update="panel4  :form1:message1">
+						</p:commandButton>
+						<p:commandButton id="trackcerr" update=":form1:message1"
+							value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();"
+							action="#{eventosBean.irEvento}">
+						</p:commandButton>
+					</p:panelGrid>
+				</p:dialog>
+
+				<p:dialog widgetVar="dlg2" modal="true" closable="true"
+					closeOnEscape="true" header="Editar Mensaje" showEffect="clip"
+					hideEffect="clip">
+					<h:outputText
+						value="Al momento de enviar el mensaje,  &lt;br/&gt; espere a la notificación de confimación."
+						escape="false" />
+					<p:panelGrid columns="2">
+						<h:outputText
+							value="Mensaje de Cancelación &lt;br/&gt; de Evento a Enviar: "
+							escape="false" />
+						<p:inputTextarea value="#{eventosBean.smscor}" rows="6" cols="33"></p:inputTextarea>
+						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
+							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
+							update=":form2 :form2:message2" icon="ui-icon-comment"
+							value="Enviar Mensaje"
+							action="#{eventosBean.enviarmensaje(reg1)}">
+							<p:tooltip id="t3" for="trackedi"
+								value="Bot&oacute;n para enviar el sms" trackMouse="true" />
+						</p:commandButton>
+						<p:commandButton id="trackcerrlg" value="Volver"
+							onclick="PF('dlg2').close();" update=":form2 :form2:message2"
+							action="#{eventosBean.irAprovador1}">
+							<p:tooltip id="toolTipTrack20" for="trackcerrlg"
+								value="Bot&oacute;n para cancelar la edici&oacute;n"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:dialog>
+				<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+					closable="false" resizable="false" showHeader="false">
+					<h:form>
+						<p:graphicImage value="/resources/img/loader.gif" />
+					</h:form>
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	</div>
+	<div class="div4">
+		<!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
+	</div>
 </body>
 </html>

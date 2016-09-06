@@ -92,7 +92,7 @@
 			<h:outputText value="Mensaje a Enviar"/>
 			<p:inputTextarea value="#{solicitudApBean.sms}"></p:inputTextarea>
 			<p:commandButton id="trackedi" value="Aceptar" action="#{solicitudApBean.notificarSolicitud(sol1)}"  
-	        icon="ui-icon-comment"  onclick="start();" widgetVar="startButton1" update=":form:panel :form:msn"  >
+	        icon="ui-icon-comment" onclick="PF('dlgLoad').show();" oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1" update=":form:panel :form:msn"  >
 			<p:tooltip id="t3" for="trackedi" value="Bot&oacute;n para editar el sms" trackMouse="true" />
 			</p:commandButton>
 			<p:commandButton id="trackcerrlg" value="Volver" onclick="PF('dlg2').close();" update=":form:panel :form:msn" action="#{solicitudApBean.cancelarenv}">
@@ -101,29 +101,15 @@
     			<p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:120px"/>
 		</p:panelGrid>
 </p:dialog>	
-
+<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:form>
+					<p:graphicImage value="/resources/img/loader.gif" />
+				</h:form>
+			</p:dialog>
 				
 	</p:panel>
 	</h:form>
-	<script type="text/javascript">
-				function start() {
-				    PF('startButton1').disable();
-				 
-				    window['progress'] = setInterval(function() {
-				        var pbClient = PF('pbClient'),
-				        oldValue = pbClient.getValue(),
-				        newValue = oldValue + 40;
-				 
-				        pbClient.setValue(pbClient.getValue() + 20);
-				 
-				        if(newValue === 100) {
-				            clearInterval(window['progress']);
-				            PF('pbClient').setValue(0);
-				        }
-				 
-				 
-				    }, 1000);
-				}
-				</script> 
+	
 </body> 
 </html>

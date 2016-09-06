@@ -68,7 +68,7 @@ public class EventosBean {
 	private String imgMost;
 	private String lugar;
 	private String nombre;
-	private Integer cantidad;
+	private String cantidad;
 	private Integer sc;
 	private Integer te;
 	private String g;
@@ -361,11 +361,11 @@ public class EventosBean {
 		return file;
 	}
 
-	public Integer getCantidad() {
+	public String getCantidad() {
 		return cantidad;
 	}
-
-	public void setCantidad(Integer cantidad) {
+	
+	public void setCantidad(String cantidad) {
 		this.cantidad = cantidad;
 	}
 
@@ -971,8 +971,8 @@ public class EventosBean {
 				fechaInicio = new Timestamp(fi.getTime());
 				fechaFin = new Timestamp(ff.getTime());
 				mEvento.asignarUsuario(session.getIdUsr());
-				mEvento.insertarEvento(nombre, descripcion/* , lugar */, imagen,
-						fechaInicio, fechaFin, costo, cantidad, estadoeven);
+				mEvento.insertarEvento(nombre.trim(), descripcion.trim()/* , lugar */, imagen,
+						fechaInicio, fechaFin, costo, Integer.parseInt(cantidad), estadoeven);
 
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 				smscoradminsoleve =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
@@ -1034,10 +1034,10 @@ public class EventosBean {
 				correosadminsoleve = "";
 				smscoradminsoleve = "";
 				smscorususoleve = "";
-				descripcionubicacion = "";
+				descripcionubicacion = "Descripción de la Sala";
 				stock ="stock";
 				capacidad="capacidad";
-				descripcionrecurso = "";
+				descripcionrecurso = "Descripción de Recurso";
 				imagensala = "300.jpg";
 				// reiniciamos datos (limpiamos el formulario)
 				nombre = "";
@@ -1050,7 +1050,7 @@ public class EventosBean {
 				fechaInicio = null;
 				fechaFin = null;
 				costo = 0;
-				cantidad = 0;
+				cantidad = "";
 				sc = 0;
 				te = 0;
 				sala = 0;
@@ -1156,7 +1156,7 @@ public class EventosBean {
 			modEv = ev;
 			te = ev.getTipoevento().getIdTipoEvento();
 			idusr = ev.getUsuario().getIdUsr();
-			cantidad = ev.getCantidad();
+			cantidad = ev.getCantidad().toString();
 			imagen = ev.getImagen();
 			sala = ev.getSala().getIdSala();
 			fechaInicio = new Timestamp(ev.getFechaInicio().getTime());
@@ -1182,16 +1182,6 @@ public class EventosBean {
 					null,
 					new FacesMessage("El evento cuenta con una solicitud",
 							null));
-			return "";
-		} else if (!Validacion.fechaMayorIgual(ev.getFechaFin())) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_WARN,
-									"La fecha de solicitud no debe ser menor a la actual",
-									null));
 			return "";
 		} else if (ev.getEstado().equals("Activado")) {
 			FacesContext
@@ -1273,24 +1263,9 @@ public class EventosBean {
 					new FacesMessage("El evento cuenta con una solicitud",
 							null));
 			return "";
-		} else if (!Validacion.fechaMayorIgual(ev.getFechaFin())) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_WARN,
-									"La fecha de solicitud no debe ser menor a la actual",
-									null));
-			return "";
 		} else if (ev.getEstado().equals("Activado")) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_WARN,
-									"El evento se encuentra Activado, no se puede solicitar",
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"El evento se encuentra Activado, no se puede solicitar",
 									null));
 			return "";
 		}
@@ -1368,12 +1343,16 @@ public class EventosBean {
 			return "";
 		} else {
 			try {
-				if(cantidad == 0){
+				if(Integer.parseInt(cantidad) == 0){
 					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
 				}
 				else{
+					if(isNumeric(cantidad)){				
+						if(Integer.parseInt(cantidad) == 0){
+							FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
+						}else{		
 				int sala1 = mReserv.findSalaByID(sala).getCapacidad();
-				if (cantidad <= sala1) {
+				if (Integer.parseInt(cantidad) <= sala1) {
 					fechaInicio = new Timestamp(fi.getTime());
 					fechaFin = new Timestamp(ff.getTime());
 					idusr = session.getIdUsr();
@@ -1382,8 +1361,8 @@ public class EventosBean {
 							.toString());
 					String ff1 = new String(dateFormat.format(fechaFin)
 							.toString());
-					eventotemp = mEvento.crearEventoTmp(nombre, descripcion,
-							imagen, fechaInicio, fechaFin, costo, cantidad);
+					eventotemp = mEvento.crearEventoTmp(nombre.trim(), descripcion.trim(),
+							imagen, fechaInicio, fechaFin, costo, Integer.parseInt(cantidad));
 					setActividad(eventotemp.getNombre() + ", " + fi1 + " - "
 							+ ff1);
 					setObjetivo(eventotemp.getDescripcion());
@@ -1391,7 +1370,7 @@ public class EventosBean {
 					setH_fin(eventotemp.getFechaFin());
 					veri();
 					a = "soldet3?faces-redirect=true";
-				} else if (cantidad > sala1) {
+				} else if (Integer.parseInt(cantidad) > sala1) {
 					FacesContext
 							.getCurrentInstance()
 							.addMessage(
@@ -1401,6 +1380,13 @@ public class EventosBean {
 											"El número de personas excede la capacidad de la sala",
 											null));
 				}
+				}
+				}else {
+						FacesContext.getCurrentInstance().addMessage(
+								null,
+								new FacesMessage(FacesMessage.SEVERITY_ERROR,
+										"La cantidad debe ser numérica", null));
+						}
 				}
 			} catch (Exception e) {
 				System.out.print("Ir a solicitud no creo el evento temporal");
@@ -1422,12 +1408,12 @@ public class EventosBean {
 			return "";
 		} else {
 			try {
-				if(cantidad == 0){
+				if(isNumeric(cantidad)){				
+				if(Integer.parseInt(cantidad) == 0){
 					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
-				}
-				else{
+				}else{				
 				int sala1 = mReserv.findSalaByID(sala).getCapacidad();
-				if (cantidad <= sala1) {
+				if (Integer.parseInt(cantidad) <= sala1) {
 					fechaInicio = new Timestamp(fi.getTime());
 					fechaFin = new Timestamp(ff.getTime());
 					idusr = session.getIdUsr();
@@ -1436,8 +1422,8 @@ public class EventosBean {
 							.toString());
 					String ff1 = new String(dateFormat.format(fechaFin)
 							.toString());
-					eventotemp = mEvento.crearEventoTmp(nombre, descripcion,
-							imagen, fechaInicio, fechaFin, costo, cantidad);
+					eventotemp = mEvento.crearEventoTmp(nombre.trim(), descripcion.trim(),
+							imagen, fechaInicio, fechaFin, costo, Integer.parseInt(cantidad));
 					setActividad(eventotemp.getNombre() + ", " + fi1 + " - "
 							+ ff1);
 					setObjetivo(eventotemp.getDescripcion());
@@ -1447,15 +1433,26 @@ public class EventosBean {
 					agregardetalle = true;
 
 					a = "soldet3?faces-redirect=true";
-				} else if (cantidad > sala1) {
+				
+				}else if (Integer.parseInt(cantidad) > sala1) {
 					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El número de personas excede la capacidad de la sala",null));
 				}
 				}
+				}else {
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"La cantidad debe ser numérica", null));
+					}
 			} catch (Exception e) {
 				System.out.print("ir a solicitud no creo el evento temporal");
 			}
 			return a;
 		}
+	}
+	
+	public static boolean isNumeric(String str) {
+		return str.matches("[+-]?\\d*(\\.\\d+)?");
 	}
 
 	public String regresar() {
@@ -1506,8 +1503,8 @@ public class EventosBean {
 			descripcion = "";
 			lugar = "";
 			imagen = "300.jpg";
-			descripcionubicacion = "";
-			descripcionrecurso = "";
+			descripcionubicacion = "Descripción de la Sala";
+			descripcionrecurso = "Descripción de Recurso";
 			imagensala = "300.jpg";
 			fi = null;
 			ff = null;
@@ -1515,7 +1512,7 @@ public class EventosBean {
 			fechaFin = null;
 			costo = 0;
 			sala = 0;
-			cantidad = 0;
+			cantidad = "";
 			sc = 0;
 			te = 0;
 			idusr = 0;
@@ -2178,7 +2175,7 @@ public class EventosBean {
 		modEv = ev;
 		sala = ev.getSala().getIdSala();
 		te = ev.getTipoevento().getIdTipoEvento();
-		cantidad = ev.getCantidad();
+		cantidad = ev.getCantidad().toString();
 		imagen = ev.getImagen();
 		idusr = ev.getUsuario().getIdUsr();
 		nombreusuario = ev.getUsuario().getNombre();
@@ -2290,8 +2287,8 @@ public class EventosBean {
 		descripcion = "";
 		lugar = "";
 		imagen = "300.jpg";
-		descripcionubicacion = "";
-		descripcionrecurso = "";
+		descripcionubicacion = "Descripción de la Sala";
+		descripcionrecurso = "Descripción de Recurso";
 		imagensala = "300.jpg";
 		fi = null;
 		ff = null;
@@ -2299,7 +2296,7 @@ public class EventosBean {
 		fechaInicio = null;
 		fechaFin = null;
 		costo = 0;
-		cantidad = 0;
+		cantidad = "";
 		sc = 0;
 		te = 0;
 		idusr = 0;
@@ -2322,10 +2319,10 @@ public class EventosBean {
 		fechaFin = null;
 		costo = 0;
 		sala = 0;
-		cantidad = 0;
+		cantidad = "";
 		sc = 0;
-		descripcionubicacion = "";
-		descripcionrecurso = "";
+		descripcionubicacion = "Descripción de la Ubicación";
+		descripcionrecurso = "Descripción de Recurso";
 		stock ="stock";
 		capacidad="capacidad";
 		imagensala = "300.jpg";
@@ -2347,7 +2344,7 @@ public class EventosBean {
 		return "soldet4?faces-redirect=true";
 	}
 
-	public String irEvento() {
+	public void irEvento() {
 		// limpiamos los datos
 		nombre = "";
 		descripcion = "";
@@ -2358,17 +2355,16 @@ public class EventosBean {
 		fechaInicio = null;
 		fechaFin = null;
 		costo = 0;
-		cantidad = 0;
+		cantidad = "";
 		sala = 0;
 		sc = 0;
 		te = 0;
-		descripcionubicacion = "";
-		descripcionrecurso = "";
+		descripcionubicacion = "Descripción de la Ubicación";
+		descripcionrecurso = "Descripción de Recurso";
 		imagensala = "300.jpg";
 		idusr = 0;
 		esave = false;
 		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
-		return "soleven?faces-redirect=true";
 	}
 
 	public String irEvento1() {
@@ -2381,11 +2377,11 @@ public class EventosBean {
 		ff = null;
 		fechaInicio = null;
 		fechaFin = null;
-		descripcionubicacion = "";
-		descripcionrecurso = "";
+		descripcionubicacion = "Descripción de la Ubicación";
+		descripcionrecurso = "Descripción de Recurso";
 		imagensala = "300.jpg";
 		costo = 0;
-		cantidad = 0;
+		cantidad = "";
 		sc = 0;
 		te = 0;
 		sala = 0;
@@ -2419,7 +2415,7 @@ public class EventosBean {
 				fechaInicio = null;
 				fechaFin = null;
 				costo = 0;
-				cantidad = 0;
+				cantidad = "";
 				sc = 0;
 				te = 0;
 				idusr = 0;
@@ -2462,31 +2458,33 @@ public class EventosBean {
 						FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"No se puede modificar el evento",null));
 					}
 				} else {
-					mEvento.editarEventos(idEvento, nombre, descripcion,imagen, fechaInicio, fechaFin, costo, cantidad,interno);
-					// reiniciamos datos (limpiamos el formulario)
-					idEvento = 0;
-					nombre = "";
-					descripcion = "";
-					lugar = "";
-					estadoeven = "";
-					imagen = "300.jpg";
-					fi = null;
-					ff = null;
-					fechaInicio = null;
-					nombreusuario = "";
-					apellidousuario = "";
-					interno = false;
-					fechaFin = null;
-					costo = 0;
-					cantidad = null;
-					sc = null;
-					te = null;
-					idusr = 0;
-					sala = null;
-					esave = false;
-					sala = null;
-					g = "";
+					if(isNumeric(cantidad)){				
+						if(Integer.parseInt(cantidad) == 0){
+							FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
+						}else{				
+						int sala1 = mReserv.findSalaByID(sala).getCapacidad();
+						if (Integer.parseInt(cantidad) <= sala1) {
+							fechaInicio = new Timestamp(fi.getTime());
+							fechaFin = new Timestamp(ff.getTime());
+							idusr = session.getIdUsr();
+							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+							String fi1 = new String(dateFormat.format(fechaInicio)
+									.toString());
+							String ff1 = new String(dateFormat.format(fechaFin)
+									.toString());	
+					
+					mEvento.editarEventos(idEvento, nombre.trim(), descripcion.trim(),imagen, fechaInicio, fechaFin, costo, Integer.parseInt(cantidad),interno);
 					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Evento editado correctamente", null));
+						}else if (Integer.parseInt(cantidad) > sala1) {
+							FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El número de personas excede la capacidad de la sala",null));
+						}
+						}
+						}else {
+							FacesContext.getCurrentInstance().addMessage(
+									null,
+									new FacesMessage(FacesMessage.SEVERITY_ERROR,
+											"La cantidad debe ser numérica", null));
+							}
 				}
 			}
 		} catch (Exception e) {
@@ -2555,9 +2553,9 @@ public class EventosBean {
 								"Debe agregar recursos", null));
 			} else {
 				// Editamos evento
-				mEvento.editarEventos(idEvento, nombre,
-						descripcion/* , lugar */, imagen, fechaInicio,
-						fechaFin, costo, cantidad, interno);
+				mEvento.editarEventos(idEvento, nombre.trim(),
+						descripcion.trim()/* , lugar */, imagen, fechaInicio,
+						fechaFin, costo, Integer.parseInt(cantidad), interno);
 				// reiniciamos datos de eventos
 				idEvento = 0;
 				nombre = "";
@@ -2570,7 +2568,7 @@ public class EventosBean {
 				fechaInicio = null;
 				fechaFin = null;
 				costo = 0;
-				cantidad = 0;
+				cantidad = "";
 				sc = 0;
 				interno = false;
 				te = 0;
@@ -2789,7 +2787,7 @@ public class EventosBean {
 		modEv = ev;
 		te = ev.getTipoevento().getIdTipoEvento();
 		idusr = ev.getUsuario().getIdUsr();
-		cantidad = ev.getCantidad();
+		cantidad = ev.getCantidad().toString();
 		imagen = ev.getImagen();
 		try {
 			smscor = "Sr/ra. Administrador/a, le informo que el Evento <br/>"
@@ -2842,7 +2840,7 @@ public class EventosBean {
 		sala = ev.getSala().getIdSala();
 		te = ev.getTipoevento().getIdTipoEvento();
 		idusr = ev.getUsuario().getIdUsr();
-		cantidad = ev.getCantidad();
+		cantidad = ev.getCantidad().toString();
 		imagen = ev.getImagen();
 		idusr = ev.getUsuario().getIdUsr();
 		sms = ev.getSms();
@@ -2898,12 +2896,12 @@ public class EventosBean {
 				fechaInicio = null;
 				fechaFin = null;
 				costo = 0;
-				descripcionubicacion = "";
-				descripcionrecurso = "";
+				descripcionubicacion = "Descripción de la Ubicación";
+				descripcionrecurso = "Descripción de Recurso";
 				stock ="stock";
 				capacidad="capacidad";
 				imagensala = "300.jpg";
-				cantidad = 0;
+				cantidad = "";
 				sc = 0;
 				sala = 0;
 				idusr = null;
@@ -2923,15 +2921,15 @@ public class EventosBean {
 				imagen = "300.jpg";
 				fi = null;
 				ff = null;
-				descripcionubicacion = "";
-				descripcionrecurso = "";
+				descripcionubicacion = "Descripción de la Ubicación";
+				descripcionrecurso = "Descripción de Recurso";
 				stock ="stock";
 				capacidad="capacidad";
 				imagensala = "300.jpg";
 				fechaInicio = null;
 				fechaFin = null;
 				costo = 0;
-				cantidad = 0;
+				cantidad = "";
 				sc = 0;
 				sala = 0;
 				idusr = null;
@@ -2957,13 +2955,13 @@ public class EventosBean {
 				ff = null;
 				fechaInicio = null;
 				fechaFin = null;
-				descripcionubicacion = "";
-				descripcionrecurso = "";
+				descripcionubicacion = "Descripción de la Ubicación";
+				descripcionrecurso = "Descripción de Recurso";
 				stock ="stock";
 				capacidad="capacidad";
 				imagensala = "300.jpg";
 				costo = 0;
-				cantidad = 0;
+				cantidad = "";
 				sc = 0;
 				sala = 0;
 				idusr = null;
@@ -3007,8 +3005,8 @@ public class EventosBean {
 				descripcion = "";
 				lugar = "";
 				imagen = "300.jpg";
-				descripcionubicacion = "";
-				descripcionrecurso = "";
+				descripcionubicacion = "Descripción de la Ubicación";
+				descripcionrecurso = "Descripción de Recurso";
 				stock ="stock";
 				capacidad="capacidad";
 				imagensala = "300.jpg";
@@ -3017,7 +3015,7 @@ public class EventosBean {
 				fechaInicio = null;
 				fechaFin = null;
 				costo = 0;
-				cantidad = 0;
+				cantidad = "";
 				sc = 0;
 				te = 0;
 				sala = 0;
@@ -3036,15 +3034,15 @@ public class EventosBean {
 				imagen = "300.jpg";
 				fi = null;
 				ff = null;
-				descripcionubicacion = "";
-				descripcionrecurso = "";
+				descripcionubicacion = "Descripción de la Ubicación";
+				descripcionrecurso = "Descripción de Recurso";
 				stock ="stock";
 				capacidad="capacidad";
 				imagensala = "300.jpg";
 				fechaInicio = null;
 				fechaFin = null;
 				costo = 0;
-				cantidad = 0;
+				cantidad = "";
 				sc = 0;
 				sala = 0;
 				te = 0;
@@ -3097,12 +3095,12 @@ public class EventosBean {
 		fechaInicio = null;
 		fechaFin = null;
 		costo = 0;
-		descripcionubicacion = "";
-		descripcionrecurso = "";
+		descripcionubicacion = "Descripción de la Ubicación";
+		descripcionrecurso = "Descripción de Recurso";
 		stock ="stock";
 		capacidad="capacidad";
 		imagensala = "300.jpg";
-		cantidad = 0;
+		cantidad = "";
 		sc = 0;
 		te = 0;
 		listDetalles = new ArrayList<Solicidetalle>();
@@ -3128,9 +3126,9 @@ public class EventosBean {
 		fechaInicio = null;
 		fechaFin = null;
 		costo = 0;
-		cantidad = 0;
-		descripcionubicacion = "";
-		descripcionrecurso = "";
+		cantidad = "";
+		descripcionubicacion = "Descripción de la Ubicación";
+		descripcionrecurso = "Descripción de Recurso";
 		stock ="stock";
 		capacidad="capacidad";
 		imagensala = "300.jpg";
@@ -3155,8 +3153,8 @@ public class EventosBean {
 		descripcion = "";
 		lugar = "";
 		imagen = "300.jpg";
-		descripcionubicacion = "";
-		descripcionrecurso = "";
+		descripcionubicacion = "Descripción de la Ubicación";
+		descripcionrecurso = "Descripción de Recurso";
 		stock ="stock";
 		capacidad="capacidad";
 		imagensala = "300.jpg";
@@ -3165,7 +3163,7 @@ public class EventosBean {
 		fechaInicio = null;
 		fechaFin = null;
 		costo = 0;
-		cantidad = 0;
+		cantidad = "";
 		sc = 0;
 		te = 0;
 		idusr = 0;
@@ -3223,14 +3221,14 @@ public class EventosBean {
 		descripcion = "";
 		lugar = "";
 		imagen = "300.jpg";
-		descripcionubicacion = "";
+		descripcionubicacion = "Descripción de la Ubicación";
 		imagensala = "300.jpg";
 		fi = null;
 		ff = null;
 		fechaInicio = null;
 		fechaFin = null;
 		costo = 0;
-		cantidad = 0;
+		cantidad = "";
 		sc = 0;
 		capacidad="capacidad";
 		te = 0;
@@ -3259,7 +3257,7 @@ public class EventosBean {
 		descripcion = "";
 		lugar = "";
 		imagen = "300.jpg";
-		descripcionubicacion = "";
+		descripcionubicacion = "Descripción de la Ubicación";
 		stock ="stock";
 		imagensala = "300.jpg";
 		h_inicio = new Timestamp(new Date().getTime());
@@ -3267,7 +3265,7 @@ public class EventosBean {
 		fechaInicio = null;
 		fechaFin = null;
 		costo = 0;
-		cantidad = 0;
+		cantidad = "";
 		sc = 0;
 		te = 0;
 		idusr = 0;
@@ -3553,6 +3551,4 @@ public class EventosBean {
 		mReserv.asignarRecurso(id_recurso);
 		return "";
 	}
-
-	
 }

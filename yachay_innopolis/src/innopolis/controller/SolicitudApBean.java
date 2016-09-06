@@ -90,6 +90,8 @@ public class SolicitudApBean {
 	// sacar la descripcion del tipo de ubicacion
 	private boolean mostrar;
 	private String descripcionubicacion;
+	private String stock;
+	int contador=0;
 	private String imagen;
 	// calendario
 	private Date date = new Date();
@@ -105,8 +107,10 @@ public class SolicitudApBean {
 		mostrar = false;
 		agregardetalle = true;
 		descripcionubicacion = "Descripción del Recurso";
+		stock = "stock";
+		contador=0;
 		imagen = "300.jpg";
-		capacidad_recurso = 1;
+		capacidad_recurso = null;
 	}
 
 	// Metodos Get y Set
@@ -443,6 +447,14 @@ public class SolicitudApBean {
 	public void setRecursofecha(Date recursofecha) {
 		this.recursofecha = recursofecha;
 	}
+	
+	public String getStock() {
+		return stock;
+	}
+	
+	public void setStock(String stock) {
+		this.stock = stock;
+	}
 
 	/* SESSION */
 	public UsuarioHelp getSession() {
@@ -496,10 +508,7 @@ public class SolicitudApBean {
 		List<Recurso> listadoRecurso = manager.findAllRecursosDisponibles(
 				h_inicio, h_fin, horainicio, horafin);
 		for (Recurso p : listadoRecurso) {
-			int contador = manager.findContadorRecurso(h_inicio, h_fin,
-					p.getIdRecurso());
-			SelectItem item = new SelectItem(p.getIdRecurso(), p.getNombre()
-					+ " - " + Integer.toString(contador));
+			SelectItem item = new SelectItem(p.getIdRecurso(), p.getNombre());
 			listadoSI.add(item);
 		}
 		return listadoSI;
@@ -676,7 +685,7 @@ public class SolicitudApBean {
 				listDetalles = solicitud.getSolicidetalles();
 				estadoSol = solicitud.getSoliciestado();
 				// Cargar datos recurso
-				capacidad_recurso = 1;
+				capacidad_recurso = null;
 				// Listas
 				list_mas = new ArrayList<Solicidetalle>();
 				agregardetalle = true;
@@ -745,7 +754,7 @@ public class SolicitudApBean {
 				det.setRecurso(rec);
 				listDetalles.add(det);
 				list_mas.add(det);
-				capacidad_recurso = 1;
+				capacidad_recurso = null;
 				select = new ArrayList<SelectItem>();
 				select2 = new ArrayList<SelectItem>();
 				agregardetalle = true;
@@ -761,7 +770,7 @@ public class SolicitudApBean {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							"No se pudo agregar el recurso", null));
-			capacidad_recurso = 1;
+			capacidad_recurso = null;
 			agregardetalle = true;
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
@@ -772,25 +781,20 @@ public class SolicitudApBean {
 	// CARGAR toods los recursos LIBRES
 	public void controlarcantidad() {
 		try {
-			if (manager.controlarcantidadmanager(getId_recurso(),
-					getcapacidad_recurso(), h_fin, h_inicio) == true) {
+			if(id_recurso == -1)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Debe seleccionar el recurso a solicitar", null));
+				agregardetalle=false;
+			}else{
+				if(capacidad_recurso==null){
+					capacidad_recurso=-1;
+				}if (manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio) == true){
 				agregardetalle = true;
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_INFO,
-										"La cantidad es mayor a la del recurso solicitado",
-										null));
-			} else if (manager.controlarcantidadmanager(getId_recurso(),
-					getcapacidad_recurso(), h_fin, h_inicio) == false) {
+				}else if (manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio) == false) {
 				agregardetalle = false;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Aun hay una cantidad del articulo libre",
-								null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error debe especificar el recurso o "
+						+ "La cantidad es mayor a la del recurso solicitado", null));
+				}
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -862,7 +866,7 @@ public class SolicitudApBean {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							"No se pudo agregar el recurso", null));
-			capacidad_recurso = 1;
+			capacidad_recurso = null;
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
 		}
@@ -910,7 +914,7 @@ public class SolicitudApBean {
 		select2 = new ArrayList<SelectItem>();
 		// Cargar datos recurso
 
-		capacidad_recurso = 1;
+		capacidad_recurso = null;
 		// Listas
 		list_mas = new ArrayList<Solicidetalle>();
 		return "solicitudes?faces-redirect=true";
@@ -943,8 +947,7 @@ public class SolicitudApBean {
 		listDetalles = new ArrayList<Solicidetalle>();
 		estadoSol = null;
 		// Cargar datos recurso
-
-		capacidad_recurso = 1;
+		capacidad_recurso = null;
 		// Listas
 		list_mas = new ArrayList<Solicidetalle>();
 		return "solicitudes?faces-redirect=true";
@@ -986,20 +989,10 @@ public class SolicitudApBean {
 										"La fecha de solicitud no debe ser menor a la actual",
 										null));
 			} else if (h_fin.getTime() <= h_inicio.getTime()) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Verifique su horario de solicitud", null));
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Verifique su horario de solicitud", null));
 			} else if ((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion
 					.horaMayorIgual(getHorafin()))) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_WARN,
-										"La hora de solicitud no debe ser menor a la actual",
-										null));
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"La hora de solicitud no debe ser menor a la actual",null));
 			} else {
 				select = this.getlistaRecursosLibres();
 				// select2 = this.getlistaTipoRecursosLibres();
@@ -1027,6 +1020,8 @@ public class SolicitudApBean {
 			rec = manager.findRecursoByID(id_recurso);
 			descripcionubicacion = rec.getDescripcion();
 			imagen = rec.getImagen();
+			contador= manager.findContadorRecurso(h_inicio,h_fin, rec.getIdRecurso());
+			stock = "En stock: "+ contador;
 			mostrar = true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

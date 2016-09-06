@@ -54,7 +54,7 @@
 			<h:outputText value="Recurso Adicional:" />
 				<h:panelGroup id="listrec">  
 					<p:selectOneMenu  value="#{solicitudApBean.id_recurso}">
-						<p:ajax listener="#{solicitudApBean.mostrara()}" update="imagen descr"> </p:ajax>
+						<p:ajax listener="#{solicitudApBean.mostrara()}" update="imagen descr stock"> </p:ajax>
 						<f:selectItem  itemLabel="Selección Recurso" itemValue="-1" />
 						<f:selectItems value="#{solicitudApBean.select}" />
 						<p:ajax
@@ -62,12 +62,11 @@
 						</p:ajax>
 					</p:selectOneMenu>
 				</h:panelGroup>
-				 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{solicitudApBean.imagen}" width="150" height="150" />
+				 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{solicitudApBean.imagen}" width="100" height="100" />
                  <h:outputText id="descr" value="#{solicitudApBean.descripcionubicacion}" />
-               	<h:outputText value="" />
+                 <h:outputText id="stock" value="#{solicitudApBean.stock}" />
 				<h:outputText value="Cantidad*: " />
-				<p:inputText value="#{solicitudApBean.capacidad_recurso}" size="1" required="true" requiredMessage="Requerido Cantidad del Recurso" validatorMessage="Solo Numeros entre 1 y 1000">
-				<p:ajax	listener="#{solicitudApBean.controlarcantidad()}" update=":form3:pgrid :form3:msn"></p:ajax>
+				<p:inputText value="#{solicitudApBean.capacidad_recurso}" size="1" required="true" requiredMessage="Requerido Cantidad del Recurso" update=":form3:pgrid :form3:msn" validatorMessage="Solo Numeros entre 1 y 1000">
 				</p:inputText>
 				<p:commandButton id="trackcrears"
 					action="#{solicitudApBean.agregarDetalle()}" update="form3"

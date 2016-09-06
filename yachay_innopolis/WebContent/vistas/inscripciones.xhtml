@@ -1,124 +1,228 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"> 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="css" name="style.css" />
-<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="../resources/img/favicon.ico" />
 	<title>Inscripciones</title>
-</h:head> 
-<body> 
-<h:form>  
-    <p:menubar>
-        <f:facet name="options">
-        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
-            <p:commandButton id="tracksalir" value="Volver"  action="/home.xhtml" icon="ui-icon-home">
-            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
-            </p:commandButton>
-        </f:facet>
-    </p:menubar>
-</h:form>
-<hr/>
-	<h:form id="form">
-	<p:panel id="panel" header="Inscripciones a Eventos">
-		<p:growl id="msn" showDetail="false"></p:growl>
-		<p:dataTable id="dtsol" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
-		{PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" reflow="true"  rows="8"  
-		value="#{inscripcionApBean.listadoInscripciones}" var="sol" emptyMessage="No hay información almacenada">
-			<f:facet name="{exp}">
-			<h:commandLink>
-               <p:button  value="Excel" />
-                <p:dataExporter type="xls" target="dtsol" fileName="inscripciones" pageOnly="true" />
-            </h:commandLink>
- 
-            <h:commandLink>
-                <p:button  value="Pdf" />
-                <p:dataExporter type="pdf" target="dtsol" fileName="inscripciones" pageOnly="true"/>
-            </h:commandLink>
-            </f:facet>
-			<p:column  id="f1" filterBy="#{sol.evento.nombre}" sortBy="#{sol.evento.nombre}"  headerText="Evento">
-				<h:outputText value="#{sol.evento.nombre}"></h:outputText>
-			</p:column>
-			<p:column id="f2" filterBy="#{sol.nombre}" sortBy="#{sol.nombre}"  headerText="Nombre/Apellido">
-				<h:outputText value="#{sol.nombre}"></h:outputText>&nbsp;
-				<h:outputText value="#{sol.apellido}"></h:outputText>	
-    		</p:column>
-    		<p:column headerText="Correo" sortBy="#{sol.correo}">
-				<h:outputText value="#{sol.correo}"   ></h:outputText>
-			</p:column>
-    		<p:column id="f4" filterBy="#{sol.fechaInscripcion}" sortBy="#{sol.fechaInscripcion}" headerText="Fecha">
-				<h:outputText value="#{sol.fechaInscripcion}">
-					<f:convertDateTime pattern="yyyy/MM/dd"/>
-				</h:outputText>
-    		</p:column>
-    		<p:column headerText="Imagen Pago" exportable="false">
-				<p:commandButton value="Ver Imagen" actionListener="#{inscripcionApBean.changeImg(sol)}" update=":form:imagen" oncomplete="PF('imagendlg').show();">				
+</h:head>
+<body>
+	<h:form>
+		<p:menubar>
+			<f:facet name="options">
+				<p:commandButton type="button" value="#{sessionBean.nom}"
+					disabled="true" icon="ui-icon-person" />
+				<p:commandButton id="tracksalir" value="Volver" action="/home.xhtml"
+					icon="ui-icon-home">
+					<p:tooltip id="toolTipTrac10" for="tracksalir"
+						value="Bot&oacute;n para volver del sistema" trackMouse="true" />
 				</p:commandButton>
-    		</p:column>	
-    		<p:column id="f5" filterBy="#{sol.estado}" sortBy="#{sol.estado}" headerText="Estado">
-    			<h:outputText value="#{sol.estado}"></h:outputText><br></br>    			
-    		</p:column>
-    		<p:column id="f6" filterBy="#{sol.sms}" sortBy="#{sol.sms}" headerText="Notificaci&oacute;n" >    			
-    			<h:outputText value="#{sol.sms}"></h:outputText>
-    		</p:column>
-    		<p:column headerText="Opciones" exportable="false">
-    			<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{inscripcionApBean.aprobarInscrito(sol)}" update=":form:panel">
-    			<p:tooltip id="toolTipTrack5" for="trackapro" value="Bot&oacute;n para aprobar inscripci&oacute;n" trackMouse="true" />
-    			</p:commandButton>
-    			<p:commandButton id="trackcerr" icon="ui-icon-circle-close" action="#{inscripcionApBean.negarInscrito(sol)}" update=":form:panel">
-    			<p:tooltip id="toolTipTrack6" for="trackcerr" value="Bot&oacute;n para negar la inscripci&oacute;n" trackMouse="true" />
-    			</p:commandButton>
-    		</p:column>	
-    		<p:column headerText="Edici&oacute;n/Env&iacute;o Mensaje" exportable="false">    			
-    			<p:commandButton id="trackcer1" icon="ui-icon-comment" >
-    			<p:tooltip id="toolTipTrack8" for="trackcer1" value="Cambiar contenido de la Notificaci&oacute;n" trackMouse="true" />
-    			<p:ajax listener="#{inscripcionApBean.asignarsms(sol)}" update=":form:panel" oncomplete="PF('dlg1').show();" />    			
-    			</p:commandButton>	
-    		</p:column>			
-		</p:dataTable>	
-		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Notificaci&oacute;n" showEffect="clip" hideEffect="clip">
-		<h:outputText value="Al momento de enviar la sugerencia espere al mensaje de confimación."/>
-	<p:panelGrid columns="2" >
-			<h:outputText value="Mensaje a Enviar: "/>
-			<p:inputTextarea value="#{inscripcionApBean.smscor}"></p:inputTextarea>
-			<p:commandButton id="trackedi" onclick="start();" widgetVar="startButton1" update=":form:panel :form:msn"  value="Aceptar" 
-			action="#{inscripcionApBean.notificarInscripcion(sol1)}"  icon="ui-icon-comment" >
-			<p:tooltip id="t3" for="trackedi" value="Bot&oacute;n para enviar el sms" trackMouse="true" />
-			</p:commandButton>
-			<p:commandButton id="trackcerrlg" value="Vover" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form:panel :form:msn" action="#{inscripcionApBean.irAprobador}">
-			<p:tooltip id="toolTipTrack20" for="trackcerrlg" value="Bot&oacute;n para cancelar la edici&oacute;n" trackMouse="true" />
-				</p:commandButton>
-				<p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:120px"/>
-		</p:panelGrid>
-		</p:dialog>			
-	</p:panel>
-	<p:dialog header="Imagen" modal="true" showEffect="fade" hideEffect="fade" resizable="true" widgetVar="imagendlg" width="300" height="300">
-		<p:graphicImage id="imagen" value="/resources/img/imgevent/#{inscripcionApBean.imagenPago}"/>
-	</p:dialog>
+			</f:facet>
+		</p:menubar>
 	</h:form>
-	<script type="text/javascript">
-				function start() {
-				    PF('startButton1').disable();
-				 
-				    window['progress'] = setInterval(function() {
-				        var pbClient = PF('pbClient'),
-				        oldValue = pbClient.getValue(),
-				        newValue = oldValue + 40;
-				 
-				        pbClient.setValue(pbClient.getValue() + 20);
-				 
-				        if(newValue === 100) {
-				            clearInterval(window['progress']);
-				            PF('pbClient').setValue(0);
-				        }
-				 
-				 
-				    }, 1000);
-				}
-				</script>
-</body> 
+	<hr />
+	<h:form id="form">
+		<p:panel id="panel" header="Inscripciones a Eventos">
+			<p:growl id="msn" showDetail="false"></p:growl>
+			<p:dataTable id="dtsol"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+				{PageLinks} {NextPageLink} {LastPageLink} {exp}"
+				paginator="true" reflow="true" rows="10"
+				value="#{inscripcionApBean.listadoInscripciones}" var="sol"
+				emptyMessage="No hay información almacenada">
+				<f:facet name="{exp}">
+					<h:commandLink>
+						<p:button value="Excel" />
+						<p:dataExporter type="xls" target="dtsol" fileName="inscripciones"
+							pageOnly="true" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:button value="Pdf" />
+						<p:dataExporter type="pdf" target="dtsol" fileName="inscripciones"
+							pageOnly="true" />
+					</h:commandLink>
+				</f:facet>
+				<p:column id="f1" filterBy="#{sol.evento.nombre}"
+					sortBy="#{sol.evento.nombre}" headerText="Evento">
+					<h:outputText value="#{sol.evento.nombre}"></h:outputText>
+				</p:column>
+				<p:column id="f2" filterBy="#{sol.nombre}" sortBy="#{sol.nombre}"
+					headerText="Nombre/Apellido">
+					<h:outputText value="#{sol.nombre}"></h:outputText>&nbsp;
+				<h:outputText value="#{sol.apellido}"></h:outputText>
+				</p:column>
+				<p:column headerText="Correo" sortBy="#{sol.correo}">
+					<h:outputText value="#{sol.correo}"></h:outputText>
+				</p:column>
+				<p:column id="f4" filterBy="#{sol.fechaInscripcion}"
+					sortBy="#{sol.fechaInscripcion}" headerText="Fecha">
+					<h:outputText value="#{sol.fechaInscripcion}">
+						<f:convertDateTime pattern="yyyy/MM/dd" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Imagen Pago" exportable="false">
+					<p:commandButton value="Ver Imagen"
+						actionListener="#{inscripcionApBean.changeImg(sol)}"
+						update=":form:imagen" oncomplete="PF('imagendlg').show();">
+					</p:commandButton>
+				</p:column>
+				<p:column id="f5" filterBy="#{sol.estado}" sortBy="#{sol.estado}"
+					headerText="Estado">
+					<h:outputText value="#{sol.estado}"></h:outputText>
+					<br></br>
+				</p:column>
+				<p:column id="f6" filterBy="#{sol.sms}" sortBy="#{sol.sms}"
+					headerText="Notificaci&oacute;n">
+					<h:outputText value="#{sol.sms}"></h:outputText>
+				</p:column>
+				<p:column headerText="Opciones" exportable="false">
+					<p:commandButton id="trackapro" icon="ui-icon-circle-check"
+						action="#{inscripcionApBean.aprobarInscrito(sol)}"
+						update=":form:panel">
+						<p:tooltip id="toolTipTrack5" for="trackapro"
+							value="Bot&oacute;n para aprobar inscripci&oacute;n"
+							trackMouse="true" />
+					</p:commandButton>
+					<p:commandButton id="trackcerr" icon="ui-icon-circle-close"
+						action="#{inscripcionApBean.negarInscrito(sol)}"
+						update=":form:panel">
+						<p:tooltip id="toolTipTrack6" for="trackcerr"
+							value="Bot&oacute;n para negar la inscripci&oacute;n"
+							trackMouse="true" />
+					</p:commandButton>
+				</p:column>
+				<p:column headerText="Ver/Env&iacute;o Mensaje" exportable="false">
+					<p:commandButton icon="ui-icon-pencil" id="track">
+						<p:tooltip id="toolTipTrack2" for="track"
+							value="Bot&oacute;n para ver la informaci&oacute;n del registro"
+							trackMouse="true" />
+						<p:ajax listener="#{inscripcionApBean.cargarInscripcion(sol)}"
+							update=":form:panel" oncomplete="PF('dlg2').show();" />
+					</p:commandButton>
+					<p:commandButton id="trackcer1" icon="ui-icon-comment">
+						<p:tooltip id="toolTipTrack8" for="trackcer1"
+							value="Cambiar contenido de la Notificaci&oacute;n"
+							trackMouse="true" />
+						<p:ajax listener="#{inscripcionApBean.asignarsms(sol)}"
+							update=":form:panel" oncomplete="PF('dlg1').show();" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:dialog widgetVar="dlg1" modal="true" closable="false"
+				closeOnEscape="true" header="Editar Notificaci&oacute;n" width="500"
+				showEffect="clip" hideEffect="clip">
+				<b:row>
+					<b:column span="10">
+						<h:outputText
+							value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="5">
+						<h:outputText value="Mensaje a Enviar: " />
+					</b:column>
+				</b:row>
+				<b:row>	
+					<b:column span="12">
+						<b:inputTextarea value="#{inscripcionApBean.smscor}"  rows="12"></b:inputTextarea>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
+							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
+							update=":form:panel :form:msn" value="Aceptar"
+							action="#{inscripcionApBean.notificarInscripcion(sol1)}"
+							icon="ui-icon-comment">
+							<p:tooltip id="t3" for="trackedi"
+								value="Bot&oacute;n para enviar el sms" trackMouse="true" />
+						</p:commandButton>
+					</b:column>
+					<b:column span="2">
+						<p:commandButton id="trackcerrlg" value="Vover"
+							icon="ui-icon-close" onclick="PF('dlg1').close();"
+							update=":form:panel :form:msn"
+							action="#{inscripcionApBean.irAprobador}">
+							<p:tooltip id="toolTipTrack20" for="trackcerrlg"
+								value="Bot&oacute;n para cancelar la edici&oacute;n"
+								trackMouse="true" />
+						</p:commandButton>
+					</b:column>
+				</b:row>
+			</p:dialog>
+
+			<p:dialog widgetVar="dlg2" modal="true" closable="true"
+				closeOnEscape="true" header="Información" showEffect="clip"
+				hideEffect="clip">
+				<p:panelGrid columns="3">
+					<h:outputLabel value="Apellidos: " />
+					<p:inputText id="apellidos" value="#{inscripcionApBean.apellido}"
+						disabled="true"></p:inputText>
+					<h:outputLabel value="" />
+					<h:outputLabel value="Nombres: " />
+					<p:inputText id="nombres" value="#{inscripcionApBean.nombre}"
+						disabled="true"></p:inputText>
+					<h:outputLabel value="" />
+					<h:outputLabel value="Correo*: " />
+					<p:inputText id="correo" value="#{inscripcionApBean.correo}"
+						disabled="true">
+					</p:inputText>
+					<h:outputLabel value="" />
+					<h:outputLabel value="Dirección*: " />
+					<p:inputText id="direccion" value="#{inscripcionApBean.direccion}"
+						disabled="true">
+					</p:inputText>
+					<h:outputLabel value="" />
+					<h:outputLabel value="Teléfono*: " />
+					<p:inputText id="telefono" value="#{inscripcionApBean.telefono}"
+						disabled="true">
+					</p:inputText>
+					<h:outputLabel value="" />
+					<h:outputLabel value="Celular*: " />
+					<p:inputText id="celular" value="#{inscripcionApBean.celular}"
+						disabled="true">
+					</p:inputText>
+					<h:outputLabel value="" />
+					<h:outputLabel value="Observación*: " />
+					<p:inputTextarea id="obser"
+						value="#{inscripcionApBean.observacion}" rows="5" disabled="true"></p:inputTextarea>
+					<h:outputLabel value="" />
+					<h:outputLabel value="Notificado: " />
+					<h:outputLabel value="#{inscripcionApBean.sms}"></h:outputLabel>
+					<h:outputLabel value="" />
+					<h:outputLabel value="Estado Mensaje: " />
+					<h:outputLabel value="#{inscripcionApBean.estado}"></h:outputLabel>
+					<h:outputLabel value="" />
+					<p:commandButton id="trackcsal" value="Volver"
+						onclick="PF('dlg2').close();" update=":form:panel :form:msn"
+						action="#{inscripcionApBean.irAprobador}">
+						<p:tooltip id="toolTipTrack7" for="trackcsal"
+							value="Bot&oacute;n para cancelar la edici&oacute;n del registro"
+							trackMouse="true" />
+					</p:commandButton>
+				</p:panelGrid>
+			</p:dialog>
+		</p:panel>
+		<p:dialog header="Imagen" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="true" widgetVar="imagendlg" width="350"
+			height="350">
+			<p:graphicImage id="imagen"
+				value="/resources/img/imgevent/#{inscripcionApBean.imagenPago}" />
+		</p:dialog>
+		<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<h:form>
+				<p:graphicImage value="/resources/img/loader.gif" />
+			</h:form>
+		</p:dialog>
+	</h:form>
+
+</body>
 </html>

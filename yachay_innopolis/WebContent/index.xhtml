@@ -92,7 +92,7 @@
 					<p:messages closable="true" />
 					<b:inputText placeholder="CÉDULA" value="#{sessionBean.nick}"
 						disabled="false">
-						<p:ajax listener="#{sessionBean.veri()}" update=""></p:ajax>
+						<p:ajax listener="#{sessionBean.veri()}" id="cedula"></p:ajax>
 					</b:inputText>
 					<b:inputSecret placeholder="CONTRASE&Ntilde;A" disabled="false"
 						value="#{sessionBean.pass}">
@@ -115,9 +115,9 @@
 					<br />
 					<h:outputText value="espere la alerta de confimación." />
 					<p:panelGrid columns="2">
-						<h:outputText value="Ingrese su correo: " />
-						<p:inputText required="true" value="#{sessionBean.correocontra}"
-							style="width:230px" requiredMessage="Requerido Correo"
+						<h:outputText value="Ingrese su correo: "  for="correo"/>
+						<p:inputText id="correo" required="true" value="#{sessionBean.correocontra}" size="40"
+							 requiredMessage="Requerido Correo"
 							validatorMessage="Formato de correo inv&aacute;lido">
 							<f:validateRegex
 								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
@@ -125,21 +125,23 @@
 						<h:outputText value="" />
 						<h:outputText value="" />
 						<p:commandButton id="trackcer1" icon="ui-icon-key"
-							value="Enviar contraseña" onclick="start()"
-							widgetVar="startButton1" update=":form5 :message5"
-							action="#{sessionBean.devolvercontra}">
+							value="Enviar contraseña"
+							widgetVar="startButton1" update=":form5 :message5"  onclick="PF('dlgLoad').show();"
+							oncomplete="PF('dlgLoad').hide();" action="#{sessionBean.devolvercontra}">
 							<p:tooltip id="toolTipTrack8" for="trackcer1"
 								value="Enviar mensaje para recuperar contraseña"
 								trackMouse="true" />
 						</p:commandButton>
-						<br />
-						<br />
-						<p:progressBar id="progressBarClient" widgetVar="pbClient"
-							style="width:180px" />
-					</p:panelGrid>
+						</p:panelGrid>
 				</h:form>
 			</div>
 		</p:dialog>
+		<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:form>
+					<p:graphicImage value="/resources/img/loader.gif" />
+				</h:form>
+			</p:dialog>
 		<p:tabView dynamic="true" cache="true">
 			<p:tab title="Bienvenidos">
 				<center>
@@ -271,26 +273,6 @@
 						</h:panelGrid>
 					</p:dialog>
 				</h:form>
-				<script type="text/javascript">
-				function start() {
-				    
-				 
-				    window['progress'] = setInterval(function() {
-				        var pbClient = PF('pbClient'),
-				        oldValue = pbClient.getValue(),
-				        newValue = oldValue + 40;
-				 
-				        pbClient.setValue(pbClient.getValue() + 20);
-				 
-				        if(newValue === 100) {
-				            clearInterval(window['progress']);
-				            PF('pbClient').setValue(0);
-				        }
-				 
-				 
-				    }, 1000);
-				}
-				</script>
 				<script type="text/javascript">
 		PrimeFaces.locales['es'] = {
 			closeText : 'Cerrar',

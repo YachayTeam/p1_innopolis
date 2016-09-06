@@ -54,32 +54,20 @@
 		</p:panelGrid>
 		<p:confirmDialog header="Confirmar Registro" message="Al registrarse en este servicio, 
 		para tener acceso a este se le notificar&aacute; mediante correo electr&oacute;nico" showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
-	        <p:commandButton value="Si" onclick="start();" widgetVar="startButton1" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" oncomplete="PF('cd').hide()" 
+	        <p:commandButton value="Si" onclick="PF('dlgLoad').show();" oncomplete="PF('dlgLoad').hide();PF('cd').hide();" widgetVar="startButton1" 
+	        styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
 	        action="#{serviciosVirtualesEmBean.crearRegistroServ}" update=":form2:panel2 :form2:message2"/>
 	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('cd').hide()"/>
 	        <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:120px"/>
-	    </p:confirmDialog>					
+	    </p:confirmDialog>
+	    <p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:form>
+					<p:graphicImage value="/resources/img/loader.gif" />
+				</h:form>
+			</p:dialog>					
 		</p:panel>
 </h:form>
-<script type="text/javascript">
-				function start() {
-				    PF('startButton1').disable();
-				 
-				    window['progress'] = setInterval(function() {
-				        var pbClient = PF('pbClient'),
-				        oldValue = pbClient.getValue(),
-				        newValue = oldValue + 40;
-				 
-				        pbClient.setValue(pbClient.getValue() + 20);
-				 
-				        if(newValue === 100) {
-				            clearInterval(window['progress']);
-				            PF('pbClient').setValue(0);
-				        }
-				 
-				 
-				    }, 1000);
-				}
-				</script> 
+
 </body>
 </html>

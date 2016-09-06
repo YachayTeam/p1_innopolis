@@ -513,24 +513,17 @@ public class SolicitudBean {
 	}
 	
 	//CARGAR toods los recursos LIBRES
-	public void controlarcantidad()
-	{
+	public void controlarcantidad(){
 		try {
-			if(id_recurso == -1)
-			{
+			if(id_recurso == -1){
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Debe seleccionar el recurso a solicitar", null));
 				agregardetalle=false;
-			}
-			else{
+			}else{
 				if(capacidad_recurso==null){
 					capacidad_recurso=-1;
-				}
-				if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==true)
-				{
+				}if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==true){
 					agregardetalle=true;
-				}
-				else if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==false)
-				{
+				}else if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==false){
 					agregardetalle=false;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error debe especificar el recurso o "
 							+ "La cantidad es mayor a la del recurso solicitado", null));
