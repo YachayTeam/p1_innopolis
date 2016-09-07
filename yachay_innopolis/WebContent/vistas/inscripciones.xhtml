@@ -54,35 +54,39 @@
 					<h:outputText value="#{sol.evento.nombre}"></h:outputText>
 				</p:column>
 				<p:column id="f2" filterBy="#{sol.nombre}" sortBy="#{sol.nombre}"
-					headerText="Nombre/Apellido">
+					headerText="Solicitante">
 					<h:outputText value="#{sol.nombre}"></h:outputText>&nbsp;
 				<h:outputText value="#{sol.apellido}"></h:outputText>
 				</p:column>
 				<p:column headerText="Correo" sortBy="#{sol.correo}">
 					<h:outputText value="#{sol.correo}"></h:outputText>
 				</p:column>
-				<p:column id="f4" filterBy="#{sol.fechaInscripcion}"
+				<p:column id="f4" resizable="true" width="90"
 					sortBy="#{sol.fechaInscripcion}" headerText="Fecha">
 					<h:outputText value="#{sol.fechaInscripcion}">
 						<f:convertDateTime pattern="yyyy/MM/dd" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Imagen Pago" exportable="false">
+				<p:column headerText="Imagen Pago" exportable="false"
+					resizable="true" width="110">
 					<p:commandButton value="Ver Imagen"
 						actionListener="#{inscripcionApBean.changeImg(sol)}"
 						update=":form:imagen" oncomplete="PF('imagendlg').show();">
 					</p:commandButton>
 				</p:column>
-				<p:column id="f5" filterBy="#{sol.estado}" sortBy="#{sol.estado}"
+				<p:column id="f5" filterBy="#{sol.estado}" sortBy="#{sol.estado}" resizable="true"
+					width="120"
 					headerText="Estado">
 					<h:outputText value="#{sol.estado}"></h:outputText>
 					<br></br>
 				</p:column>
-				<p:column id="f6" filterBy="#{sol.sms}" sortBy="#{sol.sms}"
+				<p:column id="f6" filterBy="#{sol.sms}" sortBy="#{sol.sms}" resizable="true"
+					width="120"
 					headerText="Notificaci&oacute;n">
 					<h:outputText value="#{sol.sms}"></h:outputText>
 				</p:column>
-				<p:column headerText="Opciones" exportable="false">
+				<p:column headerText="Opciones" exportable="false" resizable="true"
+					width="90">
 					<p:commandButton id="trackapro" icon="ui-icon-circle-check"
 						action="#{inscripcionApBean.aprobarInscrito(sol)}"
 						update=":form:panel">
@@ -98,8 +102,9 @@
 							trackMouse="true" />
 					</p:commandButton>
 				</p:column>
-				<p:column headerText="Ver/Env&iacute;o Mensaje" exportable="false">
-					<p:commandButton icon="ui-icon-pencil" id="track">
+				<p:column headerText="Ver/Env&iacute;o Mensaje" exportable="false"
+					resizable="true" width="90">
+					<p:commandButton icon="ui-icon-search" id="track">
 						<p:tooltip id="toolTipTrack2" for="track"
 							value="Bot&oacute;n para ver la informaci&oacute;n del registro"
 							trackMouse="true" />
@@ -116,91 +121,88 @@
 				</p:column>
 			</p:dataTable>
 			<p:dialog widgetVar="dlg1" modal="true" closable="false"
-				closeOnEscape="true" header="Editar Notificaci&oacute;n" width="500"
-				showEffect="clip" hideEffect="clip">
-				<b:row>
-					<b:column span="10">
-						<h:outputText
-							value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="5">
-						<h:outputText value="Mensaje a Enviar: " />
-					</b:column>
-				</b:row>
-				<b:row>	
-					<b:column span="12">
-						<b:inputTextarea value="#{inscripcionApBean.smscor}"  rows="12"></b:inputTextarea>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
-							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
-							update=":form:panel :form:msn" value="Aceptar"
-							action="#{inscripcionApBean.notificarInscripcion(sol1)}"
-							icon="ui-icon-comment">
-							<p:tooltip id="t3" for="trackedi"
-								value="Bot&oacute;n para enviar el sms" trackMouse="true" />
-						</p:commandButton>
-					</b:column>
-					<b:column span="2">
-						<p:commandButton id="trackcerrlg" value="Vover"
-							icon="ui-icon-close" onclick="PF('dlg1').close();"
-							update=":form:panel :form:msn"
-							action="#{inscripcionApBean.irAprobador}">
-							<p:tooltip id="toolTipTrack20" for="trackcerrlg"
-								value="Bot&oacute;n para cancelar la edici&oacute;n"
-								trackMouse="true" />
-						</p:commandButton>
-					</b:column>
-				</b:row>
+				closeOnEscape="false" header="Editar Notificaci&oacute;n"
+				width="500" showEffect="clip" hideEffect="clip">
+				<b:column span="12">
+					<b:row>
+						<b:column span="12">
+							<h:outputText
+								value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
+						</b:column>
+					</b:row>
+					<br />
+					<b:row>
+						<b:column span="4">
+							<h:outputText value="Mensaje a Enviar: " />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="11">
+							<b:inputTextarea value="#{inscripcionApBean.smscor}" rows="12"></b:inputTextarea>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
+								oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
+								update=":form:panel :form:msn" value="Aceptar"
+								action="#{inscripcionApBean.notificarInscripcion(sol1)}"
+								icon="ui-icon-comment">
+								<p:tooltip id="t3" for="trackedi"
+									value="Bot&oacute;n para enviar el sms" trackMouse="true" />
+							</p:commandButton>
+						</b:column>
+						<b:column span="1" />
+						<b:column span="3">
+							<p:commandButton id="trackcerrlg" value="Vover"
+								icon="ui-icon-close" onclick="PF('dlg1').close();"
+								update=":form:panel :form:msn"
+								action="#{inscripcionApBean.irAprobador}">
+								<p:tooltip id="toolTipTrack20" for="trackcerrlg"
+									value="Bot&oacute;n para cancelar la edici&oacute;n"
+									trackMouse="true" />
+							</p:commandButton>
+						</b:column>
+					</b:row>
+				</b:column>
 			</p:dialog>
 
 			<p:dialog widgetVar="dlg2" modal="true" closable="true"
 				closeOnEscape="true" header="Información" showEffect="clip"
 				hideEffect="clip">
-				<p:panelGrid columns="3">
+				<p:panelGrid columns="4">
 					<h:outputLabel value="Apellidos: " />
 					<p:inputText id="apellidos" value="#{inscripcionApBean.apellido}"
 						disabled="true"></p:inputText>
-					<h:outputLabel value="" />
 					<h:outputLabel value="Nombres: " />
 					<p:inputText id="nombres" value="#{inscripcionApBean.nombre}"
 						disabled="true"></p:inputText>
-					<h:outputLabel value="" />
 					<h:outputLabel value="Correo*: " />
 					<p:inputText id="correo" value="#{inscripcionApBean.correo}"
 						disabled="true">
 					</p:inputText>
-					<h:outputLabel value="" />
 					<h:outputLabel value="Dirección*: " />
 					<p:inputText id="direccion" value="#{inscripcionApBean.direccion}"
 						disabled="true">
 					</p:inputText>
-					<h:outputLabel value="" />
 					<h:outputLabel value="Teléfono*: " />
 					<p:inputText id="telefono" value="#{inscripcionApBean.telefono}"
 						disabled="true">
 					</p:inputText>
-					<h:outputLabel value="" />
 					<h:outputLabel value="Celular*: " />
 					<p:inputText id="celular" value="#{inscripcionApBean.celular}"
 						disabled="true">
 					</p:inputText>
-					<h:outputLabel value="" />
 					<h:outputLabel value="Observación*: " />
-					<p:inputTextarea id="obser"
-						value="#{inscripcionApBean.observacion}" rows="5" disabled="true"></p:inputTextarea>
+					<b:inputTextarea id="obser"
+						value="#{inscripcionApBean.observacion}" rows="5" disabled="true"></b:inputTextarea>
+					<h:outputLabel value="" />
 					<h:outputLabel value="" />
 					<h:outputLabel value="Notificado: " />
 					<h:outputLabel value="#{inscripcionApBean.sms}"></h:outputLabel>
-					<h:outputLabel value="" />
 					<h:outputLabel value="Estado Mensaje: " />
 					<h:outputLabel value="#{inscripcionApBean.estado}"></h:outputLabel>
-					<h:outputLabel value="" />
-					<p:commandButton id="trackcsal" value="Volver"
+					<p:commandButton id="trackcsal" value="Volver" icon="ui-icon-close"
 						onclick="PF('dlg2').close();" update=":form:panel :form:msn"
 						action="#{inscripcionApBean.irAprobador}">
 						<p:tooltip id="toolTipTrack7" for="trackcsal"

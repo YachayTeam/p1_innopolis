@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui" 
+	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
@@ -31,8 +32,8 @@
 			<p:inputText required="true" id="tipo" value="#{tipoBean.tipo}" requiredMessage="Requerido tipo del recurso" validatorMessage="Tipo de tipo obligatorio">
 			</p:inputText>
 			<h:outputText value="Descripcion*: "/>
-			<p:inputText required="true" id="des" value="#{tipoBean.descripcion}" requiredMessage="Requerido descripci&oacute;n del recurso" validatorMessage="Tipo de descripci&oacute;n obligatorio">
-			</p:inputText>
+			<p:inputTextarea required="true" id="des" rows="5"  value="#{tipoBean.descripcion}" requiredMessage="Requerido descripci&oacute;n del recurso" validatorMessage="Tipo de descripci&oacute;n obligatorio">
+			</p:inputTextarea>
 			<h:outputText value="Seleccion de Permisos*: "/>
 			<p:selectCheckboxMenu  required="true" id="menu" value="#{tipoBean.arrayTipoLogin}" label="-------"
                                panelStyle="width:250px"  requiredMessage="Requerido permiso">
@@ -50,18 +51,18 @@
 		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
 		{PageLinks} {NextPageLink} {LastPageLink}" paginator="true"  reflow="true" rows="8"   
 		value="#{tipoBean.listTipo}" var="lu" emptyMessage="No hay información almacenada">
-			<p:column id="f1" filterBy="#{lu.tipo}" sortBy="#{lu.tipo}" headerText="Tipo">
+			<p:column id="f1" filterBy="#{lu.tipo}" width="180" sortBy="#{lu.tipo}" headerText="Tipo">
 				<h:outputText value="#{lu.tipo}"></h:outputText>
 			</p:column>
 			<p:column id="f2" headerText="Descripci&oacute;n">
 				<h:outputText value="#{lu.descripcion}"></h:outputText>
 			</p:column>
-			<p:column id="f3" headerText="Permisos">
+			<p:column id="f3" headerText="Permisos" width="450">
         			<p:dataList value="#{tipoBean.permisos(lu)}" var="permiso" emptyMessage="Ningun permiso registrado">
             			#{permiso}
         			</p:dataList>
 			</p:column>
-			<p:column headerText="Editar" exportable="false">
+			<p:column headerText="Editar" exportable="false" width="40">
 				<p:commandButton id="trackrev" icon="ui-icon-pencil">
 				<p:ajax listener="#{tipoBean.cargarTipo(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
 				</p:commandButton>

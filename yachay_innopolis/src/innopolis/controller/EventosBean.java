@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import innopolis.entidades.Evento;
+import innopolis.entidades.Inscripcione;
 import innopolis.entidades.Recurso;
 import innopolis.entidades.Sala;
 import innopolis.entidades.Solicicabecera;
@@ -77,6 +78,7 @@ public class EventosBean {
 	private String sms;
 	private Integer sala;
 	private Boolean interno;
+	
 	
 	int contador;
 
@@ -1171,6 +1173,11 @@ public class EventosBean {
 		}
 		return "soldet2?faces-redirect=true";
 	}
+	
+	// editar imagen
+		public void verImagen(Evento eve) {
+			setImagen(eve.getImagen());
+		}
 
 	// metodo para ir a solicitud y guardar el evento en un temporal
 	public String irSolicitud1(Evento ev) {
@@ -2114,8 +2121,7 @@ public class EventosBean {
 		for (Recurso p : listadoRecurso) {
 			int contador = mReserv.findContadorRecurso(h_inicio, h_fin,
 					p.getIdRecurso());
-			SelectItem item = new SelectItem(p.getIdRecurso(), p.getNombre()
-					+ " - " + Integer.toString(contador));
+			SelectItem item = new SelectItem(p.getIdRecurso(), p.getNombre());
 
 			listadoSI.add(item);
 		}
@@ -2403,23 +2409,7 @@ public class EventosBean {
 			asignarTipoeve();
 			asignarsala();
 			
-			if (estadoeven.equals("Activado")|| estadoeven.equals("Desactivado")) {
-				idEvento = null;
-				nombre = "";
-				descripcion = "";
-				lugar = "";
-				estadoeven = "";
-				imagen = "300.jpg";
-				fi = null;
-				ff = null;
-				fechaInicio = null;
-				fechaFin = null;
-				costo = 0;
-				cantidad = "";
-				sc = 0;
-				te = 0;
-				idusr = 0;
-				esave = false;
+			if (estadoeven.equals("Desactivado")) {
 				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Activado/Desactivado no se puede modificar",null));
 			} else if (te.equals(-1) || te.equals(null) || te.equals(0)) {
 				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar un tipo de evento", null));

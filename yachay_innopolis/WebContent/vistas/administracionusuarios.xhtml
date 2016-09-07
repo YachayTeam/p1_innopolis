@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
@@ -10,7 +11,7 @@
 	<link rel="shortcut icon" type="image/x-icon"
 		href="../resources/img/favicon.ico" />
 
-	<title>Administración de Usuarios</title>
+	<title>Gesti&oacute;n de Usuarios</title>
 </h:head>
 <h:body>
 	<h:form>
@@ -181,7 +182,7 @@
 								fileName="usuarios_registrados" pageOnly="true" />
 						</h:commandLink>
 					</f:facet>
-					<p:column id="f1" filterBy="#{reg.cedula}" sortBy="#{reg.cedula}"
+					<p:column id="f1" filterBy="#{reg.cedula}" sortBy="#{reg.cedula}" width="130"
 						headerText="C&eacute;dula/Pasaporte/RUC">
 						<h:outputLabel value="#{reg.cedula}"></h:outputLabel>
 					</p:column>
@@ -201,7 +202,7 @@
             			#{interes}
         			</p:dataList>
 			</p:column-->
-					<p:column id="f4" filterBy="#{reg.tipoestadousr.nombreestado}"
+					<p:column id="f4" filterBy="#{reg.tipoestadousr.nombreestado}" width="110"
 						sortBy="#{reg.tipoestadousr.nombreestado}" headerText="Estado">
 						<h:outputLabel value="#{reg.tipoestadousr.nombreestado}"></h:outputLabel>
 					</p:column>
@@ -211,16 +212,16 @@
 					<!--p:column id="f8" filterBy="#{reg.cargotitulo}" sortBy="#{reg.cargotitulo}" headerText="Cargo/Ttulo">
 			<h:outputLabel value="#{reg.cargotitulo}"></h:outputLabel>
 			</p:column -->
-					<p:column id="f6" filterBy="#{reg.sms}"
+					<p:column id="f6" filterBy="#{reg.sms}" width="110"
 						headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
 						<h:outputLabel value="#{reg.sms}"></h:outputLabel>
 					</p:column>
-					<p:column headerText="Aprobador de Usuarios y Solicitudes"
+					<p:column headerText="Aprobador Usuarios y Solicitudes" width="80"
 						sortBy="#{reg.principal}">
 						<p:selectBooleanCheckbox disabled="true" value="#{reg.principal}">
 						</p:selectBooleanCheckbox>
 					</p:column>
-					<p:column headerText="Opciones" exportable="false">
+					<p:column headerText="Opciones" exportable="false" width="90">
 						<p:commandButton icon="ui-icon-pencil" id="track">
 							<p:tooltip id="toolTipTrack2" for="track"
 								value="Bot&oacute;n para modificar la informaci&oacute;n del registro"
@@ -335,16 +336,11 @@
 							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
 							icon="ui-icon-comment" value="Aceptar"
 							action="#{usuariosBean.enviarmensaje(reg1)}">
-							<p:tooltip id="t3" for="trackedi"
-								value="Bot&oacute;n para enviar el sms" trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcerrlg" value="Cancelar"
 							icon="ui-icon-close" onclick="PF('dlg2').close();"
 							update=":form2 :form2:message2"
 							action="#{usuariosBean.irAprovador1}">
-							<p:tooltip id="toolTipTrack20" for="trackcerrlg"
-								value="Bot&oacute;n para cancelar la edici&oacute;n"
-								trackMouse="true" />
 						</p:commandButton>
 					</p:panelGrid>
 				</p:dialog>

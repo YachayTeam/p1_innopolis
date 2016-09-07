@@ -86,9 +86,10 @@
 
 			<p:dialog widgetVar="dlg2" modal="true" closable="true"
 				closeOnEscape="true" header="Registrar Sugerencia"
-				showEffect="explode" hideEffect="bounce" height="300">
+				showEffect="explode" hideEffect="bounce" height="320">
+				<p:panelGrid columns="1" id="panel4">
 				<b:row>
-					<b:column span="10">
+					<b:column span="12">
 						<h:outputText style="padding:10px;margin-bottom:15px;"
 							value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
 					</b:column>
@@ -112,31 +113,35 @@
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column span="3">
+					<b:column span="8">
 						<h:outputText value="Sugerencia a Enviar: " for="sugere" style="padding:10px;" />
 					</b:column>
-					<b:column span="5">
-						<b:inputTextarea id="sugere" rows="6" value="#{usuariosBean.sugerenciatext}"  style="margin-bottom:15px;">
-							<f:validateLength minimum="5" />
+				</b:row>
+				<b:row>
+					<b:column span="2"/>
+					<b:column span="10">
+						<b:inputTextarea id="sugere" rows="4"  value="#{usuariosBean.sugerenciatext}"  style="margin-bottom:15px;">
 						</b:inputTextarea>
 					</b:column>
 				</b:row>
 				<b:row>
+				<b:column span="2"></b:column>
 					<b:column span="2">
 						<p:commandButton id="trackedi" value="Enviar" icon="ui-icon-check"
-							widgetVar="startButton1" update=":form1 "
+							widgetVar="startButton1" update="panel4 :form1:message2"
 							onclick="PF('dlgLoad').show();"
 							oncomplete="PF('dlgLoad').hide();"
-							action="#{usuariosBean.crearsugerencia}">
+							action="#{usuariosBean.crearsugerencia()}">
 						</p:commandButton>
 					</b:column>
 					<b:column span="2">
-						<p:commandButton id="trackvolver" value="Cerrar" icon="ui-icon-check"
-							widgetVar="startButton1" update=":form1 "
+						<p:commandButton id="trackvolver" value="Cerrar" process="@this" icon="ui-icon-check"
+							widgetVar="startButton1" update=":form1:message2" 
 							onclick="PF('dlg2').hide();">
 						</p:commandButton>
 					</b:column>
 				</b:row>
+				</p:panelGrid>
 			</p:dialog>
 			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
 				closable="false" resizable="false" showHeader="false">

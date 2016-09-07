@@ -106,10 +106,10 @@
 								</p:inputText>
 								<h:outputText value="" />
 								<h:outputText value="Descripción:" />
-								<p:inputTextarea required="true" id="cantid"
+								<b:inputTextarea required="true" id="cantid"
 									value="#{eventosBean.descripcion}"
 									requiredMessage="Requerido descripci&oacute;n">
-								</p:inputTextarea>
+								</b:inputTextarea>
 								<h:outputText value="" />
 								<h:outputText value="" />
 								<h:outputText value="" />
@@ -187,22 +187,24 @@
 							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
 						</h:outputText>
 					</p:column>
-					<p:column id="f3" filterBy="#{reg.tipoevento.tipo}"
+					<p:column id="f3" filterBy="#{reg.tipoevento.tipo}" width="120"
 						sortBy="#{reg.tipoevento.tipo}" headerText="Tipo Evento">
 						<h:outputText value="#{reg.tipoevento.tipo}"></h:outputText>
 					</p:column>
-					<p:column id="f9" filterBy="#{reg.sala.tipo}"
+					<p:column id="f9" filterBy="#{reg.sala.tipo}" width="120"
 						sortBy="#{reg.sala.tipo}" headerText="Sala">
 						<h:outputText value="#{reg.sala.tipo}"
 							style="color: \##{reg.sala.colorsala.colorcod}"></h:outputText>
 					</p:column>
-					<p:column id="f4" filterBy="#{reg.cantidad}"
-						sortBy="#{reg.cantidad}" width="70" headerText="Capacidad">
+					<p:column id="f4" sortBy="#{reg.cantidad}" width="90"
+						headerText="Capacidad">
 						<h:outputText value="#{reg.cantidad}"></h:outputText>
 					</p:column>
-					<p:column width="152" headerText="Imagen" exportable="false">
-						<p:graphicImage width="150" height="150"
-							value="/resources/img/imgevent/#{reg.imagen}"></p:graphicImage>
+					<p:column width="120" headerText="Imagen" exportable="false">
+						<p:commandButton value="Ver Imagen"
+							actionListener="#{eventosBean.verImagen(reg)}"
+							update=":form2:imagen1" oncomplete="PF('imagendlg').show();">
+						</p:commandButton>
 					</p:column>
 					<p:column id="f6" headerText="Estado" sortBy="#{reg.estado}"
 						filterBy="#{reg.estado}">
@@ -326,28 +328,22 @@
 				<p:dialog widgetVar="dlg2" modal="true" closable="true"
 					closeOnEscape="true" header="Editar Mensaje" showEffect="clip"
 					hideEffect="clip">
-					<h:outputText
-						value="Al momento de enviar el mensaje,  &lt;br/&gt; espere a la notificación de confimación."
-						escape="false" />
+					<h:outputLabel
+						value="Al momento de enviar el mensaje,  &lt;br/&gt; espere a la notificación de confimación."/>
 					<p:panelGrid columns="2">
-						<h:outputText
-							value="Mensaje de Cancelación &lt;br/&gt; de Evento a Enviar: "
-							escape="false" />
-						<p:inputTextarea value="#{eventosBean.smscor}" rows="6" cols="33"></p:inputTextarea>
+						<h:outputLabel
+							value="Mensaje de Cancelación &lt;br/&gt; de Evento a Enviar: "/>
+						<p:inputTextarea value="#{eventosBean.smscor}" cols="50"
+							autoResize="false" rows="10"></p:inputTextarea>
 						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
 							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
 							update=":form2 :form2:message2" icon="ui-icon-comment"
 							value="Enviar Mensaje"
 							action="#{eventosBean.enviarmensaje(reg1)}">
-							<p:tooltip id="t3" for="trackedi"
-								value="Bot&oacute;n para enviar el sms" trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcerrlg" value="Volver"
 							onclick="PF('dlg2').close();" update=":form2 :form2:message2"
 							action="#{eventosBean.irAprovador1}">
-							<p:tooltip id="toolTipTrack20" for="trackcerrlg"
-								value="Bot&oacute;n para cancelar la edici&oacute;n"
-								trackMouse="true" />
 						</p:commandButton>
 					</p:panelGrid>
 				</p:dialog>
@@ -358,6 +354,12 @@
 					</h:form>
 				</p:dialog>
 			</p:panel>
+			<p:dialog header="Imagen" modal="true" showEffect="fade"
+				hideEffect="fade" resizable="true" widgetVar="imagendlg" width="200"
+				height="200">
+				<p:graphicImage id="imagen1" width="180" height="180"
+					value="/resources/img/imgevent/#{eventosBean.imagen}" />
+			</p:dialog>
 		</h:form>
 	</div>
 	<div class="div4">

@@ -24,6 +24,7 @@ import org.primefaces.model.UploadedFile;
 
 import innopolis.entidades.Colorrec;
 import innopolis.entidades.Colorsala;
+import innopolis.entidades.Evento;
 import innopolis.entidades.Sala;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.manager.ManagerReservas;
@@ -447,5 +448,10 @@ public class SalasBean implements Serializable {
 		}
 		return "";
 	}
+	
+	// editar imagen
+			public void verImagen(Sala sala) {
+				setImagen(sala.getImagen());
+			}
 
 }

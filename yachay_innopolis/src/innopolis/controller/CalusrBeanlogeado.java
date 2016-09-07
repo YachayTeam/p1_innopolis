@@ -268,6 +268,7 @@ public class CalusrBeanlogeado implements Serializable {
 	private UploadedFile file;
 	private Integer id_evento;
 	private List<Inscripcione> listadoInscripciones;
+	private String imagen;
 
 	private UsuarioHelp session;
 
@@ -284,6 +285,7 @@ public class CalusrBeanlogeado implements Serializable {
 			manager = new ManagerEvento();
 			eventModel = new DefaultScheduleModel();
 			managerins = new ManagerInscripedit();
+			imagen = "300.jpg";
 			List<Evento> listado = mayorActual();
 			for (Evento e : listado) {
 				if (e.getEstado().equals("Activado")) {
@@ -523,6 +525,14 @@ public class CalusrBeanlogeado implements Serializable {
 
 	public void setIdInscripcion(Integer idInscripcion) {
 		this.idInscripcion = idInscripcion;
+	}
+	
+	public String getImagen() {
+		return imagen;
+	}
+	
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 	public String getApellido() {
@@ -995,4 +1005,9 @@ public class CalusrBeanlogeado implements Serializable {
 		}
 		return l1;
 	}
+	
+	// editar imagen
+			public void verImagen(Evento eve) {
+				setImagen(eve.getImagen());
+			}
 }

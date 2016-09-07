@@ -1064,8 +1064,14 @@ public class UsuariosBean implements Serializable {
 	  			}
 	  		
 	  	// accion para invocar el manager y crear sugerencia
-	  		public String crearsugerencia() {
+	  		public void crearsugerencia() {
 	  			try{
+	  				if(sugerenciatext.isEmpty()){
+	  					FacesContext.getCurrentInstance().addMessage(
+	  							null,
+	  							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	  									"Indique su sugerencia", null));
+	  				}else{
 	  			cargasuge();
 	  			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");
 	  			Usuario usr = manager.UsuarioByID(idusrsug);
@@ -1109,12 +1115,12 @@ public class UsuariosBean implements Serializable {
 	  			idsuge=null;
 			    FacesContext context = FacesContext.getCurrentInstance();
   				context.addMessage(null, new FacesMessage("Sugerencia almacenada..!!! La sugerencia se guardó correctamente",null));
+	  				}
 	  			} catch (Exception e) {
 	  				FacesContext context = FacesContext.getCurrentInstance();
 	  				context.addMessage(null, new FacesMessage("Error..!!! No se pudo guardar la sugerencia",null));
 	  				e.printStackTrace();
 	  			}
-	  			return "";
 	  		}
 	  		
 			//envio de mensajeria		

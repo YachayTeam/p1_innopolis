@@ -9,7 +9,7 @@
 	<h:outputStylesheet library="css" name="styleser.css" />
 	<link rel="shortcut icon" type="image/x-icon"
 		href="../resources/img/favicon.ico" />
-	<title>Salas</title>
+	<title>Gestión Salas</title>
 </h:head>
 <body>
 	<h:form>
@@ -105,31 +105,33 @@
 								fileName="recursos_registrados" pageOnly="true" />
 						</h:commandLink>
 					</f:facet>
-					<p:column id="f1" filterBy="#{lu.tipo}" sortBy="#{lu.tipo}"
+					<p:column id="f1" filterBy="#{lu.tipo}" sortBy="#{lu.tipo}" width="130"
 						headerText="Sala">
 						<h:outputText value="#{lu.tipo}"></h:outputText>
 					</p:column>
-					<p:column id="f2" filterBy="#{lu.descripcion}"
+					<p:column id="f2" filterBy="#{lu.descripcion}" width="250"
 						sortBy="#{lu.descripcion}" headerText="Descripción">
 						<h:outputText value="#{lu.descripcion}"></h:outputText>
 					</p:column>
-					<p:column id="f6" filterBy="#{lu.capacidad}"
+					<p:column id="f6" filterBy="#{lu.capacidad}" width="70"
 						sortBy="#{lu.capacidad}" headerText="Capacidad">
 						<h:outputText value="#{lu.capacidad}"></h:outputText>
 					</p:column>
-					<p:column width="152" headerText="Imagen" exportable="false">
-						<p:graphicImage width="150" height="150"
-							value="/resources/img/imgevent/#{lu.imagen}"></p:graphicImage>
+					<p:column width="60" headerText="Imagen" exportable="false">
+						<p:commandButton value="Ver Imagen"
+							actionListener="#{salasBean.verImagen(lu)}"
+							update=":form2:imagen2" oncomplete="PF('imagendlg').show();">
+						</p:commandButton>
 					</p:column>
-					<p:column headerText="Color">
+					<p:column headerText="Color" width="30">
 						<h:outputText value="#{lu.colorsala.color}"
 							style="color: \##{lu.colorsala.colorcod}"></h:outputText>
 					</p:column>
-					<p:column id="f8" filterBy="#{lu.saladisponible.disponible}"
+					<p:column id="f8" filterBy="#{lu.saladisponible.disponible}" width="60"
 						sortBy="#{lu.saladisponible.disponible}" headerText="Estado">
 						<h:outputText value="#{lu.saladisponible.disponible}"></h:outputText>
 					</p:column>
-					<p:column headerText="Opciones" exportable="false">
+					<p:column headerText="Opciones" exportable="false" width="30">
 						<p:commandButton id="trackrev" icon="ui-icon-pencil">
 							<p:tooltip id="toolTipTrack5" for="trackrev"
 								value="Bot&oacute;n para observar la Información de la Sala"
@@ -209,6 +211,12 @@
 					</p:panelGrid>
 				</p:dialog>
 			</p:panel>
+			<p:dialog header="Imagen" modal="true" showEffect="fade"
+				hideEffect="fade" resizable="true" widgetVar="imagendlg" width="200"
+				height="200">
+				<p:graphicImage id="imagen2" width="180" height="180"
+					value="/resources/img/imgevent/#{salasBean.imagen}" />
+			</p:dialog>
 		</h:form>
 	</div>
 </body>

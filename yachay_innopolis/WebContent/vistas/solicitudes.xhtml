@@ -88,9 +88,11 @@
 		</p:dataTable>
 		
 			<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Enviar Mensaje" showEffect="clip" hideEffect="clip">
-	<p:panelGrid columns="2" >
+	
+		<h:outputText value="Al momento de enviar el mensaje,  &lt;br/&gt; espere a la notificación de confimación." escape="false" />
+		<p:panelGrid columns="2" >
 			<h:outputText value="Mensaje a Enviar"/>
-			<p:inputTextarea value="#{solicitudApBean.sms}"></p:inputTextarea>
+			<p:inputTextarea value="#{solicitudApBean.sms}" rows="10" cols="50" autoResize="false"></p:inputTextarea>
 			<p:commandButton id="trackedi" value="Aceptar" action="#{solicitudApBean.notificarSolicitud(sol1)}"  
 	        icon="ui-icon-comment" onclick="PF('dlgLoad').show();" oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1" update=":form:panel :form:msn"  >
 			<p:tooltip id="t3" for="trackedi" value="Bot&oacute;n para editar el sms" trackMouse="true" />
@@ -98,7 +100,6 @@
 			<p:commandButton id="trackcerrlg" value="Volver" onclick="PF('dlg2').close();" update=":form:panel :form:msn" action="#{solicitudApBean.cancelarenv}">
 			<p:tooltip id="toolTipTrack20" for="trackcerrlg" value="Bot&oacute;n para cancelar la edici&oacute;n" trackMouse="true" />
 			</p:commandButton>
-    			<p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:120px"/>
 		</p:panelGrid>
 </p:dialog>	
 <p:dialog widgetVar="dlgLoad" modal="true" draggable="false"

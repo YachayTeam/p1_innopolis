@@ -328,46 +328,46 @@
 										fileName="usuarios_registrados" pageOnly="true" />
 								</h:commandLink>
 							</f:facet>
-							<p:column id="f1" headerText="Nombres de Eventos">
+							<p:column id="f1" headerText="Eventos" width="160">
 								<h:outputText value="#{calusrBean.valorInterno(reg)}"></h:outputText>
 							</p:column>
-							<p:column headerText="Costo" sortBy="#{reg.costo}">
+							<p:column headerText="Costo" sortBy="#{reg.costo}" width="60">
 								<h:outputText value="#{reg.costo}"></h:outputText>
 							</p:column>
-							<p:column headerText="Fecha Inicio" sortBy="#{reg.fechaInicio}">
+							<p:column headerText="Fecha Inicio" sortBy="#{reg.fechaInicio}" width="120">
 								<h:outputText value="#{reg.fechaInicio}">
 									<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Fecha Fin" sortBy="#{reg.fechaFin}">
+							<p:column headerText="Fecha Fin" sortBy="#{reg.fechaFin}" width="120">
 								<h:outputText value="#{reg.fechaFin}">
 									<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
 								</h:outputText>
 							</p:column>
-							<p:column id="f3" filterBy="#{reg.tipoevento.tipo}"
+							<p:column id="f3" filterBy="#{reg.tipoevento.tipo}" width="100"
 								sortBy="#{reg.tipoevento.tipo}" headerText="Tipo Evento">
 								<h:outputText value="#{reg.tipoevento.tipo}"></h:outputText>
 							</p:column>
-							<p:column id="f9" filterBy="#{reg.sala.tipo}"
+							<p:column id="f9" filterBy="#{reg.sala.tipo}" width="120"
 								sortBy="#{reg.sala.tipo}" headerText="Sala">
 								<h:outputText value="#{reg.sala.tipo}"
 									style="color: \##{reg.sala.colorsala.colorcod}"></h:outputText>
 							</p:column>
-							<p:column id="f4" filterBy="#{reg.cantidad}"
-								sortBy="#{reg.cantidad}" width="70" headerText="Capacidad">
+							<p:column id="f4" filterBy="#{reg.cantidad}" width="70"
+								sortBy="#{reg.cantidad}"  headerText="Capacidad">
 								<h:outputText value="#{reg.cantidad}"></h:outputText>
 							</p:column>
 
-							<p:column id="f5" sortBy="#{reg.cantidad}" width="70"
+							<p:column id="f5"  width="70"
 								headerText="Reunión Privada">
-								<p:selectBooleanCheckbox value="#{reg.interno}">
+								<p:selectBooleanCheckbox value="#{reg.interno}" disabled="true">
 								</p:selectBooleanCheckbox>
 							</p:column>
-							<p:column width="152" headerText="Imagen" exportable="false">
-								<p:graphicImage width="50" height="50"
+							<p:column headerText="Imagen" exportable="false" width="120">
+								<p:graphicImage width="100" height="100"
 									value="resources/img/imgevent/#{reg.imagen}"></p:graphicImage>
 							</p:column>
-							<p:column headerText="Opciones" exportable="false">
+							<p:column headerText="Opciones" exportable="false" width="80">
 								<p:commandButton id="addButton" value="Inscr&iacute;bete"
 									action="#{calusrBean.irInscripcion1(reg)}" update=":message5">
 									<p:tooltip id="toolTipTrac1" for="addButton"

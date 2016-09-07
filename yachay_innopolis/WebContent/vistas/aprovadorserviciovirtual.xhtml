@@ -1,135 +1,192 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<h:outputStylesheet library="css" name="styleser.css" />
-<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
-<title>Servicios Virtuales</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="styleser.css" />
+	<link rel="shortcut icon" type="image/x-icon"
+		href="../resources/img/favicon.ico" />
+	<title>Servicios Virtuales</title>
 </h:head>
 <body>
-<h:form>  
-    <p:menubar>
-       <f:facet name="options">
-        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
-            <p:commandButton id="tracksalir" value="Volver"  action="/home.xhtml" icon="ui-icon-home">
-            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
-            </p:commandButton>
-        </f:facet>
-    </p:menubar>
-</h:form>
-<hr/>
-<!-- div class="div4"-->
-<!--h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
-<!--/div-->
-<div class="div1">
-<h:form id="form2">
-	<p:growl id="message2" showDetail="false" />
-	<p:panel id="panel2" header="Lista de Registrados">
-		<p:dataTable  id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
-		 {PageLinks} {NextPageLink} {LastPageLink} {exp}" value="#{serviciosVirtualesApBean.listRegServi}" rows="8" var="reg" reflow="true"
-                 paginator="true" emptyMessage="No hay información almacenada">
-			<f:facet name="{exp}">
-			<h:commandLink>
-                <p:button  value="Excel" />
-                <p:dataExporter type="xls" target="dt" fileName="resgitrados" pageOnly="true" />
-            </h:commandLink> 
-            <h:commandLink>
-                <p:button  value="Pdf" />
-                <p:dataExporter type="pdf" target="dt" fileName="registrados" pageOnly="true"/>
-            </h:commandLink>
-            </f:facet>
-			<p:column id="f1" filterBy="#{reg.usuario.cedula}"  sortBy="#{reg.cedula}"  headerText="C&eacute;dula">
-				<h:outputText value="#{reg.usuario.cedula}"></h:outputText>
-			</p:column>
-			<p:column id="f2" filterBy="#{reg.usuario.apellido}" sortBy="#{reg.apellidos}"   headerText="Apellidos/Nombres">
-				<h:outputText value="#{reg.usuario.apellido}"></h:outputText>&nbsp;
-				<h:outputText value="#{reg.usuario.nombre}"></h:outputText>
-			</p:column>			
-			<p:column headerText="Correo" sortBy="#{reg.usuario.correo}">
-				<h:outputText value="#{reg.usuario.correo}"   ></h:outputText>
-			</p:column>
-			<p:column headerText="Tema" sortBy="#{reg.tema}">
-			<h:outputText value="#{reg.tema}"></h:outputText>
-			</p:column>
-			<p:column id="f4" filterBy="#{reg.tiposervicio.nombreServicio}"  sortBy="#{reg.tiposervicio.nombreServicio}" headerText="Servicio">
-			<h:outputText value="#{reg.tiposervicio.nombreServicio}"></h:outputText>
-			</p:column>
-			<p:column id="f5" filterBy="#{reg.tipoestado.nombreestado}" sortBy="#{reg.tipoestado.nombreestado}" headerText="Estado">
-			<h:outputText value="#{reg.tipoestado.nombreestado}"></h:outputText>
-			</p:column>
-			<p:column id="f6" filterBy="#{reg.sms}" headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
-			<h:outputText value="#{reg.sms}"></h:outputText>
-			</p:column>
-			<p:column headerText="Opciones" exportable="false">
-				<p:commandButton  icon="ui-icon-zoomin" id="track">
-				<p:tooltip id="toolTipTrack1" for="track" value="Bot&oacute;n para observar la informaci&oacute;n del registro" trackMouse="true" />
-				<p:ajax listener="#{serviciosVirtualesApBean.Cargarregistros(reg)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+	<h:form>
+		<p:menubar>
+			<f:facet name="options">
+				<p:commandButton type="button" value="#{sessionBean.nom}"
+					disabled="true" icon="ui-icon-person" />
+				<p:commandButton id="tracksalir" value="Volver" action="/home.xhtml"
+					icon="ui-icon-home">
+					<p:tooltip id="toolTipTrac10" for="tracksalir"
+						value="Bot&oacute;n para volver del sistema" trackMouse="true" />
 				</p:commandButton>
-				<p:commandButton id="trackapro" icon="ui-icon-circle-check" action="#{serviciosVirtualesApBean.aprobarSolicitud(reg)}" update=":form2:panel2 :form2:message2">
-    			<p:tooltip id="toolTipTrack5" for="trackapro" value="Bot&oacute;n para aprobar la solicitud" trackMouse="true" />
-    			</p:commandButton>&nbsp;&nbsp;
-    			<p:commandButton id="trackcerrar" icon="ui-icon-circle-close" action="#{serviciosVirtualesApBean.negarSolicitud(reg)}" update=":form2:panel2 :form2:message2">
-    			<p:tooltip id="toolTipTrack6" for="trackcerrar" value="Bot&oacute;n para negar la solicitud" trackMouse="true" />
-    			</p:commandButton>			
-			</p:column>
-			<p:column headerText="Edici&oacute;n/Env&iacute;o Mensaje" exportable="false">    			
-				<p:commandButton id="trackcer1" icon="ui-icon-mail-closed" >
-    			<p:tooltip id="toolTipTrack8" for="trackcer1" value="Cambiar contenido de la notificaci&oacute;n por defecto" trackMouse="true" />
-    			<p:ajax listener="#{serviciosVirtualesApBean.asignarsms(reg)}" update=":form2:panel2" oncomplete="PF('dlg2').show();" />    			
-    			</p:commandButton>														
-    			</p:column>
-		</p:dataTable>
-		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Información" showEffect="clip" hideEffect="clip">
-		<p:panelGrid columns="2" >
-		<h:outputText value="C&eacute;dula: "/>
-			<h:outputText   id="ced" value="#{serviciosVirtualesApBean.cedula}" ></h:outputText>
-			<h:outputText value="Apellidos: "/>
-			<h:outputText  id="ape" value="#{serviciosVirtualesApBean.apellidos}" ></h:outputText>
-			<h:outputText value="Nombres: "/>
-			<h:outputText id="nom" value="#{serviciosVirtualesApBean.nombres}" ></h:outputText>			
-			<h:outputText value="Correo: "/>
-			<h:outputText  id="correo" value="#{serviciosVirtualesApBean.correo}" ></h:outputText>
-			<h:outputText value="Tema: "/>
-			<h:outputText id="tema"   value="#{serviciosVirtualesApBean.tema}" ></h:outputText>
-			<h:outputText value="Servicio: "/>
-			<h:outputText  id="ser" readonly="true" value="#{serviciosVirtualesApBean.tiposervicio.nombreServicio}"></h:outputText>			
-			<h:outputText value="Estado: "/>
-			<h:outputText  id="est" readonly="true" value="#{serviciosVirtualesApBean.tipoestado.nombreestado}"></h:outputText>	
-			<h:outputText value="Notificaci&oacute;n"/>
-			<h:outputText  id="sms" readonly="true" value="#{serviciosVirtualesApBean.sms}"></h:outputText>										
-			<p:commandButton id="trackcerr" value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2 :form2:message2" action="#{serviciosVirtualesApBean.irAprovador}">
-			<p:tooltip id="toolTipTrack7" for="trackcerr" value="Bot&oacute;n para cancelar la edici&oacute;n" trackMouse="true" />
-			</p:commandButton>
-		</p:panelGrid>
-		</p:dialog>	
-		
-		<p:dialog widgetVar="dlg2" modal="true" closable="false" closeOnEscape="true"  header="Editar Mensaje" showEffect="clip" hideEffect="clip">
-		<h:outputText value="Al momento de enviar la sugerencia espere al mensaje de confimación."/>
-			<p:panelGrid columns="2" >			
-            <h:outputText value="Mensaje a Enviar: "/>
-			<p:inputTextarea value="#{serviciosVirtualesApBean.smscor}"></p:inputTextarea>
-			<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();" oncomplete="PF('dlgLoad').hide();" 
-			widgetVar="startButton1" update=":form2:panel2 :form2:message2" icon="ui-icon-comment" value="Aceptar" action="#{serviciosVirtualesApBean.enviarmensaje(reg1)}" >
-			<p:tooltip id="t3" for="trackedi" value="Bot&oacute;n para enviar el sms" trackMouse="true" />
-			</p:commandButton>
-			<p:commandButton id="trackcerrlg" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg2').close();" update=":form2:panel2 :form2:message2" action="#{serviciosVirtualesApBean.irAprovador}">
-			<p:tooltip id="toolTipTrack20" for="trackcerrlg" value="Bot&oacute;n para cancelar la edici&oacute;n" trackMouse="true" />
-			</p:commandButton>
-			<p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:120px"/>
-		</p:panelGrid>
-</p:dialog>		
-<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
-				closable="false" resizable="false" showHeader="false">
-				<h:form>
-					<p:graphicImage value="/resources/img/loader.gif" />
-				</h:form>
-			</p:dialog>
-	</p:panel>
-</h:form>
-</div>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<hr />
+	<!-- div class="div4"-->
+	<!--h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
+	<!--/div-->
+	<div class="div1">
+		<h:form id="form2">
+			<p:growl id="message2" showDetail="false" />
+			<p:panel id="panel2" header="Lista de Registrados">
+				<p:dataTable id="dt"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+		 {PageLinks} {NextPageLink} {LastPageLink} {exp}"
+					value="#{serviciosVirtualesApBean.listRegServi}" rows="8" var="reg"
+					reflow="true" paginator="true"
+					emptyMessage="No hay información almacenada">
+					<f:facet name="{exp}">
+						<h:commandLink>
+							<p:button value="Excel" />
+							<p:dataExporter type="xls" target="dt" fileName="resgitrados"
+								pageOnly="true" />
+						</h:commandLink>
+						<h:commandLink>
+							<p:button value="Pdf" />
+							<p:dataExporter type="pdf" target="dt" fileName="registrados"
+								pageOnly="true" />
+						</h:commandLink>
+					</f:facet>
+					<p:column id="f1" filterBy="#{reg.usuario.cedula}" resizable="true"
+					width="110"
+						sortBy="#{reg.cedula}" headerText="C&eacute;dula">
+						<h:outputText value="#{reg.usuario.cedula}"></h:outputText>
+					</p:column>
+					<p:column id="f2" filterBy="#{reg.usuario.apellido}"
+						sortBy="#{reg.apellidos}" headerText="Apellidos/Nombres">
+						<h:outputText value="#{reg.usuario.apellido}"></h:outputText>&nbsp;
+				<h:outputText value="#{reg.usuario.nombre}"></h:outputText>
+					</p:column>
+					<p:column headerText="Correo" sortBy="#{reg.usuario.correo}">
+						<h:outputText value="#{reg.usuario.correo}"></h:outputText>
+					</p:column>
+					<p:column headerText="Tema" sortBy="#{reg.tema}">
+						<h:outputText value="#{reg.tema}"></h:outputText>
+					</p:column>
+					<p:column id="f4" filterBy="#{reg.tiposervicio.nombreServicio}"
+						sortBy="#{reg.tiposervicio.nombreServicio}" headerText="Servicio">
+						<h:outputText value="#{reg.tiposervicio.nombreServicio}"></h:outputText>
+					</p:column>
+					<p:column id="f5" filterBy="#{reg.tipoestado.nombreestado}" resizable="true"
+					width="110"
+						sortBy="#{reg.tipoestado.nombreestado}" headerText="Estado">
+						<h:outputText value="#{reg.tipoestado.nombreestado}"></h:outputText>
+					</p:column>
+					<p:column id="f6" filterBy="#{reg.sms}" resizable="true"
+					width="110"
+						headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
+						<h:outputText value="#{reg.sms}"></h:outputText>
+					</p:column>
+					<p:column headerText="Opciones" exportable="false" resizable="true"
+					width="70">
+						<p:commandButton id="trackapro" icon="ui-icon-circle-check"
+							action="#{serviciosVirtualesApBean.aprobarSolicitud(reg)}"
+							update=":form2:panel2 :form2:message2">
+							<p:tooltip id="toolTipTrack5" for="trackapro"
+								value="Bot&oacute;n para aprobar la solicitud" trackMouse="true" />
+						</p:commandButton>&nbsp;&nbsp;
+    			<p:commandButton id="trackcerrar" icon="ui-icon-circle-close"
+							action="#{serviciosVirtualesApBean.negarSolicitud(reg)}"
+							update=":form2:panel2 :form2:message2">
+							<p:tooltip id="toolTipTrack6" for="trackcerrar"
+								value="Bot&oacute;n para negar la solicitud" trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="Ver/Env&iacute;o Mensaje" resizable="true"
+					width="90" exportable="false">
+					<p:commandButton icon="ui-icon-search" id="track">
+							<p:tooltip id="toolTipTrack1" for="track"
+								value="Bot&oacute;n para observar la informaci&oacute;n del registro"
+								trackMouse="true" />
+							<p:ajax
+								listener="#{serviciosVirtualesApBean.Cargarregistros(reg)}"
+								update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+						</p:commandButton>
+						<p:commandButton id="trackcer1" icon="ui-icon-mail-closed">
+							<p:tooltip id="toolTipTrack8" for="trackcer1"
+								value="Cambiar contenido de la notificaci&oacute;n por defecto"
+								trackMouse="true" />
+							<p:ajax listener="#{serviciosVirtualesApBean.asignarsms(reg)}"
+								update=":form2:panel2" oncomplete="PF('dlg2').show();" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<p:dialog widgetVar="dlg1" modal="true" closable="false"
+					closeOnEscape="true" header="Información" showEffect="clip"
+					hideEffect="clip">
+					<p:panelGrid columns="2">
+						<h:outputText value="C&eacute;dula: " />
+						<h:outputText id="ced" value="#{serviciosVirtualesApBean.cedula}"></h:outputText>
+						<h:outputText value="Apellidos: " />
+						<h:outputText id="ape"
+							value="#{serviciosVirtualesApBean.apellidos}"></h:outputText>
+						<h:outputText value="Nombres: " />
+						<h:outputText id="nom" value="#{serviciosVirtualesApBean.nombres}"></h:outputText>
+						<h:outputText value="Correo: " />
+						<h:outputText id="correo"
+							value="#{serviciosVirtualesApBean.correo}"></h:outputText>
+						<h:outputText value="Tema: " />
+						<h:outputText id="tema" value="#{serviciosVirtualesApBean.tema}"></h:outputText>
+						<h:outputText value="Servicio: " />
+						<h:outputText id="ser" readonly="true"
+							value="#{serviciosVirtualesApBean.tiposervicio.nombreServicio}"></h:outputText>
+						<h:outputText value="Estado: " />
+						<h:outputText id="est" readonly="true"
+							value="#{serviciosVirtualesApBean.tipoestado.nombreestado}"></h:outputText>
+						<h:outputText value="Notificaci&oacute;n" />
+						<h:outputText id="sms" readonly="true"
+							value="#{serviciosVirtualesApBean.sms}"></h:outputText>
+						<p:commandButton id="trackcerr" value="Volver"
+							icon="ui-icon-close" onclick="PF('dlg1').close();"
+							update=":form2:panel2 :form2:message2"
+							action="#{serviciosVirtualesApBean.irAprovador}">
+							<p:tooltip id="toolTipTrack7" for="trackcerr"
+								value="Bot&oacute;n para cancelar la edici&oacute;n"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:dialog>
+
+				<p:dialog widgetVar="dlg2" modal="true" closable="false"
+					closeOnEscape="true" header="Editar Mensaje" showEffect="clip"
+					hideEffect="clip">
+					<h:outputText
+						value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
+					<p:panelGrid columns="2">
+						<h:outputText value="Mensaje a Enviar: " />
+						
+						<p:inputTextarea value="#{serviciosVirtualesApBean.smscor}" rows="10"
+							cols="50" autoResize="false"></p:inputTextarea>
+						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
+							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
+							update=":form2:panel2 :form2:message2" icon="ui-icon-comment"
+							value="Aceptar"
+							action="#{serviciosVirtualesApBean.enviarmensaje(reg1)}">
+							<p:tooltip id="t3" for="trackedi"
+								value="Bot&oacute;n para enviar el sms" trackMouse="true" />
+						</p:commandButton>
+						<p:commandButton id="trackcerrlg" value="Cancelar"
+							icon="ui-icon-close" onclick="PF('dlg2').close();"
+							update=":form2:panel2 :form2:message2"
+							action="#{serviciosVirtualesApBean.irAprovador}">
+							<p:tooltip id="toolTipTrack20" for="trackcerrlg"
+								value="Bot&oacute;n para cancelar la edici&oacute;n"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:dialog>
+				<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+					closable="false" resizable="false" showHeader="false">
+					<h:form>
+						<p:graphicImage value="/resources/img/loader.gif" />
+					</h:form>
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	</div>
 </body>
 </html>
