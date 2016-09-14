@@ -41,7 +41,7 @@ import org.primefaces.model.ScheduleModel;
 @ManagedBean
 public class SolicitudApBean {
 	private ManagerReservas manager;
-	
+
 	@EJB
 	private ManagerBuscar mb;
 
@@ -58,6 +58,8 @@ public class SolicitudApBean {
 	private Date recursofecha;
 	private Timestamp h_inicio;
 	private Timestamp h_fin;
+	private Timestamp fechaInicio;
+	private Timestamp fechaFin;
 	private List<SelectItem> select;
 	// Cambios solicitud
 	private List<Solicidetalle> listDetalles;
@@ -86,12 +88,13 @@ public class SolicitudApBean {
 	private Time horainicio;
 
 	private boolean agregardetalle;
+	private boolean agregarcontrol;
 
 	// sacar la descripcion del tipo de ubicacion
 	private boolean mostrar;
 	private String descripcionubicacion;
 	private String stock;
-	int contador=0;
+	int contador = 0;
 	private String imagen;
 	// calendario
 	private Date date = new Date();
@@ -106,9 +109,10 @@ public class SolicitudApBean {
 		select2 = new ArrayList<SelectItem>();
 		mostrar = false;
 		agregardetalle = true;
+		agregarcontrol=false;
 		descripcionubicacion = "Descripción del Recurso";
 		stock = "stock";
-		contador=0;
+		contador = 0;
 		imagen = "300.jpg";
 		capacidad_recurso = null;
 	}
@@ -133,6 +137,22 @@ public class SolicitudApBean {
 		return manager;
 	}
 
+	public Timestamp getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(Timestamp fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public Timestamp getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(Timestamp fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+	
 	public Date getFi() {
 		return fi;
 	}
@@ -447,11 +467,11 @@ public class SolicitudApBean {
 	public void setRecursofecha(Date recursofecha) {
 		this.recursofecha = recursofecha;
 	}
-	
+
 	public String getStock() {
 		return stock;
 	}
-	
+
 	public void setStock(String stock) {
 		this.stock = stock;
 	}
@@ -611,16 +631,18 @@ public class SolicitudApBean {
 		estadoSol = solicitud.getSoliciestado();
 		correo = usuarioxid(solicitud.getIdusr()).getCorreo();
 		DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-		sms =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+		sms = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 				+ "<meta name='viewport' content='width=device-width'></head><body>"
 				+ "Le informamos que la solicitud de la fecha: "
 				+ date.format(solicitud.getFecha()).toString()
-				+ " con la actividad: " + solicitud.getActividad() + " ,fue "
+				+ " con la actividad: "
+				+ solicitud.getActividad()
+				+ " ,fue "
 				+ solicitud.getSoliciestado().getEstado()
 				+ "<br/> Saludos cordiales, "
 				+ "<br/> Sistema de REGECE Yachay EP"
-		        + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-		
+				+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+
 		return "";
 	}
 
@@ -649,11 +671,12 @@ public class SolicitudApBean {
 											null));
 				} else {
 					manager.cambioSMSenvio(id_sol);
-//					Mail.sendMailsolousr(correo,
-//							"Peticion de Solicitud YACHAY/REGECE  ", sms);
-					
-					mb.envioMailWS(correo, "Peticion de Solicitud YACHAY/REGECE", sms);
-					
+					// Mail.sendMailsolousr(correo,
+					// "Peticion de Solicitud YACHAY/REGECE  ", sms);
+
+					mb.envioMailWS(correo,
+							"Peticion de Solicitud YACHAY/REGECE", sms);
+
 					manager.notificarSolicitud(id_sol);
 					FacesContext.getCurrentInstance().addMessage(
 							null,
@@ -676,23 +699,89 @@ public class SolicitudApBean {
 		try {
 			if (solicitud.getSoliciestado().getEstado().equals("pendiente")) {
 				id_sol = solicitud.getIdSolcab();
-				direccion = solicitud.getDireccion();
-				actividad = solicitud.getActividad();
-				objetivo = solicitud.getObjetivo();
-				justificacion = solicitud.getJustificacion();
-				notificacion = solicitud.getSms();
-				fecha = solicitud.getFecha();
-				listDetalles = solicitud.getSolicidetalles();
-				estadoSol = solicitud.getSoliciestado();
-				// Cargar datos recurso
-				capacidad_recurso = null;
-				// Listas
-				list_mas = new ArrayList<Solicidetalle>();
-				agregardetalle = true;
-				list_menos = new ArrayList<Solicidetalle>();
-				select = new ArrayList<SelectItem>();
+				List<Solicidetalle> listDetalles1 = manager.findSolicitudDetalleByCabeceraId(id_sol); 
+				if(!listDetalles1.isEmpty())
+				{
+				for(Solicidetalle sol: listDetalles1){
+					fi = sol.getHoraInicio();
+					ff = sol.getHoraFin();
+					break;
+				}
+					fechaInicio = new Timestamp(fi.getTime());
+					fechaFin = new Timestamp(ff.getTime());
+					direccion = solicitud.getDireccion();
+					actividad = solicitud.getActividad();
+					objetivo = solicitud.getObjetivo();
+					justificacion = solicitud.getJustificacion();
+					notificacion = solicitud.getSms();
+					fecha = solicitud.getFecha();
+					listDetalles = solicitud.getSolicidetalles();
+					estadoSol = solicitud.getSoliciestado();
+					// Cargar datos recurso
+					capacidad_recurso = null;
+					// Listas
+					list_mas = new ArrayList<Solicidetalle>();
+					agregardetalle = true;
+					list_menos = new ArrayList<Solicidetalle>();
+					select = new ArrayList<SelectItem>();
+					cargarRecursos();
 				// select2 = new ArrayList<SelectItem>();
 				resp = "editsol?faces-redirect=true";
+				}else{
+					for(Solicidetalle sol: listDetalles1){
+						fi = sol.getHoraInicio();
+						ff = sol.getHoraFin();
+						break;
+					}
+					if(fi==null || ff==null)
+					{
+						Date d = new Date();
+						fi = new Timestamp(d.getTime());
+						ff = new Timestamp(d.getTime());
+						fechaInicio = new Timestamp(fi.getTime());
+						fechaFin = new Timestamp(ff.getTime());
+						direccion = solicitud.getDireccion();
+						actividad = solicitud.getActividad();
+						objetivo = solicitud.getObjetivo();
+						justificacion = solicitud.getJustificacion();
+						notificacion = solicitud.getSms();
+						fecha = solicitud.getFecha();
+						listDetalles = new ArrayList<Solicidetalle>();
+						estadoSol = solicitud.getSoliciestado();
+						// Cargar datos recurso
+						capacidad_recurso = null;
+						// Listas
+						list_mas = new ArrayList<Solicidetalle>();
+						agregardetalle = true;
+						list_menos = new ArrayList<Solicidetalle>();
+						select = new ArrayList<SelectItem>();
+						cargarRecursos();
+						// select2 = new ArrayList<SelectItem>();
+						resp = "editsol?faces-redirect=true";
+					}else{
+						fechaInicio = new Timestamp(fi.getTime());
+						fechaFin = new Timestamp(ff.getTime());
+						direccion = solicitud.getDireccion();
+						actividad = solicitud.getActividad();
+						objetivo = solicitud.getObjetivo();
+						justificacion = solicitud.getJustificacion();
+						notificacion = solicitud.getSms();
+						fecha = solicitud.getFecha();
+						listDetalles = solicitud.getSolicidetalles();
+						estadoSol = solicitud.getSoliciestado();
+						// Cargar datos recurso
+						capacidad_recurso = null;
+						// Listas
+						list_mas = new ArrayList<Solicidetalle>();
+						agregardetalle = true;
+						list_menos = new ArrayList<Solicidetalle>();
+						select = new ArrayList<SelectItem>();
+						cargarRecursos();
+						// select2 = new ArrayList<SelectItem>();
+						resp = "editsol?faces-redirect=true";
+					}
+				}
+				
 			} else {
 				FacesContext
 						.getCurrentInstance()
@@ -707,8 +796,8 @@ public class SolicitudApBean {
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear la solicitud", null));
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Error al ver la solicitud", null));
 		}
 		return resp;
 	}
@@ -741,7 +830,7 @@ public class SolicitudApBean {
 				throw new Exception(
 						"El recurso se encuentra agregado dentro del horario");
 
-			else {
+			else { 
 				Recurso rec = manager.findRecursoByID(getId_recurso());
 				// if(getcapacidad_recurso()<=rec.getCapacidad()){
 				Solicidetalle det = new Solicidetalle();
@@ -752,12 +841,16 @@ public class SolicitudApBean {
 				det.setHoraInicio(h_inicio);
 				det.setHoraFin(h_fin);
 				det.setRecurso(rec);
+				manager.insertarSoliciDatalle(det);
+				manager.insertarRecursoSolicitado(manager.findSolicitudCabeceraById(getId_sol()).getIdSolcab(), det.getHoraInicio(), det.getHoraFin(), det.getRecurso().getIdRecurso(),det.getCapacidad());
 				listDetalles.add(det);
-				list_mas.add(det);
+				//list_mas.add(det);
 				capacidad_recurso = null;
 				select = new ArrayList<SelectItem>();
 				select2 = new ArrayList<SelectItem>();
+				cargarRecursos();
 				agregardetalle = true;
+				agregarcontrol = true;
 				// }else{
 				// FacesContext.getCurrentInstance().addMessage(null, new
 				// FacesMessage(FacesMessage.SEVERITY_WARN,"Verifique la cantidad del recurso",
@@ -770,6 +863,7 @@ public class SolicitudApBean {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							"No se pudo agregar el recurso", null));
+			cargarRecursos();
 			capacidad_recurso = null;
 			agregardetalle = true;
 			select = new ArrayList<SelectItem>();
@@ -781,19 +875,35 @@ public class SolicitudApBean {
 	// CARGAR toods los recursos LIBRES
 	public void controlarcantidad() {
 		try {
-			if(id_recurso == -1)
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Debe seleccionar el recurso a solicitar", null));
-				agregardetalle=false;
-			}else{
-				if(capacidad_recurso==null){
-					capacidad_recurso=-1;
-				}if (manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio) == true){
-				agregardetalle = true;
-				}else if (manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio) == false) {
+			if (id_recurso == -1) {
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_INFO,
+										"Debe seleccionar el recurso a solicitar",
+										null));
 				agregardetalle = false;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error debe especificar el recurso o "
-						+ "La cantidad es mayor a la del recurso solicitado", null));
+			} else {
+				if (capacidad_recurso == null) {
+					capacidad_recurso = -1;
+				}
+				if (manager.controlarcantidadmanager(getId_recurso(),
+						getcapacidad_recurso(), h_fin, h_inicio) == true) {
+					agregardetalle = true;
+				} else if (manager.controlarcantidadmanager(getId_recurso(),
+						getcapacidad_recurso(), h_fin, h_inicio) == false) {
+					agregardetalle = false;
+					FacesContext
+							.getCurrentInstance()
+							.addMessage(
+									null,
+									new FacesMessage(
+											FacesMessage.SEVERITY_INFO,
+											"Error debe especificar el recurso o "
+													+ "La cantidad es mayor a la del recurso solicitado",
+											null));
 				}
 			}
 		} catch (Exception e) {
@@ -874,12 +984,24 @@ public class SolicitudApBean {
 
 	public void quitarDetalle(Solicidetalle detalle) {
 		try {
+			List<Recursosactivo> listrecact = manager.findRecursosactivoByRecursoId(detalle.getSolicicabecera().getIdSolcab(), detalle.getRecurso().getIdRecurso());
+			for(Recursosactivo recursosactivo : listrecact){
+					manager.eliminarRecursoActivos(recursosactivo.getIdRecact());
+			}
+			manager.eliminarSoliciDetalleByID(detalle.getIdSoldet());
+			//listDetalles = manager.findAllSolicituddetalleBycabeceraId(detalle.getIdSoldet());
 			listDetalles.remove(detalle);
-			list_menos.add(detalle);
+			//list_menos.add(detalle);
+			cargarRecursos();
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Se eliminó el recurso", null));
+			agregarcontrol=true;
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"No se pudo quitar el recurso", null));
 		}
 	}
@@ -888,9 +1010,41 @@ public class SolicitudApBean {
 	public String finalizarSolicitudED() {
 		String resp = "";
 		try {
-			manager.editarDetallesSolicitud(id_sol, list_mas, list_menos);
+			if(!listDetalles.isEmpty()){
+			//manager.editarDetallesSolicitud(id_sol, list_mas, list_menos);
 			// manager.aprobarSolicitudMOD(id_sol);
+			id_sol = null;
+			descripcionubicacion = "Descripción de Recurso";
+			direccion = "";
+			stock = "stock";
+			actividad = "";
+			objetivo = "";
+			justificacion = "";
+			fechaFin=null;
+			fechaInicio=null;
+			notificacion = "";
+			fecha = null;
+			listDetalles = new ArrayList<Solicidetalle>();
+			estadoSol = null;
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
+			// Cargar datos recurso
+
+			capacidad_recurso = null;
+			// Listas
+			list_mas = new ArrayList<Solicidetalle>();
+			agregarcontrol=false;
 			resp = "solicitudes?faces-redirect=true";// FALTA DONDE VA XHTML
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Edición correcta", null));
+			}else{
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"La solicitud debe contener por lo menos un recurso", null));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -901,11 +1055,16 @@ public class SolicitudApBean {
 	}
 
 	public String cancelarSolicitudED() {
+		String r="";
+		if(agregarcontrol==false){
 		id_sol = null;
 		direccion = "";
+		stock = "stock";
 		actividad = "";
 		objetivo = "";
 		justificacion = "";
+		fechaFin=null;
+		fechaInicio=null;
 		notificacion = "";
 		fecha = null;
 		listDetalles = new ArrayList<Solicidetalle>();
@@ -917,7 +1076,14 @@ public class SolicitudApBean {
 		capacidad_recurso = null;
 		// Listas
 		list_mas = new ArrayList<Solicidetalle>();
-		return "solicitudes?faces-redirect=true";
+		r = "solicitudes?faces-redirect=true";
+		}else{
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Debe dar click en actualizar", null));
+		}
+		return r;
 	}
 
 	public String irform() {
@@ -944,6 +1110,8 @@ public class SolicitudApBean {
 		justificacion = "";
 		notificacion = "";
 		fecha = null;
+		fechaFin=null;
+		fechaInicio=null;
 		listDetalles = new ArrayList<Solicidetalle>();
 		estadoSol = null;
 		// Cargar datos recurso
@@ -954,11 +1122,10 @@ public class SolicitudApBean {
 	}
 
 	// CARGAR toods los recursos LIBRES
-	public void todoslorecursos() {
+	public void todoslosrecursos() {
 		try {
 			manager.quitarrecursosactivos();
 			cargarRecursos();
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -969,7 +1136,11 @@ public class SolicitudApBean {
 	public void cargarRecursos() {
 		h_inicio = new Timestamp(fi.getTime());
 		h_fin = new Timestamp(ff.getTime());
-		if (getH_fin() == null || getH_inicio() == null) {
+		select.clear();
+		id_recurso = -1;
+		select = new ArrayList<SelectItem>();
+		select2 = new ArrayList<SelectItem>();
+		if (h_fin == null || h_inicio == null) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -989,10 +1160,20 @@ public class SolicitudApBean {
 										"La fecha de solicitud no debe ser menor a la actual",
 										null));
 			} else if (h_fin.getTime() <= h_inicio.getTime()) {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Verifique su horario de solicitud", null));
-			} else if ((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion
-					.horaMayorIgual(getHorafin()))) {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"La hora de solicitud no debe ser menor a la actual",null));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+								"Verifique su horario de solicitud", null));
+//			} else if ((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion
+//					.horaMayorIgual(getHorafin()))) {
+//				FacesContext
+//						.getCurrentInstance()
+//						.addMessage(
+//								null,
+//								new FacesMessage(
+//										FacesMessage.SEVERITY_WARN,
+//										"La hora de solicitud no debe ser menor a la actual",
+//										null));
 			} else {
 				select = this.getlistaRecursosLibres();
 				// select2 = this.getlistaTipoRecursosLibres();
@@ -1020,8 +1201,9 @@ public class SolicitudApBean {
 			rec = manager.findRecursoByID(id_recurso);
 			descripcionubicacion = rec.getDescripcion();
 			imagen = rec.getImagen();
-			contador= manager.findContadorRecurso(h_inicio,h_fin, rec.getIdRecurso());
-			stock = "En stock: "+ contador;
+			contador = manager.findContadorRecurso(h_inicio, h_fin,
+					rec.getIdRecurso());
+			stock = "En stock: " + contador;
 			mostrar = true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

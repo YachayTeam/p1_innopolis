@@ -20,7 +20,7 @@ public class Recursosactivo implements Serializable {
 	@SequenceGenerator(name="RECURSOSACTIVOS_IDRECACT_GENERATOR", sequenceName="SEQ_RECURSOACTIVO", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RECURSOSACTIVOS_IDRECACT_GENERATOR")
 	@Column(name="id_recact")
-	private long idRecact;
+	private Integer idRecact;
 
 	private Integer cantidad;
 
@@ -42,11 +42,11 @@ public class Recursosactivo implements Serializable {
 	public Recursosactivo() {
 	}
 
-	public long getIdRecact() {
-		return this.idRecact;
+	public Integer getIdRecact() {
+		return idRecact;
 	}
-
-	public void setIdRecact(long idRecact) {
+	
+	public void setIdRecact(Integer idRecact) {
 		this.idRecact = idRecact;
 	}
 

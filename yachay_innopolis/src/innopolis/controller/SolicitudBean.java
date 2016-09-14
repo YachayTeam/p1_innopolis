@@ -35,86 +35,86 @@ import org.primefaces.model.ScheduleModel;
 public class SolicitudBean {
 	private ManagerReservas manager;
 	private ManagerLogin managerlog;
-	
+
 	@EJB
 	private ManagerBuscar mb;
-	
-	//Atributo de solicitud
-	//Cabecera
+
+	// Atributo de solicitud
+	// Cabecera
 	private String direccion;
 	private String actividad;
 	private String justificacion;
 	private String objetivo;
 	private String notificacion;
-	//Manejo detalles
+	// Manejo detalles
 	private Date recursofecha;
 	private Timestamp h_inicio;
 	private Timestamp h_fin;
 	private List<SelectItem> select;
-	//Cambios solicitud
+	// Cambios solicitud
 	private List<Solicidetalle> listDetalles;
 	private Soliciestado estadoSol;
 	private Integer id_sol;
-	
+
 	// calendario
-	private Date date= new Date();
+	private Date date = new Date();
 	private ScheduleModel eventModel;
 	private ScheduleEvent event = new DefaultScheduleEvent();
 	// calendario
 	private Date fi;
 	private Date ff;
-	
-	private Time horafin; 
+
+	private Time horafin;
 	private Time horainicio;
-	
-	//Detalles
+
+	// Detalles
 	private Integer id_recurso;
 	private Recurso recurso;
 	private Integer capacidad_recurso;
 	private Solicicabecera solicitudCabTem;
 	private boolean solicitudCabTmpGuardada;
 	private List<Solicicabecera> listadoSolCab;
-	
-	//tiporecurso
+
+	// tiporecurso
 	private Integer id_recursotipo;
 	private List<SelectItem> select2;
 	private UsuarioHelp session;
-	
-	//envio de correo a los administradores
-	private String smscoradmin; 
+
+	// envio de correo a los administradores
+	private String smscoradmin;
 	private String smscorusu;
 	private String correosadmin;
-	
-	//sacar la descripcion del tipo de ubicacion
+
+	// sacar la descripcion del tipo de ubicacion
 	private boolean mostrar;
 	private String descripcionubicacion;
 	private String stock;
 	private String imagen;
-	
+
 	private boolean agregardetalle;
-	
-	int contador=0;
-	
+
+	int contador = 0;
+
 	public SolicitudBean() {
 		session = SessionBean.verificarSession();
 		manager = new ManagerReservas();
 		managerlog = new ManagerLogin();
-		//Select Vacio
-		select2= new ArrayList<SelectItem>();
+		// Select Vacio
+		select2 = new ArrayList<SelectItem>();
 		select = new ArrayList<SelectItem>();
-		direccion= session.getNombre();
-		justificacion=session.getApellido();
+		direccion = session.getNombre();
+		justificacion = session.getApellido();
 		mostrar = false;
 		agregardetalle = true;
-		actividad="";
-		objetivo="";
-		contador=0;
-		capacidad_recurso=null;
-		descripcionubicacion="Descripción del Recurso";
+		actividad = "";
+		objetivo = "";
+		contador = 0;
+		capacidad_recurso = null;
+		descripcionubicacion = "Descripción del Recurso";
 		stock = "stock";
-		imagen="300.jpg";
+		imagen = "300.jpg";
 	}
-	
+
 	public Time getHorafin() {
 		return horafin;
 	}
@@ -130,33 +130,39 @@ public class SolicitudBean {
 	public void setHorainicio(Time horainicio) {
 		this.horainicio = horainicio;
 	}
+
 	/**
 	 * @return the agregardetalle
 	 */
 	public boolean isAgregardetalle() {
 		return agregardetalle;
 	}
+
 	/**
-	 * @param agregardetalle the agregardetalle to set
+	 * @param agregardetalle
+	 *            the agregardetalle to set
 	 */
 	public void setAgregardetalle(boolean agregardetalle) {
 		this.agregardetalle = agregardetalle;
 	}
+
 	public Recurso getRecurso() {
 		return recurso;
 	}
-	
+
 	public void setRecurso(Recurso recurso) {
 		this.recurso = recurso;
 	}
-	
-	//Metodos Get y Set	
+
+	// Metodos Get y Set
 	public ManagerReservas getManager() {
 		return manager;
 	}
+
 	public Date getFi() {
 		return fi;
 	}
+
 	public void setFi(Date fi) {
 		this.fi = fi;
 	}
@@ -168,6 +174,7 @@ public class SolicitudBean {
 	public void setFf(Date ff) {
 		this.ff = ff;
 	}
+
 	/**
 	 * @return the date
 	 */
@@ -176,7 +183,8 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param date the date to set
+	 * @param date
+	 *            the date to set
 	 */
 	public void setDate(Date date) {
 		this.date = date;
@@ -190,7 +198,8 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param eventModel the eventModel to set
+	 * @param eventModel
+	 *            the eventModel to set
 	 */
 	public void setEventModel(ScheduleModel eventModel) {
 		this.eventModel = eventModel;
@@ -204,11 +213,13 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param event the event to set
+	 * @param event
+	 *            the event to set
 	 */
 	public void setEvent(ScheduleEvent event) {
 		this.event = event;
 	}
+
 	/**
 	 * @return the id_recursotipo
 	 */
@@ -217,11 +228,13 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param id_recursotipo the id_recursotipo to set
+	 * @param id_recursotipo
+	 *            the id_recursotipo to set
 	 */
 	public void setId_recursotipo(Integer id_recursotipo) {
 		this.id_recursotipo = id_recursotipo;
 	}
+
 	/**
 	 * @return the select2
 	 */
@@ -269,7 +282,7 @@ public class SolicitudBean {
 		listadoSolCab = manager.findAllSolicitudCabecera();
 		return listadoSolCab;
 	}
-	
+
 	public String getDireccion() {
 		return direccion;
 	}
@@ -285,30 +298,31 @@ public class SolicitudBean {
 	public void setActividad(String actividad) {
 		this.actividad = actividad;
 	}
-	
+
 	public String getObjetivo() {
 		return objetivo;
 	}
-	
+
 	public void setObjetivo(String objetivo) {
 		this.objetivo = objetivo;
 	}
-	
+
 	public String getJustificacion() {
 		return justificacion;
 	}
-	
+
 	public void setJustificacion(String justificacion) {
 		this.justificacion = justificacion;
 	}
-	
+
 	public String getNotificacion() {
 		return notificacion;
 	}
-	
+
 	public void setNotificacion(String notificacion) {
 		this.notificacion = notificacion;
 	}
+
 	/**
 	 * @return the h_inicio
 	 */
@@ -317,7 +331,8 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param h_inicio the h_inicio to set
+	 * @param h_inicio
+	 *            the h_inicio to set
 	 */
 	public void setH_inicio(Timestamp h_inicio) {
 		this.h_inicio = h_inicio;
@@ -331,7 +346,8 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param h_fin the h_fin to set
+	 * @param h_fin
+	 *            the h_fin to set
 	 */
 	public void setH_fin(Timestamp h_fin) {
 		this.h_fin = h_fin;
@@ -340,38 +356,39 @@ public class SolicitudBean {
 	public List<SelectItem> getSelect() {
 		return select;
 	}
-	
+
 	public List<Solicidetalle> getListDetalles() {
 		return listDetalles;
 	}
-	
+
 	public void setListDetalles(List<Solicidetalle> listDetalles) {
 		this.listDetalles = listDetalles;
 	}
-	
+
 	public Soliciestado getEstadoSol() {
 		return estadoSol;
 	}
-	
+
 	public void setEstadoSol(Soliciestado estadoSol) {
 		this.estadoSol = estadoSol;
 	}
-	
+
 	public Integer getId_sol() {
 		return id_sol;
 	}
-	
+
 	public void setId_sol(Integer id_sol) {
 		this.id_sol = id_sol;
 	}
-	
+
 	public Date getRecursofecha() {
 		return recursofecha;
 	}
-	
+
 	public void setRecursofecha(Date recursofecha) {
 		this.recursofecha = recursofecha;
-	}	
+	}
+
 	/**
 	 * @return the smscoradmin
 	 */
@@ -380,7 +397,8 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param smscoradmin the smscoradmin to set
+	 * @param smscoradmin
+	 *            the smscoradmin to set
 	 */
 	public void setSmscoradmin(String smscoradmin) {
 		this.smscoradmin = smscoradmin;
@@ -394,7 +412,8 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param smscorusu the smscorusu to set
+	 * @param smscorusu
+	 *            the smscorusu to set
 	 */
 	public void setSmscorusu(String smscorusu) {
 		this.smscorusu = smscorusu;
@@ -408,11 +427,13 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param correosadmin the correosadmin to set
+	 * @param correosadmin
+	 *            the correosadmin to set
 	 */
 	public void setCorreosadmin(String correosadmin) {
 		this.correosadmin = correosadmin;
 	}
+
 	/**
 	 * @return the mostrar
 	 */
@@ -421,11 +442,13 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param mostrar the mostrar to set
+	 * @param mostrar
+	 *            the mostrar to set
 	 */
 	public void setMostrar(boolean mostrar) {
 		this.mostrar = mostrar;
 	}
+
 	/**
 	 * @return the descripcionubicacion
 	 */
@@ -434,20 +457,21 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param descripcionubicacion the descripcionubicacion to set
+	 * @param descripcionubicacion
+	 *            the descripcionubicacion to set
 	 */
 	public void setDescripcionubicacion(String descripcionubicacion) {
 		this.descripcionubicacion = descripcionubicacion;
 	}
-	
+
 	public String getStock() {
 		return stock;
 	}
-	
+
 	public void setStock(String stock) {
 		this.stock = stock;
 	}
-	
+
 	/**
 	 * @return the imagen
 	 */
@@ -456,423 +480,535 @@ public class SolicitudBean {
 	}
 
 	/**
-	 * @param imagen the imagen to set
+	 * @param imagen
+	 *            the imagen to set
 	 */
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
 
-	/*SESSION*/
+	/* SESSION */
 	public UsuarioHelp getSession() {
 		return session;
 	}
-		
-	//Metodos proceso de ejecucion
-	public String crearNuevaSolicitud(){
-		String resp="";
+
+	// Metodos proceso de ejecucion
+	public String crearNuevaSolicitud() {
+		String resp = "";
 		try {
-			//SolicitudTemporal
-			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(), getActividad(), getObjetivo(), getJustificacion(), new Date(), getSession().getIdUsr()); 
-			id_recurso=-1; 
-			capacidad_recurso=null;
-			solicitudCabTmpGuardada=false;
-			notificacion ="";
-			resp="";
+			// SolicitudTemporal
+			solicitudCabTem = manager.crearSolicitudTmp(getDireccion(),
+					getActividad(), getObjetivo(), getJustificacion(),
+					new Date(), getSession().getIdUsr());
+			id_recurso = -1;
+			capacidad_recurso = null;
+			solicitudCabTmpGuardada = false;
+			notificacion = "";
+			resp = "";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud", null));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Error al crear la solicitud", null));
 		}
 		return resp;
 	}
-	
-	public String insertarDetalleSolicitud(){
-		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud fue guardada anteriormente", null));			
+
+	public String insertarDetalleSolicitud() {
+		if (solicitudCabTmpGuardada == true) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"La solicitud fue guardada anteriormente", null));
 			return "";
+		} else if (fi.after(ff)) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"La fecha inicio debe ser menor que la fecha fin",
+							null));
 		}
-		else
-			if(fi.after(ff)){	
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha inicio debe ser menor que la fecha fin", null));
+		try {// insertar
+			controlarcantidad();
+			if (agregardetalle == true) {
+				manager.agregarSolicitudDetalleTmp(getId_recurso(),
+						getcapacidad_recurso(), h_fin, h_inicio);
+				id_recurso = -1;
+				agregardetalle = false;
+				capacidad_recurso = null;
 			}
-			try{//insertar
-				controlarcantidad();
-				if(agregardetalle == true)
-				{
-					manager.agregarSolicitudDetalleTmp(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio);
-					id_recurso=-1;
-					agregardetalle=false;
-					capacidad_recurso=null;
-				}
-			} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-			agregardetalle=false;
-			id_recurso=-1; 
-			capacidad_recurso=null;
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+			agregardetalle = false;
+			id_recurso = -1;
+			capacidad_recurso = null;
 		}
-			
+
 		return "";
 	}
-	
-	//CARGAR toods los recursos LIBRES
-	public void controlarcantidad(){
+
+	// CARGAR toods los recursos LIBRES
+	public void controlarcantidad() {
 		try {
-			if(id_recurso == -1){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Debe seleccionar el recurso a solicitar", null));
-				agregardetalle=false;
-			}else{
-				if(capacidad_recurso==null){
-					capacidad_recurso=-1;
-				}if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==true){
-					agregardetalle=true;
-				}else if(manager.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(),h_fin, h_inicio)==false){
-					agregardetalle=false;
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error debe especificar el recurso o "
-							+ "La cantidad es mayor a la del recurso solicitado", null));
+			if (id_recurso == -1) {
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_INFO,
+										"Debe seleccionar el recurso a solicitar",
+										null));
+				agregardetalle = false;
+			} else {
+				if (capacidad_recurso == null) {
+					capacidad_recurso = -1;
+				}
+				if (manager.controlarcantidadmanager(getId_recurso(),
+						getcapacidad_recurso(), h_fin, h_inicio) == true) {
+					agregardetalle = true;
+				} else if (manager.controlarcantidadmanager(getId_recurso(),
+						getcapacidad_recurso(), h_fin, h_inicio) == false) {
+					agregardetalle = false;
+					FacesContext
+							.getCurrentInstance()
+							.addMessage(
+									null,
+									new FacesMessage(
+											FacesMessage.SEVERITY_INFO,
+											"Error debe especificar el recurso o "
+													+ "La cantidad es mayor a la del recurso solicitado",
+											null));
 				}
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
 		}
 	}
-	
-	public String insertarDetalleSolicitudlista(){
-		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud fue guardada", null));			
+
+	public String insertarDetalleSolicitudlista() {
+		if (solicitudCabTmpGuardada == true) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"La solicitud fue guardada", null));
 			return "";
-		}		
-			try{//insertar
-				List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin,horainicio, horafin);
-				for(Recurso p:listadoRecurso){
-					if(id_recursotipo.equals(p.getRecursotipo().getIdRectipo()))
-					{
-						h_inicio = new Timestamp(fi.getTime());
-						h_fin = new Timestamp(ff.getTime());
-						manager.agregarSolicitudDetalleTmplista(p.getIdRecurso(), p.getCapacidad(),h_fin, h_inicio);
-						System.out.println(p.getIdRecurso()+ " CON NUM RECURSO " +p.getRecursotipo().getIdRectipo());
-					}
-			}
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Los recursos se añadieron", null));			
-			id_recurso=-1; 
-			capacidad_recurso=null;
-			//LIMPIAR LISTADO
-			select = new ArrayList<SelectItem>();
-			select2 = new ArrayList<SelectItem>();
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-			//LIMPIAR LISTADO
-			id_recurso=-1; 
-			capacidad_recurso=null;
-			//LIMPIAR LISTADO
-			select = new ArrayList<SelectItem>();
-			select2 = new ArrayList<SelectItem>();
-		}				
-		return "";
-	}
-	
-	//LISTADO DE getlistaTipoRecursosdeunrecursotipo
-		public List<SelectItem> getlistaTipoRecursosdeunrecursotipo(){
-			List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-			List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin,horainicio, horafin);
-			for(Recurso p:listadoRecurso){
-				if(p.getRecursotipo().getIdRectipo().equals(id_recurso))
-				{
-				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre());
-				listadoSI.add(item);
+		}
+		try {// insertar
+			List<Recurso> listadoRecurso = manager.findAllRecursosDisponibles(
+					h_inicio, h_fin, horainicio, horafin);
+			for (Recurso p : listadoRecurso) {
+				if (id_recursotipo.equals(p.getRecursotipo().getIdRectipo())) {
+					h_inicio = new Timestamp(fi.getTime());
+					h_fin = new Timestamp(ff.getTime());
+					manager.agregarSolicitudDetalleTmplista(p.getIdRecurso(),
+							p.getCapacidad(), h_fin, h_inicio);
+					System.out.println(p.getIdRecurso() + " CON NUM RECURSO "
+							+ p.getRecursotipo().getIdRectipo());
 				}
 			}
-			return listadoSI;
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Los recursos se añadieron", null));
+			id_recurso = -1;
+			capacidad_recurso = null;
+			// LIMPIAR LISTADO
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+			// LIMPIAR LISTADO
+			id_recurso = -1;
+			capacidad_recurso = null;
+			// LIMPIAR LISTADO
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
 		}
-		
-	public String quitarDetalleSolicitud(Solicidetalle det){
-		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud fue guardada"));
+		return "";
+	}
+
+	// LISTADO DE getlistaTipoRecursosdeunrecursotipo
+	public List<SelectItem> getlistaTipoRecursosdeunrecursotipo() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		List<Recurso> listadoRecurso = manager.findAllRecursosDisponibles(
+				h_inicio, h_fin, horainicio, horafin);
+		for (Recurso p : listadoRecurso) {
+			if (p.getRecursotipo().getIdRectipo().equals(id_recurso)) {
+				SelectItem item = new SelectItem(p.getIdRecurso(),
+						p.getNombre());
+				listadoSI.add(item);
+			}
+		}
+		return listadoSI;
+	}
+
+	public String quitarDetalleSolicitud(Solicidetalle det) {
+		if (solicitudCabTmpGuardada == true) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("La solicitud fue guardada"));
 			return "";
 		}
-		
+
 		try {
 			manager.quitarDetalleSolicitudTem(det);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
 		}
-		
+
 		return "";
 	}
-	
-	public String guardarSolicitud(){	
-		if(solicitudCabTmpGuardada==true){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La solicitud fue guardada y enviada para aprobación"));
+
+	public String guardarSolicitud() {
+		if (solicitudCabTmpGuardada == true) {
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									"La solicitud fue guardada y enviada para aprobación"));
 			return "home";
 		}
 		try {
 			manager.guardarSolicitudTemporalsinev(solicitudCabTem);
-			//agregarlistadecorreos principal
-					
-			DateFormat date = new SimpleDateFormat ("dd/MM/yyyy");			
-			smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-					 + "<meta name='viewport' content='width=device-width'></head><body>"
-					 + "El Sr/ra. "+direccion+" "+justificacion+", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
-		             +"los datos de la solicitud son:"
-		             + "<br/> Actividad: "+actividad+""
-		             + "<br/> Objetivo: "+objetivo+""
-		             + "<br/> Fecha de Inicio: "+date.format(fi).toString()+""
-					 + "<br/> Fecha de Fin: "+date.format(ff).toString()
-					 + "<br/> Saludos cordiales, "
-				  	 + "<br/> Sistema de REGECE Yachay EP"
-		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-			
-			smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-					 + "<meta name='viewport' content='width=device-width'></head><body>"
-					 + "Sr/ra.  "+direccion+" "+justificacion+", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
-					 +"los datos su solicitud son:"
-		             + "<br/> Actividad: "+actividad+""
-		             + "<br/> Objetivo: "+objetivo+""
-		             + "<br/> Fecha de Inicio: "+date.format(fi).toString()+""
-		       		 + "<br/> Fecha de Fin: "+date.format(ff).toString()
-		       		 + "<br/> Saludos cordiales, "
-				  	 + "<br/> Sistema de REGECE Yachay EP"
-		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-			getcorreosusu();
-			
-//			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE  ", smscoradmin);
-//			Mail.sendMailsolousr(session.getCorreo(), "Notificación de YACHAY/REGECE  ", smscorusu);
-			
-			mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
-			mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorusu);
+			// agregarlistadecorreos principal
 
-			
-			solicitudCabTmpGuardada=true;
-			correosadmin="";
-			smscoradmin="";
-			smscorusu="";
-			descripcionubicacion="Descripción de la Ubicación";
-			stock ="stock";
-			imagen="300.jpg";
-			fi=null;
-			ff=null;
-			setActividad("");setObjetivo("");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Su solicitud fue enviada espere el mensaje de confirmación al correo."));
+			DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+			smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					+ "<meta name='viewport' content='width=device-width'></head><body>"
+					+ "El Sr/ra. "
+					+ direccion
+					+ " "
+					+ justificacion
+					+ ", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
+					+ "los datos de la solicitud son:"
+					+ "<br/> Actividad: "
+					+ actividad
+					+ ""
+					+ "<br/> Objetivo: "
+					+ objetivo
+					+ ""
+					+ "<br/> Fecha de Inicio: "
+					+ date.format(fi).toString()
+					+ ""
+					+ "<br/> Fecha de Fin: "
+					+ date.format(ff).toString()
+					+ "<br/> Saludos cordiales, "
+					+ "<br/> Sistema de REGECE Yachay EP"
+					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+
+			smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					+ "<meta name='viewport' content='width=device-width'></head><body>"
+					+ "Sr/ra.  "
+					+ direccion
+					+ " "
+					+ justificacion
+					+ ", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
+					+ "los datos su solicitud son:"
+					+ "<br/> Actividad: "
+					+ actividad
+					+ ""
+					+ "<br/> Objetivo: "
+					+ objetivo
+					+ ""
+					+ "<br/> Fecha de Inicio: "
+					+ date.format(fi).toString()
+					+ ""
+					+ "<br/> Fecha de Fin: "
+					+ date.format(ff).toString()
+					+ "<br/> Saludos cordiales, "
+					+ "<br/> Sistema de REGECE Yachay EP"
+					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+			getcorreosusu();
+
+			// Mail.generateAndSendEmail(correosadmin,
+			// "Notificación de YACHAY/REGECE  ", smscoradmin);
+			// Mail.sendMailsolousr(session.getCorreo(),
+			// "Notificación de YACHAY/REGECE  ", smscorusu);
+
+			mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE",
+					smscoradmin);
+			mb.envioMailWS(session.getCorreo(),
+					"Notificación de YACHAY/REGECE", smscorusu);
+
+			solicitudCabTmpGuardada = true;
+			correosadmin = "";
+			smscoradmin = "";
+			smscorusu = "";
+			descripcionubicacion = "Descripción de la Ubicación";
+			stock = "stock";
+			imagen = "300.jpg";
+			fi = null;
+			ff = null;
+			setActividad("");
+			setObjetivo("");
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									"Su solicitud fue enviada espere el mensaje de confirmación al correo."));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(),null));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage(), null));
 		}
-		
+
 		return "home";
 	}
-	
-	//metodo para listar correos de ususariosadmin
-		public String getcorreosusu(){			
-			try
-			{
+
+	// metodo para listar correos de ususariosadmin
+	public String getcorreosusu() {
+		try {
 			List<Usuario> a = managerlog.findUsrsPrincipal();
-			correosadmin="";
+			correosadmin = "";
 			for (Usuario u : a) {
-				correosadmin+=u.getCorreo()+",";
+				correosadmin += u.getCorreo() + ",";
 			}
 			int max = correosadmin.length();
-			correosadmin = correosadmin.substring(0, max-1).trim(); 
-			}
-			catch (Exception e) {
+			correosadmin = correosadmin.substring(0, max - 1).trim();
+		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("No se encuentran usuarios administradores",null));
+			context.addMessage(null, new FacesMessage(
+					"No se encuentran usuarios administradores", null));
 			e.printStackTrace();
 		}
-			return correosadmin;
-		}
-	
-	//CARGAR toods los recursos LIBRES
-	public void todoslorecursos()
-	{
+		return correosadmin;
+	}
+
+	// CARGAR toods los recursos LIBRES
+	public void todoslosrecursos() {
 		try {
 			manager.quitarrecursosactivos();
 			cargarRecursos();
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	//CARGAR RECURSOS LIBRES
-		public void cargarRecursos(){
-			h_inicio = new Timestamp(fi.getTime());
-			h_fin = new Timestamp(ff.getTime());
-			if(h_fin==null || h_inicio==null){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione horario para continuar", null));
-			}else{
-				//Modificacion de Horas
-				setHorainicio(this.fechaAtiempo(h_inicio));
-				setHorafin(this.fechaAtiempo(h_fin));
-				if(!Validacion.fechaMayorIgual(h_inicio) ||!Validacion.fechaMayorIgual(h_fin) ){	
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de solicitud no debe ser menor a la actual", null));
-				}else if(h_fin.getTime()<=h_inicio.getTime()){
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su horario de solicitud", null));
-				}//else if((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion.horaMayorIgual(getHorafin()))){
-//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La hora de solicitud no debe ser menor a la actual.", null));
-//				}
-				else{
-					select = this.getlistaRecursosLibres();
-					//select2 = this.getlistaTipoRecursosLibres();
-				}
+
+	// CARGAR RECURSOS LIBRES
+	public void cargarRecursos() {
+		h_inicio = new Timestamp(fi.getTime());
+		h_fin = new Timestamp(ff.getTime());
+		select.clear();
+		id_recurso = -1;
+		select = new ArrayList<SelectItem>();
+		select2 = new ArrayList<SelectItem>();
+		if (h_fin == null || h_inicio == null) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Seleccione horario para continuar", null));
+		} else {
+			// Modificacion de Horas
+			setHorainicio(this.fechaAtiempo(h_inicio));
+			setHorafin(this.fechaAtiempo(h_fin));
+			if (!Validacion.fechaMayorIgual(h_inicio)
+					|| !Validacion.fechaMayorIgual(h_fin)) {
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_WARN,
+										"La fecha de solicitud no debe ser menor a la actual",
+										null));
+			} else if (h_fin.getTime() <= h_inicio.getTime()) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+								"Verifique su horario de solicitud", null));
+//			} else if ((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion
+//					.horaMayorIgual(getHorafin()))) {
+//				FacesContext
+//						.getCurrentInstance()
+//						.addMessage(
+//								null,
+//								new FacesMessage(
+//										FacesMessage.SEVERITY_WARN,
+//										"La hora de solicitud no debe ser menor a la actual",
+//										null));
+			} else {
+				select = this.getlistaRecursosLibres();
+				// select2 = this.getlistaTipoRecursosLibres();
 			}
 		}
-	
-		//LISTADO DE RECURS
-		public List<SelectItem> getlistaRecursosLibres(){
-			List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-			List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin,horainicio,horafin);
-			for(Recurso p:listadoRecurso){
-				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre());
-				listadoSI.add(item);
-			}
-			return listadoSI;
+	}
+
+	// LISTADO DE RECURSOS
+	public List<SelectItem> getlistaRecursosLibres() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		List<Recurso> listadoRecurso = manager.findAllRecursosDisponibles(
+				h_inicio, h_fin, horainicio, horafin);
+		for (Recurso p : listadoRecurso) {
+			SelectItem item = new SelectItem(p.getIdRecurso(), p.getNombre());
+			listadoSI.add(item);
 		}
-		
-//	//public List<SelectItem> listadoRecursos=new ArrayList<SelectItem>();
-//	//public int valor=0;
-//	//LISTADO DE RECURSOS
-//	public List<SelectItem> getlistaRecursosLibresaunno(){
-//		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-//		List<Recurso> listadoRecurso= manager.findAllRecursosDisponibles(h_inicio, h_fin);
-//		for(Recurso p:listadoRecurso){
-//				SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+p.getCapacidad());
-//				listadoSI.add(item);
-//		}
-//		return listadoSI;
-//		
-//	}	
-	
-	public void selecionadorecuraso()
-	{
+		return listadoSI;
+	}
+
+	// //public List<SelectItem> listadoRecursos=new ArrayList<SelectItem>();
+	// //public int valor=0;
+	// //LISTADO DE RECURSOS
+	// public List<SelectItem> getlistaRecursosLibresaunno(){
+	// List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+	// List<Recurso> listadoRecurso=
+	// manager.findAllRecursosDisponibles(h_inicio, h_fin);
+	// for(Recurso p:listadoRecurso){
+	// SelectItem item=new SelectItem(p.getIdRecurso(),
+	// p.getNombre()+" - "+p.getCapacidad());
+	// listadoSI.add(item);
+	// }
+	// return listadoSI;
+	//
+	// }
+
+	public void selecionadorecuraso() {
 		System.out.println(getId_recurso());
 
 	}
-	 
-	
-//	//LISTADO DE RECURStipo
-//	public List<SelectItem> getlistaTipoRecursosLibres(){
-//		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-//		//borre los recursos anteriores de la tabla recursos activos
-//		List<Recursotipo> listadoTipoRecurso= manager.findAllTipoRecursosDisponibles(h_inicio, h_fin);
-//		for(Recursotipo p:listadoTipoRecurso){
-//			SelectItem item=new SelectItem(p.getIdRectipo(), p.getTipo(),p.getDescripcion());
-//			listadoSI.add(item);
-//		}
-//		return listadoSI;
-//	}
-	
-	
-//	public List<SelectItem> getlistaRecursos(){
-//		List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-//		List<Recurso> listadoRecurso= manager.findAllRecurso();
-//		for(Recurso p:listadoRecurso){
-//			SelectItem item=new SelectItem(p.getIdRecurso(), p.getNombre()+" - "+p.getCapacidad());
-//			listadoSI.add(item);
-//		}
-//		return listadoSI;
-//	}
-	
-	//JAVA.DATE TO SQL.TIME
+
+	// //LISTADO DE RECURStipo
+	// public List<SelectItem> getlistaTipoRecursosLibres(){
+	// List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+	// //borre los recursos anteriores de la tabla recursos activos
+	// List<Recursotipo> listadoTipoRecurso=
+	// manager.findAllTipoRecursosDisponibles(h_inicio, h_fin);
+	// for(Recursotipo p:listadoTipoRecurso){
+	// SelectItem item=new SelectItem(p.getIdRectipo(),
+	// p.getTipo(),p.getDescripcion());
+	// listadoSI.add(item);
+	// }
+	// return listadoSI;
+	// }
+
+	// public List<SelectItem> getlistaRecursos(){
+	// List<SelectItem> listadoSI=new ArrayList<SelectItem>();
+	// List<Recurso> listadoRecurso= manager.findAllRecurso();
+	// for(Recurso p:listadoRecurso){
+	// SelectItem item=new SelectItem(p.getIdRecurso(),
+	// p.getNombre()+" - "+p.getCapacidad());
+	// listadoSI.add(item);
+	// }
+	// return listadoSI;
+	// }
+
+	// JAVA.DATE TO SQL.TIME
 	@SuppressWarnings("deprecation")
-	public Time fechaAtiempo(Date fecha){
+	public Time fechaAtiempo(Date fecha) {
 		DateFormat dateFormatH = new SimpleDateFormat("HH:mm");
 		String hora = dateFormatH.format(fecha).toString();
-		String [] array = hora.split(":");
-		Time resp = new Time(Integer.parseInt(array[0]), Integer.parseInt(array[1]), 00);
-		return resp;	
+		String[] array = hora.split(":");
+		Time resp = new Time(Integer.parseInt(array[0]),
+				Integer.parseInt(array[1]), 00);
+		return resp;
 	}
-	
-	//-------traslados
-	public String irsolres(){
-		String r="";
-		if (solicitudCabTem.getSolicidetalles().size()>0){
-			r="solres";
+
+	// -------traslados
+	public String irsolres() {
+		String r = "";
+		if (solicitudCabTem.getSolicidetalles().size() > 0) {
+			r = "solres";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Debe seleccionar recursos", null));
 		}
-		else{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar recursos", null));
-		}
-		return r; 
+		return r;
 	}
-	
-	public String irsolcab(){
-		return "solcab"; 
+
+	public String irsolcab() {
+		return "solcab";
 	}
-	
-	public String irsoldet(){
-		return "soldet"; 
+
+	public String irsoldet() {
+		return "soldet";
 	}
-	
-	public String irvolver(){	
-		String r="eventos";
-	    setId_recurso(-1);
-		setActividad(""); 
+
+	public String irvolver() {
+		String r = "eventos";
+		setId_recurso(-1);
+		setActividad("");
 		setObjetivo("");
 		setRecursofecha(null);
 		setH_inicio(null);
 		setH_fin(null);
-		h_inicio=null;
-		h_fin=null;
-		fi=null;
-		ff=null;
-		descripcionubicacion="Descripción de la Ubicación";
-		stock= "stock";
-		imagen="300.jpg";
+		h_inicio = null;
+		h_fin = null;
+		fi = null;
+		ff = null;
+		descripcionubicacion = "Descripción de la Ubicación";
+		stock = "stock";
+		imagen = "300.jpg";
 		select = new ArrayList<SelectItem>();
 		select2 = new ArrayList<SelectItem>();
-		solicitudCabTem=null;
-		return r; 
+		solicitudCabTem = null;
+		return r;
 	}
-	
-	
-	
-	public String veri(){
-			String resp="";
-			try {
-				//SolicitudTemporal
-				if(actividad.equals("") && objetivo.equals(""))
-				{
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud", null));
-				}
-				else
-				{
-				solicitudCabTem = manager.crearSolicitudTmp(getDireccion(),actividad , objetivo, getJustificacion(), new Date(), getSession().getIdUsr()); 
-				id_recurso=-1; 
-				//capacidad_recurso=0;
-				solicitudCabTmpGuardada=false;
-				id_recurso=-1; 
-				//capacidad_recurso=0;
-				//actividad="";
-				//objetivo="";				
-				//LIMPIAR LISTADO
+
+	public void veri() {
+		try {
+			// SolicitudTemporal
+			if (actividad.equals("") && objetivo.equals("")) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Error al crear la solicitud", null));
+			} else {
+				solicitudCabTem = manager.crearSolicitudTmp(getDireccion(),
+						actividad, objetivo, getJustificacion(), new Date(),
+						getSession().getIdUsr());
+				// capacidad_recurso=0;
+				solicitudCabTmpGuardada = false;
+				id_recurso = -1;
+				// capacidad_recurso=0;
+				// actividad="";
+				// objetivo="";
+				// LIMPIAR LISTADO
 				select = new ArrayList<SelectItem>();
 				select2 = new ArrayList<SelectItem>();
 				h_inicio = null;
 				h_fin = null;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Datos almacenados correctamente", null));
-				}
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud", null));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Datos almacenados correctamente", null));
 			}
-			
-			return resp;
- 	}
-
-	public void veri1(){
-		try {
-			//SolicitudTemporal
-			actividad=getActividad();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la solicitud", null));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Error al crear la solicitud", null));
 		}
+	}
+
+	public void veri1() {
+		try {
+			// SolicitudTemporal
+			actividad = getActividad();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Error al crear la solicitud", null));
 		}
-	
-	public void mostrara()
-	{
+	}
+
+	public void mostrara() {
 		Recurso rec;
 		try {
 			rec = manager.findRecursoByID(id_recurso);
 			descripcionubicacion = rec.getDescripcion();
-			imagen=rec.getImagen();
-			contador= manager.findContadorRecurso(h_inicio,h_fin, rec.getIdRecurso());
-			stock = "En stock: "+ contador;
-			mostrar=true;
+			imagen = rec.getImagen();
+			contador = manager.findContadorRecurso(h_inicio, h_fin,
+					rec.getIdRecurso());
+			stock = "En stock: " + contador;
+			mostrar = true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -880,8 +1016,8 @@ public class SolicitudBean {
 	}
 
 	// metodo para asignar el Tipo al Usuario
-		public String asignarRecurso() {
-			manager.asignarRecurso(id_recurso);		
-			return "";
-		}
+	public String asignarRecurso() {
+		manager.asignarRecurso(id_recurso);
+		return "";
+	}
 }

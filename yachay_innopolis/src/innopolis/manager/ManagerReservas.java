@@ -442,7 +442,7 @@ private ManagerDAO mDAO;
 		mDAO.insertar(recact);
 	}
 	
-	public void eliminarRecursoSolicitado(Long id_tabla) throws Exception{
+	public void eliminarRecursoSolicitado(Integer id_tabla) throws Exception{
 		mDAO.eliminar(Recursosactivo.class, id_tabla);
 	}
 	
@@ -499,8 +499,8 @@ private ManagerDAO mDAO;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		for (Recursosactivo recursosactivo : listado) {
-//			System.out.println(dateFormat.format(recursosactivo.getHoraFin().getTime()).toString()+"aca1");
-//			System.out.println(dateFormat.format(fecha_seleccionadaini).toString()+"aca2");
+			System.out.println(dateFormat.format(recursosactivo.getHoraFin().getTime()).toString()+"aca1");
+			System.out.println(dateFormat.format(fecha_seleccionadaini).toString()+"aca2");
 			if(dateFormat.format(recursosactivo.getHoraFin().getTime()).toString().equals(dateFormat.format(fecha_seleccionadaini.getTime()).toString())){
 				resultado.add(recursosactivo);
 			}
@@ -618,20 +618,20 @@ private ManagerDAO mDAO;
 	
 	//RecursosXHora
 	//Devuelve los recursos que esten ocupados de una fecha en un horario
-	public ArrayList<Recursosactivo> findAllRecursoOcupadoByHorario(Timestamp hora_inicio, Timestamp hora_fin,Time horainicio, Time horafin){
+	public ArrayList<Recursosactivo> findAllRecursoOcupadoByHorario(Timestamp fecha_inicio, Timestamp fecha_fin,Time horainicio, Time horafin){
 		ArrayList<Recursosactivo> resultado = new ArrayList<Recursosactivo>();
-		List<Recursosactivo> listado = this.findAllRecursoOcupadoByFecha(hora_fin);
+		List<Recursosactivo> listado = this.findAllRecursoOcupadoByFecha(fecha_fin);
 		for (Recursosactivo recursosactivo : listado) {
-			System.out.println(horainicio);
-			System.out.println(Validacion.fechaAtiempo(recursosactivo.getHoraInicio()));
-			if( (horainicio.before(Validacion.fechaAtiempo(recursosactivo.getHoraInicio())) &&    horainicio.after(Validacion.fechaAtiempo(recursosactivo.getHoraFin()))) || 
+			System.out.println(horainicio+" y "+Validacion.fechaAtiempo(recursosactivo.getHoraInicio()) );
+			System.out.println(horafin+" y "+Validacion.fechaAtiempo(recursosactivo.getHoraFin()) );
+			if( (horainicio.before(Validacion.fechaAtiempo(recursosactivo.getHoraInicio())) && horainicio.after(Validacion.fechaAtiempo(recursosactivo.getHoraFin()))) || 
 			(horafin.before(Validacion.fechaAtiempo(recursosactivo.getHoraInicio())) && horafin.after(Validacion.fechaAtiempo(recursosactivo.getHoraFin()))) ){
 				System.out.println("entra aca1");
 				System.out.println(recursosactivo.getIdSolicitud());
 				resultado.add(recursosactivo);
 			}
 		}
-		//System.out.println("OcupadosByHorario "+resultado.size());
+		System.out.println("OcupadosByHorario "+resultado.size());
 		return resultado;
 	}	
 	
@@ -689,7 +689,7 @@ private ManagerDAO mDAO;
  	//Listar solicitudes
 	@SuppressWarnings("unchecked")
 	public List<Solicicabecera> findAllSolicitudCabeceraOrdenada(){
-		return mDAO.findWhere(Solicicabecera.class, "1=1", "o.fecha desc");
+		return mDAO.findWhere(Solicicabecera.class, " 1=1 ", "o.fecha desc");
 	}
 	public Solicicabecera findSolicitudCabeceraById(Integer id) throws Exception{
 		return (Solicicabecera) mDAO.findById(Solicicabecera.class, id);
@@ -723,12 +723,26 @@ private ManagerDAO mDAO;
 		return mDAO.findAll(Solicidetalle.class);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Solicidetalle> findSolicitudDetalleByCabeceraId(Integer id) throws Exception{
+		return (List<Solicidetalle>) mDAO.findWhere(Solicidetalle.class," o.solicicabecera.idSolcab = "+id+" ", "o.horaInicio ");
+	}
+	
+	public Solicidetalle findSolicitudDetalleById(Integer id) throws Exception{
+		return (Solicidetalle) mDAO.findById(Solicidetalle.class, id );
+	}
+	
 	public void eliminarSoliciDetalleByID(Integer id_detalle) throws Exception{
 		mDAO.eliminar(Solicidetalle.class, id_detalle);
 	}
 	
 	public void insertarSoliciDatalle(Solicidetalle detalle) throws Exception{
 		mDAO.insertar(detalle);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Solicidetalle> findAllSolicituddetalleBycabeceraId(Integer idCabecera) throws Exception{
+		return (List<Solicidetalle>) mDAO.findWhere(Recursosactivo.class," o.idSolicitud = "+idCabecera+" ", "o.horaInicio");
 	}
 	
 	public ArrayList<Solicidetalle> findDetallesSolicitud(Integer id_solicitud){
@@ -761,17 +775,20 @@ private ManagerDAO mDAO;
 				if(solicidetalle.getIdSoldet().equals(eliminado.getIdSoldet())){
 					eliminarSoliciDetalleByID(solicidetalle.getIdSoldet());
 					//Tabla Extra
-					eliminarRecursoSolicitado(findByIdSoliciYRecurso(id_solicitud, solicidetalle.getRecurso().getIdRecurso()).getIdRecact());
+//						eliminarRecursoSolicitado(findByIdSoliciYRecurso(id_solicitud, solicidetalle.getRecurso().getIdRecurso()).getIdRecact());					
 				}
 			}
 		}
 		//AGREGAR
 		for (Solicidetalle detalle : agregados) {
-			insertarSoliciDatalle(detalle);
-			//Tabla extra
-			insertarRecursoSolicitado(id_solicitud, detalle.getHoraInicio(), detalle.getHoraFin(), detalle.getRecurso().getIdRecurso(),detalle.getRecurso().getCapacidad());
+			//Tabla extrah
+			insertarRecursoSolicitado(id_solicitud, detalle.getHoraInicio(), detalle.getHoraFin(), detalle.getRecurso().getIdRecurso(),detalle.getCapacidad());
 		}		
 	}
+	
+	public void editarDetallesSolicitudRecAct(Integer id_solicitud, Solicidetalle detalle) throws Exception{
+			insertarRecursoSolicitado(id_solicitud, detalle.getHoraInicio(), detalle.getHoraFin(), detalle.getRecurso().getIdRecurso(),detalle.getCapacidad());
+		}		
 	
 	//MODIFICAR ESTADO SOLICITUD
 	public void aprobarSolicitudMOD(Integer id_solicitud) throws Exception{
@@ -939,8 +956,13 @@ private ManagerDAO mDAO;
 			}
 		}
 		
-		public void eliminarRecursoActivos(Long idreac) throws Exception{
+		public void eliminarRecursoActivos(Integer idreac) throws Exception{
 			mDAO.eliminar(Recursosactivo.class, idreac);
+		}
+		
+		@SuppressWarnings("unchecked")
+		public List<Recursosactivo> findRecursosactivoByRecursoId(Integer idDetalle, Integer idRecurso ) throws Exception{
+			return (List<Recursosactivo>) mDAO.findWhere(Recursosactivo.class," o.idSolicitud = "+idDetalle+" and o.idRecurso = "+idRecurso+" ", "o.horaInicio");
 		}
 		
 		
@@ -1028,12 +1050,12 @@ private ManagerDAO mDAO;
 	return rt;
 	}
 	
-	public List<Sala> findAllSalasDisponibles(Timestamp hora_inicio, Timestamp hora_fin,Time horainicio, Time horafin){
+	public List<Sala> findAllSalasDisponibles(Timestamp fecha_inicio, Timestamp fecha_fin,Time horainicio, Time horafin){
 		List<Sala> listado = this.findAllSalas();
 		List<Sala> resultados = this.findAllSalas();
-		List<Salasactiva> listadoSalasactivo= this.findAllSalaOcupadoByHorario(hora_inicio, hora_fin, horainicio, horafin);
+		List<Salasactiva> listadoSalasactivo= this.findAllSalaOcupadoByHorario(fecha_inicio, fecha_fin, horainicio, horafin);
 		for (Sala sala : listado) {
-			if(this.findSalasSolicitadosLibreByHorario(sala.getIdSala(), sala.getCapacidad(), hora_inicio, hora_fin,horainicio,horafin) && this.esSalaDesactivado(sala.getIdSala())){
+			if(this.findSalasSolicitadosLibreByHorario(sala.getIdSala(), sala.getCapacidad(), fecha_inicio, fecha_fin,horainicio,horafin) && !this.esSalaDesactivado(sala.getIdSala())){
 				for(Salasactiva c: listadoSalasactivo)
 				{
 					if(sala.getIdSala().equals(c.getIdSala()))
@@ -1043,6 +1065,11 @@ private ManagerDAO mDAO;
 						System.out.println("quita "+sala.getTipo());
 					}
 				}
+			}
+			else if(listadoSalasactivo.isEmpty())
+			{
+				System.out.println("si se agrega si ta vacio menor");
+			//	SelectItem item=new SelectItem(recurso.getIdRecurso(), recurso.getNombre()+" - "+recurso.getCapacidad());
 			}
 		}
 		return resultados;
@@ -1063,12 +1090,16 @@ private ManagerDAO mDAO;
 	
 	//SalasXHora
 	//Devuelve las salas que esten ocupados de una fecha en un horario
-	public ArrayList<Salasactiva> findAllSalaOcupadoByHorario(Timestamp hora_inicio, Timestamp hora_fin, Time horainicio, Time horafin){
+	public ArrayList<Salasactiva> findAllSalaOcupadoByHorario(Timestamp fecha_inicio, Timestamp fecha_fin, Time horainicio, Time horafin){
 		ArrayList<Salasactiva> resultado = new ArrayList<Salasactiva>();
-		List<Salasactiva> listado = this.findAllSalasOcupadoByFecha(hora_fin);
+		List<Salasactiva> listado = this.findAllSalasOcupadoByFecha(fecha_fin);
 		for (Salasactiva salasactivo : listado) {
-			if( (horainicio.before(Validacion.fechaAtiempo(salasactivo.getHoraInicio())) && horainicio.after(Validacion.fechaAtiempo(salasactivo.getHoraFin()))) || 
-					(horafin.before(Validacion.fechaAtiempo(salasactivo.getHoraInicio())) && horafin.after(Validacion.fechaAtiempo(salasactivo.getHoraFin())))){
+			System.out.println(horainicio+" y "+Validacion.fechaAtiempo(salasactivo.getHoraInicio()) );
+			System.out.println(horafin+" y "+Validacion.fechaAtiempo(salasactivo.getHoraFin()) );
+			if( (horainicio.before(Validacion.fechaAtiempo(salasactivo.getHoraInicio())) || horainicio.after(Validacion.fechaAtiempo(salasactivo.getHoraFin()))) && 
+					(horafin.before(Validacion.fechaAtiempo(salasactivo.getHoraInicio())) || horafin.after(Validacion.fechaAtiempo(salasactivo.getHoraFin()))) ){
+				System.out.println("entra aca1");
+				System.out.println(salasactivo.getIdSala());
 				resultado.add(salasactivo);
 			}
 		}
@@ -1086,15 +1117,13 @@ private ManagerDAO mDAO;
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			
 			for (Salasactiva salasactivo : listado) {
-				String fecha1= dateFormat.format(salasactivo.getHoraFin()).toString();
 				System.out.println(dateFormat.format(salasactivo.getHoraFin()).toString()+" aca1");
-				String fecha2 =dateFormat.format(fecha_seleccionada).toString();
 				System.out.println(dateFormat.format(fecha_seleccionada).toString()+" aca2");
- 				if(fecha1.equals(fecha2)){
+				if(dateFormat.format(salasactivo.getHoraFin().getTime()).toString().equals(dateFormat.format(fecha_seleccionada.getTime()).toString())){
 					resultado.add(salasactivo);
 				}
 			}
-			//System.out.println("OcupadosByFecha "+resultado.size());
+			System.out.println("OcupadosByFecha "+resultado.size());
 			return resultado;
 		}
 		//Tabla RECURSOACTIVO para reservaciones realizadas

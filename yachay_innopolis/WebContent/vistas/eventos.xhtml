@@ -228,7 +228,7 @@
 					<p:column headerText="Opciones" exportable="false" width="90">
 						<p:commandButton id="trackeditar" icon="ui-icon-pencil">
 							<p:tooltip id="toolTipTrack4" for="trackeditar"
-								value="Bot&oacute;n para observar la Información del Evento"
+								value="Bot&oacute;n para observar la información del evento"
 								trackMouse="true" />
 							<p:ajax listener="#{eventosBean.CargarEventos(reg)}"
 								update=":form2:panel2" oncomplete="PF('dlg1').show();" />
@@ -237,19 +237,19 @@
 							action="#{eventosBean.irSolicitud1admin(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrac10" for="tracksolicitar"
-								value="Bot&oacute;n para Solicitar un Recurso" trackMouse="true" />
+								value="Bot&oacute;n para solicitar/editar un recurso" trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackapro" icon="ui-icon-circle-check"
 							action="#{eventosBean.aprobarevento(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrack11" for="trackapro"
-								value="Bot&oacute;n para Activar el evento" trackMouse="true" />
+								value="Bot&oacute;n para activar el evento" trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcerrar" icon="ui-icon-circle-close"
 							action="#{eventosBean.negarevento(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrack12" for="trackcerrar"
-								value="Bot&oacute;n para Desactivar el evento" trackMouse="true" />
+								value="Bot&oacute;n para desactivar el evento" trackMouse="true" />
 						</p:commandButton>
 					</p:column>
 					<p:column headerText="Edici&oacute;n/Env&iacute;o Mensaje"

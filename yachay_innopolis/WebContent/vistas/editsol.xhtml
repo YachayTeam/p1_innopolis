@@ -3,134 +3,181 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="css" name="styleser.css" />
-<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="../resources/img/favicon.ico" />
 	<title>Solicitud de Recursos</title>
 </h:head>
 <body>
-<h:form>  
-    <p:menubar>
-        <f:facet name="options">
-        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
-        	<p:commandButton id="tracksalir" value="Volver"  action="/vistas/solicitudes.xhtml" icon="ui-icon-calculator"></p:commandButton>
-        </f:facet>
-    </p:menubar>
-</h:form>
-<hr/>
-<p:growl id="message1" showDetail="false" />
-		<p:panel  id="panel1" header="Datos de Solicitud">
-		<h:form id="form3" >
-		<p:panel id="panel2"  style="border:none;">
-			<p:panelGrid  id="pgrid11" columns="4">
-				<h:outputText value="Fecha de solicitud:"  />
-				<h:outputText id="fecha" value="#{solicitudApBean.fecha}"><f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText>
-				<h:outputText value=""  />
-				<h:outputText value=""  />
-				<h:outputText value="Nombre solicitante a cargo: "/>
-				<p:inputText value="#{solicitudApBean.direccion}" disabled="true"></p:inputText>
-				<h:outputText value="Apellido solicitante a cargo: " />
-				<p:inputText value="#{solicitudApBean.justificacion}" disabled="true"></p:inputText>
-				<h:outputText value="Actividad" />
-				<h:inputTextarea value="#{solicitudApBean.actividad}" disabled="true"></h:inputTextarea>
-				<h:outputText value="Objetivo" />
-				<h:inputTextarea value="#{solicitudApBean.objetivo}" disabled="true"></h:inputTextarea>	
-			</p:panelGrid>
-		</p:panel>
-		<p:panel id="panel3" style="border:none;">
-			<p:panelGrid id="pgrid" columns="5" styleClass="ui-responsive">
-				<h:outputText value="Fecha Inicio*:"/>
-			<p:calendar required="true" mindate="#{solicitudApBean.date}" requiredMessage="Requerido Fecha Inicio"  id="fechai" value="#{solicitudApBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true">
-			<p:ajax  event="dateSelect" listener="#{solicitudApBean.todoslorecursos}" update=":form3:pgrid :form3:msn"></p:ajax>
-			</p:calendar>
-			<h:outputText value="Fecha Fin*:"/>
-			<p:calendar required="true" mindate="#{solicitudApBean.date}" requiredMessage="Requerido Fecha Fin"  id="fechaf" value="#{solicitudApBean.ff}" pattern="yyyy/MM/dd HH:mm" mask="true">
-			<p:ajax  event="dateSelect" listener="#{solicitudApBean.todoslorecursos}" update=":form3:pgrid :form3:msn"></p:ajax>
-			</p:calendar>
-			<h:outputText value="" />
-			<h:outputText value="Recurso Adicional:" />
-				<h:panelGroup id="listrec">  
-					<p:selectOneMenu  value="#{solicitudApBean.id_recurso}">
-						<p:ajax listener="#{solicitudApBean.mostrara()}" update="imagen descr stock"> </p:ajax>
-						<f:selectItem  itemLabel="Selección Recurso" itemValue="-1" />
-						<f:selectItems value="#{solicitudApBean.select}" />
-						<p:ajax
-							listener="#{solicitudApBean.asignarRecurso()}">
-						</p:ajax>
-					</p:selectOneMenu>
-				</h:panelGroup>
-				 <p:graphicImage id="imagen" value="/resources/img/imgevent/#{solicitudApBean.imagen}" width="100" height="100" />
-                 <h:outputText id="descr" value="#{solicitudApBean.descripcionubicacion}" />
-                 <h:outputText id="stock" value="#{solicitudApBean.stock}" />
-				<h:outputText value="Cantidad*: " />
-				<p:inputText value="#{solicitudApBean.capacidad_recurso}" size="1" required="true" requiredMessage="Requerido Cantidad del Recurso" update=":form3:pgrid :form3:msn" validatorMessage="Solo Numeros entre 1 y 1000">
-				</p:inputText>
-				<p:commandButton id="trackcrears"
-					action="#{solicitudApBean.agregarDetalle()}" update="form3"
-					icon="ui-icon-plusthick" value="agregar">
-					<p:tooltip id="toolTipTrac10" for="trackcrears" value="Bot&oacute;n para agregar recurso" trackMouse="true" />
-				</p:commandButton>		 
-			</p:panelGrid>
-			<p:messages id="msn"></p:messages>
-			<p:dataTable value="#{solicitudApBean.listDetalles}" reflow="true"
-				var="d" id="tablarecursosDets">
-				<f:facet name="header">
-					<h:outputText value="Detalle de Recursos:" />
-				</f:facet>
-				<p:column sortBy="#{d.horaInicio}" headerText="Fechas">
-					<h:outputText value="#{d.horaInicio}">
-						<f:convertDateTime pattern="yyyy-MM-dd"/>
+	<h:form>
+		<p:menubar>
+			<f:facet name="options">
+				<p:commandButton type="button" value="#{sessionBean.nom}"
+					disabled="true" icon="ui-icon-person" />
+				<p:commandButton id="tracksalir" value="Volver"
+					update="message1 :form3:pgrid :form3:msn"
+					action="#{solicitudApBean.cancelarSolicitudED}"
+					icon="ui-icon-calculator">
+					<p:ajax listener="#{solicitudApBean.cancelarSolicitudED}"
+						update="message1 :form3:pgrid :form3:msn"></p:ajax>
+				</p:commandButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<hr />
+	<p:growl id="message1" showDetail="false" />
+	<p:panel id="panel1" header="Datos de Solicitud">
+		<h:form id="form3">
+			<p:panel id="panel2" style="border:none;">
+				<p:panelGrid id="pgrid11" columns="5">
+					<h:outputText value="Fecha de solicitud:" />
+					<h:outputText id="fecha" value="#{solicitudApBean.fecha}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
+					<h:outputText value="Solicitante a cargo: " />
+					<h:outputText
+						value="#{solicitudApBean.direccion} #{solicitudApBean.justificacion}"></h:outputText>
+					<h:outputText value="" />
+					<h:outputText value="Actividad: " />
+					<h:inputTextarea value="#{solicitudApBean.actividad}"
+						disabled="true"></h:inputTextarea>
+					<h:outputText value="Objetivo: " />
+					<h:inputTextarea value="#{solicitudApBean.objetivo}"
+						disabled="true"></h:inputTextarea>
+				</p:panelGrid>
+			</p:panel>
+			<p:panel id="panel3" style="border:none;">
+				<p:panelGrid id="pgrid" columns="5" styleClass="ui-responsive">
+					<h:outputText value="Fecha Inicio*:" />
+					<p:calendar required="true" mindate="#{solicitudApBean.date}"
+						requiredMessage="Requerido Fecha Inicio" id="fechai"
+						value="#{solicitudApBean.fi}" pattern="yyyy/MM/dd HH:mm"
+						mask="true">
+						<p:ajax event="dateSelect"
+							listener="#{solicitudApBean.todoslosrecursos}"
+							update="recur :form3:pgrid :form3:msn"></p:ajax>
+					</p:calendar>
+					<h:outputText value="Fecha Fin*:" />
+					<p:calendar required="true" mindate="#{solicitudApBean.date}"
+						requiredMessage="Requerido Fecha Fin" id="fechaf"
+						value="#{solicitudApBean.ff}" pattern="yyyy/MM/dd HH:mm"
+						mask="true">
+						<p:ajax event="dateSelect"
+							listener="#{solicitudApBean.todoslosrecursos}"
+							update="recur :form3:pgrid :form3:msn"></p:ajax>
+					</p:calendar>
+					<h:outputText value="" />
+					<h:outputText value="Recurso Adicional:" />
+					<h:panelGroup id="listrec">
+						<p:selectOneMenu id="recur" value="#{solicitudApBean.id_recurso}">
+							<p:ajax listener="#{solicitudApBean.mostrara()}"
+								update="imagen descr stock">
+							</p:ajax>
+							<f:selectItem itemLabel="Selección Recurso" itemValue="-1" />
+							<f:selectItems value="#{solicitudApBean.select}" />
+							<p:ajax listener="#{solicitudApBean.asignarRecurso()}">
+							</p:ajax>
+						</p:selectOneMenu>
+					</h:panelGroup>
+					<p:graphicImage id="imagen"
+						value="/resources/img/imgevent/#{solicitudApBean.imagen}"
+						width="100" height="100" />
+					<h:outputText id="descr"
+						value="#{solicitudApBean.descripcionubicacion}"
+						style="display:block;width:130px" />
+					<h:outputText id="stock" value="#{solicitudApBean.stock}" />
+					<h:outputText value="Cantidad*: " />
+					<p:inputText value="#{solicitudApBean.capacidad_recurso}" size="1"
+						required="true" requiredMessage="Requerido Cantidad del Recurso"
+						update=":form3:pgrid :form3:msn"
+						validatorMessage="Solo Numeros entre 1 y 1000">
+					</p:inputText>
+					<p:commandButton id="trackcrears"
+						action="#{solicitudApBean.agregarDetalle()}" update="form3 "
+						icon="ui-icon-plusthick" value="agregar">
+						<p:tooltip id="toolTipTrac10" for="trackcrears"
+							value="Bot&oacute;n para agregar recurso" trackMouse="true" />
+					</p:commandButton>
+				</p:panelGrid>
+				<p:messages id="msn"></p:messages>
+				<p:dataTable value="#{solicitudApBean.listDetalles}" reflow="true"
+					var="d" id="tablarecursosDets">
+					<f:facet name="header">
+						<h:outputText value="Detalle de Recursos:" />
+					</f:facet>
+					<p:column sortBy="#{d.horaInicio}" headerText="Fechas">
+						<h:outputText value="#{d.horaInicio}">
+							<f:convertDateTime pattern="yyyy-MM-dd" />
+						</h:outputText>
 					&nbsp;&#713;&nbsp;
 					<h:outputText value="#{d.horaFin}">
-						<f:convertDateTime pattern="yyyy-MM-dd"/>
-					</h:outputText>
-	    		</p:column>
-	    		<p:column headerText="Horas">
-					<h:outputText value="#{d.horaInicio}">
-						<f:convertDateTime pattern="HH:mm"/>
-					</h:outputText>
+							<f:convertDateTime pattern="yyyy-MM-dd" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Horas">
+						<h:outputText value="#{d.horaInicio}">
+							<f:convertDateTime pattern="HH:mm" />
+						</h:outputText>
 					&nbsp;&#713;&nbsp;
 					<h:outputText value="#{d.horaFin}">
-						<f:convertDateTime pattern="HH:mm"/>
-					</h:outputText>
-	    		</p:column>	
-				<p:column>
-					<f:facet name="header" sortBy="#{d.recurso.nombre}">
+							<f:convertDateTime pattern="HH:mm" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header" sortBy="#{d.recurso.nombre}">
 					Nombre
 				</f:facet>
-					<h:outputText value="#{d.recurso.nombre}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header"  sortBy="#{d.recurso.descripcion}">
+						<h:outputText value="#{d.recurso.nombre}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header" sortBy="#{d.recurso.descripcion}">
 					Descripción
 				</f:facet>
-					<h:outputText value="#{d.recurso.descripcion}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header"   sortBy="#{d.capacidad}">
+						<h:outputText value="#{d.recurso.descripcion}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header" sortBy="#{d.capacidad}">
 					Cantidad
 				</f:facet>
-					<h:outputText value="#{d.capacidad}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">Quitar</f:facet>
-					<p:commandButton id="trackquitar" actionListener="#{solicitudApBean.quitarDetalle(d)}" update=":form3" icon="ui-icon-closethick">
-					<p:tooltip id="toolTipTrac1" for="trackquitar" value="Bot&oacute;n para desagregar el recurso en la solicitud " trackMouse="true" />
-					</p:commandButton> 
-				</p:column>
-			</p:dataTable>
-		</p:panel>
-		<p:commandButton id="trackregistrar" value="Actualizar" onclick="PF('cd').show()">
-		</p:commandButton>
-		<p:confirmDialog header="Actualizar" message="Esta seguro de aprobar los datos?" showEffect="fade" hideEffect="explode" widgetVar="cd">
-	        <p:commandButton value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" oncomplete="PF('cd').hide()" action="#{solicitudApBean.finalizarSolicitudED}" update=":form3"/>
-	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('cd').hide()"/>
-	    </p:confirmDialog>
-	</h:form>
+						<h:outputText value="#{d.capacidad}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Quitar</f:facet>
+						<p:commandButton id="trackquitar"
+							actionListener="#{solicitudApBean.quitarDetalle(d)}"
+							 process="@this" update=":form3 tablarecursosDets"
+							icon="ui-icon-closethick">
+							<p:tooltip id="toolTipTrac1" for="trackquitar"
+								value="Bot&oacute;n para eliminar el recurso en la solicitud "
+								trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<h:form id="form6">
+				<p:panel id="panel6" style="border:none;">
+					<p:panelGrid id="pgrid12" columns="2">
+						<p:commandButton id="trackregistrar" value="Actualizar"
+							onclick="PF('cd').show()">
+						</p:commandButton>
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+		</h:form>
 	</p:panel>
+	<p:confirmDialog header="Actualizar"
+		message="Esta seguro de aprobar los datos?" showEffect="fade"
+		hideEffect="explode" widgetVar="cd">
+		<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+			icon="ui-icon-check" oncomplete="PF('cd').hide()" process="@this"
+			update="message1" action="#{solicitudApBean.finalizarSolicitudED}" />
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+			onclick="PF('cd').hide()" />
+	</p:confirmDialog>
 </body>
 </html>

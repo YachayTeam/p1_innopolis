@@ -82,7 +82,7 @@
 									mask="true">
 									<p:ajax event="dateSelect"
 										listener="#{eventosBean.todaslasalas}"
-										update=":form1:pgrid :form1:msn"></p:ajax>
+										update="salaselec :form1:pgrid :form1:msn"></p:ajax>
 								</p:calendar>
 								<h:outputText value="Fecha Fin*:" />
 								<p:calendar required="true" mindate="#{eventosBean.date}"
@@ -91,7 +91,7 @@
 									mask="true">
 									<p:ajax event="dateSelect"
 										listener="#{eventosBean.todaslasalas}"
-										update=":form1:pgrid :form1:msn"></p:ajax>
+										update="salaselec :form1:pgrid :form1:msn"></p:ajax>
 								</p:calendar>
 								<h:outputText value="" />
 								<h:outputText value="Costo:" />
@@ -115,7 +115,7 @@
 								<h:outputText value="" />
 								<h:outputText value="Salas*: " />
 								<h:panelGroup id="listitprec">
-									<p:selectOneMenu required="true" styleClass="t"
+									<p:selectOneMenu required="true" styleClass="t" id="salaselec" 
 										value="#{eventosBean.sala}" requiredMessage="Requerida sala">
 										<p:ajax listener="#{eventosBean.mostrara()}"
 											update="imagen descr capacidad">
@@ -219,24 +219,24 @@
 							<p:ajax listener="#{eventosBean.CargarEventos(reg)}"
 								update=":form2:panel2" oncomplete="PF('dlg1').show();" />
 							<p:tooltip id="toolTipTrack4" for="trackeditar"
-								value="Bot&oacute;n para observar la Información del Evento"
+								value="Bot&oacute;n para observar la información del evento"
 								trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="tracksolicitar" icon="ui-icon-suitcase"
 							action="#{eventosBean.irSolicitud1(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrac10" for="tracksolicitar"
-								value="Bot&oacute;n para Solicitar un Recurso" trackMouse="true" />
+								value="Bot&oacute;n para solicitar/editar recursos" trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcerrar" icon="ui-icon-circle-close"
 							action="#{eventosBean.negareventoxus(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrack12" for="trackcerrar"
-								value="Bot&oacute;n para Desactivar el Evento" trackMouse="true" />
+								value="Bot&oacute;n para desactivar el evento" trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcance" icon="ui-icon-mail-closed">
 							<p:tooltip id="toolTipTrack11" for="trackcance"
-								value="Mensaje de Cancelación de Evento" trackMouse="true" />
+								value="Mensaje de cancelación de evento" trackMouse="true" />
 							<p:ajax listener="#{eventosBean.asignarsmscancelacion(reg)}"
 								update=":form2 :form2:message2" oncomplete="PF('dlg2').show();" />
 						</p:commandButton>

@@ -20,6 +20,7 @@ import java.util.Map;
 import innopolis.entidades.Evento;
 import innopolis.entidades.Inscripcione;
 import innopolis.entidades.Recurso;
+import innopolis.entidades.Recursosactivo;
 import innopolis.entidades.Sala;
 import innopolis.entidades.Solicicabecera;
 import innopolis.entidades.Solicidetalle;
@@ -78,16 +79,16 @@ public class EventosBean {
 	private String sms;
 	private Integer sala;
 	private Boolean interno;
-	
-	
-	int contador;
 
+	int contador;
+	private boolean agregarcontrol;
+	
 	/**** Mod Eventos *****/
 	private Timestamp fActualInicio, fActualFin;
 	private Evento modEv;
 	private Integer idEvSol;
 	private List<Solicidetalle> listDetSolEv;
-	
+
 	@EJB
 	private ManagerBuscar mb;
 
@@ -192,9 +193,10 @@ public class EventosBean {
 		editarEventoSS = false;
 		agregardetalle = true;
 		imagen = "300.jpg";
+		agregarcontrol=false;
 		imagensala = "300.jpg";
 		imgMost = "300.jpg";
-		contador=0;
+		contador = 0;
 		imagentipo = "300.jpg";
 		direccion = session.getNombre();
 		justificacion = session.getApellido();
@@ -206,7 +208,7 @@ public class EventosBean {
 		descripcionubicacion = "Descripción de la Sala";
 		descripcionrecurso = "Descripción de Recurso";
 		stock = "stock";
-		capacidad="capacidad";
+		capacidad = "capacidad";
 	}
 
 	public void setDescripcionrecurso(String descripcionrecurso) {
@@ -216,19 +218,19 @@ public class EventosBean {
 	public String getDescripcionrecurso() {
 		return descripcionrecurso;
 	}
-	
+
 	public String getStock() {
 		return stock;
 	}
-	
+
 	public void setStock(String stock) {
 		this.stock = stock;
 	}
-	
+
 	public String getCapacidad() {
 		return capacidad;
 	}
-	
+
 	public void setCapacidad(String capacidad) {
 		this.capacidad = capacidad;
 	}
@@ -366,7 +368,7 @@ public class EventosBean {
 	public String getCantidad() {
 		return cantidad;
 	}
-	
+
 	public void setCantidad(String cantidad) {
 		this.cantidad = cantidad;
 	}
@@ -973,72 +975,93 @@ public class EventosBean {
 				fechaInicio = new Timestamp(fi.getTime());
 				fechaFin = new Timestamp(ff.getTime());
 				mEvento.asignarUsuario(session.getIdUsr());
-				mEvento.insertarEvento(nombre.trim(), descripcion.trim()/* , lugar */, imagen,
-						fechaInicio, fechaFin, costo, Integer.parseInt(cantidad), estadoeven);
+				mEvento.insertarEvento(nombre.trim(), descripcion.trim()/*
+																		 * ,
+																		 * lugar
+																		 */,
+						imagen, fechaInicio, fechaFin, costo,
+						Integer.parseInt(cantidad), estadoeven);
 
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-				smscoradminsoleve =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-						 + "<meta name='viewport' content='width=device-width'></head><body>"
+				smscoradminsoleve = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "El Sr/ra. "
 						+ session.getNombre()
 						+ " "
 						+ session.getApellido()
 						+ ", envi&oacute; una solicitud para un evento; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 						+ "los datos de la solicitud del evento son:"
-						+ "<br/> Nombre: " + nombre
+						+ "<br/> Nombre: "
+						+ nombre
 						+ ""
 						+ "<br/> Descripci&oacute;n: "
 						+ descripcion
 						+ ""
 						// + "\n Lugar: "+lugar+""
-						+ "<br/> Costo: " + costo + "" + "<br/> Cantidad: "
-						+ cantidad + "" + "<br/> Fecha de Inicio: "
-						+ date.format(fi).toString() + ""
-						+ "<br/> Fecha de Fin: " + date.format(ff).toString()
+						+ "<br/> Costo: "
+						+ costo
+						+ ""
+						+ "<br/> Cantidad: "
+						+ cantidad
+						+ ""
+						+ "<br/> Fecha de Inicio: "
+						+ date.format(fi).toString()
+						+ ""
+						+ "<br/> Fecha de Fin: "
+						+ date.format(ff).toString()
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
 						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
-				smscorususoleve =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-						 + "<meta name='viewport' content='width=device-width'></head><body>"
+				smscorususoleve = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "Sr/ra.  "
 						+ session.getNombre()
 						+ " "
 						+ session.getApellido()
 						+ ", su petici&oacute;n de solicitud del evento al sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 						+ "Sus datos de la solicitud del evento son:"
-						+ "<br/> Nombre: " + nombre
+						+ "<br/> Nombre: "
+						+ nombre
 						+ ""
 						+ "<br/> Descripci&oacute;n: "
 						+ descripcion
 						+ ""
 						// + "\n Lugar: "+lugar+""
-						+ "<br/> Costo: " + costo + "" + "<br/> Cantidad: "
-						+ cantidad + "" + "<br/> Fecha de Inicio: "
-						+ date.format(fi).toString() + ""
-						+ "<br/> Fecha de Fin: " + date.format(ff).toString()
+						+ "<br/> Costo: "
+						+ costo
+						+ ""
+						+ "<br/> Cantidad: "
+						+ cantidad
+						+ ""
+						+ "<br/> Fecha de Inicio: "
+						+ date.format(fi).toString()
+						+ ""
+						+ "<br/> Fecha de Fin: "
+						+ date.format(ff).toString()
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
 						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 				getcorreosusub();
 
-//				Mail.generateAndSendEmail(correosadminsoleve,
-//						"Notificación de YACHAY/REGECE  ", smscoradminsoleve);
-//				Mail.sendMailsolousr(session.getCorreo(),
-//						"Notificación de YACHAY/REGECE  ", smscorususoleve);
-				
-				mb.envioMailWS(correosadminsoleve, "Notificación de YACHAY/REGECE", smscoradminsoleve);
-				mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorususoleve);
-				
+				// Mail.generateAndSendEmail(correosadminsoleve,
+				// "Notificación de YACHAY/REGECE  ", smscoradminsoleve);
+				// Mail.sendMailsolousr(session.getCorreo(),
+				// "Notificación de YACHAY/REGECE  ", smscorususoleve);
+
+				mb.envioMailWS(correosadminsoleve,
+						"Notificación de YACHAY/REGECE", smscoradminsoleve);
+				mb.envioMailWS(session.getCorreo(),
+						"Notificación de YACHAY/REGECE", smscorususoleve);
 
 				eventoidedicio = null;
 				correosadminsoleve = "";
 				smscoradminsoleve = "";
 				smscorususoleve = "";
 				descripcionubicacion = "Descripción de la Sala";
-				stock ="stock";
-				capacidad="capacidad";
+				stock = "stock";
+				capacidad = "capacidad";
 				descripcionrecurso = "Descripción de Recurso";
 				imagensala = "300.jpg";
 				// reiniciamos datos (limpiamos el formulario)
@@ -1173,11 +1196,11 @@ public class EventosBean {
 		}
 		return "soldet2?faces-redirect=true";
 	}
-	
+
 	// editar imagen
-		public void verImagen(Evento eve) {
-			setImagen(eve.getImagen());
-		}
+	public void verImagen(Evento eve) {
+		setImagen(eve.getImagen());
+	}
 
 	// metodo para ir a solicitud y guardar el evento en un temporal
 	public String irSolicitud1(Evento ev) {
@@ -1185,10 +1208,12 @@ public class EventosBean {
 		String a = "";
 		System.out.println(ev.getEstado());
 		if (esave == true) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage("El evento cuenta con una solicitud",
-							null));
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									"El evento cuenta con una solicitud", null));
 			return "";
 		} else if (ev.getEstado().equals("Activado")) {
 			FacesContext
@@ -1205,9 +1230,15 @@ public class EventosBean {
 			Solicicabecera solicitud = mReserv.findSolicitudByID(ev
 					.getSolicicabecera().getIdSolcab());
 			if (solicitud.getSoliciestado().getEstado().equals("pendiente")) {
-				fechaInicio = null;
-				fechaFin = null;
 				id_sol = solicitud.getIdSolcab();
+				List<Solicidetalle> listDetalles1 = mReserv.findSolicitudDetalleByCabeceraId(id_sol);
+				for(Solicidetalle sol: listDetalles1){
+					fi = sol.getHoraInicio();
+					ff = sol.getHoraFin();
+					break;
+				}
+				fechaInicio = new Timestamp(fi.getTime());
+				fechaFin = new Timestamp(ff.getTime());
 				direccion = solicitud.getDireccion();
 				actividad = solicitud.getActividad();
 				objetivo = solicitud.getObjetivo();
@@ -1221,12 +1252,13 @@ public class EventosBean {
 				setH_fin(ev.getFechaFin());
 				// Cargar datos recurso
 				capacidad_recurso = null;
-				// Listas
 				list_mas = new ArrayList<Solicidetalle>();
+				agregardetalle = true;
 				list_menos = new ArrayList<Solicidetalle>();
 				select = new ArrayList<SelectItem>();
-				veri();
-				a = "soldet2?faces-redirect=true";
+				cargarRecursos();
+				//veri();
+				a = "soldet2?faces-redirect=true";//edicion
 				// select2 = new ArrayList<SelectItem>();
 			} else {
 				FacesContext
@@ -1255,7 +1287,7 @@ public class EventosBean {
 			setH_fin(ev.getFechaFin());
 			veri();
 			editarEventoSS = true;
-			a = "soldet3?faces-redirect=true";
+			a = "soldet3?faces-redirect=true";//creacion
 		}
 		return a;
 
@@ -1265,14 +1297,21 @@ public class EventosBean {
 	public String irSolicitud1admin(Evento ev) {
 		solivalor = true;
 		if (esave == true) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage("El evento cuenta con una solicitud",
-							null));
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									"El evento cuenta con una solicitud", null));
 			return "";
 		} else if (ev.getEstado().equals("Activado")) {
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"El evento se encuentra Activado, no se puede solicitar",
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									FacesMessage.SEVERITY_WARN,
+									"El evento se encuentra Activado, no se puede solicitar",
 									null));
 			return "";
 		}
@@ -1350,50 +1389,67 @@ public class EventosBean {
 			return "";
 		} else {
 			try {
-				if(Integer.parseInt(cantidad) == 0){
-					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
-				}
-				else{
-					if(isNumeric(cantidad)){				
-						if(Integer.parseInt(cantidad) == 0){
-							FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
-						}else{		
-				int sala1 = mReserv.findSalaByID(sala).getCapacidad();
-				if (Integer.parseInt(cantidad) <= sala1) {
-					fechaInicio = new Timestamp(fi.getTime());
-					fechaFin = new Timestamp(ff.getTime());
-					idusr = session.getIdUsr();
-					DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-					String fi1 = new String(dateFormat.format(fechaInicio)
-							.toString());
-					String ff1 = new String(dateFormat.format(fechaFin)
-							.toString());
-					eventotemp = mEvento.crearEventoTmp(nombre.trim(), descripcion.trim(),
-							imagen, fechaInicio, fechaFin, costo, Integer.parseInt(cantidad));
-					setActividad(eventotemp.getNombre() + ", " + fi1 + " - "
-							+ ff1);
-					setObjetivo(eventotemp.getDescripcion());
-					setH_inicio(eventotemp.getFechaInicio());
-					setH_fin(eventotemp.getFechaFin());
-					veri();
-					a = "soldet3?faces-redirect=true";
-				} else if (Integer.parseInt(cantidad) > sala1) {
+				if (Integer.parseInt(cantidad) == 0) {
 					FacesContext
 							.getCurrentInstance()
 							.addMessage(
 									null,
 									new FacesMessage(
 											FacesMessage.SEVERITY_WARN,
-											"El número de personas excede la capacidad de la sala",
+											"Ingrese el número de personas mayor que 0",
 											null));
-				}
-				}
-				}else {
+				} else {
+					if (isNumeric(cantidad)) {
+						if (Integer.parseInt(cantidad) == 0) {
+							FacesContext
+									.getCurrentInstance()
+									.addMessage(
+											null,
+											new FacesMessage(
+													FacesMessage.SEVERITY_WARN,
+													"Ingrese el número de personas mayor que 0",
+													null));
+						} else {
+							int sala1 = mReserv.findSalaByID(sala)
+									.getCapacidad();
+							if (Integer.parseInt(cantidad) <= sala1) {
+								fechaInicio = new Timestamp(fi.getTime());
+								fechaFin = new Timestamp(ff.getTime());
+								idusr = session.getIdUsr();
+								DateFormat dateFormat = new SimpleDateFormat(
+										"dd/MM/yyyy");
+								String fi1 = new String(dateFormat.format(
+										fechaInicio).toString());
+								String ff1 = new String(dateFormat.format(
+										fechaFin).toString());
+								eventotemp = mEvento.crearEventoTmp(
+										nombre.trim(), descripcion.trim(),
+										imagen, fechaInicio, fechaFin, costo,
+										Integer.parseInt(cantidad));
+								setActividad(eventotemp.getNombre() + ", "
+										+ fi1 + " - " + ff1);
+								setObjetivo(eventotemp.getDescripcion());
+								setH_inicio(eventotemp.getFechaInicio());
+								setH_fin(eventotemp.getFechaFin());
+								veri();
+								a = "soldet3?faces-redirect=true";
+							} else if (Integer.parseInt(cantidad) > sala1) {
+								FacesContext
+										.getCurrentInstance()
+										.addMessage(
+												null,
+												new FacesMessage(
+														FacesMessage.SEVERITY_WARN,
+														"El número de personas excede la capacidad de la sala",
+														null));
+							}
+						}
+					} else {
 						FacesContext.getCurrentInstance().addMessage(
 								null,
 								new FacesMessage(FacesMessage.SEVERITY_ERROR,
 										"La cantidad debe ser numérica", null));
-						}
+					}
 				}
 			} catch (Exception e) {
 				System.out.print("Ir a solicitud no creo el evento temporal");
@@ -1411,79 +1467,121 @@ public class EventosBean {
 					new FacesMessage("El evento cuenta con una solicitud."));
 			return "";
 		} else if (!Validacion.fechaMayorIgual(ff)) {
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"La fecha de solicitud no debe ser menor a la actual",null));
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									FacesMessage.SEVERITY_WARN,
+									"La fecha de solicitud no debe ser menor a la actual",
+									null));
 			return "";
 		} else {
 			try {
-				if(isNumeric(cantidad)){				
-				if(Integer.parseInt(cantidad) == 0){
-					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
-				}else{				
-				int sala1 = mReserv.findSalaByID(sala).getCapacidad();
-				if (Integer.parseInt(cantidad) <= sala1) {
-					fechaInicio = new Timestamp(fi.getTime());
-					fechaFin = new Timestamp(ff.getTime());
-					idusr = session.getIdUsr();
-					DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-					String fi1 = new String(dateFormat.format(fechaInicio)
-							.toString());
-					String ff1 = new String(dateFormat.format(fechaFin)
-							.toString());
-					eventotemp = mEvento.crearEventoTmp(nombre.trim(), descripcion.trim(),
-							imagen, fechaInicio, fechaFin, costo, Integer.parseInt(cantidad));
-					setActividad(eventotemp.getNombre() + ", " + fi1 + " - "
-							+ ff1);
-					setObjetivo(eventotemp.getDescripcion());
-					setH_inicio(eventotemp.getFechaInicio());
-					setH_fin(eventotemp.getFechaFin());
-					veri();
-					agregardetalle = true;
+				if (isNumeric(cantidad)) {
+					if (Integer.parseInt(cantidad) == 0) {
+						FacesContext
+								.getCurrentInstance()
+								.addMessage(
+										null,
+										new FacesMessage(
+												FacesMessage.SEVERITY_WARN,
+												"Ingrese el número de personas mayor que 0",
+												null));
+					} else {
+						int sala1 = mReserv.findSalaByID(sala).getCapacidad();
+						if (Integer.parseInt(cantidad) <= sala1) {
+							fechaInicio = new Timestamp(fi.getTime());
+							fechaFin = new Timestamp(ff.getTime());
+							idusr = session.getIdUsr();
+							DateFormat dateFormat = new SimpleDateFormat(
+									"dd/MM/yyyy");
+							String fi1 = new String(dateFormat.format(
+									fechaInicio).toString());
+							String ff1 = new String(dateFormat.format(fechaFin)
+									.toString());
+							eventotemp = mEvento
+									.crearEventoTmp(nombre.trim(),
+											descripcion.trim(), imagen,
+											fechaInicio, fechaFin, costo,
+											Integer.parseInt(cantidad));
+							setActividad(eventotemp.getNombre() + ", " + fi1
+									+ " - " + ff1);
+							setObjetivo(eventotemp.getDescripcion());
+							setH_inicio(eventotemp.getFechaInicio());
+							setH_fin(eventotemp.getFechaFin());
+							veri();
+							agregardetalle = true;
 
-					a = "soldet3?faces-redirect=true";
-				
-				}else if (Integer.parseInt(cantidad) > sala1) {
-					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El número de personas excede la capacidad de la sala",null));
-				}
-				}
-				}else {
+							a = "soldet3?faces-redirect=true";
+
+						} else if (Integer.parseInt(cantidad) > sala1) {
+							FacesContext
+									.getCurrentInstance()
+									.addMessage(
+											null,
+											new FacesMessage(
+													FacesMessage.SEVERITY_WARN,
+													"El número de personas excede la capacidad de la sala",
+													null));
+						}
+					}
+				} else {
 					FacesContext.getCurrentInstance().addMessage(
 							null,
 							new FacesMessage(FacesMessage.SEVERITY_ERROR,
 									"La cantidad debe ser numérica", null));
-					}
+				}
 			} catch (Exception e) {
 				System.out.print("ir a solicitud no creo el evento temporal");
 			}
 			return a;
 		}
 	}
-	
+
 	public static boolean isNumeric(String str) {
 		return str.matches("[+-]?\\d*(\\.\\d+)?");
 	}
 
 	public String regresar() {
 		String r = "";
+		if(agregarcontrol==false){
 		if (solivalor == true) {
 			descripcionrecurso = "Descripción de Recurso";
-			stock ="stock";
-			capacidad="capacidad";
+			stock = "stock";
+			capacidad = "capacidad";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";
 			imagentipo = "300.jpg";
+			listDetalles = new ArrayList<Solicidetalle>();
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
+			capacidad_recurso = null;
+			list_mas = new ArrayList<Solicidetalle>();
 			r = "eventos?faces-redirect=true";
 		} else {
 			descripcionrecurso = "Descripción de Recurso";
-			stock ="stock";
-			capacidad="capacidad";
+			stock = "stock";
+			capacidad = "capacidad";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";
 			imagentipo = "300.jpg";
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
+			capacidad_recurso = null;
+			list_mas = new ArrayList<Solicidetalle>();
+			listDetalles = new ArrayList<Solicidetalle>();
+			capacidad_recurso = null;
 			r = "soleven?faces-redirect=true";
 		}
-
+		}else{
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Debe dar click en actualizar", null));
+		}
 		return r;
 	}
 
@@ -1547,8 +1645,8 @@ public class EventosBean {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-//				String carpetaImagenes = (String) servletContext
-//						.getRealPath(File.separatorChar + "imgevent");
+				// String carpetaImagenes = (String) servletContext
+				// .getRealPath(File.separatorChar + "imgevent");
 				String carpetaImagenes = "/opt/wildfly/standalone/img/img_regece/imgevent/";
 				setImagen(g);
 				System.out.println("PAD------> " + carpetaImagenes);
@@ -1634,17 +1732,20 @@ public class EventosBean {
 
 	public String insertarDetalleSolicitud() {
 		if (solicitudCabTmpGuardada == true) {
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"La solicitud fue guardada anteriormente", null));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"La solicitud fue guardada anteriormente", null));
 			return "";
 		}
 		try {
 			controlarcantidad();
-			if(agregardetalle == true)
-			{
-			mReserv.agregarSolicitudDetalleTmp(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio);
-			id_recurso = -1;
-			agregardetalle = false;
-			capacidad_recurso = null;
+			if (agregardetalle == true) {
+				mReserv.agregarSolicitudDetalleTmp(getId_recurso(),
+						getcapacidad_recurso(), h_fin, h_inicio);
+				id_recurso = -1;
+				agregardetalle = false;
+				capacidad_recurso = null;
 			}
 			// LIMPIAR LISTADO
 		} catch (Exception e) {
@@ -1657,29 +1758,46 @@ public class EventosBean {
 		}
 		return "";
 	}
+
 	// CARGAR toods los recursos LIBRES
-		public void controlarcantidad() {
-			try {
-				if (id_recurso == -1) {
-					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Debe seleccionar el recurso a solicitar",null));
-					agregardetalle = false;
-				} else {
-					if (capacidad_recurso == null) {
-						capacidad_recurso = -1;
-					}
-					if (mReserv.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio) == true) {
-						agregardetalle = true;
-					} else if (mReserv.controlarcantidadmanager(getId_recurso(),getcapacidad_recurso(), h_fin, h_inicio) == false) {
-						agregardetalle = false;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error debe especificar el recurso o "
-								+ "La cantidad es mayor a la del recurso solicitado", null));
-					}
+	public void controlarcantidad() {
+		try {
+			if (id_recurso == -1) {
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_INFO,
+										"Debe seleccionar el recurso a solicitar",
+										null));
+				agregardetalle = false;
+			} else {
+				if (capacidad_recurso == null) {
+					capacidad_recurso = -1;
 				}
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(e.getMessage()));
+				if (mReserv.controlarcantidadmanager(getId_recurso(),
+						getcapacidad_recurso(), h_fin, h_inicio) == true) {
+					agregardetalle = true;
+				} else if (mReserv.controlarcantidadmanager(getId_recurso(),
+						getcapacidad_recurso(), h_fin, h_inicio) == false) {
+					agregardetalle = false;
+					FacesContext
+							.getCurrentInstance()
+							.addMessage(
+									null,
+									new FacesMessage(
+											FacesMessage.SEVERITY_INFO,
+											"Error debe especificar el recurso o "
+													+ "La cantidad es mayor a la del recurso solicitado",
+											null));
+				}
 			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
 		}
+	}
 
 	public String insertarDetalleSolicitudlista() {
 		if (solicitudCabTmpGuardada == true) {
@@ -1727,21 +1845,29 @@ public class EventosBean {
 		return "";
 	}
 
-	public String quitarDetalleSolicitud(Solicidetalle det) {
-		if (solicitudCabTmpGuardada == true) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("La solicitud fue guardada", null));
-			return "";
-		}
-
+	public void quitarDetalleSolicitud(Solicidetalle detalle) {
 		try {
-			mReserv.quitarDetalleSolicitudTem(det);
+			List<Recursosactivo> listrecact = mReserv.findRecursosactivoByRecursoId(detalle.getSolicicabecera().getIdSolcab(), detalle.getRecurso().getIdRecurso());
+			for(Recursosactivo recursosactivo : listrecact){
+					mReserv.eliminarRecursoActivos(recursosactivo.getIdRecact());
+			}
+			//mReserv.quitarDetalleSolicitudTem(detalle);
+			mReserv.eliminarSoliciDetalleByID(detalle.getIdSoldet());
+			listDetalles.remove(detalle);
+			cargarRecursos();
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Se eliminó el recurso", null));
+			agregarcontrol=true;
+			
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"No se pudo quitar el recurso", null));
 		}
 
-		return "";
 	}
 
 	// metodo para guardar la solicitud
@@ -1788,14 +1914,15 @@ public class EventosBean {
 
 				getcorreosusuc();
 				System.out.println(correosadminsolreceve);
-//				Mail.generateAndSendEmail(correosadminsolreceve,
-//						"Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
-//				Mail.sendMailsolousr(session.getCorreo(),
-//						"Notificación de YACHAY/REGECE  ", smscorususolreceve);
+				// Mail.generateAndSendEmail(correosadminsolreceve,
+				// "Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
+				// Mail.sendMailsolousr(session.getCorreo(),
+				// "Notificación de YACHAY/REGECE  ", smscorususolreceve);
 
-				mb.envioMailWS(correosadminsolreceve, "Notificación de YACHAY/REGECE", smscoradminsolreceve);
-				mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorususolreceve);
-				
+				mb.envioMailWS(correosadminsolreceve,
+						"Notificación de YACHAY/REGECE", smscoradminsolreceve);
+				mb.envioMailWS(session.getCorreo(),
+						"Notificación de YACHAY/REGECE", smscorususolreceve);
 
 				correosadminsolreceve = "";
 				smscoradminsolreceve = "";
@@ -1859,12 +1986,17 @@ public class EventosBean {
 							+ justificacion
 							+ ", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 							+ "los datos de la solicitud son:"
-							+ "<br/> Actividad: " + actividad + ""
-							+ "<br/> Objetivo: " + objetivo + ""
+							+ "<br/> Actividad: "
+							+ actividad
+							+ ""
+							+ "<br/> Objetivo: "
+							+ objetivo
+							+ ""
 							+ "<br/> Fecha de petici&oacute;n: "
-							+ date.format(h_inicio).toString() + ""
+							+ date.format(h_inicio).toString()
+							+ ""
 							+ "<br/> Fecha de petici&oacute;n: "
-							+ date.format(h_fin).toString() 
+							+ date.format(h_fin).toString()
 							+ "<br/> Saludos cordiales, "
 							+ "<br/> Sistema de REGECE Yachay EP"
 							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
@@ -1877,28 +2009,36 @@ public class EventosBean {
 							+ justificacion
 							+ ", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 							+ "los datos su solicitud son:"
-							+ "<br/> Actividad: " + actividad + ""
-							+ "<br/> Objetivo: " + objetivo + ""
+							+ "<br/> Actividad: "
+							+ actividad
+							+ ""
+							+ "<br/> Objetivo: "
+							+ objetivo
+							+ ""
 							+ "<br/> Fecha de petici&oacute;n: "
-							+ date.format(h_inicio).toString() + ""
+							+ date.format(h_inicio).toString()
+							+ ""
 							+ "<br/> Fecha de petici&oacute;n: "
-							+ date.format(h_fin).toString() 
+							+ date.format(h_fin).toString()
 							+ "<br/> Saludos cordiales, "
 							+ "<br/> Sistema de REGECE Yachay EP"
 							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 					getcorreosusuc();
 					System.out.println(correosadminsolreceve);
-//					Mail.generateAndSendEmail(correosadminsolreceve,
-//							"Notificación de YACHAY/REGECE  ",
-//							smscoradminsolreceve);
-//					Mail.sendMailsolousr(session.getCorreo(),
-//							"Notificación de YACHAY/REGECE  ",
-//							smscorususolreceve);
+					// Mail.generateAndSendEmail(correosadminsolreceve,
+					// "Notificación de YACHAY/REGECE  ",
+					// smscoradminsolreceve);
+					// Mail.sendMailsolousr(session.getCorreo(),
+					// "Notificación de YACHAY/REGECE  ",
+					// smscorususolreceve);
 
-					mb.envioMailWS(correosadminsolreceve, "Notificación de YACHAY/REGECE", smscoradminsolreceve);
-					mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorususolreceve);
-					
+					mb.envioMailWS(correosadminsolreceve,
+							"Notificación de YACHAY/REGECE",
+							smscoradminsolreceve);
+					mb.envioMailWS(session.getCorreo(),
+							"Notificación de YACHAY/REGECE", smscorususolreceve);
+
 					correosadminsolreceve = "";
 					smscoradminsolreceve = "";
 					smscorususolreceve = "";
@@ -1970,27 +2110,38 @@ public class EventosBean {
 						+ justificacion
 						+ ", envi&oacute; una solicitud para un recurso; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
 						+ "los datos de la solicitud son:"
-						+ "<br/> Actividad: " + actividad + ""
-						+ "<br/> Objetivo: " + objetivo + ""
+						+ "<br/> Actividad: "
+						+ actividad
+						+ ""
+						+ "<br/> Objetivo: "
+						+ objetivo
+						+ ""
 						+ "<br/> Fecha de petici&oacute;n: "
-						+ date.format(h_inicio).toString() + ""
+						+ date.format(h_inicio).toString()
+						+ ""
 						+ "<br/> Fecha de petici&oacute;n: "
-						+ date.format(h_fin).toString() 
+						+ date.format(h_fin).toString()
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
 						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
-				smscorususolreceve =  "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+				smscorususolreceve = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "Sr/ra.  "
 						+ direccion
 						+ " "
 						+ justificacion
 						+ ", su petici&oacute;n de solicitud del recurso del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), &aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
-						+ "los datos su solicitud son:" + "<br/> Actividad: "
-						+ actividad + "" + "<br/> Objetivo: " + objetivo + ""
+						+ "los datos su solicitud son:"
+						+ "<br/> Actividad: "
+						+ actividad
+						+ ""
+						+ "<br/> Objetivo: "
+						+ objetivo
+						+ ""
 						+ "<br/> Fecha de petici&oacute;n: "
-						+ date.format(h_inicio).toString() + ""
+						+ date.format(h_inicio).toString()
+						+ ""
 						+ "<br/> Fecha de petici&oacute;n: "
 						+ date.format(h_fin).toString()
 						+ "<br/> Saludos cordiales, "
@@ -1999,13 +2150,15 @@ public class EventosBean {
 
 				getcorreosusuc();
 				System.out.println(correosadminsolreceve);
-//				Mail.generateAndSendEmail(correosadminsolreceve,
-//						"Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
-//				Mail.sendMailsolousr(session.getCorreo(),
-//						"Notificación de YACHAY/REGECE  ", smscorususolreceve);
-				
-				mb.envioMailWS(correosadminsolreceve, "Notificación de YACHAY/REGECE", smscoradminsolreceve);
-				mb.envioMailWS(session.getCorreo(), "Notificación de YACHAY/REGECE", smscorususolreceve);
+				// Mail.generateAndSendEmail(correosadminsolreceve,
+				// "Notificación de YACHAY/REGECE  ", smscoradminsolreceve);
+				// Mail.sendMailsolousr(session.getCorreo(),
+				// "Notificación de YACHAY/REGECE  ", smscorususolreceve);
+
+				mb.envioMailWS(correosadminsolreceve,
+						"Notificación de YACHAY/REGECE", smscoradminsolreceve);
+				mb.envioMailWS(session.getCorreo(),
+						"Notificación de YACHAY/REGECE", smscorususolreceve);
 
 				correosadminsolreceve = "";
 				smscoradminsolreceve = "";
@@ -2309,7 +2462,7 @@ public class EventosBean {
 		esave = false;
 		descripcionubicacion = "Descripción de la Ubicación";
 		descripcionrecurso = "Descripción de Recurso";
-		stock ="stock";
+		stock = "stock";
 		imagen = "300.jpg";
 		return "soleven?faces-redirect=true";
 	}
@@ -2329,8 +2482,8 @@ public class EventosBean {
 		sc = 0;
 		descripcionubicacion = "Descripción de la Ubicación";
 		descripcionrecurso = "Descripción de Recurso";
-		stock ="stock";
-		capacidad="capacidad";
+		stock = "stock";
+		capacidad = "capacidad";
 		imagensala = "300.jpg";
 		te = 0;
 		idusr = 0;
@@ -2370,7 +2523,10 @@ public class EventosBean {
 		imagensala = "300.jpg";
 		idusr = 0;
 		esave = false;
-		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Actualización cancelada", null));
 	}
 
 	public String irEvento1() {
@@ -2395,7 +2551,10 @@ public class EventosBean {
 		apellidousuario = "";
 		idusr = 0;
 		esave = false;
-		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización cancelada", null));
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Actualización cancelada", null));
 		return "eventos?faces-redirect=true";
 	}
 
@@ -2408,33 +2567,57 @@ public class EventosBean {
 		try {
 			asignarTipoeve();
 			asignarsala();
-			
+
 			if (estadoeven.equals("Desactivado")) {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Activado/Desactivado no se puede modificar",null));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+								"Activado/Desactivado no se puede modificar",
+								null));
 			} else if (te.equals(-1) || te.equals(null) || te.equals(0)) {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar un tipo de evento", null));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+								"Debe seleccionar un tipo de evento", null));
 			} else if (sala.equals(-1) || sala.equals(null) || sala.equals(0)) {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe seleccionar una sala", null));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+								"Debe seleccionar una sala", null));
 			} else if (fi.after(ff)) {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"La fecha inicio debe ser menor que la fecha fin",null));
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_WARN,
+										"La fecha inicio debe ser menor que la fecha fin",
+										null));
 			} else if (estadoeven.equals("Pendiente")) {
 				fechaInicio = new Timestamp(fi.getTime());
 				fechaFin = new Timestamp(ff.getTime());
 
-				Solicicabecera evsolcab = modEv.getSolicicabecera();
+				Solicicabecera evsolcab = mReserv
+						.findSolicitudCabeceraById(modEv.getSolicicabecera()
+								.getIdSolcab());
 				// Si se modifica fechas y tiene solicitud
-				if ((fActualInicio.compareTo(fechaInicio) == -1 || fActualFin.compareTo(fechaFin) == -1) && evsolcab != null) {
+				if ((fActualInicio.compareTo(fechaInicio) == -1 || fActualFin
+						.compareTo(fechaFin) == -1) && evsolcab != null) {
 					// Validar si la solicitud no esta aprobada o negada
-					if (evsolcab.getSoliciestado().getIdSolest() != 3|| evsolcab.getSoliciestado().getIdSolest() != 4) {
+					if (evsolcab.getSoliciestado().getIdSolest() != 3
+							|| evsolcab.getSoliciestado().getIdSolest() != 4) {
 						// Cargar datos solicitud
 						idEvSol = evsolcab.getIdSolcab();
 						idusr = evsolcab.getIdusr();
 						direccion = evsolcab.getDireccion();
-						DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-						String fi1 = new String(dateFormat.format(fechaInicio).toString());
-						String ff1 = new String(dateFormat.format(fechaFin).toString());
-						actividad = getNombre() + ", " + fi1 + " - " + ff1;
 						justificacion = evsolcab.getJustificacion();
+						DateFormat dateFormat = new SimpleDateFormat(
+								"dd/MM/yyyy");
+						String fi1 = new String(dateFormat.format(fechaInicio)
+								.toString());
+						String ff1 = new String(dateFormat.format(fechaFin)
+								.toString());
+						actividad = getNombre() + ", " + fi1 + " - " + ff1;
 						objetivo = evsolcab.getObjetivo();
 						recursofecha = null;
 						// Listado para agregar nuevos detalles
@@ -2443,43 +2626,75 @@ public class EventosBean {
 						mReserv.quitarSolDetBySolicitud(idEvSol);
 						// Eliminar tabla ayuda
 						mReserv.quitarRecursoActivoBySol(idEvSol);
-						
+
 					} else {
-						FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"No se puede modificar el evento",null));
+						FacesContext
+								.getCurrentInstance()
+								.addMessage(
+										null,
+										new FacesMessage(
+												FacesMessage.SEVERITY_WARN,
+												"No se puede modificar el evento",
+												null));
 					}
 				} else {
-					if(isNumeric(cantidad)){				
-						if(Integer.parseInt(cantidad) == 0){
-							FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Ingrese el número de personas mayor que 0",null));
-						}else{				
-						int sala1 = mReserv.findSalaByID(sala).getCapacidad();
-						if (Integer.parseInt(cantidad) <= sala1) {
-							fechaInicio = new Timestamp(fi.getTime());
-							fechaFin = new Timestamp(ff.getTime());
-							idusr = session.getIdUsr();
-							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-							String fi1 = new String(dateFormat.format(fechaInicio)
-									.toString());
-							String ff1 = new String(dateFormat.format(fechaFin)
-									.toString());	
-					
-					mEvento.editarEventos(idEvento, nombre.trim(), descripcion.trim(),imagen, fechaInicio, fechaFin, costo, Integer.parseInt(cantidad),interno);
-					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Evento editado correctamente", null));
-						}else if (Integer.parseInt(cantidad) > sala1) {
-							FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El número de personas excede la capacidad de la sala",null));
-						}
-						}
-						}else {
-							FacesContext.getCurrentInstance().addMessage(
-									null,
-									new FacesMessage(FacesMessage.SEVERITY_ERROR,
-											"La cantidad debe ser numérica", null));
+					if (isNumeric(cantidad)) {
+						if (Integer.parseInt(cantidad) == 0) {
+							FacesContext
+									.getCurrentInstance()
+									.addMessage(
+											null,
+											new FacesMessage(
+													FacesMessage.SEVERITY_WARN,
+													"Ingrese el número de personas mayor que 0",
+													null));
+						} else {
+							int sala1 = mReserv.findSalaByID(sala)
+									.getCapacidad();
+							if (Integer.parseInt(cantidad) <= sala1) {
+								fechaInicio = new Timestamp(fi.getTime());
+								fechaFin = new Timestamp(ff.getTime());
+								idusr = session.getIdUsr();
+								DateFormat dateFormat = new SimpleDateFormat(
+										"dd/MM/yyyy");
+								String fi1 = new String(dateFormat.format(
+										fechaInicio).toString());
+								String ff1 = new String(dateFormat.format(
+										fechaFin).toString());
+
+								mEvento.editarEventos(idEvento, nombre.trim(),
+										descripcion.trim(), imagen,
+										fechaInicio, fechaFin, costo,
+										Integer.parseInt(cantidad), interno);
+								FacesContext.getCurrentInstance().addMessage(
+										null,
+										new FacesMessage(
+												FacesMessage.SEVERITY_INFO,
+												"Evento editado correctamente",
+												null));
+							} else if (Integer.parseInt(cantidad) > sala1) {
+								FacesContext
+										.getCurrentInstance()
+										.addMessage(
+												null,
+												new FacesMessage(
+														FacesMessage.SEVERITY_WARN,
+														"El número de personas excede la capacidad de la sala",
+														null));
 							}
+						}
+					} else {
+						FacesContext.getCurrentInstance().addMessage(
+								null,
+								new FacesMessage(FacesMessage.SEVERITY_ERROR,
+										"La cantidad debe ser numérica", null));
+					}
 				}
 			}
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Evento no pudo ser editado", null));
+			context.addMessage(null, new FacesMessage(
+					"Evento no pudo ser editado", null));
 			e.printStackTrace();
 		}
 	}
@@ -2599,8 +2814,7 @@ public class EventosBean {
 		return resp;
 	}
 
-	public String veri() {
-		String resp = "";
+	public void veri() {
 		try {
 			// SolicitudTemporal
 			solicitudCabTem = mReserv.crearSolicitudTmp(getDireccion(),
@@ -2616,6 +2830,7 @@ public class EventosBean {
 			// h_inicio = null;
 			// h_fin = null;
 			todoslorecursos();
+			cargarRecursos();
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -2626,7 +2841,6 @@ public class EventosBean {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							"Error al crear la solicitud", null));
 		}
-		return resp;
 	}
 
 	public String vericargar() {
@@ -2836,21 +3050,35 @@ public class EventosBean {
 		sms = ev.getSms();
 		try {
 			Usuario u = manager.findususarioByID(idusr);
-			smscor =   "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+			smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 					+ "<meta name='viewport' content='width=device-width'></head><body>"
-					+ "Sr/ra. " + u.getNombre() + " " + u.getApellido()
-					+ ", le informo que el Evento <br/>" + "con nombre: "
+					+ "Sr/ra. "
+					+ u.getNombre()
+					+ " "
+					+ u.getApellido()
+					+ ", le informo que el Evento <br/>"
+					+ "con nombre: "
 					+ nombre
 					+ ".<br/> "
 					+ "con la descripci&oacute;n: "
 					+ descripcion
 					+ ".<br/>"
 					// + "en el lugar: "+lugar+".\n"
-					+ "con el tipo de evento: " + ev.getTipoevento().getTipo()
-					+ ".<br/>" + "con fecha de inicio: " + fi + ".<br/>"
-					+ "con fecha final: " + ff + ".<br/>"
-					+ "con la cantidad de: " + cantidad + " personas.<br/>"
-					+ "ha sido " + estadoeven + ".<br/> "
+					+ "con el tipo de evento: "
+					+ ev.getTipoevento().getTipo()
+					+ ".<br/>"
+					+ "con fecha de inicio: "
+					+ fi
+					+ ".<br/>"
+					+ "con fecha final: "
+					+ ff
+					+ ".<br/>"
+					+ "con la cantidad de: "
+					+ cantidad
+					+ " personas.<br/>"
+					+ "ha sido "
+					+ estadoeven
+					+ ".<br/> "
 					+ "<br/> Saludos cordiales, "
 					+ "<br/> Sistema de REGECE Yachay EP"
 					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
@@ -2868,11 +3096,12 @@ public class EventosBean {
 				mEvento.cambioSMSenvio(idEvento);
 				Usuario u = manager.findususarioByID(idusr);
 				System.out.println(u.getCorreo());
-				
-//				Mail.sendMailsolousr(u.getCorreo(),
-//						"Cancelación Evento/REGECE", smscor);
-				
-				mb.envioMailWS(u.getCorreo(), "Cancelación Evento/REGECE ", smscor);
+
+				// Mail.sendMailsolousr(u.getCorreo(),
+				// "Cancelación Evento/REGECE", smscor);
+
+				mb.envioMailWS(u.getCorreo(), "Cancelación Evento/REGECE ",
+						smscor);
 
 				// limpiamos los datos notificaciones.inno@gmail.com
 				// innopolisyachay2015@gmail.com
@@ -2888,8 +3117,8 @@ public class EventosBean {
 				costo = 0;
 				descripcionubicacion = "Descripción de la Ubicación";
 				descripcionrecurso = "Descripción de Recurso";
-				stock ="stock";
-				capacidad="capacidad";
+				stock = "stock";
+				capacidad = "capacidad";
 				imagensala = "300.jpg";
 				cantidad = "";
 				sc = 0;
@@ -2913,8 +3142,8 @@ public class EventosBean {
 				ff = null;
 				descripcionubicacion = "Descripción de la Ubicación";
 				descripcionrecurso = "Descripción de Recurso";
-				stock ="stock";
-				capacidad="capacidad";
+				stock = "stock";
+				capacidad = "capacidad";
 				imagensala = "300.jpg";
 				fechaInicio = null;
 				fechaFin = null;
@@ -2947,8 +3176,8 @@ public class EventosBean {
 				fechaFin = null;
 				descripcionubicacion = "Descripción de la Ubicación";
 				descripcionrecurso = "Descripción de Recurso";
-				stock ="stock";
-				capacidad="capacidad";
+				stock = "stock";
+				capacidad = "capacidad";
 				imagensala = "300.jpg";
 				costo = 0;
 				cantidad = "";
@@ -2979,15 +3208,16 @@ public class EventosBean {
 		try {
 			if (estadoeven.equals("Activado")) {
 				getcorreosusua();
-//				Mail.sendMailsolousr(session.getCorreo(),
-//						"Cancelación Evento/REGECE  ", smscor);
-//				Mail.generateAndSendEmail(correosadmin,
-//						"Cancelación Evento/REGECE  ", smscor);
-				
-				mb.envioMailWS(session.getCorreo(), "Cancelación Evento/REGECE ", smscor);
-				mb.envioMailWS(correosadmin, "Cancelación Evento/REGECE ", smscor);
-				
-				
+				// Mail.sendMailsolousr(session.getCorreo(),
+				// "Cancelación Evento/REGECE  ", smscor);
+				// Mail.generateAndSendEmail(correosadmin,
+				// "Cancelación Evento/REGECE  ", smscor);
+
+				mb.envioMailWS(session.getCorreo(),
+						"Cancelación Evento/REGECE ", smscor);
+				mb.envioMailWS(correosadmin, "Cancelación Evento/REGECE ",
+						smscor);
+
 				// limpiamos los datos notificaciones.inno@gmail.com
 				// innopolisyachay2015@gmail.com
 				idEvento = 0;
@@ -2997,8 +3227,8 @@ public class EventosBean {
 				imagen = "300.jpg";
 				descripcionubicacion = "Descripción de la Ubicación";
 				descripcionrecurso = "Descripción de Recurso";
-				stock ="stock";
-				capacidad="capacidad";
+				stock = "stock";
+				capacidad = "capacidad";
 				imagensala = "300.jpg";
 				fi = null;
 				ff = null;
@@ -3026,8 +3256,8 @@ public class EventosBean {
 				ff = null;
 				descripcionubicacion = "Descripción de la Ubicación";
 				descripcionrecurso = "Descripción de Recurso";
-				stock ="stock";
-				capacidad="capacidad";
+				stock = "stock";
+				capacidad = "capacidad";
 				imagensala = "300.jpg";
 				fechaInicio = null;
 				fechaFin = null;
@@ -3087,8 +3317,8 @@ public class EventosBean {
 		costo = 0;
 		descripcionubicacion = "Descripción de la Ubicación";
 		descripcionrecurso = "Descripción de Recurso";
-		stock ="stock";
-		capacidad="capacidad";
+		stock = "stock";
+		capacidad = "capacidad";
 		imagensala = "300.jpg";
 		cantidad = "";
 		sc = 0;
@@ -3119,8 +3349,8 @@ public class EventosBean {
 		cantidad = "";
 		descripcionubicacion = "Descripción de la Ubicación";
 		descripcionrecurso = "Descripción de Recurso";
-		stock ="stock";
-		capacidad="capacidad";
+		stock = "stock";
+		capacidad = "capacidad";
 		imagensala = "300.jpg";
 		sc = 0;
 		listDetalles = new ArrayList<Solicidetalle>();
@@ -3145,8 +3375,8 @@ public class EventosBean {
 		imagen = "300.jpg";
 		descripcionubicacion = "Descripción de la Ubicación";
 		descripcionrecurso = "Descripción de Recurso";
-		stock ="stock";
-		capacidad="capacidad";
+		stock = "stock";
+		capacidad = "capacidad";
 		imagensala = "300.jpg";
 		fi = null;
 		ff = null;
@@ -3171,7 +3401,7 @@ public class EventosBean {
 		select2 = new ArrayList<SelectItem>();
 		descripcionubicacion = "Descripción de la Ubicación";
 		descripcionrecurso = "Descripción de Recurso";
-		stock ="stock";
+		stock = "stock";
 		imagen = "300.jpg";
 		solicitudCabTem = null;
 		return r;
@@ -3183,7 +3413,7 @@ public class EventosBean {
 			buscarsala = mReserv.findSalaByID(sala);
 			descripcionubicacion = buscarsala.getDescripcion();
 			imagensala = buscarsala.getImagen();
-			capacidad = "capacidad: "+ buscarsala.getCapacidad().toString();
+			capacidad = "capacidad: " + buscarsala.getCapacidad().toString();
 			mostrar = true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -3196,8 +3426,9 @@ public class EventosBean {
 		try {
 			rec = mReserv.findRecursoByID(id_recurso);
 			descripcionrecurso = rec.getDescripcion();
-			contador= mReserv.findContadorRecurso(h_inicio,h_fin, rec.getIdRecurso());
-			stock = "En stock: "+ contador;
+			contador = mReserv.findContadorRecurso(h_inicio, h_fin,
+					rec.getIdRecurso());
+			stock = "En stock: " + contador;
 			imagen = rec.getImagen();
 			mostrar = true;
 		} catch (Exception e) {
@@ -3207,6 +3438,7 @@ public class EventosBean {
 	}
 
 	public void ireve1() {
+		if(agregarcontrol==false){
 		nombre = "";
 		descripcion = "";
 		lugar = "";
@@ -3220,7 +3452,7 @@ public class EventosBean {
 		costo = 0;
 		cantidad = "";
 		sc = 0;
-		capacidad="capacidad";
+		capacidad = "capacidad";
 		te = 0;
 		idusr = 0;
 		sala = 0;
@@ -3237,9 +3469,15 @@ public class EventosBean {
 		select = new ArrayList<SelectItem>();
 		select2 = new ArrayList<SelectItem>();
 		descripcionubicacion = "Descripción de la Ubicación";
-		stock ="stock";
+		stock = "stock";
 		imagen = "300.jpg";
 		solicitudCabTem = null;
+		}else{
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Debe dar click en actualizar", null));
+		}
 	}
 
 	public String ireve5() {
@@ -3248,7 +3486,7 @@ public class EventosBean {
 		lugar = "";
 		imagen = "300.jpg";
 		descripcionubicacion = "Descripción de la Ubicación";
-		stock ="stock";
+		stock = "stock";
 		imagensala = "300.jpg";
 		h_inicio = new Timestamp(new Date().getTime());
 		h_fin = new Timestamp(new Date().getTime());
@@ -3263,7 +3501,7 @@ public class EventosBean {
 		esave = false;
 		smscor = "";
 		correosadmin = "";
-		capacidad="capacidad";
+		capacidad = "capacidad";
 		setId_recurso(-1);
 		setActividad("");
 		setObjetivo("");
@@ -3303,7 +3541,10 @@ public class EventosBean {
 	public void agregarDetalle() {
 		try {
 			if (id_recurso == null || id_recurso == -1)
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Seleccione recurso adicional", null));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+								"Seleccione recurso adicional", null));
 			/*
 			 * else
 			 * if(capacidad_recurso==null||capacidad_recurso.intValue()<=0){
@@ -3326,11 +3567,16 @@ public class EventosBean {
 				det.setHoraInicio(h_inicio);
 				det.setHoraFin(h_fin);
 				det.setRecurso(rec);
+				mReserv.insertarSoliciDatalle(det);
+				mReserv.insertarRecursoSolicitado(mReserv.findSolicitudCabeceraById(getId_sol()).getIdSolcab(), det.getHoraInicio(), det.getHoraFin(), det.getRecurso().getIdRecurso(),det.getCapacidad());
 				listDetalles.add(det);
-				list_mas.add(det);
-				capacidad_recurso = 1;
-				// select = new ArrayList<SelectItem>();
-				// select2 = new ArrayList<SelectItem>();
+				//list_mas.add(det);
+				capacidad_recurso = null;
+				select = new ArrayList<SelectItem>();
+				select2 = new ArrayList<SelectItem>();
+				cargarRecursos();
+				agregardetalle = true;
+				agregarcontrol = true;
 				// }else{
 				// FacesContext.getCurrentInstance().addMessage(null, new
 				// FacesMessage(FacesMessage.SEVERITY_WARN,"Verifique la cantidad del recurso",
@@ -3343,12 +3589,64 @@ public class EventosBean {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							"No se pudo agregar el recurso", null));
-			capacidad_recurso = 1;
+			cargarRecursos();
+			capacidad_recurso = null;
+			agregardetalle = true;
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
 
+
 		}
 	}
+	
+	// CARGAR RECURSOS LIBRES
+		public void cargarRecursos() {
+			h_inicio = new Timestamp(fi.getTime());
+			h_fin = new Timestamp(ff.getTime());
+			select.clear();
+			id_recurso = -1;
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
+			if (h_fin == null || h_inicio == null) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+								"Seleccione horario para continuar", null));
+			} else {
+				// Modificacion de Horas
+				setHorainicio(this.fechaAtiempo(h_inicio));
+				setHorafin(this.fechaAtiempo(h_fin));
+				if (!Validacion.fechaMayorIgual(h_inicio)
+						|| !Validacion.fechaMayorIgual(h_fin)) {
+					FacesContext
+							.getCurrentInstance()
+							.addMessage(
+									null,
+									new FacesMessage(
+											FacesMessage.SEVERITY_WARN,
+											"La fecha de solicitud no debe ser menor a la actual",
+											null));
+				} else if (h_fin.getTime() <= h_inicio.getTime()) {
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_WARN,
+									"Verifique su horario de solicitud", null));
+//				} else if ((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion
+//						.horaMayorIgual(getHorafin()))) {
+//					FacesContext
+//							.getCurrentInstance()
+//							.addMessage(
+//									null,
+//									new FacesMessage(
+//											FacesMessage.SEVERITY_WARN,
+//											"La hora de solicitud no debe ser menor a la actual",
+//											null));
+				} else {
+					select = this.getlistaRecursosLibres();
+					// select2 = this.getlistaTipoRecursosLibres();
+				}
+			}
+		}
 
 	// Recurso ya Añadido
 	public boolean esRecursoAnadido(Integer id_recurso, Timestamp horaInicio,
@@ -3369,8 +3667,19 @@ public class EventosBean {
 
 	public void quitarDetalle(Solicidetalle detalle) {
 		try {
+			List<Recursosactivo> listrecact = mReserv.findRecursosactivoByRecursoId(detalle.getSolicicabecera().getIdSolcab(), detalle.getRecurso().getIdRecurso());
+			for(Recursosactivo recursosactivo : listrecact){
+					mReserv.eliminarRecursoActivos(recursosactivo.getIdRecact());
+			}
+			//mReserv.quitarDetalleSolicitudTem(detalle);
+			mReserv.eliminarSoliciDetalleByID(detalle.getIdSoldet());
 			listDetalles.remove(detalle);
-			list_menos.add(detalle);
+			cargarRecursos();
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Se eliminó el recurso", null));
+			agregarcontrol=true;
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -3383,16 +3692,45 @@ public class EventosBean {
 	public String finalizarSolicitudED() {
 		String resp = "";
 		try {
-			mReserv.editarDetallesSolicitud(id_sol, list_mas, list_menos);
+			if(!listDetalles.isEmpty()){
+			//mReserv.editarDetallesSolicitud(id_sol, list_mas, list_menos);
 			descripcionrecurso = "Descripción de Recurso";
-			stock ="stock";
-			capacidad="capacidad";
+			id_sol = null;
+			stock = "stock";
+			capacidad = "capacidad";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
 			imgMost = "300.jpg";
 			imagentipo = "300.jpg";
+			actividad = "";
+			objetivo = "";
+			justificacion = "";
+			fechaFin=null;
+			fechaInicio=null;
+			notificacion = "";
+			listDetalles = new ArrayList<Solicidetalle>();
+			estadoSol = null;
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
+			capacidad_recurso = null;
+			list_mas = new ArrayList<Solicidetalle>();
+			agregarcontrol=false;
 			// manager.aprobarSolicitudMOD(id_sol);
-			resp = "soleven";// FALTA DONDE VA XHTML
+			if (solivalor == true) {
+				resp = "eventos?faces-redirect=true";// FALTA DONDE VA XHTML
+			}else{
+				resp = "soleven?faces-redirect=true";// FALTA DONDE VA XHTML
+			}
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Edición correcta", null));
+			}else{
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"La solicitud debe contener por lo menos un recurso", null));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -3408,10 +3746,10 @@ public class EventosBean {
 		try {
 			mReserv.editarDetallesSolicitud(id_sol, list_mas, list_menos);
 			descripcionrecurso = "Descripción de Recurso";
-			stock ="stock";
+			stock = "stock";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
-			capacidad="capacidad";
+			capacidad = "capacidad";
 			imgMost = "300.jpg";
 			imagentipo = "300.jpg";
 			// manager.aprobarSolicitudMOD(id_sol);
@@ -3441,19 +3779,38 @@ public class EventosBean {
 	public void cargarSalas() {
 		h_inicio = new Timestamp(fi.getTime());
 		h_fin = new Timestamp(ff.getTime());
+		select.clear();
+		select = new ArrayList<SelectItem>();
+		select2 = new ArrayList<SelectItem>();
 		if (h_fin == null || h_inicio == null) {
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Seleccione horario para continuar", null));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Seleccione horario para continuar", null));
 		} else {
 			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(h_inicio));
 			setHorafin(this.fechaAtiempo(h_fin));
-			if (!Validacion.fechaMayorIgual(h_inicio)|| !Validacion.fechaMayorIgual(h_fin)) {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"La fecha de solicitud no debe ser menor a la actual",null));
-			} else if (h_fin.getTime()<=h_inicio.getTime()) {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Verifique su horario de solicitud", null));
-			 }//else if((!Validacion.horaMayorIgual(getHorainicio()) ||!Validacion.horaMayorIgual(getHorafin()))){
-//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La hora de solicitud no debe ser menor a la actual.",null));
-//			} 
+			if (!Validacion.fechaMayorIgual(h_inicio)
+					|| !Validacion.fechaMayorIgual(h_fin)) {
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_WARN,
+										"La fecha de solicitud no debe ser menor a la actual",
+										null));
+			} else if (h_fin.getTime() <= h_inicio.getTime()) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+								"Verifique su horario de solicitud", null));
+			}// else if((!Validacion.horaMayorIgual(getHorainicio())
+				// ||!Validacion.horaMayorIgual(getHorafin()))){
+				// FacesContext.getCurrentInstance().addMessage(null, new
+				// FacesMessage(FacesMessage.SEVERITY_WARN,"La hora de solicitud no debe ser menor a la actual.",null));
+			// }
 			else {
 				select = this.getlistaSalasLibres();
 				// select2 = this.getlistaTipoRecursosLibres();
@@ -3464,8 +3821,9 @@ public class EventosBean {
 	// LISTADO DE RECURS
 	public List<SelectItem> getlistaSalasLibres() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
-		List<Sala> listadoRecurso = mReserv.findAllSalasDisponibles(h_inicio,h_fin,horainicio,horafin);
-		for (Sala p : listadoRecurso) {
+		List<Sala> listadoSalas = mReserv.findAllSalasDisponibles(h_inicio,
+				h_fin, horainicio, horafin);
+		for (Sala p : listadoSalas) {
 			SelectItem item = new SelectItem(p.getIdSala(), p.getTipo());
 			listadoSI.add(item);
 		}
