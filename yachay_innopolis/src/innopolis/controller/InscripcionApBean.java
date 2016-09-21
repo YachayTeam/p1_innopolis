@@ -5,16 +5,15 @@ import innopolis.entidades.Inscripcione;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerEvento;
+import innopolis.model.generic.Mensaje;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.model.UploadedFile;
 
@@ -234,10 +233,8 @@ public class InscripcionApBean implements Serializable {
 			telefono = i.getTelefono();
 			celular = i.getCelular();
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
-
 		return "";
 	}
 
@@ -267,36 +264,17 @@ public class InscripcionApBean implements Serializable {
 
 	public String notificarInscripcion(Inscripcione inscripcion) {
 		if (estado.equals("aprobada") && sms.equals("notificada")) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"La inscripción fue aprobada y notificada", null));
+			Mensaje.crearMensajeINFO("La inscripción fue aprobada y notificada");
 		} else if (estado.equals("sin aprobar")) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_WARN,
-									"La inscripción no ha sido aprobada o negada para notificarla",
-									null));
+			Mensaje.crearMensajeWARN("La inscripción no ha sido aprobada o negada para notificarla");
 		} else {
 			try {
-				// Mail.sendMailsolousr(correo,
-				// "Petición de Inscripcion YACHAY/REGECE  ", smscor);
 				mb.envioMailWS(correo, "Petición de Inscripcion YACHAY/REGECE",
 						smscor);
-
 				managerEv.notificarInscripcion(idInscripcion, "notificada");
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Notificación correcta", null));
+				Mensaje.crearMensajeINFO("Notificación correcta");
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al enviar notificación", null));
+				Mensaje.crearMensajeWARN("Error al enviar notificación");
 			}
 		}
 		return "";
@@ -306,32 +284,19 @@ public class InscripcionApBean implements Serializable {
 		try {
 			Evento ev = inscripcion.getEvento();
 			if (managerEv.superaInscritosEvento(ev)) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Evento supera los inscritos", null));
+				Mensaje.crearMensajeWARN("Evento supera los inscritos");
 			} else {
 				managerEv.modificarInscripcion(inscripcion.getIdInscripcion(),
 						"aprobada");
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Aprobación exitosa", null));
+				Mensaje.crearMensajeINFO("Aprobación exitosa");
 				if (inscripcion.getSms().equals("notificada")) {
 					managerEv.notificarInscripcion(
 							inscripcion.getIdInscripcion(), "no notificada");
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_WARN,
-									"Debe volver a notificar la inscripción",
-									null));
+					Mensaje.crearMensajeWARN("Debe volver a notificar la inscripción");
 				}
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al aprobar inscripción", null));
+			Mensaje.crearMensajeWARN("Error al aprobar inscripción");
 		}
 		return "";
 	}
@@ -339,37 +304,21 @@ public class InscripcionApBean implements Serializable {
 	public String negarInscrito(Inscripcione inscripcion) {
 		if (inscripcion.getEstado().equals("aprobada")
 				&& inscripcion.getSms().equals("notificada")) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_WARN,
-									"La inscripción ya fue aprobada y notificada, no se puede negar",
-									null));
+			Mensaje.crearMensajeWARN("La inscripción ya fue aprobada y notificada, no se puede negar");
 		} else {
 			try {
 				managerEv.modificarInscripcion(inscripcion.getIdInscripcion(),
 						"negada");
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Inscripción negada", null));
+				Mensaje.crearMensajeINFO("Inscripción negada");
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al negar inscripción", null));
+				Mensaje.crearMensajeWARN("Error al negar inscripción");
 			}
 		}
 		return "";
 	}
 
 	public String cambioEnvioSms() {
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Notificación aceptada", null));
+		Mensaje.crearMensajeINFO("Notificación aceptada");
 		return "";
 	}
 
@@ -382,9 +331,9 @@ public class InscripcionApBean implements Serializable {
 		fechaInscripcion = null;
 		idUsuario = null;
 		nombre = "";
-		direccion="";
-		telefono="";
-		celular="";
+		direccion = "";
+		telefono = "";
+		celular = "";
 		observacion = "";
 		sms = "";
 		smscor = "";

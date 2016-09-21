@@ -133,7 +133,7 @@ public class ManagerEvento {
 
 	// editar los eventos
 	public void editarEventos(Integer id_evento, String nombre,
-			String descripcion,/* String lugar, */String imagen,
+			String descripcion,String imagen,
 			Timestamp fecha_inicio, Timestamp fecha_fin, float costo,
 			Integer cantidad, Boolean interno) throws Exception {
 		try {
@@ -141,7 +141,6 @@ public class ManagerEvento {
 			r.setIdEvento(id_evento);
 			r.setNombre(nombre);
 			r.setDescripcion(descripcion);
-			// r.setLugar(lugar);
 			r.setImagen(imagen);
 			r.setFechaInicio(fecha_inicio);
 			r.setFechaFin(fecha_fin);

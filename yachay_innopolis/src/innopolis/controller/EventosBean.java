@@ -22,6 +22,7 @@ import innopolis.entidades.Evento;
 import innopolis.entidades.Recurso;
 import innopolis.entidades.Recursosactivo;
 import innopolis.entidades.Sala;
+import innopolis.entidades.Salasactiva;
 import innopolis.entidades.Solicicabecera;
 import innopolis.entidades.Solicidetalle;
 import innopolis.entidades.Soliciestado;
@@ -2322,6 +2323,12 @@ public class EventosBean {
 								fechaInicio, fechaFin);
 					}
 				}
+				
+				List<Salasactiva> salasActivasEvento = mReserv.findSalasActivasByIdEvento(ev.getIdEvento());
+				for(Salasactiva salasactivasedicion : salasActivasEvento){
+					mReserv.editarSalaActivas(salasactivasedicion.getIdSalact(),fechaInicio, fechaFin);
+				}
+				
 			} else {
 
 			}

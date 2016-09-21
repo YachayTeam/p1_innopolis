@@ -1,22 +1,20 @@
 package innopolis.controller;
 
-
 import innopolis.entidades.Interes;
 import innopolis.entidades.Tipoestadousr;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.Utilidades;
 import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerLogin;
+import innopolis.model.generic.Mensaje;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 @SessionScoped
@@ -42,29 +40,27 @@ public class RegistroBean implements Serializable {
 	private Tipoestadousr tipoestusr;
 	private String sms;
 	private String empreestu;
-	private String cargptitu;	
-	
-	
-	//envio de correo a los administradores
-	private String smscoradmin; 
+	private String cargptitu;
+
+	// envio de correo a los administradores
+	private String smscoradmin;
 	private String smscorusu;
 	private String correosadmin;
 
-	
 	@EJB
 	private ManagerBuscar mb;
-	
-	//intereses
+
+	// intereses
 	private Integer[] arrayTipoLogin;
 	private Interes intereses;
-	
-	//empresa cargo titulo
+
+	// empresa cargo titulo
 	private String valor;
-	
+
 	public RegistroBean() {
 		manager = new ManagerLogin();
 	}
-	
+
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}
@@ -76,7 +72,7 @@ public class RegistroBean implements Serializable {
 	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
 	}
-	
+
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
 	}
@@ -128,27 +124,27 @@ public class RegistroBean implements Serializable {
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-	
+
 	public String getDireccion() {
 		return direccion;
 	}
-	
+
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	
+
 	public String getTelefono() {
 		return telefono;
 	}
-	
+
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	
+
 	public String getCelular() {
 		return celular;
 	}
-	
+
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
@@ -177,14 +173,14 @@ public class RegistroBean implements Serializable {
 		this.password = password;
 	}
 
-	
 	public Tipoestadousr getTipoestusr() {
 		return tipoestusr;
 	}
 
 	public void setTipoestusr(Tipoestadousr tipoestusr) {
 		this.tipoestusr = tipoestusr;
-	}	
+	}
+
 	/**
 	 * @return the arrayTipoLogin
 	 */
@@ -193,7 +189,8 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param arrayTipoLogin the arrayTipoLogin to set
+	 * @param arrayTipoLogin
+	 *            the arrayTipoLogin to set
 	 */
 	public void setArrayTipoLogin(Integer[] arrayTipoLogin) {
 		this.arrayTipoLogin = arrayTipoLogin;
@@ -207,7 +204,8 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param intereses the intereses to set
+	 * @param intereses
+	 *            the intereses to set
 	 */
 	public void setIntereses(Interes intereses) {
 		this.intereses = intereses;
@@ -221,7 +219,8 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param empreestu the empreestu to set
+	 * @param empreestu
+	 *            the empreestu to set
 	 */
 	public void setEmpreestu(String empreestu) {
 		this.empreestu = empreestu;
@@ -235,7 +234,8 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param cargptitu the cargptitu to set
+	 * @param cargptitu
+	 *            the cargptitu to set
 	 */
 	public void setCargptitu(String cargptitu) {
 		this.cargptitu = cargptitu;
@@ -249,7 +249,8 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param correosadmin the correosadmin to set
+	 * @param correosadmin
+	 *            the correosadmin to set
 	 */
 	public void setCorreosadmin(String correosadmin) {
 		this.correosadmin = correosadmin;
@@ -263,12 +264,12 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param smscorusu the smscorusu to set
+	 * @param smscorusu
+	 *            the smscorusu to set
 	 */
 	public void setSmscorusu(String smscorusu) {
 		this.smscorusu = smscorusu;
 	}
-
 
 	/**
 	 * @return the smscor
@@ -278,7 +279,8 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param smscor the smscor to set
+	 * @param smscor
+	 *            the smscor to set
 	 */
 	public void setSmscor(String smscor) {
 		this.smscoradmin = smscor;
@@ -292,7 +294,8 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param sms the sms to set
+	 * @param sms
+	 *            the sms to set
 	 */
 	public void setSms(String sms) {
 		this.sms = sms;
@@ -306,15 +309,17 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param tipoest the tipoest to set
+	 * @param tipoest
+	 *            the tipoest to set
 	 */
 	public void setTipoest(String tipoest) {
 		this.tipoest = tipoest;
 	}
 
-	public List<Usuario> getListUsuarios(){
+	public List<Usuario> getListUsuarios() {
 		return manager.findAllUsuarios();
 	}
+
 	/**
 	 * @return the valor
 	 */
@@ -323,7 +328,8 @@ public class RegistroBean implements Serializable {
 	}
 
 	/**
-	 * @param valor the valor to set
+	 * @param valor
+	 *            the valor to set
 	 */
 	public void setValor(String valor) {
 		this.valor = valor;
@@ -331,241 +337,217 @@ public class RegistroBean implements Serializable {
 
 	// Usuarios
 	// metodo para comprobar el alias
-	public boolean ccedula(String cedula){
+	public boolean ccedula(String cedula) {
 		List<Usuario> u = manager.findAllUsuarios();
 		for (Usuario us : u) {
-			if (cedula.equals(us.getCedula())){
+			if (cedula.equals(us.getCedula())) {
 				return true;
 			}
 		}
 		return false;
 	}
+
 	// metodo para comprobar el alias
-	public boolean calias(String alias){
+	public boolean calias(String alias) {
 		List<Usuario> u = manager.findAllUsuarios();
 		for (Usuario us : u) {
-			if (alias.equals(us.getAlias())){
+			if (alias.equals(us.getAlias())) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	// metodo para comprobar repetidos
-	public boolean repetidosc(){
-		if (correo.equals(rcorreo)){
+	public boolean repetidosc() {
+		if (correo.equals(rcorreo)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	// metodo para comprobar repetidos
-	public boolean repetidosp(){
-		if (password.equals(rpassword)){
+	public boolean repetidosp() {
+		if (password.equals(rpassword)) {
 			return true;
 		}
 		return false;
 	}
+
 	// metodo para comprobar el correo
-	public boolean ccorreo(String correo){
+	public boolean ccorreo(String correo) {
 		List<Usuario> u = manager.findAllUsuarios();
 		for (Usuario us : u) {
-			if (correo.equals(us.getCorreo())){
+			if (correo.equals(us.getCorreo())) {
 				return true;
 			}
 		}
-				return false;
-			}
-	
+		return false;
+	}
+
 	// accion para invocar el manager y crear evento
 	public String crearUsuario() {
-		String a="ingresousuario";
-		if (this.repetidosc()==false){
-			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Correo Erroneo..!!! Los correos ingresados no coinciden",null) );
-		}else if (this.repetidosp()==false){
-			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Contraseña Erronea..!!! Las contraseñas ingresadas no coinciden",null) );
-		//}else if (this.calias(alias)==true){
-		//	FacesContext context = FacesContext.getCurrentInstance();
-	    //   context.addMessage(null, new FacesMessage("Alias Repetido..!!!",  "El Alias ya esta siendo utilizado") );
-		}else if(this.ccedula(cedula)){
-			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Cédula Repetido..!!! La cédula/pasaporte ya está siendo utilizada",null) );	
-		}else if(this.ccorreo(correo)){
-			FacesContext context = FacesContext.getCurrentInstance();
-	        context.addMessage(null, new FacesMessage("Correo Repetido..!!! El correo ya está siendo utilizado",null) );
-		}else
-			{
-		try{
-			//if(valida(cedula)==true)
-		//	{		
-			setPassword(Utilidades.Encriptar(getPassword()));//MD5 PASS
-			manager.registrarUsuario(cedula, alias, apellido, correo,direccion,telefono,celular, nombre, password,sms,empreestu,cargptitu,arrayTipoLogin);
-			//agregarlistadecorreos principal
-			smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-					 + "<meta name='viewport' content='width=device-width'></head><body>"
-					 + "El usuario con apellido "+apellido+" con nombre "+nombre+"; Requiere la aprobaci&oacute;n o negaci&oacute;n del registro al sistema; <br/>"
-		             + "los datos del usuario son:"
-		             + "<br/> C&eacute;dula: "+cedula+""
-		             + "<br/> Nombre: "+nombre+""
-		             + "<br/> Apellido: "+apellido+""
-		             + "\n Correo: "+correo+""
-		             + "\n Direcci&oacute;n: "+direccion+""
-		             + "\n Tel&eacute;fono: "+telefono+""
-		             + "\n Celular: "+celular+""
-		             + "<br/> Saludos cordiales, "
-				  	 + "<br/> Sistema de REGECE Yachay EP"
-		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-			
-			smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-					 + "<meta name='viewport' content='width=device-width'></head><body>"
-					 + "Sr/ra.  "+nombre+" "+apellido+", su petici&oacute;n de acceso al sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
-					 +"sus datos son: "
-		             + "<br/> C&eacute;dula: "+cedula+""
-		             + "<br/> Nombre: "+nombre+""
-		             + "<br/> Apellido: "+apellido+""
-		             + "<br/> Correo: "+correo+""
-		              + "\n Direcci&oacute;n: "+direccion+""
-		             + "\n Tel&eacute;fono: "+telefono+""
-		             + "\n Celular: "+celular+""
-		             + "<br/> Saludos cordiales, "
-				  	 + "<br/> Sistema de REGECE Yachay EP"
-		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-			
-			getcorreosusu();
-//			Mail.generateAndSendEmail(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
-//			Mail.sendMailsolousr(correo, "Notificación de YACHAY/REGECE  ", smscorusu);
+		String a = "ingresousuario";
+		if (this.repetidosc() == false) {
+			Mensaje.crearMensajeWARN("Los correos ingresados no coinciden");
+		} else if (this.repetidosp() == false) {
+			Mensaje.crearMensajeWARN("Las contraseñas ingresadas no coinciden");
+		} else if (this.ccedula(cedula)) {
+			Mensaje.crearMensajeWARN("La cédula/pasaporte ya está siendo utilizada");
+		} else if (this.ccorreo(correo)) {
+			Mensaje.crearMensajeWARN("El correo ya está siendo utilizado");
+		} else {
+			try {
+				setPassword(Utilidades.Encriptar(getPassword()));// MD5 PASS
+				manager.registrarUsuario(cedula, alias, apellido, correo,
+						direccion, telefono, celular, nombre, password, sms,
+						empreestu, cargptitu, arrayTipoLogin);
+				smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "El usuario con apellido "
+						+ apellido
+						+ " con nombre "
+						+ nombre
+						+ "; Requiere la aprobaci&oacute;n o negaci&oacute;n del registro al sistema; <br/>"
+						+ "los datos del usuario son:"
+						+ "<br/> C&eacute;dula: "
+						+ cedula
+						+ ""
+						+ "<br/> Nombre: "
+						+ nombre
+						+ ""
+						+ "<br/> Apellido: "
+						+ apellido
+						+ ""
+						+ "\n Correo: "
+						+ correo
+						+ ""
+						+ "\n Direcci&oacute;n: "
+						+ direccion
+						+ ""
+						+ "\n Tel&eacute;fono: "
+						+ telefono
+						+ ""
+						+ "\n Celular: "
+						+ celular
+						+ ""
+						+ "<br/> Saludos cordiales, "
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
-			mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
-			mb.envioMailWS(correo, "Notificación de YACHAY/REGECE", smscorusu);
-			
-			cedula="";
-			alias="";
-			nombre="";
-			apellido="";
-			correo="";
-			direccion="";
-			telefono="";
-			celular="";
-			rcorreo="";
-			password="";
-			rpassword="";
-			interes="";
-			tipo=0;
-			sms="";
-			smscoradmin="";
-			idUsuario=null;
-			correosadmin="";
-			empreestu="";
-			cargptitu="";
-			smscorusu="";
-			tipoestusr = manager.EstadoByID(1);
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Registrado..!!! Usuario creado espere la activación del mismo",null));
-				a="index";
-			//}
-		//	else{
-		//		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Cédula no valida",null));
-		//	}
-		
-		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!! El usuario no pudo ser creado",null));
-			e.printStackTrace();
-		}
+				smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "Sr/ra.  "
+						+ nombre
+						+ " "
+						+ apellido
+						+ ", su petici&oacute;n de acceso al sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
+						+ "sus datos son: "
+						+ "<br/> C&eacute;dula: "
+						+ cedula
+						+ ""
+						+ "<br/> Nombre: "
+						+ nombre
+						+ ""
+						+ "<br/> Apellido: "
+						+ apellido
+						+ ""
+						+ "<br/> Correo: "
+						+ correo
+						+ ""
+						+ "\n Direcci&oacute;n: "
+						+ direccion
+						+ ""
+						+ "\n Tel&eacute;fono: "
+						+ telefono
+						+ ""
+						+ "\n Celular: "
+						+ celular
+						+ ""
+						+ "<br/> Saludos cordiales, "
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+
+				getcorreosusu();
+				mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE",
+						smscoradmin);
+				mb.envioMailWS(correo, "Notificación de YACHAY/REGECE",
+						smscorusu);
+				cedula = "";
+				alias = "";
+				nombre = "";
+				apellido = "";
+				correo = "";
+				direccion = "";
+				telefono = "";
+				celular = "";
+				rcorreo = "";
+				password = "";
+				rpassword = "";
+				interes = "";
+				tipo = 0;
+				sms = "";
+				smscoradmin = "";
+				idUsuario = null;
+				correosadmin = "";
+				empreestu = "";
+				cargptitu = "";
+				smscorusu = "";
+				tipoestusr = manager.EstadoByID(1);
+				Mensaje.crearMensajeINFO("Usuario creado espere la activación del mismo");
+				a = "index";
+			} catch (Exception e) {
+				Mensaje.crearMensajeWARN("El usuario no pudo ser creado");
+				e.printStackTrace();
+			}
 		}
 		return a;
 	}
-	
-	//metodo para listar correos de ususariosadmin
-	public String getcorreosusu(){			
-		try
-		{
-		List<Usuario> a = manager.findUsrsPrincipal();
-		correosadmin="";
-		for (Usuario u : a) {
-			correosadmin+=u.getCorreo()+",";
+
+	// metodo para listar correos de ususariosadmin
+	public String getcorreosusu() {
+		try {
+			List<Usuario> a = manager.findUsrsPrincipal();
+			correosadmin = "";
+			for (Usuario u : a) {
+				correosadmin += u.getCorreo() + ",";
+			}
+			int max = correosadmin.length();
+			correosadmin = correosadmin.substring(0, max - 1).trim();
+		} catch (Exception e) {
+			Mensaje.crearMensajeWARN("No se encuentran usuarios administradores");
+			e.printStackTrace();
 		}
-		int max = correosadmin.length();
-		correosadmin = correosadmin.substring(0, max-1).trim(); 
-		}
-		catch (Exception e) {
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Error..!!!",
-				"No se encuentran usuarios administradores"));
-		e.printStackTrace();
-	}
 		return correosadmin;
 	}
-	
-	//metodo para mostrar los Actividades
-	public List<SelectItem> getListaIntereses(){
-		List<SelectItem> listadoTEU=new ArrayList<SelectItem>();
-		List<Interes> listadoEstadoU=manager.findAllIntereses();
-			for(Interes t:listadoEstadoU){
-				SelectItem item=new SelectItem(t.getIdInteres(),t.getNombreInt());
-				listadoTEU.add(item);
-			}
-				return listadoTEU;
-	}	
-	
+
+	// metodo para mostrar los Actividades
+	public List<SelectItem> getListaIntereses() {
+		List<SelectItem> listadoTEU = new ArrayList<SelectItem>();
+		List<Interes> listadoEstadoU = manager.findAllIntereses();
+		for (Interes t : listadoEstadoU) {
+			SelectItem item = new SelectItem(t.getIdInteres(), t.getNombreInt());
+			listadoTEU.add(item);
+		}
+		return listadoTEU;
+	}
+
 	private String panel1 = "Show-Panel1";
 	private String panel2 = "Show-Panel2";
-	public void setPanel1(String panel1){
-	this.panel1 = panel1;
+
+	public void setPanel1(String panel1) {
+		this.panel1 = panel1;
 	}
 
-	public String getPanel1(){
-	return this.panel1;
-	}
-	public void setPanel2(String panel2){
-	this.panel2 = panel2;
+	public String getPanel1() {
+		return this.panel1;
 	}
 
-	public String getPanel2(){
-	return this.panel2;
-	}	
-	
-	
-	
-	/*//validar cedula
-	  public static boolean valida(String x){
-	    int suma=0;
-	    if(x.length()==9){
-	      System.out.println("Ingrese su cedula de 10 digitos");
-	      return false;
-	    }else{
-	      int a[]=new int [x.length()/2];
-	      int b[]=new int [(x.length()/2)];
-	      int c=0;
-	      int d=1;
-	      for (int i = 0; i < x.length()/2; i++) {
-	        a[i]=Integer.parseInt(String.valueOf(x.charAt(c)));
-	        c=c+2;
-	        if (i < (x.length()/2)-1) {
-	          b[i]=Integer.parseInt(String.valueOf(x.charAt(d)));
-	          d=d+2;
-	        }
-	      }
-	    
-	      for (int i = 0; i < a.length; i++) {
-	        a[i]=a[i]*2;
-	        if (a[i] >9){
-	          a[i]=a[i]-9;
-	        }
-	        suma=suma+a[i]+b[i];
-	      } 
-	      int aux=suma/10;
-	      int dec=(aux+1)*10;
-	      if ((dec - suma) == Integer.parseInt(String.valueOf(x.charAt(x.length()-1))))
-	        return true;
-	      else
-	        if(suma%10==0 && x.charAt(x.length()-1)=='0'){
-	          return true;
-	        }else{
-	          return false;
-	        }
-	    }
-	  }*/
+	public void setPanel2(String panel2) {
+		this.panel2 = panel2;
+	}
+
+	public String getPanel2() {
+		return this.panel2;
+	}
 }

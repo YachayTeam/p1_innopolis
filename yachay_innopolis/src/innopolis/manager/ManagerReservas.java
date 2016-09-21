@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import innopolis.entidades.*;
+import innopolis.model.generic.Mensaje;
 
 public class ManagerReservas {
 
@@ -167,9 +168,9 @@ public class ManagerReservas {
 		try {
 			cont = (Contadore) mDAO.findById(Contadore.class, 1);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("Revise el parametro 'contador solicitud': "
+			Mensaje.crearMensajeWARN("Revise el parametro 'contador solicitud': "
 					+ e.getMessage());
+			e.printStackTrace();
 		}
 		contSolicitud = cont.getValor();
 		return contSolicitud;
@@ -182,10 +183,9 @@ public class ManagerReservas {
 			cont.setValor(valor);
 			mDAO.actualizar(cont);
 		} catch (Exception e) {
+			Mensaje.crearMensajeWARN("Revise el parametro 'contador solicitud': "
+					+ e.getMessage());
 			e.printStackTrace();
-			throw new Exception(
-					"Error al actualizar el parametro 'contador solicitud': "
-							+ e.getMessage());
 		}
 	}
 
@@ -206,7 +206,7 @@ public class ManagerReservas {
 				svt.setSms("no notificado");
 			}
 		} catch (Exception e) {
-			throw new Exception("error");
+			e.printStackTrace();
 		}
 	}
 
@@ -222,8 +222,7 @@ public class ManagerReservas {
 		soliTemp.setSms("sin notificar");
 		soliTemp.setFecha(fecha);
 		soliTemp.setIdusr(id_usr);
-		// OJO ESTADOS
-		soliTemp.setSoliciestado(findSolicitudEstadoByID(1));// 1 Pendiente
+		soliTemp.setSoliciestado(findSolicitudEstadoByID(1));
 		soliTemp.setSolicidetalles(new ArrayList<Solicidetalle>());
 		return soliTemp;
 	}
@@ -233,36 +232,22 @@ public class ManagerReservas {
 			throws Exception {
 		Solicidetalle det;
 		r = this.findRecursoByID(id_recurso);
-		// Validaciones de proceso
 		if (soliTemp == null)
-			throw new Exception(
-					"Error primero debe crear y guardar una solicitud en el formulario de datos.");
-		// Busqueda Recurso Libre--- Cargar en el list recursos libres por fecha
-		// y Hora
+			Mensaje.crearMensajeWARN("Error primero debe crear y guardar una solicitud en el formulario de datos");
 		if (esRecursoAnadido(id_recurso, soliTemp, horaInicio, horaFin))
-			throw new Exception(
-					"El recurso ya se encuentra agregado dentro del horario");
-		// Validar cantidad
-		// if(cantidad>r.getCapacidad())
-		// throw new
-		// Exception("La capacidad es mayor a la del recurso solicitado");
-		// Validar recursos existente
-		// Crear detalle
+			Mensaje.crearMensajeWARN("El recurso ya se encuentra agregado dentro del horario");
 		det = new Solicidetalle();
 		det.setRecurso(r);
 		det.setCapacidad(cantidad);
 		det.setHoraInicio(horaInicio);
 		det.setHoraFin(horaFin);
-		// Agregar al la solicitud
 		soliTemp.getSolicidetalles().add(det);
-
 	}
 
 	public boolean controlarcantidadmanager(Integer id_recurso,
 			Integer cantidad, Timestamp horaFin, Timestamp horaInicio)
 			throws Exception {
 		r = this.findRecursoByID(id_recurso);
-		// Validaciones de proceso
 		int cantidadrecurso = this.valorrestarectrusoactivo(r.getIdRecurso(),
 				horaInicio, horaFin);
 		System.out.println(cantidad + " entra al agregar cantidad");
@@ -299,14 +284,10 @@ public class ManagerReservas {
 			}
 			if (contador < resultados.getCapacidad()) {
 				System.out.println("si se agrega si es menor");
-				// SelectItem item=new SelectItem(recurso.getIdRecurso(),
-				// recurso.getNombre()+" - "+contador);
 			} else if (listadoRecursoactivo.isEmpty()) {
 				System.out.println("si se agrega si ta vacio menor");
 			}
-			// aqui es
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return contador;
@@ -317,30 +298,19 @@ public class ManagerReservas {
 			throws Exception {
 		Solicidetalle det;
 		Recurso rec;
-
-		// Validaciones de proceso
 		if (soliTemp == null)
-			throw new Exception(
-					"Error primero debe crear y guardar una solicitud en el formulario de datos.");
+			Mensaje.crearMensajeWARN("Error primero debe crear y guardar una solicitud en el formulario de datos");
 		if (id_recurso == null || id_recurso == -1)
-			throw new Exception("Error debe especificar el recurso.");
-		// Busqueda Recurso Libre--- Cargar en el list recursos libres por fecha
-		// y Hora
+			Mensaje.crearMensajeWARN("Error debe especificar el recurso");
 		rec = this.findRecursoByID(id_recurso);
-		// Validar recursos existente
 		if (esRecursoAnadido(id_recurso, soliTemp, horaInicio, horaFin))
-			throw new Exception(
-					"El recurso ya se encuentra agregado dentro del horario");
-		// Crear detalle
+			Mensaje.crearMensajeWARN("El recurso ya se encuentra agregado dentro del horario");
 		det = new Solicidetalle();
 		det.setRecurso(rec);
 		det.setCapacidad(cantidad);
 		det.setHoraInicio(horaInicio);
 		det.setHoraFin(horaFin);
-		// Agregar al la solicitud
 		soliTemp.getSolicidetalles().add(det);
-		// throw new Exception("El recurso se ha agregado");
-
 	}
 
 	public void quitarDetalleSolicitudTem(Solicidetalle sd) {
@@ -350,25 +320,14 @@ public class ManagerReservas {
 	// Guardar Solicitud Temporal
 	public int guardarSolicitudTemporal(Solicicabecera soliTmp)
 			throws Exception {
-
 		if (soliTmp == null)
-			throw new Exception("Debe crear una solicitud primero.");
-		// if(soliTmp.getSolicidetalles()==null ||
-		// soliTmp.getSolicidetalles().size()==0)
-		// throw new Exception("Debe ingresar los recursos en la solicitud.");
-		// Agregar contador
+			Mensaje.crearMensajeWARN("Debe crear una solicitud primero");
 		int contSolicitud = this.getContadorSolicitud();
 		contSolicitud++;
 		soliTmp.setIdSolcab(contSolicitud);
-
-		// ARRAY PARA RECURSOS ACTIVOS
 		ArrayList<Recursosactivo> listRecursos = new ArrayList<Recursosactivo>();
-
-		// DETALLES
 		for (Solicidetalle det : soliTmp.getSolicidetalles()) {
-			// Combinamos la relacion bidireccional
 			det.setSolicicabecera(soliTmp);
-			// Agregamos al listado de recursos activos
 			Recursosactivo recAct = new Recursosactivo();
 			recAct.setIdSolicitud(contSolicitud);
 			recAct.setFecha(det.getFechadet());
@@ -378,48 +337,30 @@ public class ManagerReservas {
 			recAct.setCantidad(det.getCapacidad());
 			listRecursos.add(recAct);
 		}
-
-		// Insertamos los datosa la bdd
 		mDAO.insertar(soliTmp);
-		// Evento e = (Evento) mDAO.findById(Evento.class, idEvento);
-		// e.setSolicicabecera(soliTmp);
-		// mDAO.actualizar(e);
-		// INSERTAR EN TABLA AYUDA
 		for (Recursosactivo recursosactivo : listRecursos) {
 			mDAO.insertar(recursosactivo);
 		}
-
-		// actualizamos los parametros Contadore
 		actualizarContadorSolicitud(contSolicitud);
-
 		soliTmp = null;
-
 		return contSolicitud;
 	}
 
 	// Guardar Solicitud Temporal
 	public void guardarSolicitudTemporalsinev(Solicicabecera soliTmp)
 			throws Exception {
-
 		if (soliTmp == null)
-			throw new Exception("Debe crear una solicitud primero.");
+			Mensaje.crearMensajeWARN("Debe crear una solicitud primero");
 		if (soliTmp.getSolicidetalles() == null
 				|| soliTmp.getSolicidetalles().size() == 0)
-			throw new Exception("Debe ingresar los recursos en la solicitud.");
-		// Agregar contador
+			Mensaje.crearMensajeWARN("Debe ingresar los recursos en la solicitud");
 		int contSolicitud;
 		contSolicitud = this.getContadorSolicitud();
 		contSolicitud++;
 		soliTmp.setIdSolcab(contSolicitud);
-
-		// ARRAY PARA RECURSOS ACTIVOS
 		ArrayList<Recursosactivo> listRecursos = new ArrayList<Recursosactivo>();
-
-		// DETALLES
 		for (Solicidetalle det : soliTmp.getSolicidetalles()) {
-			// Combinamos la relacion bidireccional
 			det.setSolicicabecera(soliTmp);
-			// Agregamos al listado de recursos activos
 			Recursosactivo recAct = new Recursosactivo();
 			recAct.setIdSolicitud(contSolicitud);
 			recAct.setHoraInicio(det.getHoraInicio());
@@ -428,17 +369,11 @@ public class ManagerReservas {
 			recAct.setCantidad(det.getCapacidad());
 			listRecursos.add(recAct);
 		}
-
-		// Insertamos los datosa la bdd
 		mDAO.insertar(soliTmp);
-		// INSERTAR EN TABLA AYUDA
 		for (Recursosactivo recursosactivo : listRecursos) {
 			mDAO.insertar(recursosactivo);
 		}
-
-		// actualizamos los parametros Contadore
 		actualizarContadorSolicitud(contSolicitud);
-
 		soliTmp = null;
 	}
 
@@ -590,7 +525,6 @@ public class ManagerReservas {
 						horainicio, horafin);
 		int sumatoria = 0;
 		for (Recurso recurso : listado) {
-			// Comparar las cantidades
 			int contador = recurso.getCapacidad();
 			if (this.findRecursosSolicitadosLibreByHorario(
 					recurso.getIdRecurso(), hora_inicio, hora_fin, horainicio,
@@ -613,16 +547,11 @@ public class ManagerReservas {
 				}
 				if (contador < recurso.getCapacidad()) {
 					System.out.println("si se agrega si es menor");
-					// SelectItem item=new SelectItem(recurso.getIdRecurso(),
-					// recurso.getNombre()+" - "+contador);
 				}
 			} else if (listadoRecursoactivo.isEmpty()) {
 				System.out.println("si se agrega si ta vacio menor");
-				// SelectItem item=new SelectItem(recurso.getIdRecurso(),
-				// recurso.getNombre()+" - "+recurso.getCapacidad());
 			}
 		}
-		// aqui es
 		return resultados;
 	}
 
@@ -637,7 +566,6 @@ public class ManagerReservas {
 			List<Recursosactivo> listadoRecursoactivo = this
 					.findAllRecursoOcupadoByFecha(hora_fin);
 			int sumatoria = 0;
-			// Comparar las cantidades
 			for (Recursosactivo c : listadoRecursoactivo) {
 				if (rec.getIdRecurso().equals(c.getIdRecurso())) {
 					sumatoria += c.getCantidad();
@@ -647,7 +575,6 @@ public class ManagerReservas {
 			System.out.println("sumatoria: " + sumatoria);
 			System.out.println("contador: " + contador);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println(contador + "total rec");
@@ -659,37 +586,26 @@ public class ManagerReservas {
 		List<Recurso> listado = this.findAllRecurso();
 		List<Recurso> resultados = this.findAllRecurso();
 		for (Recurso recurso : listado) {
-			// Comparar las cantidades
 			resultados.remove(recurso);
 			System.out.println("quita " + recurso.getNombre());
 		}
-		// aqui es
 		return resultados;
 	}
 
 	// Devuelve un valor booleano para conocer si se encuentra ocupado o no el
 	// recurso
-	public boolean findRecursosSolicitadosLibreByHorario(Integer id_recurso,/*
-																			 * Integer
-																			 * capacidad
-																			 * ,
-																			 */
+	public boolean findRecursosSolicitadosLibreByHorario(Integer id_recurso,
 			Timestamp hora_inicio, Timestamp hora_fin, Time horainicio,
 			Time horafin) {
 		List<Recursosactivo> listado = this.findAllRecursoOcupadoByHorario(
 				hora_inicio, hora_fin, horainicio, horafin);
-		// Listado de recursos utilizados en las fechas de solicitud
 		System.out.println("listado " + listado.size());
-		// int contador = capacidad;
 		for (Recursosactivo recursosactivo : listado) {
-			// contador = capacidad - recursosactivo.getCantidad();
 			if (recursosactivo.getIdRecurso().intValue() == id_recurso
-					.intValue() /* || contador==capacidad */) {
-				// System.out.println("si");
+					.intValue()) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -722,23 +638,6 @@ public class ManagerReservas {
 		return resultado;
 	}
 
-	// //Carga de recursos disponibles verificando si esta ocupado
-	// public List<Recursotipo> findAllTipoRecursosDisponibles(Timestamp
-	// hora_inicio, Timestamp hora_fin){
-	// List<Recursotipo> listado = this.findAllTipoRecurso();
-	// List<Recursotipo> resultados = this.findAllTipoRecurso();
-	//
-	// for (Recursotipo recurso : listado) {
-	// if(this.findRecursosSolicitadosLibreByHorario(recurso.getIdRectipo(),
-	// hora_inicio, hora_fin)){
-	// resultados.remove(recurso);
-	// //System.out.println("quita "+recurso.getNombre());
-	// }
-	// }
-	//
-	// return resultados;
-	// }
-
 	// Recursos Activados
 	public boolean esRecursoDesactivado(Integer id_recurso) {
 		Recurso rec = new Recurso();
@@ -760,7 +659,6 @@ public class ManagerReservas {
 			System.out.println(idRecurso);
 			r = findRecursoByID(idRecurso);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return r;
@@ -799,16 +697,13 @@ public class ManagerReservas {
 		Solicicabecera solicitud = this.findSolicitudCabeceraById(id_solicitud);
 		solicitud.setSoliciestado(estado);
 		mDAO.actualizar(solicitud);
-		// LISTADO
 		ArrayList<Recurso> listRec = new ArrayList<Recurso>();
 		for (Solicidetalle det : solicitud.getSolicidetalles()) {
 			listRec.add(det.getRecurso());
 		}
 		List<Solicidetalle> listRecDet = solicitud.getSolicidetalles();
-		// Al cambiar de pendiente a negado borra recursos de RecursoActivo
 		if (estado.equals("negado")) {
 			quitarListaRecursoActivo(listRec, id_solicitud);
-			// Al cambiar de negado a aprobado agrega recursos a RecusroActivo
 		} else if (solicitud.getSoliciestado().getEstado().equals("negado")
 				&& estado.equals("aprobado")) {
 			agregarListaRecursoActivo(listRecDet, id_solicitud);
@@ -884,20 +779,14 @@ public class ManagerReservas {
 			ArrayList<Solicidetalle> agregados,
 			ArrayList<Solicidetalle> eliminados) throws Exception {
 		ArrayList<Solicidetalle> actual = findDetallesSolicitud(id_solicitud);
-		// ELIMINAR
 		for (Solicidetalle solicidetalle : actual) {
 			for (Solicidetalle eliminado : eliminados) {
 				if (solicidetalle.getIdSoldet().equals(eliminado.getIdSoldet())) {
 					eliminarSoliciDetalleByID(solicidetalle.getIdSoldet());
-					// Tabla Extra
-					// eliminarRecursoSolicitado(findByIdSoliciYRecurso(id_solicitud,
-					// solicidetalle.getRecurso().getIdRecurso()).getIdRecact());
 				}
 			}
 		}
-		// AGREGAR
 		for (Solicidetalle detalle : agregados) {
-			// Tabla extrah
 			insertarRecursoSolicitado(id_solicitud, detalle.getHoraInicio(),
 					detalle.getHoraFin(), detalle.getRecurso().getIdRecurso(),
 					detalle.getCapacidad());
@@ -906,7 +795,6 @@ public class ManagerReservas {
 
 	public void editarDetalleSolicitud(Integer id_solicitud,
 			Timestamp horaInicio, Timestamp horaFin) throws Exception {
-		// EDITAR
 		Solicidetalle soldet = findSolicitudDetalleById(id_solicitud);
 		soldet.setHoraInicio(horaInicio);
 		soldet.setHoraFin(horaFin);
@@ -923,8 +811,7 @@ public class ManagerReservas {
 	// MODIFICAR ESTADO SOLICITUD
 	public void aprobarSolicitudMOD(Integer id_solicitud) throws Exception {
 		Solicicabecera sol = findSolicitudCabeceraById(id_solicitud);
-		sol.setSoliciestado(findSolicitudEstadoByID(3));// VER SOL ESTADO
-														// APROBADO
+		sol.setSoliciestado(findSolicitudEstadoByID(3));
 		mDAO.actualizar(sol);
 	}
 
@@ -949,54 +836,13 @@ public class ManagerReservas {
 				soli.setSms("notificada");
 				h = "El usuario a sido notificado por correo";
 			} else if (soli.getSms().equals("notificada")) {
-
 				h = "Ya se ha enviado al correo la notificación";
 			}
 		} catch (Exception e) {
-			throw new Exception("No se envio el mensaje");
+			Mensaje.crearMensajeWARN("No se envió el mensaje");
 		}
 		return h;
 	}
-
-	// ////METODO DE ENVIO DE CORREO
-	// public boolean sendMail(String origen,String clave,String destinatario,
-	// String asunto, String mensaje) throws Exception{
-	// try
-	// {
-	// Properties props = new Properties();
-	// props.put("mail.smtp.host", "smtp.gmail.com");
-	// props.setProperty("mail.smtp.starttls.enable", "true");
-	// props.setProperty("mail.smtp.port", "587");
-	// props.setProperty("mail.smtp.user", origen);
-	// props.setProperty("mail.smtp.auth", "true");
-	//
-	// Session session = Session.getDefaultInstance(props, null);
-	// BodyPart texto = new MimeBodyPart();
-	// texto.setText(mensaje);
-	//
-	// MimeMultipart multiParte = new MimeMultipart();
-	// multiParte.addBodyPart(texto);
-	//
-	// MimeMessage message = new MimeMessage(session);
-	// message.setFrom(new InternetAddress(origen));
-	// message.addRecipient(
-	// Message.RecipientType.TO,
-	// new InternetAddress(destinatario));
-	// message.setSubject(asunto);
-	// message.setContent(multiParte);
-	//
-	// Transport t = session.getTransport("smtp");
-	// t.connect(origen, clave);
-	// t.sendMessage(message, message.getAllRecipients());
-	// t.close();
-	// return true;
-	// }
-	// catch (Exception e)
-	// {
-	// e.printStackTrace();
-	// return false;
-	// }
-	// }
 
 	@SuppressWarnings("unchecked")
 	public List<Usuario> findAllUsuarios() {
@@ -1023,7 +869,6 @@ public class ManagerReservas {
 		rt.setTipo(tipo);
 		rt.setDescripcion(descripcion);
 		rt.setImagen(imagen);
-		// rt.setColorrec(ce);
 		mDAO.insertar(rt);
 	}
 
@@ -1035,8 +880,6 @@ public class ManagerReservas {
 		rec.setTipo(tipo);
 		rec.setDescripcion(descripcion);
 		rec.setImagen(imagen);
-		// ce=findcolorxid(idcolor);
-		// rec.setColorrec(ce);
 		mDAO.actualizar(rec);
 	}
 
@@ -1046,14 +889,12 @@ public class ManagerReservas {
 		try {
 			p = (Colorrec) mDAO.findById(Colorrec.class, a);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return p;
 	}
 
-	// colores de tiporecurso
-	// listar todos los colores
+	// colores de tiporecurso listar todos los colores
 	@SuppressWarnings("unchecked")
 	public List<Coloreve> findAllColoreves() {
 		return mDAO.findAll(Coloreve.class);
@@ -1158,14 +999,12 @@ public class ManagerReservas {
 		try {
 			p = (Colorsala) mDAO.findById(Colorsala.class, a);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return p;
 	}
 
-	// colores de sala
-	// listar todos los colores
+	// colores de sala listar todos los colores
 	@SuppressWarnings("unchecked")
 	public List<Colorsala> findAllColorsala() {
 		return mDAO.findAll(Colorsala.class);
@@ -1188,15 +1027,14 @@ public class ManagerReservas {
 		return rt;
 	}
 
-	public List<Sala> findAllSalasDisponibles(Timestamp fecha_inicio,Timestamp fecha_fin) {
+	public List<Sala> findAllSalasDisponibles(Timestamp fecha_inicio,
+			Timestamp fecha_fin) {
 		List<Sala> resultados = this.findAllSalas();
 		try {
 			List<DatosSalas> salasActivosFechas = mc.findAllSalasActivos(
 					fecha_inicio, fecha_fin);
 			if (!salasActivosFechas.isEmpty()) {
 				List<Sala> listado = this.findAllSalas();
-				// List<Salasactiva> listadoSalasactivo=
-				// this.findAllSalaOcupadoByHorario(fecha_inicio, fecha_fin);
 				for (Sala sala : listado) {
 					for (DatosSalas salasActivas : salasActivosFechas) {
 						if (sala.getIdSala().equals(salasActivas.getId_sala())) {
@@ -1209,8 +1047,6 @@ public class ManagerReservas {
 				}
 			} else {
 				System.out.println("si se agrega si ta vacio menor");
-				// SelectItem item=new SelectItem(recurso.getIdRecurso(),
-				// recurso.getNombre()+" - "+recurso.getCapacidad());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1225,13 +1061,11 @@ public class ManagerReservas {
 			Time horainicio, Time horafin) {
 		List<Salasactiva> listado = this.findAllSalaOcupadoByHorario(
 				hora_inicio, hora_fin, horainicio, horafin);
-		// System.out.println("listado "+listado.size());
 		for (Salasactiva salasactivo : listado) {
 			if (salasactivo.getIdSala().intValue() == id_sala.intValue()) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -1258,7 +1092,6 @@ public class ManagerReservas {
 				resultado.add(salasactivo);
 			}
 		}
-		// System.out.println("OcupadosByHorario "+resultado.size());
 		return resultado;
 	}
 
@@ -1271,7 +1104,6 @@ public class ManagerReservas {
 		ArrayList<Salasactiva> resultado = new ArrayList<Salasactiva>();
 		List<Salasactiva> listado = this.findAllSalasSolicitados();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
 		for (Salasactiva salasactivo : listado) {
 			System.out.println(dateFormat.format(salasactivo.getHoraFin())
 					.toString() + " aca1");
@@ -1358,5 +1190,27 @@ public class ManagerReservas {
 		}
 		mDAO.actualizar(recurso);
 		return h;
+	}
+
+	// salasActivas
+	@SuppressWarnings("unchecked")
+	public List<Salasactiva> findSalasActivasByIdEvento(Integer id)
+			throws Exception {
+		return (List<Salasactiva>) mDAO.findWhere(Salasactiva.class,
+				" o.idEvento = " + id + " ", " o.horaInicio ");
+	}
+
+	// Modificar
+	public void editarSalaActivas(Long id_salasact, Timestamp hora_inicio,
+			Timestamp hora_fin) throws Exception {
+		Salasactiva salaact = findSalaActivaByID(id_salasact);
+		salaact.setHoraInicio(hora_inicio);
+		salaact.setHoraFin(hora_fin);
+		mDAO.actualizar(salaact);
+	}
+
+	// buscar salaActiva por ID
+	public Salasactiva findSalaActivaByID(Long id_sala) throws Exception {
+		return (Salasactiva) mDAO.findById(Salasactiva.class, id_sala);
 	}
 }

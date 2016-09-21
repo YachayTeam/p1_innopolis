@@ -4,18 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 
 import innopolis.manager.ManagerLogin;
+import innopolis.model.generic.Mensaje;
 import innopolis.entidades.Interes;
 import innopolis.entidades.help.UsuarioHelp;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.application.FacesMessage;
 
 @SessionScoped
 @ManagedBean
 public class InteresesBean implements Serializable {
-	// https://github.com/YachayTeam/p1_innopolis/blob/32169dd0b6e81dad04a03a741b89a956e0527ffa/yachay_innopolis/src/innopolis/manager/ManagerInnopolis.java
+
 	private static final long serialVersionUID = 1L;
 	private ManagerLogin manager;
 	private Integer id_interes;
@@ -71,24 +70,15 @@ public class InteresesBean implements Serializable {
 
 	public String accioninsertarInteres() {
 		if (this.ccinteres(nombreinteres) == true) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage(
-							"Interes Repetido..!!! El interés ya está siendo utilizado",
-							null));
+			Mensaje.crearMensajeWARN("El interés ya está siendo utilizado");
 		} else {
 			try {
 				manager.insertarInteres(nombreinteres);
 				// limpiar datos
 				nombreinteres = "";
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(
-						"Registrado..!!! Interés creado", null));
+				Mensaje.crearMensajeINFO("Interés creado");
 			} catch (Exception e) {
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(
-						"No registrado..!!! Interés no creado", null));
+				Mensaje.crearMensajeWARN("Interés no creado");
 			}
 		}
 		return "intereses";
@@ -107,19 +97,15 @@ public class InteresesBean implements Serializable {
 			// limpiar datos
 			id_interes = null;
 			nombreinteres = "";
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Actualizado..!!! Interés editado",null));
+			Mensaje.crearMensajeINFO("Interés actualizado");
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("No Registrado..!!! Interés no editado",null));
+			Mensaje.crearMensajeWARN("Interés no editado");
 		}
 		return "";
 	}
 
 	public String irintereses() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Cancelado, actualización cancelada",null));
+		Mensaje.crearMensajeWARN("Actualización cancelada");
 		// limpiamos los datos
 		nombreinteres = "";
 		id_interes = null;

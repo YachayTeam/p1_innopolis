@@ -29,6 +29,7 @@ import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerInscripedit;
 import innopolis.manager.ManagerLogin;
 import innopolis.manager.ManagerReservas;
+import innopolis.model.generic.Mensaje;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -53,7 +54,7 @@ public class CalusrBean implements Serializable {
 	private ManagerEvento manager;
 	ManagerReservas managerre;
 	private ManagerLogin managerlog;
-	
+
 	@EJB
 	private ManagerBuscar mb;
 
@@ -211,7 +212,6 @@ public class CalusrBean implements Serializable {
 	private Integer id_evento;
 	private List<Inscripcione> listadoInscripciones;
 	private String imagen;
-	
 
 	public CalusrBean() {
 		managerlog = new ManagerLogin();
@@ -227,17 +227,13 @@ public class CalusrBean implements Serializable {
 					event = new DefaultScheduleEvent("Reunión Privada",
 							e.getFechaInicio(), e.getFechaFin(), e);
 					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-							.getColorsala().getColor());// dependiendo del to
-														// cambio de style,
-														// algo1,algo2
+							.getColorsala().getColor());
 					eventModel.addEvent(event);
 				} else if (!e.getInterno()) {
 					event = new DefaultScheduleEvent(e.getNombre(),
 							e.getFechaInicio(), e.getFechaFin(), e);
 					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-							.getColorsala().getColor());// dependiendo del to
-														// cambio de style,
-														// algo1,algo2
+							.getColorsala().getColor());
 					eventModel.addEvent(event);
 				}
 			} else {
@@ -299,8 +295,7 @@ public class CalusrBean implements Serializable {
 				event = new DefaultScheduleEvent(e.getNombre(),
 						e.getFechaInicio(), e.getFechaFin(), e);
 				((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-						.getColorsala().getColor());// dependiendo del to cambio
-													// de style, algo1,algo2
+						.getColorsala().getColor());
 				eventModel.addEvent(event);
 			} else {
 				System.out.println("no hay datos");
@@ -311,7 +306,6 @@ public class CalusrBean implements Serializable {
 
 	public void onEventSelect(SelectEvent selectEvent) {
 		event = (ScheduleEvent) selectEvent.getObject();
-
 	}
 
 	// /////////////////////////////Eventos///////////////////////////////////////////////
@@ -349,19 +343,14 @@ public class CalusrBean implements Serializable {
 					event = new DefaultScheduleEvent(e.getNombre(),
 							e.getFechaInicio(), e.getFechaFin(), e);
 					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-							.getColorsala().getColor());// dependiendo del to
-														// cambio de style,
-														// algo1,algo2
+							.getColorsala().getColor());
 					eventModel.addEvent(event);
 				} else if (te == 0) {
 					refresh();
 				}
 			}
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario actualizado", null));
+		Mensaje.crearMensajeINFO("Calendario actualizado");
 	}
 
 	// metodo para asignar el TipoEvento al Evento
@@ -376,19 +365,14 @@ public class CalusrBean implements Serializable {
 					event = new DefaultScheduleEvent(e.getNombre(),
 							e.getFechaInicio(), e.getFechaFin(), e);
 					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
-							.getColorsala().getColor());// dependiendo del to
-														// cambio de style,
-														// algo1,algo2
+							.getColorsala().getColor());
 					eventModel.addEvent(event);
 				} else if (sala == 0) {
 					refresh();
 				}
 			}
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario actualizado", null));
+		Mensaje.crearMensajeINFO("Calendario actualizado");
 	}
 
 	// escoger el tipo de evento a mostrar
@@ -411,10 +395,7 @@ public class CalusrBean implements Serializable {
 				}
 			}
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario actualizado", null));
+		Mensaje.crearMensajeINFO("Calendario actualizado");
 		return "";
 	}
 
@@ -439,14 +420,10 @@ public class CalusrBean implements Serializable {
 		List<Solicidetalle> solidetlist = managerre.findAllDetallesSolicitud();
 		List<Recurso> recursolist = managerre.findAllRecurso();
 		List<Recursotipo> recursotipolist = managerre.findAllTipoRecurso();
-
-		System.out.print("tam " + listado.size());
 		for (Evento e : listado) {
 			if (e.getEstado().equals("Activado")) {
 				event = new DefaultScheduleEvent(e.getNombre(),
 						e.getFechaInicio(), e.getFechaFin(), e);
-				System.out.print("tam " + solilist.size());
-
 				for (Solicicabecera s : solilist) {
 					if (e.getSolicicabecera().equals(s.getIdSolcab())) {
 						for (Solicidetalle sd : solidetlist) {
@@ -458,7 +435,9 @@ public class CalusrBean implements Serializable {
 											if (rec.getRecursotipo().equals(
 													rectipo.getIdRectipo())) {
 												((DefaultScheduleEvent) event)
-														.setStyleClass(rectipo.getColorrec().getColor());// dependiendodel to cambiodestyle,algo1,algo2
+														.setStyleClass(rectipo
+																.getColorrec()
+																.getColor());
 												eventModel.addEvent(event);
 											}
 										}
@@ -474,10 +453,7 @@ public class CalusrBean implements Serializable {
 				refresh();
 			}
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario actualizado", null));
+		Mensaje.crearMensajeINFO("Calendario actualizado");
 	}
 
 	// escoger el tipo de evento a mostrar
@@ -490,19 +466,13 @@ public class CalusrBean implements Serializable {
 				if (e.getTipoevento().getIdTipoEvento() == te) {
 					event = new DefaultScheduleEvent(e.getNombre(),
 							e.getFechaInicio(), e.getFechaFin(), e);
-					// ((DefaultScheduleEvent)
-					// event).setStyleClass(e.getTipoevento().getColoreve().getColor());//dependiendo
-					// del to cambio de style, algo1,algo2
 					eventModel.addEvent(event);
 				} else if (te == 0) {
 					refresh();
 				}
 			}
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario actualizado", null));
+		Mensaje.crearMensajeINFO("Calendario actualizado");
 		return "";
 	}
 
@@ -531,27 +501,27 @@ public class CalusrBean implements Serializable {
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-	
+
 	public String getDireccion() {
 		return direccion;
 	}
-	
+
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	
+
 	public String getTelefono() {
 		return telefono;
 	}
-	
+
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	
+
 	public String getCelular() {
 		return celular;
 	}
-	
+
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
@@ -591,11 +561,11 @@ public class CalusrBean implements Serializable {
 	public String getNombre() {
 		return nombre;
 	}
-	
+
 	public String getImagen() {
 		return imagen;
 	}
-	
+
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
@@ -671,122 +641,124 @@ public class CalusrBean implements Serializable {
 		String r = "";
 		imagenPago = "sin_pago.jpg";
 		if (ev.getInterno()) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"El evento es privado", null));
+			Mensaje.crearMensajeWARN("El evento es privado");
 		} else if (!ev.getInterno()) {
 			r = "formulario?faces-redirect=true";
 		}
 
 		return r;
-		// return "frm_ins?faces-redirect=true";
 	}
 
 	public String inscribirse() {
 		String resp = "";
-		/*
-		 * if(getImagenPago()==null){ setImagenPago("sin_pago.jpg"); }
-		 */
 		if (getObservacion() == null) {
 			setObservacion("sin observacion");
 		}if (getEvento().getCosto() > 0
 				&& getImagenPago().equals("sin_pago.jpg")) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El evento posee pago y necesita imagen del comprobante",null));
+			Mensaje.crearMensajeWARN("El evento posee pago y necesita imagen del comprobante");
 		} else {
 			try {
 				// FECHA Y HORA ACTUAL
 				Calendar fecha_hora = Calendar.getInstance();
 				setFechaInscripcion(new Timestamp(fecha_hora.getTimeInMillis()));
 				// Ingreso
-				manager.insertarInscripcion(getEvento(), getFechaInscripcion(),0, getNombre().trim(), getApellido().trim(), getCorreo().trim(),getDireccion().trim(),getTelefono().trim(),getCelular().trim(),
+				manager.insertarInscripcion(getEvento(), getFechaInscripcion(),
+						0, getNombre().trim(), getApellido().trim(),
+						getCorreo().trim(), getDireccion().trim(),
+						getTelefono().trim(), getCelular().trim(),
 						getImagenPago(), getObservacion().trim());
-
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 				smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-						 + "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "El Sr/ra. "
 						+ getNombre()
 						+ " "
 						+ getApellido()
 						+ ", envi&oacute; una solicitud de Inscripci&oacute;n para un Evento; Requiere la aprobaci&oacute;n o negaci&oacute;n.; <br/>"
-						+ "Los datos del usuario son:" 
-						+ "<br/> Nombre: "+getNombre() + "" 
-						+ "<br/> Apellido: " + getApellido()+ ""
-						+ "<br/> Dirección: " + getDireccion()+ ""
-						+ "<br/> Teléfono: " + getTelefono()+ ""
-						+ "<br/> Celular: " + getCelular()+ ""
-						+ "<br/> Nombre del Evento: "+ getEvento().getNombre() + ""
-						+ "<br/> Fecha de Inscripci&oacute;n: "+ date.format(getFechaInscripcion()).toString() + ""
-						+ "<br/> Obervaci&oacute;n : " + getObservacion()+ ""
+						+ "Los datos del usuario son:"
+						+ "<br/> Nombre: "
+						+ getNombre()
+						+ ""
+						+ "<br/> Apellido: "
+						+ getApellido()
+						+ ""
+						+ "<br/> Dirección: "
+						+ getDireccion()
+						+ ""
+						+ "<br/> Teléfono: "
+						+ getTelefono()
+						+ ""
+						+ "<br/> Celular: "
+						+ getCelular()
+						+ ""
+						+ "<br/> Nombre del Evento: "
+						+ getEvento().getNombre()
+						+ ""
+						+ "<br/> Fecha de Inscripci&oacute;n: "
+						+ date.format(getFechaInscripcion()).toString()
+						+ ""
+						+ "<br/> Obervaci&oacute;n : "
+						+ getObservacion()
+						+ ""
 						+ "<br/> Saludos cordiales, "
-				  	    + "<br/> Sistema de REGECE Yachay EP"
-		                + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-				
-		        smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-					    + "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+
+				smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "Sr/ra.  "
 						+ getNombre()
 						+ " "
 						+ getApellido()
 						+ ", su petici&oacute;n de solicitud de Inscripci&oacute;n para un Evento del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&aacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
 						+ "Sus datos de Inscripci&oacute;n son:"
-						+ "<br/> Nombre: " + getNombre() + ""
-						+ "<br/> Apellido: " + getApellido() + ""
-						+ "<br/> Dirección: " + getDireccion()+ ""
-						+ "<br/> Teléfono: " + getTelefono()+ ""
-						+ "<br/> Celular: " + getCelular()+ ""
-						+ "<br/> Nombre del Evento: " + getEvento().getNombre()
-						+ "" + "<br/> Fecha de Inscripci&oacute;n: "
-						+ date.format(getFechaInscripcion()).toString() + ""
-						+ "<br/> Obervaci&oacute;n : " + getObservacion()+""
+						+ "<br/> Nombre: "
+						+ getNombre()
+						+ ""
+						+ "<br/> Apellido: "
+						+ getApellido()
+						+ ""
+						+ "<br/> Dirección: "
+						+ getDireccion()
+						+ ""
+						+ "<br/> Teléfono: "
+						+ getTelefono()
+						+ ""
+						+ "<br/> Celular: "
+						+ getCelular()
+						+ ""
+						+ "<br/> Nombre del Evento: "
+						+ getEvento().getNombre()
+						+ ""
+						+ "<br/> Fecha de Inscripci&oacute;n: "
+						+ date.format(getFechaInscripcion()).toString()
+						+ ""
+						+ "<br/> Obervaci&oacute;n : "
+						+ getObservacion()
+						+ ""
 						+ "<br/> Saludos cordiales, "
-				  	    + "<br/> Sistema de REGECE Yachay EP"
-		                + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";;
-
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 				getcorreosusu();
 				System.out.println(correosadmin);
-				
-//				Mail.generateAndSendEmail(correosadmin,
-//						"Notificación de YACHAY/REGECE  ", smscoradmin);
-//				Mail.sendMailsolousr(getCorreo(),
-//						"Notificación de YACHAY/REGECE  ", smscorusu);
-
-				mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE", smscoradmin);
-				mb.envioMailWS(getCorreo(), "Notificación de YACHAY/REGECE", smscorusu);
+				mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE",
+						smscoradmin);
+				mb.envioMailWS(getCorreo(), "Notificación de YACHAY/REGECE",
+						smscorusu);
 
 				correosadmin = "";
 				smscoradmin = "";
 				smscorusu = "";
-
-				// managerins.insertarcampos(etiqueta, campo);
 				setNombre("");
 				setApellido("");
 				setCorreo("");
 				setObservacion("");
 				setImagenPago("sin_pago.jpg");
 				campo = "";
-				resp = "index?faces-redirect=true";// Enviar a un resumen de
-													// inscripcion o pagina de
-													// exito
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(FacesMessage.SEVERITY_INFO,
-										"Ingresado",
-										"Se registro correctamente, espere el mensaje de confirmación"));
+				resp = "index?faces-redirect=true";
+				Mensaje.crearMensajeINFO("Se registro correctamente, espere el mensaje de confirmación");
 			} catch (Exception e) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_ERROR,
-										"Error al intentar inscribirse al evento",
-										null));
+				Mensaje.crearMensajeWARN("Error al intentar inscribirse al evento");
 			}
 		}
 		return resp;
@@ -803,8 +775,7 @@ public class CalusrBean implements Serializable {
 			int max = correosadmin.length();
 			correosadmin = correosadmin.substring(0, max - 1).trim();
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("No se encuentran usuarios administradores",null));
+			Mensaje.crearMensajeWARN("No se encuentran usuarios administradores");
 			e.printStackTrace();
 		}
 		return correosadmin;
@@ -833,8 +804,6 @@ public class CalusrBean implements Serializable {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-//				String carpetaImagenes = (String) servletContext
-//						.getRealPath(File.separatorChar + "imgevent");
 				String carpetaImagenes = "/opt/wildfly/standalone/img/img_regece/imgevent/";
 				// AsignacionDeNombreImagen
 				DateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
@@ -842,30 +811,21 @@ public class CalusrBean implements Serializable {
 				String nombre_img = "img_" + int_nom
 						+ dateFormat.format(new Date()) + ".jpg";
 				setImagenPago(nombre_img);
-
 				System.out.println("PAD------> " + carpetaImagenes);
 				System.out.println("name------> " + getImagenPago());
 
 				outputStream = new FileOutputStream(new File(carpetaImagenes
 						+ File.separatorChar + getImagenPago()));
 				inputStream = file.getInputstream();
-
 				int read = 0;
 				byte[] bytes = new byte[1024];
 
 				while ((read = inputStream.read(bytes)) != -1) {
 					outputStream.write(bytes, 0, read);
 				}
-
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Correcto: carga correcta",null));
-
+				Mensaje.crearMensajeINFO("Carga correcta");
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se pudo subir la imagen",null));
+				Mensaje.crearMensajeWARN("No se pudo subir la imagen");
 				e.printStackTrace();
 			} finally {
 				if (inputStream != null) {
@@ -877,9 +837,7 @@ public class CalusrBean implements Serializable {
 				}
 			}
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se pudo seleccionar la imagen",null));
+			Mensaje.crearMensajeWARN("No se pudo seleccionar la imagen");
 		}
 	}
 
@@ -923,10 +881,10 @@ public class CalusrBean implements Serializable {
 		else
 			return ev.getNombre();
 	}
-	
+
 	// editar imagen
-			public void verImagen(Evento eve) {
-				setImagen(eve.getImagen());
-				System.out.println(imagen);
-			}
+	public void verImagen(Evento eve) {
+		setImagen(eve.getImagen());
+		System.out.println(imagen);
+	}
 }

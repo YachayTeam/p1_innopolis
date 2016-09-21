@@ -29,6 +29,7 @@ import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerInscripedit;
 import innopolis.manager.ManagerLogin;
+import innopolis.model.generic.Mensaje;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -316,9 +317,8 @@ public class CalusrBeanlogeado implements Serializable {
 					System.out.println("no hay datos");
 				}
 			}
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -335,9 +335,8 @@ public class CalusrBeanlogeado implements Serializable {
 			} else if (!ev.getInterno()) {
 				nombre = ev.getNombre();
 			}
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return nombre;
 	}
@@ -384,10 +383,7 @@ public class CalusrBeanlogeado implements Serializable {
 				}
 			}
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario Actualizado", null));
+		Mensaje.crearMensajeINFO("Calendario Actualizado");
 	}
 
 	// metodo para asignar el TipoEvento al Evento
@@ -409,10 +405,7 @@ public class CalusrBeanlogeado implements Serializable {
 				}
 			}
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario Actualizado", null));
+		Mensaje.crearMensajeINFO("Calendario Actualizado");
 	}
 
 	// metodo para asignar el TipoEvento al Evento
@@ -438,10 +431,7 @@ public class CalusrBeanlogeado implements Serializable {
 				}
 			}
 		}
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Calendario Actualizado", null));
+		Mensaje.crearMensajeINFO("Calendario Actualizado");
 		return "";
 	}
 
@@ -526,11 +516,11 @@ public class CalusrBeanlogeado implements Serializable {
 	public void setIdInscripcion(Integer idInscripcion) {
 		this.idInscripcion = idInscripcion;
 	}
-	
+
 	public String getImagen() {
 		return imagen;
 	}
-	
+
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
@@ -598,27 +588,27 @@ public class CalusrBeanlogeado implements Serializable {
 	public String getDireccion() {
 		return direccion;
 	}
-	
+
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	
+
 	public String getTelefono() {
 		return telefono;
 	}
-	
+
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	
+
 	public String getCelular() {
 		return celular;
 	}
-	
+
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
-	
+
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
@@ -666,47 +656,30 @@ public class CalusrBeanlogeado implements Serializable {
 		String r = "";
 		imagenPago = "sin_pago.jpg";
 		if (ev.getInterno()) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"El evento es privado", null));
+			Mensaje.crearMensajeWARN("El evento es privado");
 		} else if (!ev.getInterno()) {
 			r = "formulariousrlog?faces-redirect=true";
 		}
-
 		return r;
-		// return "frm_ins?faces-redirect=true";
 	}
 
 	public String inscribirse() {
 		String resp = "";
-		/*
-		 * if(getImagenPago()==null){ setImagenPago("sin_pago.jpg"); }
-		 */
 		if (getObservacion() == null) {
 			setObservacion("sin observacion");
 		}
-
 		if (getEvento().getCosto() > 0
 				&& getImagenPago().equals("sin_pago.jpg")) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_WARN,
-									"El evento posee pago y necesita imagen del comprobante",
-									null));
+			Mensaje.crearMensajeWARN("El evento posee pago y necesita imagen del comprobante");
 		} else {
 			try {
 				// FECHA Y HORA ACTUAL
 				Calendar fecha_hora = Calendar.getInstance();
 				setFechaInscripcion(new Timestamp(fecha_hora.getTimeInMillis()));
-				// Ingreso
 				manager.insertarInscripcion(getEvento(), getFechaInscripcion(),
-						0, getNombre(), getApellido(), getCorreo(),getDireccion(),getTelefono(),getCelular(),
+						0, getNombre(), getApellido(), getCorreo(),
+						getDireccion(), getTelefono(), getCelular(),
 						getImagenPago(), getObservacion());
-
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 				smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
@@ -719,33 +692,18 @@ public class CalusrBeanlogeado implements Serializable {
 						+ "<br/> Nombre: "
 						+ getNombre()
 						+ ""
-						+ "<br/> Apellido: "+ getApellido()+ ""
-						+ "<br/> Direcci&oacute;n : "+ getDireccion()+ ""
-						+ "<br/> Tel&eacute;fono : "+ getTelefono()+ ""
-						+ "<br/> Cedula : "+ getCelular()+ ""
-						+ "<br/> Nombre del Evento: "
-						+ getEvento().getNombre()
-						+ ""
-						+ "<br/> Fecha de Inscripci&oacute;n: "
-						+ date.format(getFechaInscripcion()).toString()
-						+ ""
-						+ "<br/> Obervaci&oacute;n : "+ getObservacion()+ ""
-						+ "<br/> Saludos cordiales, "
-						+ "<br/> Sistema de REGECE Yachay EP"
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-
-				smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-						+ "<meta name='viewport' content='width=device-width'></head><body>"
-						+ "Sr/ra.  "
-						+ getNombre()
-						+ " "
+						+ "<br/> Apellido: "
 						+ getApellido()
-						+ ", su petici&oacute;n de solicitud de Inscripci&oacute;n para un Evento del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&oacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
-						+ "Sus datos de Inscripci&oacute;n son:"
-						+ "<br/> Nombre: "+ getNombre()+ ""
-						+ "<br/> Direcci&oacute;n: " + getDireccion()+ ""
-						+ "<br/> Tel&eacute;fono: " + getTelefono()+ ""
-						+ "<br/> Celular: " + getCelular()+ ""
+						+ ""
+						+ "<br/> Direcci&oacute;n : "
+						+ getDireccion()
+						+ ""
+						+ "<br/> Tel&eacute;fono : "
+						+ getTelefono()
+						+ ""
+						+ "<br/> Cedula : "
+						+ getCelular()
+						+ ""
 						+ "<br/> Nombre del Evento: "
 						+ getEvento().getNombre()
 						+ ""
@@ -759,39 +717,53 @@ public class CalusrBeanlogeado implements Serializable {
 						+ "<br/> Sistema de REGECE Yachay EP"
 						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
+				smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+						+ "<meta name='viewport' content='width=device-width'></head><body>"
+						+ "Sr/ra.  "
+						+ getNombre()
+						+ " "
+						+ getApellido()
+						+ ", su petici&oacute;n de solicitud de Inscripci&oacute;n para un Evento del sistema REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento), ser&oacute; verificado por los administradores, espere al mensaje de confirmaci&oacute;n. <br/>"
+						+ "Sus datos de Inscripci&oacute;n son:"
+						+ "<br/> Nombre: "
+						+ getNombre()
+						+ ""
+						+ "<br/> Direcci&oacute;n: "
+						+ getDireccion()
+						+ ""
+						+ "<br/> Tel&eacute;fono: "
+						+ getTelefono()
+						+ ""
+						+ "<br/> Celular: "
+						+ getCelular()
+						+ ""
+						+ "<br/> Nombre del Evento: "
+						+ getEvento().getNombre()
+						+ ""
+						+ "<br/> Fecha de Inscripci&oacute;n: "
+						+ date.format(getFechaInscripcion()).toString()
+						+ ""
+						+ "<br/> Obervaci&oacute;n : "
+						+ getObservacion()
+						+ ""
+						+ "<br/> Saludos cordiales, "
+						+ "<br/> Sistema de REGECE Yachay EP"
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 				getcorreosusu();
 				System.out.println(correosadmin);
-
-				// Mail.generateAndSendEmail(correosadmin,
-				// "Notificación de YACHAY/REGECE  ", smscoradmin);
-				// Mail.generateAndSendEmail(getCorreo(),
-				// "Notificación de YACHAY/REGECE  ", smscorusu);
-
 				mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE",
 						smscoradmin);
 				mb.envioMailWS(getCorreo(), "Notificación de YACHAY/REGECE",
 						smscorusu);
-
 				correosadmin = "";
 				smscoradmin = "";
 				smscorusu = "";
-
-				// managerins.insertarcampos(etiqueta, campo);
 				setObservacion("");
 				setImagenPago("sin_pago.jpg");
 				campo = "";
-				resp = "calendario?faces-redirect=true";// Enviar a un resumen
-														// de inscripcion o
-														// pagina de exito
+				resp = "calendario?faces-redirect=true";
 			} catch (Exception e) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_ERROR,
-										"Error al intentar inscribirse al evento",
-										null));
+				Mensaje.crearMensajeWARN("Error al intentar inscribirse al evento");
 			}
 		}
 		return resp;
@@ -833,14 +805,11 @@ public class CalusrBeanlogeado implements Serializable {
 		file = event.getFile();
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
-
 		if (file != null) {
 			try {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-				// String carpetaImagenes = (String) servletContext
-				// .getRealPath(File.separatorChar + "imgevent");
 				String carpetaImagenes = "/opt/wildfly/standalone/img/img_regece/imgevent/";
 				// AsignacionDeNombreImagen
 				DateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
@@ -862,17 +831,9 @@ public class CalusrBeanlogeado implements Serializable {
 				while ((read = inputStream.read(bytes)) != -1) {
 					outputStream.write(bytes, 0, read);
 				}
-
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Correcto:", "Carga correcta"));
-
+				Mensaje.crearMensajeINFO("Carga correcta");
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-								"no se pudo subir la imagen"));
+				Mensaje.crearMensajeWARN("no se pudo subir la imagen");
 				e.printStackTrace();
 			} finally {
 				if (inputStream != null) {
@@ -884,10 +845,7 @@ public class CalusrBeanlogeado implements Serializable {
 				}
 			}
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-							"no se pudo seleccionar la imagen"));
+			Mensaje.crearMensajeWARN("no se pudo seleccionar la imagen");
 		}
 	}
 
@@ -914,41 +872,24 @@ public class CalusrBeanlogeado implements Serializable {
 			String rutaReporte = "";
 			Connection conexion = DriverManager
 					.getConnection("jdbc:postgresql://10.1.0.158:5432/bd_inno?user=adm_bicichay&password=y-4IO4SDwu_!");
-
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("pFechaInicio", getFi());
 			parametros.put("pFechaFin", getFf());
-
 			if (sala != 0 && getFi() != null && getFf() != null) {
 				parametros.put("pSala", getSala());
-				System.out.println(rutaReporte
-						+ "   entra a el if con los 3 parametros");
 				rutaReporte = carpetaReportes + File.separatorChar
 						+ "reporteeventostodoscon.jasper";
-				System.out.println(carpetaReportes + File.separatorChar
-						+ "yachay-logo1.png");
 
 			} else if (sala == 0 && getFi() == null && getFf() == null) {
 				rutaReporte = carpetaReportes + File.separatorChar
 						+ "reporteeventostodos.jasper";
-				System.out.println(rutaReporte);
-				System.out.println(carpetaReportes + File.separatorChar
-						+ "yachay-logo1.png");
 				parametros.put("pSala", getSala());
-
 			} else if (sala == 0 && getFi() != null && getFf() != null) {
 				rutaReporte = carpetaReportes + File.separatorChar
 						+ "reporteeventostodossin.jasper";
-				System.out.println(rutaReporte);
-				System.out.println(carpetaReportes + File.separatorChar
-						+ "yachay-logo1.png");
 			}
 			parametros.put("pImagen", carpetaReportes + File.separatorChar
 					+ "yachay-logo1.png");
-			// parametros.put("SUBREPORT_DIR",
-			// carpetaReportes+File.separatorChar+"");
-			System.out.println(rutaReporte);
-
 			JasperPrint informe = JasperFillManager.fillReport(rutaReporte,
 					parametros, conexion);
 
@@ -963,19 +904,13 @@ public class CalusrBeanlogeado implements Serializable {
 			stream.flush();
 			stream.close();
 			FacesContext.getCurrentInstance().responseComplete();
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Se imprimio correctamente.", null));
+			Mensaje.crearMensajeINFO("Se imprimió correctamente");
 			rutaReporte = "";
 			sala = null;
 			fi = null;
 			ff = null;
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"error al imprimir.", null));
+			Mensaje.crearMensajeWARN("Error al imprimir");
 			e.printStackTrace();
 		}
 	}
@@ -984,10 +919,7 @@ public class CalusrBeanlogeado implements Serializable {
 		fi = null;
 		ff = null;
 		sala = null;
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Impresión Cancelada", null));
+		Mensaje.crearMensajeINFO("Impresión cancelada");
 		return "calendario";
 	}
 
@@ -1005,9 +937,9 @@ public class CalusrBeanlogeado implements Serializable {
 		}
 		return l1;
 	}
-	
+
 	// editar imagen
-			public void verImagen(Evento eve) {
-				setImagen(eve.getImagen());
-			}
+	public void verImagen(Evento eve) {
+		setImagen(eve.getImagen());
+	}
 }

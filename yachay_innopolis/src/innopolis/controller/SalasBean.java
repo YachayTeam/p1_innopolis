@@ -24,10 +24,10 @@ import org.primefaces.model.UploadedFile;
 
 import innopolis.entidades.Colorrec;
 import innopolis.entidades.Colorsala;
-import innopolis.entidades.Evento;
 import innopolis.entidades.Sala;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.manager.ManagerReservas;
+import innopolis.model.generic.Mensaje;
 
 @ManagedBean
 @SessionScoped
@@ -237,40 +237,27 @@ public class SalasBean implements Serializable {
 	public String crearNuevoRecursoTipo() {
 		try {
 			if (isNumeric(capacidad)) {
-			manager.insertarSala(getTiponom().trim(), getDescripcion().trim(), getImagen(),
-					Integer.parseInt(getCapacidad()));
-			tiponom = "";
-			imagen = "300.jpg";
-			idcolor = 0;
-			capacidad = null;
-			descripcion = "";
-			g = "";
-			rd = 1;
-			color = new Colorrec();
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Sala creada correctamente", null));
+				manager.insertarSala(getTiponom().trim(), getDescripcion()
+						.trim(), getImagen(), Integer.parseInt(getCapacidad()));
+				tiponom = "";
+				imagen = "300.jpg";
+				idcolor = 0;
+				capacidad = null;
+				descripcion = "";
+				g = "";
+				rd = 1;
+				color = new Colorrec();
+				Mensaje.crearMensajeINFO("Sala creada correctamente");
 			} else {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"La cantidad debe ser numérica", null));
+				Mensaje.crearMensajeINFO("La cantidad debe ser numérica");
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al ingresar nueva sala", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
-
+			Mensaje.crearMensajeINFO("Error al ingresar nueva sala");
+			e.printStackTrace();
 		}
 		return "";
 	}
-	
+
 	public static boolean isNumeric(String str) {
 		return str.matches("[+-]?\\d*(\\.\\d+)?");
 	}
@@ -289,28 +276,19 @@ public class SalasBean implements Serializable {
 	public String modificarSala() {
 		try {
 			if (isNumeric(capacidad)) {
-			manager.editarSala(getIdRectipo(), getTiponom().trim(), getDescripcion().trim(),
-					getImagen(), getIdcolor(), Integer.parseInt(getCapacidad()));
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(
-					"Sala editada correctamente", null));
+				manager.editarSala(getIdRectipo(), getTiponom().trim(),
+						getDescripcion().trim(), getImagen(), getIdcolor(),
+						Integer.parseInt(getCapacidad()));
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(
+						"Sala editada correctamente", null));
 			} else {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"La cantidad debe ser numérica", null));
+				Mensaje.crearMensajeINFO("La cantidad debe ser numérica");
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al modificar la Sala", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
+			Mensaje.crearMensajeINFO("Error al modificar la Sala");
+			e.printStackTrace();
 		}
-
 		return "";
 	}
 
@@ -321,10 +299,7 @@ public class SalasBean implements Serializable {
 		setDescripcion("");
 		setImagen("300.jpg");
 		capacidad = null;
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Actualización cancelada", null));
+		Mensaje.crearMensajeINFO("Actualización cancelada");
 	}
 
 	// ////////////
@@ -361,14 +336,10 @@ public class SalasBean implements Serializable {
 		file = event.getFile();
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
-
 		if (file != null) {
 			try {
-				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-//				String carpetaImagenes = (String) servletContext
-//						.getRealPath(File.separatorChar + "imgevent");
 				String carpetaImagenes = "/opt/wildfly/standalone/img/img_regece/imgevent/";
 				setImagen(g);
 				System.out.println("PAD------> " + carpetaImagenes);
@@ -376,24 +347,14 @@ public class SalasBean implements Serializable {
 				outputStream = new FileOutputStream(new File(carpetaImagenes
 						+ File.separatorChar + getImagen()));
 				inputStream = file.getInputstream();
-
 				int read = 0;
 				byte[] bytes = new byte[1024];
-
 				while ((read = inputStream.read(bytes)) != -1) {
 					outputStream.write(bytes, 0, read);
 				}
-
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Correcto: Carga correcta", null));
-
+				Mensaje.crearMensajeINFO("Carga correcta");
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error: No se pudo subir la imagen", null));
+				Mensaje.crearMensajeWARN("No se pudo subir la imagen");
 				e.printStackTrace();
 			} finally {
 				if (inputStream != null) {
@@ -405,10 +366,7 @@ public class SalasBean implements Serializable {
 				}
 			}
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error: No se pudo seleccionar la imagen", null));
+			Mensaje.crearMensajeWARN("No se pudo seleccionar la imagen");
 		}
 	}
 
@@ -437,21 +395,16 @@ public class SalasBean implements Serializable {
 	// activar y desactivar
 	public String cambiarEstado(Sala r) {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("Información: "+manager.cambioDisSala(r
-							.getIdSala()),null));
-
+			String resultado = manager.cambioDisSala(r.getIdSala());
+			Mensaje.crearMensajeINFO(resultado);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
-	
-	// editar imagen
-			public void verImagen(Sala sala) {
-				setImagen(sala.getImagen());
-			}
 
+	// editar imagen
+	public void verImagen(Sala sala) {
+		setImagen(sala.getImagen());
+	}
 }

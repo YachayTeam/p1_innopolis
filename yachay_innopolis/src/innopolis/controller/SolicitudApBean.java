@@ -16,9 +16,9 @@ import java.util.Map;
 import innopolis.entidades.*;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.manager.ManagerBuscar;
-import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
+import innopolis.model.generic.Mensaje;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -43,8 +43,6 @@ import org.primefaces.model.ScheduleModel;
 public class SolicitudApBean {
 
 	private ManagerReservas manager;
-
-	private ManagerEvento mEvento;
 
 	@EJB
 	private ManagerBuscar mb;
@@ -123,7 +121,6 @@ public class SolicitudApBean {
 		capacidad_recurso = null;
 	}
 
-	// Metodos Get y Set
 	/**
 	 * @return the agregardetalle
 	 */
@@ -506,11 +503,7 @@ public class SolicitudApBean {
 				}
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR,
-									"Error", null));
+			Mensaje.crearMensajeWARN("Error");
 		}
 		return l1;
 	}
@@ -527,11 +520,7 @@ public class SolicitudApBean {
 				}
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR,
-									"Error", null));
+			Mensaje.crearMensajeWARN("Error");
 		}
 		return l1;
 	}
@@ -547,17 +536,6 @@ public class SolicitudApBean {
 		}
 		return listadoSI;
 	}
-
-	// public List<SelectItem> getlistaRecursos(){
-	// List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-	// List<Recurso> listadoRecurso= manager.findAllRecurso();
-	// for(Recurso p:listadoRecurso){
-	// SelectItem item=new SelectItem(p.getIdRecurso(),
-	// p.getNombre()+" - "+p.getCapacidad());
-	// listadoSI.add(item);
-	// }
-	// return listadoSI;
-	// }
 
 	// metodo para asignar el RecursoTipo al Recurso
 	public String asignarRecLibre() {
@@ -585,24 +563,15 @@ public class SolicitudApBean {
 	// Tomar el id de estado general id_estadoSolicitud
 	public String aprobarEstado(Solicicabecera solicitud) {
 		if (solicitud.getSoliciestado().getIdSolest() == 3) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"La solicitud se encuentra aprobada", null));
+			Mensaje.crearMensajeINFO("La solicitud se encuentra aprobada");
 		} else {
 			try {
 				manager.cambioSMS(solicitud.getIdSolcab());
 				Soliciestado estado = manager.findSolicitudEstadoByID(3);// APROBADO
 				manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Cambio correcto de estado", null));
+				Mensaje.crearMensajeINFO("Cambio correcto de estado");
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al cambiar el estado", null));
+				Mensaje.crearMensajeWARN("Error al cambiar el estado");
 			}
 		}
 		return "";
@@ -610,24 +579,15 @@ public class SolicitudApBean {
 
 	public String negarEstado(Solicicabecera solicitud) {
 		if (solicitud.getSoliciestado().getIdSolest() == 4) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"La solicitud se encuentra negada", null));
+			Mensaje.crearMensajeINFO("La solicitud se encuentra negada");
 		} else {
 			try {
 				manager.cambioSMS(solicitud.getIdSolcab());
 				Soliciestado estado = manager.findSolicitudEstadoByID(4);// NEGADO
 				manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Cambio correcto de estado", null));
+				Mensaje.crearMensajeINFO("Cambio correcto de estado");
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al cambiar el estado", null));
+				Mensaje.crearMensajeWARN("Error al cambiar el estado");
 			}
 		}
 		return "";
@@ -660,48 +620,24 @@ public class SolicitudApBean {
 		return "";
 	}
 
+	// Si el estado es pendiente o finalizado no se puede notificar
 	public String notificarSolicitud(Solicicabecera solicitud) {
-		// Si el estado es pendiente o finalizado no se puede notificar
 		if (estadoSol.getEstado().equals("finalizado")
 				|| estadoSol.getEstado().equals("pendiente")) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_WARN,
-									"La solicitud debe estar aprobada o negada para enviar una notificación",
-									null));
+			Mensaje.crearMensajeINFO("La solicitud debe estar aprobada o negada para enviar una notificación");
 		} else {
 			try {
 				if (notificacion.equals("notificada")) {
-					FacesContext
-							.getCurrentInstance()
-							.addMessage(
-									null,
-									new FacesMessage(
-											FacesMessage.SEVERITY_INFO,
-											"Se ha enviado al correo la notificación anteriormente",
-											null));
+					Mensaje.crearMensajeINFO("Se ha enviado al correo la notificación anteriormente");
 				} else {
 					manager.cambioSMSenvio(id_sol);
-					// Mail.sendMailsolousr(correo,
-					// "Peticion de Solicitud YACHAY/REGECE  ", sms);
-
 					mb.envioMailWS(correo,
 							"Peticion de Solicitud YACHAY/REGECE", sms);
-
 					manager.notificarSolicitud(id_sol);
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO,
-									"Notificación correcta", null));
+					Mensaje.crearMensajeINFO("Notificación correcta");
 				}
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al enviar notificación", null));
+				Mensaje.crearMensajeWARN("Error al enviar notificación");
 			}
 		}
 		return "";
@@ -733,9 +669,7 @@ public class SolicitudApBean {
 					fecha = solicitud.getFecha();
 					listDetalles = solicitud.getSolicidetalles();
 					estadoSol = solicitud.getSoliciestado();
-					// Cargar datos recurso
 					capacidad_recurso = null;
-					// Listas
 					list_mas = new ArrayList<Solicidetalle>();
 					agregardetalle = true;
 					list_menos = new ArrayList<Solicidetalle>();
@@ -768,9 +702,7 @@ public class SolicitudApBean {
 						fecha = solicitud.getFecha();
 						listDetalles = new ArrayList<Solicidetalle>();
 						estadoSol = solicitud.getSoliciestado();
-						// Cargar datos recurso
 						capacidad_recurso = null;
-						// Listas
 						list_mas = new ArrayList<Solicidetalle>();
 						agregardetalle = true;
 						list_menos = new ArrayList<Solicidetalle>();
@@ -796,52 +728,28 @@ public class SolicitudApBean {
 						fecha = solicitud.getFecha();
 						listDetalles = solicitud.getSolicidetalles();
 						estadoSol = solicitud.getSoliciestado();
-						// Cargar datos recurso
 						capacidad_recurso = null;
-						// Listas
 						list_mas = new ArrayList<Solicidetalle>();
 						agregardetalle = true;
 						list_menos = new ArrayList<Solicidetalle>();
 						select = new ArrayList<SelectItem>();
 						cargarRecursos();
-						// for(Evento evento : listEvento){
-						// if(evento.getSolicicabecera().getIdSolcab() == null){
-						// controlsicabecera = true;
-						// }else{
-						// controlsicabecera = false;
-						// }
-						// }
-						// select2 = new ArrayList<SelectItem>();
 						resp = "editsol?faces-redirect=true";
 					}
 				}
-
 			} else {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_WARN,
-										"Solicitud aprobada o negada, no se puede modificar",
-										null));
+				Mensaje.crearMensajeWARN("Solicitud aprobada o negada, no se puede modificar");
 			}
 
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Error al ver la solicitud", null));
+			Mensaje.crearMensajeWARN("Error al ver la solicitud");
 			e.printStackTrace();
 		}
 		return resp;
 	}
 
 	public String cambioEnvioSms() {
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Notificación Aceptada", null));
+		Mensaje.crearMensajeINFO("Notificación Aceptada");
 		return "";
 	}
 
@@ -849,25 +757,11 @@ public class SolicitudApBean {
 	public void agregarDetalle() {
 		try {
 			if (id_recurso == null || id_recurso == -1)
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Seleccione recurso adicional", null));
-			/*
-			 * else
-			 * if(capacidad_recurso==null||capacidad_recurso.intValue()<=0){
-			 * FacesContext.getCurrentInstance().addMessage(null, new
-			 * FacesMessage
-			 * (FacesMessage.SEVERITY_WARN,"Escriba la cantidad del recurso",
-			 * null)); }
-			 */
+				Mensaje.crearMensajeINFO("Seleccione recurso adicional");
 			else if (esRecursoAnadido(id_recurso, h_inicio, h_fin))
-				throw new Exception(
-						"El recurso se encuentra agregado dentro del horario");
-
+				Mensaje.crearMensajeINFO("El recurso se encuentra agregado dentro del horario");
 			else {
 				Recurso rec = manager.findRecursoByID(getId_recurso());
-				// if(getcapacidad_recurso()<=rec.getCapacidad()){
 				Solicidetalle det = new Solicidetalle();
 				det.setSolicicabecera(manager
 						.findSolicitudCabeceraById(getId_sol()));
@@ -882,31 +776,21 @@ public class SolicitudApBean {
 						det.getHoraInicio(), det.getHoraFin(), det.getRecurso()
 								.getIdRecurso(), det.getCapacidad());
 				listDetalles.add(det);
-				// list_mas.add(det);
 				capacidad_recurso = null;
 				select = new ArrayList<SelectItem>();
 				select2 = new ArrayList<SelectItem>();
 				cargarRecursos();
 				agregardetalle = true;
 				agregarcontrol = true;
-				// }else{
-				// FacesContext.getCurrentInstance().addMessage(null, new
-				// FacesMessage(FacesMessage.SEVERITY_WARN,"Verifique la cantidad del recurso",
-				// null));
-				// }
 			}
 
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"No se pudo agregar el recurso", null));
+			Mensaje.crearMensajeWARN("No se pudo agregar el recurso");
 			cargarRecursos();
 			capacidad_recurso = null;
 			agregardetalle = true;
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
-
 		}
 	}
 
@@ -914,14 +798,7 @@ public class SolicitudApBean {
 	public void controlarcantidad() {
 		try {
 			if (id_recurso == -1) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_INFO,
-										"Debe seleccionar el recurso a solicitar",
-										null));
+				Mensaje.crearMensajeINFO("Debe seleccionar el recurso a solicitar");
 				agregardetalle = false;
 			} else {
 				if (capacidad_recurso == null) {
@@ -933,20 +810,11 @@ public class SolicitudApBean {
 				} else if (manager.controlarcantidadmanager(getId_recurso(),
 						getcapacidad_recurso(), h_fin, h_inicio) == false) {
 					agregardetalle = false;
-					FacesContext
-							.getCurrentInstance()
-							.addMessage(
-									null,
-									new FacesMessage(
-											FacesMessage.SEVERITY_INFO,
-											"Error debe especificar el recurso o "
-													+ "La cantidad es mayor a la del recurso solicitado",
-											null));
+					Mensaje.crearMensajeINFO("Error debe especificar el recurso o la cantidad es mayor a la del recurso solicitado");
 				}
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			e.printStackTrace();
 		}
 	}
 
@@ -971,18 +839,8 @@ public class SolicitudApBean {
 	public void agregarDetalleubicacion() {
 		try {
 			if (id_recursotipo == null || id_recursotipo == -1) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Seleccione la ubicación", null));
-			}/*
-			 * else
-			 * if(capacidad_recurso==null||capacidad_recurso.intValue()<=0){
-			 * FacesContext.getCurrentInstance().addMessage(null, new
-			 * FacesMessage
-			 * (FacesMessage.SEVERITY_WARN,"Escriba la cantidad del recurso",
-			 * null)); }
-			 */else {
+				Mensaje.crearMensajeWARN("Seleccione la ubicación");
+			}else {
 				List<Recurso> listadoRecurso = manager
 						.findAllRecursosDisponibles(h_inicio, h_fin,
 								horainicio, horafin);
@@ -1010,10 +868,8 @@ public class SolicitudApBean {
 				}
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"No se pudo agregar el recurso", null));
+			Mensaje.crearMensajeWARN("No se pudo agregar el recurso");
+			e.printStackTrace();
 			capacidad_recurso = null;
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
@@ -1029,21 +885,13 @@ public class SolicitudApBean {
 				manager.eliminarRecursoActivos(recursosactivo.getIdRecact());
 			}
 			manager.eliminarSoliciDetalleByID(detalle.getIdSoldet());
-			// listDetalles =
-			// manager.findAllSolicituddetalleBycabeceraId(detalle.getIdSoldet());
 			listDetalles.remove(detalle);
-			// list_menos.add(detalle);
 			cargarRecursos();
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Se eliminó el recurso", null));
+			Mensaje.crearMensajeINFO("Se eliminó el recurso");
 			agregarcontrol = true;
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"No se pudo quitar el recurso", null));
+			Mensaje.crearMensajeINFO("No se pudo quitar el recurso");
+			e.printStackTrace();
 		}
 	}
 
@@ -1052,9 +900,6 @@ public class SolicitudApBean {
 		String resp = "";
 		try {
 			if (!listDetalles.isEmpty()) {
-				// manager.editarDetallesSolicitud(id_sol, list_mas,
-				// list_menos);
-				// manager.aprobarSolicitudMOD(id_sol);
 				id_sol = null;
 				descripcionubicacion = "Descripción de Recurso";
 				direccion = "";
@@ -1070,17 +915,11 @@ public class SolicitudApBean {
 				estadoSol = null;
 				select = new ArrayList<SelectItem>();
 				select2 = new ArrayList<SelectItem>();
-				// Cargar datos recurso
-
 				capacidad_recurso = null;
-				// Listas
 				list_mas = new ArrayList<Solicidetalle>();
 				agregarcontrol = false;
-				resp = "solicitudes?faces-redirect=true";// FALTA DONDE VA XHTML
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Edición correcta", null));
+				resp = "solicitudes?faces-redirect=true";
+				Mensaje.crearMensajeINFO("Edición correcta");
 			} else {
 				FacesContext
 						.getCurrentInstance()

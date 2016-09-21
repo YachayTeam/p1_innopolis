@@ -75,7 +75,9 @@ public class ManagerCarga {
 				.consultaSQL("select s.id_salact as id_salact, s.id_evento as id_evento, s.hora_inicio as hora_inicio, "
 						+ "s.hora_fin as hora_fin, s.id_sala as id_sala from salasactivas s "
 						+ "where (( s.hora_inicio >= '"+hora_inicio+"' and s.hora_inicio <= '"+hora_fin+"' ) "
-						+ " or (( s.hora_fin >= '"+hora_inicio+"' and s.hora_fin <= '"+hora_fin+"' ) or s.hora_fin >= '"+hora_fin+"' ))");
+						+ " or (( s.hora_fin >= '"+hora_inicio+"' and s.hora_fin <= '"+hora_fin+"' ) "
+						+ " or (( s.hora_fin >= '"+hora_inicio+"' and s.hora_inicio <= '"+hora_fin+"' ) "
+						+ " and s.hora_fin >= '"+hora_fin+"' )))");
 		if (consulta != null) {
 			while (consulta.next()) {
 				f = new DatosSalas();
