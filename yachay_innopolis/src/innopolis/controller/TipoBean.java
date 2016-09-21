@@ -5,6 +5,7 @@ import innopolis.entidades.Inter;
 import innopolis.entidades.Tipo;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.manager.ManagerLogin;
+import innopolis.model.generic.Mensaje;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class TipoBean implements Serializable {
 	}
 
 	public Integer getAdd() {
+		Mensaje.crearMensajeINFO("Se agrego a la lista");
 		return add;
 	}
 
@@ -97,6 +99,7 @@ public class TipoBean implements Serializable {
 	}
 
 	public Integer getDel() {
+		Mensaje.crearMensajeINFO("Se ha eliminado");
 		return del;
 	}
 
@@ -151,13 +154,9 @@ public class TipoBean implements Serializable {
 			manager.insertarTipo(tipo, descripcion, arrayTipoLogin);
 			tipo = "";
 			descripcion = "";
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(
-					"Registrado..!!! Tipo creado", null));
+			Mensaje.crearMensajeINFO("Registrado..!!! Tipo creado");
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(
-					"Error..!!! Tipo no pudo ser creado", null));
+			Mensaje.crearMensajeWARN("Error..!!! Tipo no pudo ser creado");
 			e.printStackTrace();
 		}
 		return "tipo";
@@ -180,17 +179,13 @@ public class TipoBean implements Serializable {
 			manager.editarTipo(idTipo, tipo, descripcion);
 			tipo = "";
 			descripcion = "";
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Realizado..!!! Tipo modificado",null));
+			Mensaje.crearMensajeINFO("Realizado..!!! Tipo modificado");
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!! Tipo no pudo ser modificado",null));
+			Mensaje.crearMensajeWARN("Error..!!! Tipo no pudo ser modificado");
 			e.printStackTrace();
 		}
 		return "tipo";
 	}
-
-	// metodos utilizados en el actualizar las Actividades
 
 	// metodos de asignacion y cambios de tipos
 	public List<Actividad> deocupados() {
@@ -294,10 +289,7 @@ public class TipoBean implements Serializable {
 		// limpiamos los datos
 		tipo = "";
 		descripcion = "";
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Actualización cancelada", null));
+		Mensaje.crearMensajeINFO("Actualización cancelada");
 		return "tipo";
 	}
 

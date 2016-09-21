@@ -183,14 +183,13 @@ public class ManagerLogin implements Serializable {
 	 */
 
 	// editar los usuarios
-	public void editarusuario(Integer id_usr, String cedula, String nombre,
-			String password, String apellido, String alias, String correo, String direccion, String telefono,String celular,
-			String interes, String empresestu, String cargotitulo,
+	public void editarusuario(Integer id_usr, String cedula, String nombre, String apellido, 
+			String password,String correo, String direccion, String telefono,String celular,
+			String empresestu, String cargotitulo,
 			boolean principal, Integer tipo /* , Integer[] listTipo */)
 			throws Exception {
 		Usuario usr = this.UsuarioByID(id_usr);
 		usr.setCedula(cedula);
-		usr.setAlias(alias);
 		usr.setApellido(apellido);
 		usr.setCorreo(correo);
 		usr.setDireccion(direccion);
@@ -200,7 +199,6 @@ public class ManagerLogin implements Serializable {
 		usr.setPassword(password);
 		t = findtipoxid(tipo);
 		usr.setTipo(t);
-		usr.setInteres(interes);
 		usr.setEmpresestdu(empresestu);
 		usr.setCargotitulo(cargotitulo);
 		usr.setPrincipal(principal);
@@ -463,7 +461,7 @@ public class ManagerLogin implements Serializable {
 	}
 
 	// desactivar y activar estado
-	public String cambioDisEstadousr(Integer id) throws Exception {
+	public void cambioDisEstadousr(Integer id) throws Exception {
 		List<Tipoestadousr> lista = findAllTipoEstadousr();
 
 		String h = "";
@@ -479,23 +477,19 @@ public class ManagerLogin implements Serializable {
 			tipestusr.setIdTipoestadousr(2);
 			tipestusr.setNombreestado("Activado");
 			usr.setTipoestadousr(tipestusr);
-			h = "Estado del Registro Modificado";
 		} else if (usr.getTipoestadousr().getNombreestado().equals("Activado")) {
 			tipestusr.setIdTipoestadousr(3);
 			tipestusr.setNombreestado("Desactivado");
 			usr.setTipoestadousr(tipestusr);
 			usr.setSms("No Notificado");
-			h = "Estado del Registro Modificado";
 		} else if (usr.getTipoestadousr().getNombreestado()
 				.equals("Desactivado")) {
 			tipestusr.setIdTipoestadousr(2);
 			tipestusr.setNombreestado("Activado");
 			usr.setTipoestadousr(tipestusr);
 			usr.setSms("No Notificado");
-			h = "Estado del Registro Modificado";
 		}
 		mDAO.actualizar(usr);
-		return h;
 	}
 
 	/**

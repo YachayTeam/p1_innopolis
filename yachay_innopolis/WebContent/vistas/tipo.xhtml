@@ -93,16 +93,16 @@
 							listener="#{tipoBean.asignarActil()}">
 						</p:ajax>
 					</p:selectOneMenu> 
-					<p:commandButton  update=":form2:sml :form2:smo" id="trackcambiomen" icon="ui-icon-minus" action="#{tipoBean.del}">
+					<p:commandButton  update=":form2:sml :form2:smo message2" id="trackcambiomen" icon="ui-icon-minus" action="#{tipoBean.del}">
 					<p:tooltip id="toolTipTrack3" for="trackcambiomen" value="Bot&oacute;n para eliminar un tipo" trackMouse="true" />
 			</p:commandButton>    
-		<p:commandButton  update=":form2:sml :form2:smo" id="trackmas" icon="ui-icon-plus" action="#{tipoBean.add}">
+		<p:commandButton  update=":form2:sml :form2:smo message2" id="trackmas" icon="ui-icon-plus" action="#{tipoBean.add}">
 		<p:tooltip id="toolTipTrack5" for="trackmas" value="Bot&oacute;n para agregar un tipo" trackMouse="true" />
 			</p:commandButton>
 			 
 			<p:commandButton id="trackedi" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-disk" action="#{tipoBean.actualizarTipo}">
 			</p:commandButton>
-			<p:commandButton id="trackvol" value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2"  action="#{tipoBean.irTipo2}">
+			<p:commandButton id="trackvol" value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form2:panel2 message2"  action="#{tipoBean.irTipo2}">
 			</p:commandButton>
 		</p:panelGrid>
 </p:dialog>			

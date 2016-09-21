@@ -16,6 +16,7 @@ import java.util.Map;
 import innopolis.entidades.*;
 import innopolis.entidades.help.UsuarioHelp;
 import innopolis.manager.ManagerBuscar;
+import innopolis.manager.ManagerEvento;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
 
@@ -40,7 +41,10 @@ import org.primefaces.model.ScheduleModel;
 @SessionScoped
 @ManagedBean
 public class SolicitudApBean {
+
 	private ManagerReservas manager;
+
+	private ManagerEvento mEvento;
 
 	@EJB
 	private ManagerBuscar mb;
@@ -89,6 +93,7 @@ public class SolicitudApBean {
 
 	private boolean agregardetalle;
 	private boolean agregarcontrol;
+	private boolean controlsicabecera;
 
 	// sacar la descripcion del tipo de ubicacion
 	private boolean mostrar;
@@ -109,7 +114,8 @@ public class SolicitudApBean {
 		select2 = new ArrayList<SelectItem>();
 		mostrar = false;
 		agregardetalle = true;
-		agregarcontrol=false;
+		controlsicabecera = false;
+		agregarcontrol = false;
 		descripcionubicacion = "Descripción del Recurso";
 		stock = "stock";
 		contador = 0;
@@ -152,7 +158,7 @@ public class SolicitudApBean {
 	public void setFechaFin(Timestamp fechaFin) {
 		this.fechaFin = fechaFin;
 	}
-	
+
 	public Date getFi() {
 		return fi;
 	}
@@ -476,6 +482,14 @@ public class SolicitudApBean {
 		this.stock = stock;
 	}
 
+	public boolean isControlsicabecera() {
+		return controlsicabecera;
+	}
+
+	public void setControlsicabecera(boolean controlsicabecera) {
+		this.controlsicabecera = controlsicabecera;
+	}
+
 	/* SESSION */
 	public UsuarioHelp getSession() {
 		return session;
@@ -699,14 +713,16 @@ public class SolicitudApBean {
 		try {
 			if (solicitud.getSoliciestado().getEstado().equals("pendiente")) {
 				id_sol = solicitud.getIdSolcab();
-				List<Solicidetalle> listDetalles1 = manager.findSolicitudDetalleByCabeceraId(id_sol); 
-				if(!listDetalles1.isEmpty())
-				{
-				for(Solicidetalle sol: listDetalles1){
-					fi = sol.getHoraInicio();
-					ff = sol.getHoraFin();
-					break;
-				}
+				List<Evento> listEvento = manager
+						.findEventoByCabeceraId(id_sol);
+				List<Solicidetalle> listDetalles1 = manager
+						.findSolicitudDetalleByCabeceraId(id_sol);
+				if (!listDetalles1.isEmpty()) {
+					for (Solicidetalle sol : listDetalles1) {
+						fi = sol.getHoraInicio();
+						ff = sol.getHoraFin();
+						break;
+					}
 					fechaInicio = new Timestamp(fi.getTime());
 					fechaFin = new Timestamp(ff.getTime());
 					direccion = solicitud.getDireccion();
@@ -725,16 +741,20 @@ public class SolicitudApBean {
 					list_menos = new ArrayList<Solicidetalle>();
 					select = new ArrayList<SelectItem>();
 					cargarRecursos();
-				// select2 = new ArrayList<SelectItem>();
-				resp = "editsol?faces-redirect=true";
-				}else{
-					for(Solicidetalle sol: listDetalles1){
+					if (listEvento.isEmpty()) {
+						controlsicabecera = false;
+					} else {
+						controlsicabecera = true;
+					}
+					resp = "editsol?faces-redirect=true";
+				} else {
+					for (Solicidetalle sol : listDetalles1) {
 						fi = sol.getHoraInicio();
 						ff = sol.getHoraFin();
 						break;
 					}
-					if(fi==null || ff==null)
-					{
+					if (fi == null || ff == null) {
+						controlsicabecera = false;
 						Date d = new Date();
 						fi = new Timestamp(d.getTime());
 						ff = new Timestamp(d.getTime());
@@ -756,9 +776,16 @@ public class SolicitudApBean {
 						list_menos = new ArrayList<Solicidetalle>();
 						select = new ArrayList<SelectItem>();
 						cargarRecursos();
-						// select2 = new ArrayList<SelectItem>();
+						for (Evento evento : listEvento) {
+							if (evento.getSolicicabecera().getIdSolcab() == null) {
+								controlsicabecera = true;
+							} else {
+								controlsicabecera = false;
+							}
+						}
 						resp = "editsol?faces-redirect=true";
-					}else{
+					} else {
+						controlsicabecera = true;
 						fechaInicio = new Timestamp(fi.getTime());
 						fechaFin = new Timestamp(ff.getTime());
 						direccion = solicitud.getDireccion();
@@ -777,11 +804,18 @@ public class SolicitudApBean {
 						list_menos = new ArrayList<Solicidetalle>();
 						select = new ArrayList<SelectItem>();
 						cargarRecursos();
+						// for(Evento evento : listEvento){
+						// if(evento.getSolicicabecera().getIdSolcab() == null){
+						// controlsicabecera = true;
+						// }else{
+						// controlsicabecera = false;
+						// }
+						// }
 						// select2 = new ArrayList<SelectItem>();
 						resp = "editsol?faces-redirect=true";
 					}
 				}
-				
+
 			} else {
 				FacesContext
 						.getCurrentInstance()
@@ -798,6 +832,7 @@ public class SolicitudApBean {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Error al ver la solicitud", null));
+			e.printStackTrace();
 		}
 		return resp;
 	}
@@ -830,7 +865,7 @@ public class SolicitudApBean {
 				throw new Exception(
 						"El recurso se encuentra agregado dentro del horario");
 
-			else { 
+			else {
 				Recurso rec = manager.findRecursoByID(getId_recurso());
 				// if(getcapacidad_recurso()<=rec.getCapacidad()){
 				Solicidetalle det = new Solicidetalle();
@@ -842,9 +877,12 @@ public class SolicitudApBean {
 				det.setHoraFin(h_fin);
 				det.setRecurso(rec);
 				manager.insertarSoliciDatalle(det);
-				manager.insertarRecursoSolicitado(manager.findSolicitudCabeceraById(getId_sol()).getIdSolcab(), det.getHoraInicio(), det.getHoraFin(), det.getRecurso().getIdRecurso(),det.getCapacidad());
+				manager.insertarRecursoSolicitado(manager
+						.findSolicitudCabeceraById(getId_sol()).getIdSolcab(),
+						det.getHoraInicio(), det.getHoraFin(), det.getRecurso()
+								.getIdRecurso(), det.getCapacidad());
 				listDetalles.add(det);
-				//list_mas.add(det);
+				// list_mas.add(det);
 				capacidad_recurso = null;
 				select = new ArrayList<SelectItem>();
 				select2 = new ArrayList<SelectItem>();
@@ -984,20 +1022,23 @@ public class SolicitudApBean {
 
 	public void quitarDetalle(Solicidetalle detalle) {
 		try {
-			List<Recursosactivo> listrecact = manager.findRecursosactivoByRecursoId(detalle.getSolicicabecera().getIdSolcab(), detalle.getRecurso().getIdRecurso());
-			for(Recursosactivo recursosactivo : listrecact){
-					manager.eliminarRecursoActivos(recursosactivo.getIdRecact());
+			List<Recursosactivo> listrecact = manager
+					.findRecursosactivoByRecursoId(detalle.getSolicicabecera()
+							.getIdSolcab(), detalle.getRecurso().getIdRecurso());
+			for (Recursosactivo recursosactivo : listrecact) {
+				manager.eliminarRecursoActivos(recursosactivo.getIdRecact());
 			}
 			manager.eliminarSoliciDetalleByID(detalle.getIdSoldet());
-			//listDetalles = manager.findAllSolicituddetalleBycabeceraId(detalle.getIdSoldet());
+			// listDetalles =
+			// manager.findAllSolicituddetalleBycabeceraId(detalle.getIdSoldet());
 			listDetalles.remove(detalle);
-			//list_menos.add(detalle);
+			// list_menos.add(detalle);
 			cargarRecursos();
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Se eliminó el recurso", null));
-			agregarcontrol=true;
+			agregarcontrol = true;
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -1010,40 +1051,45 @@ public class SolicitudApBean {
 	public String finalizarSolicitudED() {
 		String resp = "";
 		try {
-			if(!listDetalles.isEmpty()){
-			//manager.editarDetallesSolicitud(id_sol, list_mas, list_menos);
-			// manager.aprobarSolicitudMOD(id_sol);
-			id_sol = null;
-			descripcionubicacion = "Descripción de Recurso";
-			direccion = "";
-			stock = "stock";
-			actividad = "";
-			objetivo = "";
-			justificacion = "";
-			fechaFin=null;
-			fechaInicio=null;
-			notificacion = "";
-			fecha = null;
-			listDetalles = new ArrayList<Solicidetalle>();
-			estadoSol = null;
-			select = new ArrayList<SelectItem>();
-			select2 = new ArrayList<SelectItem>();
-			// Cargar datos recurso
+			if (!listDetalles.isEmpty()) {
+				// manager.editarDetallesSolicitud(id_sol, list_mas,
+				// list_menos);
+				// manager.aprobarSolicitudMOD(id_sol);
+				id_sol = null;
+				descripcionubicacion = "Descripción de Recurso";
+				direccion = "";
+				stock = "stock";
+				actividad = "";
+				objetivo = "";
+				justificacion = "";
+				fechaFin = null;
+				fechaInicio = null;
+				notificacion = "";
+				fecha = null;
+				listDetalles = new ArrayList<Solicidetalle>();
+				estadoSol = null;
+				select = new ArrayList<SelectItem>();
+				select2 = new ArrayList<SelectItem>();
+				// Cargar datos recurso
 
-			capacidad_recurso = null;
-			// Listas
-			list_mas = new ArrayList<Solicidetalle>();
-			agregarcontrol=false;
-			resp = "solicitudes?faces-redirect=true";// FALTA DONDE VA XHTML
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Edición correcta", null));
-			}else{
+				capacidad_recurso = null;
+				// Listas
+				list_mas = new ArrayList<Solicidetalle>();
+				agregarcontrol = false;
+				resp = "solicitudes?faces-redirect=true";// FALTA DONDE VA XHTML
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"La solicitud debe contener por lo menos un recurso", null));
+								"Edición correcta", null));
+			} else {
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_INFO,
+										"La solicitud debe contener por lo menos un recurso",
+										null));
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -1055,29 +1101,30 @@ public class SolicitudApBean {
 	}
 
 	public String cancelarSolicitudED() {
-		String r="";
-		if(agregarcontrol==false){
-		id_sol = null;
-		direccion = "";
-		stock = "stock";
-		actividad = "";
-		objetivo = "";
-		justificacion = "";
-		fechaFin=null;
-		fechaInicio=null;
-		notificacion = "";
-		fecha = null;
-		listDetalles = new ArrayList<Solicidetalle>();
-		estadoSol = null;
-		select = new ArrayList<SelectItem>();
-		select2 = new ArrayList<SelectItem>();
-		// Cargar datos recurso
+		String r = "";
+		if (agregarcontrol == false) {
+			id_sol = null;
+			direccion = "";
+			stock = "stock";
+			actividad = "";
+			objetivo = "";
+			justificacion = "";
+			fechaFin = null;
+			fechaInicio = null;
+			notificacion = "";
+			fecha = null;
+			listDetalles = new ArrayList<Solicidetalle>();
+			estadoSol = null;
+			select = new ArrayList<SelectItem>();
+			select2 = new ArrayList<SelectItem>();
+			controlsicabecera = false;
+			// Cargar datos recurso
 
-		capacidad_recurso = null;
-		// Listas
-		list_mas = new ArrayList<Solicidetalle>();
-		r = "solicitudes?faces-redirect=true";
-		}else{
+			capacidad_recurso = null;
+			// Listas
+			list_mas = new ArrayList<Solicidetalle>();
+			r = "solicitudes?faces-redirect=true";
+		} else {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -1110,8 +1157,8 @@ public class SolicitudApBean {
 		justificacion = "";
 		notificacion = "";
 		fecha = null;
-		fechaFin=null;
-		fechaInicio=null;
+		fechaFin = null;
+		fechaInicio = null;
 		listDetalles = new ArrayList<Solicidetalle>();
 		estadoSol = null;
 		// Cargar datos recurso
@@ -1164,16 +1211,17 @@ public class SolicitudApBean {
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
 								"Verifique su horario de solicitud", null));
-//			} else if ((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion
-//					.horaMayorIgual(getHorafin()))) {
-//				FacesContext
-//						.getCurrentInstance()
-//						.addMessage(
-//								null,
-//								new FacesMessage(
-//										FacesMessage.SEVERITY_WARN,
-//										"La hora de solicitud no debe ser menor a la actual",
-//										null));
+				// } else if ((!Validacion.horaMayorIgual(getHorainicio()) ||
+				// !Validacion
+				// .horaMayorIgual(getHorafin()))) {
+				// FacesContext
+				// .getCurrentInstance()
+				// .addMessage(
+				// null,
+				// new FacesMessage(
+				// FacesMessage.SEVERITY_WARN,
+				// "La hora de solicitud no debe ser menor a la actual",
+				// null));
 			} else {
 				select = this.getlistaRecursosLibres();
 				// select2 = this.getlistaTipoRecursosLibres();

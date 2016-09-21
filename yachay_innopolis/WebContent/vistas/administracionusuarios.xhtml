@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" 
-	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
@@ -10,7 +9,6 @@
 	<h:outputStylesheet library="css" name="styleser.css" />
 	<link rel="shortcut icon" type="image/x-icon"
 		href="../resources/img/favicon.ico" />
-
 	<title>Gesti&oacute;n de Usuarios</title>
 </h:head>
 <h:body>
@@ -34,12 +32,9 @@
 		</p:menubar>
 	</h:form>
 	<hr />
-	<div class="div4">
-		<!--  h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
-	</div>
 	<div class="div3">
+		<p:growl id="message" showDetail="false" />
 		<h:form id="form3">
-			<p:growl id="message3" showDetail="false" />
 			<p:panel id="panel3" header="Ingreso de Usuarios">
 				<p:panelGrid columns="4">
 					<h:outputLabel value="C&eacute;dula/Pasaporte/RUC*: " for="cedula" />
@@ -151,7 +146,7 @@
 					</p:selectCheckboxMenu>
 					<p:commandButton id="trackregistrar" value="Registrar"
 						action="#{usuariosBean.crearUsuario}"
-						update=":form3:panel3 :form2 :form3:message3">
+						update=":form3:panel3 :form2 :message">
 						<p:tooltip id="toolTipTrac1" for="trackregistrar"
 							value="Bot&oacute;n para registrar usuario al sistema"
 							trackMouse="true" />
@@ -159,13 +154,10 @@
 				</p:panelGrid>
 			</p:panel>
 		</h:form>
-	</div>
-	<div class="div2">
 		<h:form id="form2">
-			<p:growl id="message2" showDetail="false" />
 			<p:panel id="panel2" header="Lista de Registrados">
-				<p:dataTable id="dt" value="#{usuariosBean.listRegServi}" rows="8"
-					var="reg" reflow="true"
+				<p:dataTable id="dt" value="#{usuariosBean.listRegServi}" rows="20"
+					var="reg" 
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
 					paginator="true" emptyMessage="No hay información almacenada">
 					<f:facet name="{exp}">
@@ -182,8 +174,8 @@
 								fileName="usuarios_registrados" pageOnly="true" />
 						</h:commandLink>
 					</f:facet>
-					<p:column id="f1" filterBy="#{reg.cedula}" sortBy="#{reg.cedula}" width="130"
-						headerText="C&eacute;dula/Pasaporte/RUC">
+					<p:column id="f1" filterBy="#{reg.cedula}" sortBy="#{reg.cedula}"
+						width="130" headerText="C&eacute;dula/Pasaporte/RUC">
 						<h:outputLabel value="#{reg.cedula}"></h:outputLabel>
 					</p:column>
 					<p:column id="f2" filterBy="#{reg.apellido}"
@@ -197,21 +189,11 @@
 					<p:column headerText="Correo" sortBy="#{reg.correo}">
 						<h:outputLabel value="#{reg.correo}"></h:outputLabel>
 					</p:column>
-					<!--p:column id="f9" headerText="Intereses">
-        			<p:dataList value="#{usuariosBean.interes(reg)}" var="interes" emptyMessage="Ningun permiso registrado">
-            			#{interes}
-        			</p:dataList>
-			</p:column-->
-					<p:column id="f4" filterBy="#{reg.tipoestadousr.nombreestado}" width="110"
-						sortBy="#{reg.tipoestadousr.nombreestado}" headerText="Estado">
+					<p:column id="f4" filterBy="#{reg.tipoestadousr.nombreestado}"
+						width="110" sortBy="#{reg.tipoestadousr.nombreestado}"
+						headerText="Estado">
 						<h:outputLabel value="#{reg.tipoestadousr.nombreestado}"></h:outputLabel>
 					</p:column>
-					<!--p:column id="f7" filterBy="#{reg.empresestdu}" sortBy="#{reg.empresestdu}" headerText="Empresa/Institución">
-			<h:outputLabel value="#{reg.empresestdu}"></h:outputLabel>
-			</p:column -->
-					<!--p:column id="f8" filterBy="#{reg.cargotitulo}" sortBy="#{reg.cargotitulo}" headerText="Cargo/Ttulo">
-			<h:outputLabel value="#{reg.cargotitulo}"></h:outputLabel>
-			</p:column -->
 					<p:column id="f6" filterBy="#{reg.sms}" width="110"
 						headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
 						<h:outputLabel value="#{reg.sms}"></h:outputLabel>
@@ -227,11 +209,11 @@
 								value="Bot&oacute;n para modificar la informaci&oacute;n del registro"
 								trackMouse="true" />
 							<p:ajax listener="#{usuariosBean.cargarUsuario(reg)}"
-								update=":form2 :form2:message2" oncomplete="PF('dlg1').show();" />
+								update=":form2 :message" oncomplete="PF('dlg1').show();" />
 						</p:commandButton>
 						<p:commandButton id="trackcambio" icon="ui-icon-refresh"
 							actionListener="#{usuariosBean.cambiarEstado(reg)}"
-							update=":form2 :form2:message2">
+							update=":form2 :message">
 							<p:tooltip id="toolTipTrack3" for="trackcambio"
 								value="Bot&oacute;n para cambiar el estado del usuario"
 								trackMouse="true" />
@@ -241,7 +223,7 @@
 								value="Cambiar contenido de la notificaci&oacute;n por defecto"
 								trackMouse="true" />
 							<p:ajax listener="#{usuariosBean.asignarsms(reg)}"
-								update=":form2 :form2:message2" oncomplete="PF('dlg2').show();" />
+								update=":form2 :message" oncomplete="PF('dlg2').show();" />
 						</p:commandButton>
 
 					</p:column>
@@ -295,7 +277,7 @@
 							emptyMessage="Ningun permiso registrado">
             			#{interes}
         				</p:dataList>
-        				<h:outputLabel value="Estado: " />
+						<h:outputLabel value="Estado: " />
 						<h:outputLabel value="#{usuariosBean.tipoest}"></h:outputLabel>
 						<h:outputLabel value="Estado Mensaje: " />
 						<h:outputLabel value="#{usuariosBean.sms}"></h:outputLabel>
@@ -304,9 +286,8 @@
 							size="10" escape="false" />
 						<p:selectBooleanCheckbox value="#{usuariosBean.principal}">
 						</p:selectBooleanCheckbox>
-						<p:commandButton id="trackact" update="message2"
-							value="Actualizar" icon="ui-icon-disk"
-							action="#{usuariosBean.actualizarUsuario}"
+						<p:commandButton id="trackact" update="message" value="Actualizar"
+							icon="ui-icon-disk" action="#{usuariosBean.actualizarUsuario}"
 							onclick="PF('dlg1').close();">
 							<p:tooltip id="toolTipTrack6" for="trackact"
 								value="Bot&oacute;n para actualizar al usuario registrado"
@@ -314,8 +295,7 @@
 						</p:commandButton>
 						<p:commandButton id="trackcsal" value="Volver"
 							icon="ui-icon-close" onclick="PF('dlg1').close();"
-							update=":form2 :form2:message2"
-							action="#{usuariosBean.irAprovador}">
+							update=":message" action="#{usuariosBean.irAprovador}">
 							<p:tooltip id="toolTipTrack7" for="trackcsal"
 								value="Bot&oacute;n para cancelar la edici&oacute;n del registro"
 								trackMouse="true" />
@@ -331,7 +311,7 @@
 						<h:outputLabel value="Mensaje a Enviar: " />
 						<p:inputTextarea value="#{usuariosBean.smscor}" rows="10"
 							cols="50" autoResize="false"></p:inputTextarea>
-						<p:commandButton id="trackedi" update=":form2 :form2:message2"
+						<p:commandButton id="trackedi" update=":form2 :message"
 							onclick="PF('dlgLoad').show();"
 							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
 							icon="ui-icon-comment" value="Aceptar"
@@ -339,8 +319,7 @@
 						</p:commandButton>
 						<p:commandButton id="trackcerrlg" value="Cancelar"
 							icon="ui-icon-close" onclick="PF('dlg2').close();"
-							update=":form2 :form2:message2"
-							action="#{usuariosBean.irAprovador1}">
+							update=":form2 :message" action="#{usuariosBean.irAprovador1}">
 						</p:commandButton>
 					</p:panelGrid>
 				</p:dialog>

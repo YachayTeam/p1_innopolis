@@ -103,7 +103,6 @@
 									requiredMessage="Requerido capacidad">
 								</p:inputText>
 								<h:outputText value="" />
-
 								<h:outputText value="Descripción:" />
 								<b:inputTextarea required="true" id="cantid" rows="3"
 									value="#{eventosBean.descripcion}"
@@ -136,8 +135,6 @@
 									update=":form1:panel1 :form2:panel2 message1"
 									value="Guardar Evento"
 									action="#{eventosBean.irSolicitudnuevoeveadmin()}">
-									<p:tooltip id="toolTipTrac1" for="trackregistrar"
-										value="Bot&oacute;n para Registrar Eventos" trackMouse="true" />
 								</p:commandButton>
 							</p:panelGrid>
 						</div>
@@ -175,9 +172,6 @@
 						width="120" headerText="Nombres de Eventos">
 						<h:outputText value="#{reg.nombre}"></h:outputText>
 					</p:column>
-					<!--p:column id="f2" filterBy="#{reg.lugar}" sortBy="#{reg.lugar}" headerText="Direcci&oacute;n">
-				<h:outputText value="#{reg.lugar}"></h:outputText>
-			</p:column -->
 					<p:column headerText="Costo" width="50" sortBy="#{reg.costo}">
 						<h:outputText value="#{reg.costo}"></h:outputText>
 					</p:column>
@@ -237,7 +231,8 @@
 							action="#{eventosBean.irSolicitud1admin(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrac10" for="tracksolicitar"
-								value="Bot&oacute;n para solicitar/editar un recurso" trackMouse="true" />
+								value="Bot&oacute;n para solicitar/editar un recurso"
+								trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackapro" icon="ui-icon-circle-check"
 							action="#{eventosBean.aprobarevento(reg)}"
@@ -252,7 +247,7 @@
 								value="Bot&oacute;n para desactivar el evento" trackMouse="true" />
 						</p:commandButton>
 					</p:column>
-					<p:column headerText="Edici&oacute;n/Env&iacute;o Mensaje"
+					<p:column headerText="Envío" width="50"
 						exportable="false">
 						<p:commandButton id="trackcance" icon="ui-icon-mail-closed">
 							<p:tooltip id="toolTipTrack13" for="trackcance"
@@ -288,11 +283,25 @@
 						<h:outputText value="Fecha Inicio:" />
 						<p:calendar required="false" mindate="#{eventosBean.date}"
 							requiredMessage="Requerido Fecha" id="fechai"
-							value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true" />
+							value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true">
+							<p:ajax event="dateSelect" listener="#{eventosBean.todaslasalas}"
+								update="panel4"></p:ajax>
+						</p:calendar>
 						<h:outputText value="Fecha Fin:" />
 						<p:calendar required="false" mindate="#{eventosBean.date}"
 							requiredMessage="Requerido Fecha" id="fechaf"
-							value="#{eventosBean.ff}" pattern="yyyy/MM/dd HH:mm" mask="true" />
+							value="#{eventosBean.ff}" pattern="yyyy/MM/dd HH:mm" mask="true">
+							<p:ajax event="dateSelect" listener="#{eventosBean.todaslasalas}"
+								update="panel4"></p:ajax>
+						</p:calendar>
+						<h:outputText value="Sala: " />
+						<h:panelGroup id="listitprec1">
+							<p:selectOneMenu styleClass="t" value="#{eventosBean.sala}">
+								<f:selectItems value="#{eventosBean.select}" />
+								<p:ajax listener="#{eventosBean.asignarsala()}">
+								</p:ajax>
+							</p:selectOneMenu>
+						</h:panelGroup>
 						<h:outputText value="Tipo Evento:" />
 						<h:panelGroup>
 							<p:selectOneMenu required="false" styleClass="t"
@@ -302,19 +311,10 @@
 								</p:ajax>
 							</p:selectOneMenu>
 						</h:panelGroup>
-						<h:outputText value="Estado:" />
-						<h:outputText value="#{eventosBean.estadoeven}"></h:outputText>
 						<h:outputText value="Capacidad:" />
 						<p:inputText id="cap" value="#{eventosBean.cantidad}"></p:inputText>
-						<h:outputText value="Sala: " />
-						<h:panelGroup>
-							<p:selectOneMenu required="false" styleClass="t"
-								value="#{eventosBean.sala}">
-								<f:selectItems value="#{eventosBean.listaSala}" />
-								<p:ajax listener="#{eventosBean.asignarsala()}">
-								</p:ajax>
-							</p:selectOneMenu>
-						</h:panelGroup>
+						<h:outputText value="Estado:" />
+						<h:outputText value="#{eventosBean.estadoeven}"></h:outputText>
 						<h:outputText value="Reunion Privada:" />
 						<p:selectBooleanCheckbox value="#{eventosBean.interno}">
 						</p:selectBooleanCheckbox>

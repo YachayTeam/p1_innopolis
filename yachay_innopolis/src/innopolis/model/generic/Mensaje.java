@@ -22,8 +22,8 @@ public class Mensaje {
 		msg.setSummary(mensaje);
 		// msg.setDetail(detalle);
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.getExternalContext().getFlash().setKeepMessages(true);
-		//context.addMessage(null, msg);
+		//context.getExternalContext().getFlash().setKeepMessages(true);
+		context.addMessage(null, msg);
 	}
 
 	public static void crearMensajeERROR(String mensaje) {

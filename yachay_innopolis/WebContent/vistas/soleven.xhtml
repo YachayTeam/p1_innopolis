@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
@@ -32,7 +33,6 @@
 	<hr />
 	<div class="div1">
 		<h:form id="form1">
-			<p:messages id="msn"></p:messages>
 			<p:growl id="message1" showDetail="false" />
 			<p:panel id="panel1" header="Solicitud de Eventos">
 				<div class="ui-grid ui-grid-responsive">
@@ -81,8 +81,7 @@
 									value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm"
 									mask="true">
 									<p:ajax event="dateSelect"
-										listener="#{eventosBean.todaslasalas}"
-										update="salaselec :form1:pgrid :form1:msn"></p:ajax>
+										listener="#{eventosBean.todaslasalas}" update=":form1"></p:ajax>
 								</p:calendar>
 								<h:outputText value="Fecha Fin*:" />
 								<p:calendar required="true" mindate="#{eventosBean.date}"
@@ -91,7 +90,7 @@
 									mask="true">
 									<p:ajax event="dateSelect"
 										listener="#{eventosBean.todaslasalas}"
-										update="salaselec :form1:pgrid :form1:msn"></p:ajax>
+										update="salaselec :form1"></p:ajax>
 								</p:calendar>
 								<h:outputText value="" />
 								<h:outputText value="Costo:" />
@@ -115,7 +114,7 @@
 								<h:outputText value="" />
 								<h:outputText value="Salas*: " />
 								<h:panelGroup id="listitprec">
-									<p:selectOneMenu required="true" styleClass="t" id="salaselec" 
+									<p:selectOneMenu required="true" styleClass="t" id="salaselec"
 										value="#{eventosBean.sala}" requiredMessage="Requerida sala">
 										<p:ajax listener="#{eventosBean.mostrara()}"
 											update="imagen descr capacidad">
@@ -171,18 +170,19 @@
 							value="#{reg.usuario.nombre} #{reg.usuario.apellido} "></h:outputText>
 					</p:column>
 					<p:column id="f1" filterBy="#{reg.nombre}" sortBy="#{reg.nombre}"
-						headerText="Nombres de Eventos">
+						width="120" headerText="Nombres de Eventos">
 						<h:outputText value="#{reg.nombre}"></h:outputText>
 					</p:column>
-					<p:column headerText="Costo" sortBy="#{reg.costo}">
+					<p:column headerText="Costo" width="50" sortBy="#{reg.costo}">
 						<h:outputText value="#{reg.costo}"></h:outputText>
 					</p:column>
 					<p:column headerText="Fecha Inicio" sortBy="#{reg.fechaInicio}">
-						<h:outputText value="#{reg.fechaInicio}">
+						<h:outputText value="#{reg.fechaInicio}" width="90">
 							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
 						</h:outputText>
 					</p:column>
-					<p:column headerText="Fecha Fin" sortBy="#{reg.fechaFin}">
+					<p:column headerText="Fecha Fin" sortBy="#{reg.fechaFin}"
+						width="90">
 						<h:outputText value="#{reg.fechaFin}">
 							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
 						</h:outputText>
@@ -196,7 +196,7 @@
 						<h:outputText value="#{reg.sala.tipo}"
 							style="color: \##{reg.sala.colorsala.colorcod}"></h:outputText>
 					</p:column>
-					<p:column id="f4" sortBy="#{reg.cantidad}" width="90"
+					<p:column id="f4" sortBy="#{reg.cantidad}" width="80"
 						headerText="Capacidad">
 						<h:outputText value="#{reg.cantidad}"></h:outputText>
 					</p:column>
@@ -206,15 +206,15 @@
 							update=":form2:imagen1" oncomplete="PF('imagendlg').show();">
 						</p:commandButton>
 					</p:column>
-					<p:column id="f6" headerText="Estado" sortBy="#{reg.estado}"
-						filterBy="#{reg.estado}">
+					<p:column id="f6" headerText="Estado" width="120"
+						sortBy="#{reg.estado}" filterBy="#{reg.estado}">
 						<h:outputText value="#{reg.estado}"></h:outputText>
 					</p:column>
-					<p:column id="f7" filterBy="#{reg.sms}"
+					<p:column id="f7" filterBy="#{reg.sms}" width="120"
 						headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
 						<h:outputText value="#{reg.sms}"></h:outputText>
 					</p:column>
-					<p:column headerText="Opciones" exportable="false">
+					<p:column headerText="Opciones" exportable="false" width="90">
 						<p:commandButton id="trackeditar" icon="ui-icon-pencil">
 							<p:ajax listener="#{eventosBean.CargarEventos(reg)}"
 								update=":form2:panel2" oncomplete="PF('dlg1').show();" />
@@ -226,7 +226,8 @@
 							action="#{eventosBean.irSolicitud1(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrac10" for="tracksolicitar"
-								value="Bot&oacute;n para solicitar/editar recursos" trackMouse="true" />
+								value="Bot&oacute;n para solicitar/editar recursos"
+								trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcerrar" icon="ui-icon-circle-close"
 							action="#{eventosBean.negareventoxus(reg)}"
@@ -266,14 +267,6 @@
 							rows="3"></b:inputTextarea>
 						<h:outputText value="Costo:" />
 						<p:inputText id="costo" value="#{eventosBean.costo}"></p:inputText>
-						<h:outputText value="Fecha Inicio:" />
-						<p:calendar required="false" mindate="#{eventosBean.date}"
-							requiredMessage="Requerido Fecha" id="fechai"
-							value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true" />
-						<h:outputText value="Fecha Fin:" />
-						<p:calendar required="false" mindate="#{eventosBean.date}"
-							requiredMessage="Requerido Fecha" id="fechaf"
-							value="#{eventosBean.ff}" pattern="yyyy/MM/dd HH:mm" mask="true" />
 						<h:outputText value="Tipo Evento:" />
 						<h:panelGroup>
 							<p:selectOneMenu required="false" styleClass="t"
@@ -284,16 +277,30 @@
 								</p:ajax>
 							</p:selectOneMenu>
 						</h:panelGroup>
+						<h:outputText value="Fecha Inicio:" />
+						<p:calendar required="false" mindate="#{eventosBean.date}"
+							requiredMessage="Requerido Fecha" id="fechai"
+							value="#{eventosBean.fi}" pattern="yyyy/MM/dd HH:mm" mask="true">
+							<p:ajax event="dateSelect" listener="#{eventosBean.todaslasalas}"
+								update="panel4"></p:ajax>
+						</p:calendar>
+						<h:outputText value="Fecha Fin:" />
+						<p:calendar required="false" mindate="#{eventosBean.date}"
+							requiredMessage="Requerido Fecha" id="fechaf"
+							value="#{eventosBean.ff}" pattern="yyyy/MM/dd HH:mm" mask="true">
+							<p:ajax event="dateSelect" listener="#{eventosBean.todaslasalas}"
+								update="panel4"></p:ajax>
+						</p:calendar>
+						<h:outputText value="Capacidad:" />
+						<p:inputText id="cap" value="#{eventosBean.cantidad}">
+						</p:inputText>
 						<h:outputText value="Estado:" />
 						<h:outputText value="#{eventosBean.estadoeven}"></h:outputText>
-						<h:outputText value="Capacidad:" />
-						<p:inputText id="cap" value="#{eventosBean.cantidad}" size="2">
-						</p:inputText>
 						<h:outputText value="Sala: " />
 						<h:panelGroup>
 							<p:selectOneMenu required="false" styleClass="t"
 								value="#{eventosBean.sala}" itemvalue="">
-								<f:selectItems value="#{eventosBean.listaSala}" />
+								<f:selectItems value="#{eventosBean.select}" />
 								<p:ajax listener="#{eventosBean.asignarsala()}">
 								</p:ajax>
 							</p:selectOneMenu>
@@ -329,10 +336,10 @@
 					closeOnEscape="true" header="Editar Mensaje" showEffect="clip"
 					hideEffect="clip">
 					<h:outputLabel
-						value="Al momento de enviar el mensaje,  &lt;br/&gt; espere a la notificación de confimación."/>
+						value="Al momento de enviar el mensaje,  &lt;br/&gt; espere a la notificación de confimación." />
 					<p:panelGrid columns="2">
 						<h:outputLabel
-							value="Mensaje de Cancelación &lt;br/&gt; de Evento a Enviar: "/>
+							value="Mensaje de Cancelación &lt;br/&gt; de Evento a Enviar: " />
 						<p:inputTextarea value="#{eventosBean.smscor}" cols="50"
 							autoResize="false" rows="10"></p:inputTextarea>
 						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
