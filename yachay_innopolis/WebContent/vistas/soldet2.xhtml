@@ -86,7 +86,7 @@
 						validatorMessage="Solo Numeros entre 1 y 1000">
 					</p:inputText>
 					<p:commandButton id="trackcrears"
-						action="#{eventosBean.agregarDetalle()}" update="form3"
+						action="#{eventosBean.agregarDetalle()}" update="form3" disabled="#{eventosBean.actualizarsolicitud}"
 						icon="ui-icon-plusthick" value="agregar">
 						<p:tooltip id="toolTipTrac10" for="trackcrears"
 							value="Bot&oacute;n para agregar recurso" trackMouse="true" />
@@ -138,7 +138,7 @@
 					<p:column>
 						<f:facet name="header">Opciones</f:facet>
 						<p:commandButton id="trackquit"
-							actionListener="#{eventosBean.quitarDetalle(d)}" process="@this"
+							actionListener="#{eventosBean.quitarDetalle(d)}" process="@this" disabled="#{eventosBean.actualizarsolicitud}"
 							icon="ui-icon-closethick" update=":form3 tablarecursosDets">
 							<p:tooltip id="toolTipTrac6" for="trackquit"
 								value="Bot&oacute;n para eliminar el recurso a solicitar"
@@ -150,7 +150,7 @@
 			<h:form id="form6">
 				<p:panel id="panel6" style="border:none;">
 					<p:panelGrid id="pgrid12" columns="2">
-						<p:commandButton id="trackregistrar" value="Actualizar"
+						<p:commandButton id="trackregistrar" value="Actualizar" disabled="#{eventosBean.actualizarsolicitud}"
 							onclick="PF('cd').show()" process="@this">
 						</p:commandButton>
 					</p:panelGrid>
@@ -160,7 +160,7 @@
 				message="Esta seguro de aprobar los datos?" showEffect="fade"
 				hideEffect="explode" widgetVar="cd">
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check" oncomplete="PF('cd').hide()" process="@this"
+					icon="ui-icon-check" oncomplete="PF('cd').hide()" process="@this" 
 					action="#{eventosBean.finalizarSolicitudED}" update=":form3" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"

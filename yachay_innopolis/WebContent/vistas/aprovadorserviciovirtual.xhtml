@@ -52,8 +52,8 @@
 						</h:commandLink>
 					</f:facet>
 					<p:column id="f1" filterBy="#{reg.usuario.cedula}" resizable="true"
-					width="110"
-						sortBy="#{reg.cedula}" headerText="C&eacute;dula">
+					width="140"
+						sortBy="#{reg.cedula}" headerText="Cédula/Pasaporte/RUC">
 						<h:outputText value="#{reg.usuario.cedula}"></h:outputText>
 					</p:column>
 					<p:column id="f2" filterBy="#{reg.usuario.apellido}"
@@ -119,7 +119,7 @@
 					closeOnEscape="true" header="Información" showEffect="clip"
 					hideEffect="clip">
 					<p:panelGrid columns="2">
-						<h:outputText value="C&eacute;dula: " />
+						<h:outputLabel value="C&eacute;dula: " />
 						<h:outputText id="ced" value="#{serviciosVirtualesApBean.cedula}"></h:outputText>
 						<h:outputText value="Apellidos: " />
 						<h:outputText id="ape"

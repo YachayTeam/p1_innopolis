@@ -28,10 +28,13 @@ public class ManagerReservas {
 	String h = "";
 
 	private ManagerCarga mc;
+	
+	private ManagerEvento mevento;
 
 	public ManagerReservas() {
 		mDAO = new ManagerDAO();
 		mc = new ManagerCarga();
+		mevento = new ManagerEvento();
 	}
 
 	// ------RECURSOS-------
@@ -411,15 +414,36 @@ public class ManagerReservas {
 		recact.setCantidad(cantidad);
 		mDAO.insertar(recact);
 	}
-
+	
+	public void insertarRecursoSolicitadoActivado(Integer idSolicitud,
+			Timestamp hora_inicio, Timestamp hora_fin) throws Exception {
+		List<Solicidetalle> solidet = findAllSolicituddetalleBycabeceraId(idSolicitud);
+		for(Solicidetalle solideta : solidet){
+			Recursosactivo recact = new Recursosactivo();
+			recact.setIdSolicitud(idSolicitud);
+			recact.setHoraInicio(solideta.getHoraInicio());
+			recact.setHoraFin(solideta.getHoraFin());
+			recact.setIdRecurso(solideta.getRecurso().getIdRecurso());
+			recact.setCantidad(solideta.getRecurso().getCapacidad());
+			mDAO.insertar(recact);
+		}
+	}
+	
 	public void editarRecursoSolicitado(Integer idSolicitud,
 			Timestamp hora_inicio, Timestamp hora_fin) throws Exception {
-		List<Recursosactivo> recactivo = this
-				.recursoActivoByIdSolicitud(idSolicitud);
+		List<Recursosactivo> recactivo = this.recursoActivoByIdSolicitud(idSolicitud);
 		for (Recursosactivo reca : recactivo) {
 			reca.setHoraInicio(hora_inicio);
 			reca.setHoraFin(hora_fin);
 			mDAO.actualizar(reca);
+		}
+	}
+	
+	public void eliminarRecursoSolicitadoDesactivado(Integer idSolicitud,
+			Timestamp hora_inicio, Timestamp hora_fin) throws Exception {
+		List<Recursosactivo> recactivo = this.recursoActivoByIdSolicitud(idSolicitud);
+		for (Recursosactivo reca : recactivo) {
+			this.eliminarRecursoActivos(reca.getIdRecact());
 		}
 	}
 
@@ -749,8 +773,8 @@ public class ManagerReservas {
 	@SuppressWarnings("unchecked")
 	public List<Solicidetalle> findAllSolicituddetalleBycabeceraId(
 			Integer idCabecera) throws Exception {
-		return (List<Solicidetalle>) mDAO.findWhere(Recursosactivo.class,
-				" o.idSolicitud = " + idCabecera + " ", "o.horaInicio");
+		return (List<Solicidetalle>) mDAO.findWhere(Solicidetalle.class,
+				" o.solicicabecera.idSolcab = " + idCabecera + " ", "o.horaInicio");
 	}
 
 	public ArrayList<Solicidetalle> findDetallesSolicitud(Integer id_solicitud) {
@@ -965,6 +989,13 @@ public class ManagerReservas {
 		return (Saladisponible) mDAO.findById(Saladisponible.class,
 				id_sala_disponible);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Salasactiva> salasActivasByIdEvento(Integer id)
+			throws Exception {
+		return (List<Salasactiva>) mDAO.findWhere(Salasactiva.class,
+				" o.idEvento = " + id + " ", "o.fecha ");
+	}
 
 	// insertar tipo de recurso
 	public void insertarSala(String tipo, String descripcion, String imagen,
@@ -978,6 +1009,18 @@ public class ManagerReservas {
 		rt.setSaladisponible(this.findSalaDisponibleByID(1));
 		mDAO.insertar(rt);
 	}
+	
+	// insertar tipo de recurso
+		public void insertarSalaActivasActivado(Integer IdEvento, Timestamp fechaInicio,
+				Timestamp fechaFin) throws Exception {
+			Evento evento = mevento.EventoByID(IdEvento);
+			Salasactiva salaActivaIngresar = new Salasactiva();
+			salaActivaIngresar.setIdEvento(evento.getIdEvento());
+			salaActivaIngresar.setHoraInicio(evento.getFechaInicio());
+			salaActivaIngresar.setHoraFin(evento.getFechaFin());
+			salaActivaIngresar.setIdSala(evento.getSala().getIdSala());
+			mDAO.insertar(salaActivaIngresar);
+		}
 
 	// Modificar
 	public void editarSala(Integer id_recursotipo, String tipo,
@@ -1142,6 +1185,14 @@ public class ManagerReservas {
 
 	public void eliminarSalasActivas(Long idreac) throws Exception {
 		mDAO.eliminar(Salasactiva.class, idreac);
+	}
+	
+	public void eliminarSalasDesactivado(Integer idEvento,
+			Timestamp hora_inicio, Timestamp hora_fin) throws Exception {
+		List<Salasactiva> salaActivo = this.salasActivasByIdEvento(idEvento);
+		for (Salasactiva salac : salaActivo) {
+			this.eliminarSalasActivas(salac.getIdSalact());
+		}
 	}
 
 	// Recursos Activados

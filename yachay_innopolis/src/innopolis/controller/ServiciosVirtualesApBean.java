@@ -424,7 +424,7 @@ public class ServiciosVirtualesApBean implements Serializable {
 		correo = "";
 		tema = "";
 		apellidos = "";
-		Mensaje.crearMensajeINFO("Vovler");
+		Mensaje.crearMensajeINFO("Volver");
 		try {
 			tipoestado = managerservirt.findEstadoTipoByID(1);
 		} catch (Exception e) {

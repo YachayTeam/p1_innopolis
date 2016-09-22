@@ -235,20 +235,19 @@
 								trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackapro" icon="ui-icon-circle-check"
-							action="#{eventosBean.aprobarevento(reg)}"
+							action="#{eventosBean.cambiarEstadoActivado(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrack11" for="trackapro"
 								value="Bot&oacute;n para activar el evento" trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcerrar" icon="ui-icon-circle-close"
-							action="#{eventosBean.negarevento(reg)}"
+							action="#{eventosBean.cambiarEstadoNegado(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrack12" for="trackcerrar"
 								value="Bot&oacute;n para desactivar el evento" trackMouse="true" />
 						</p:commandButton>
 					</p:column>
-					<p:column headerText="Envío" width="50"
-						exportable="false">
+					<p:column headerText="Envío" width="50" exportable="false">
 						<p:commandButton id="trackcance" icon="ui-icon-mail-closed">
 							<p:tooltip id="toolTipTrack13" for="trackcance"
 								value="Mensaje de Evento" trackMouse="true" />

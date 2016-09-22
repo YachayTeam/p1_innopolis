@@ -47,16 +47,6 @@
 		</b:carousel>
 		<p:growl id="message5" showDetail="false" />
 		<h:form id="form5">
-			<!-- 			<div class="ui-grid-row"> -->
-			<!-- 				<div class="ui-grid-col-10" style="padding-left: 20%;"> -->
-			<!-- 					<h1 align="center">REGECE</h1> -->
-			<!-- 					<h3 align="center">(Reservas de Espacios y Gestión de Eventos -->
-			<!-- 						del Centro de Emprendimiento)</h3> -->
-			<!-- 				</div> -->
-			<!-- 				<div class="ui-grid-col-2"> -->
-			<!-- 					<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage> -->
-			<!-- 				</div> -->
-			<!-- 			</div> -->
 		</h:form>
 		<h:form>
 			<p:menubar>
@@ -101,14 +91,14 @@
 					<h3 style="margin-top: 0">Calendario</h3>
 
 					<p:commandButton id="trackimprimir1"
-						value="Imprimir Lista de Eventos" icon="ui-icon-print">
+						value="Imprimir lista de eventos" icon="ui-icon-print">
 						<p:ajax oncomplete="PF('dlg2').show();" />
 						<p:tooltip id="toolTipTrack4" for="trackimprimir1"
-							value="Imprimir Lista de eventos" trackMouse="true" />
+							value="Imprimir lista de eventos" trackMouse="true" />
 					</p:commandButton>
 
 					<p:dialog widgetVar="dlg2" modal="true" closable="false"
-						closeOnEscape="false" header="Imprimir Eventos" showEffect="clip"
+						closeOnEscape="false" header="Imprimir eventos" showEffect="clip"
 						hideEffect="clip">
 						<p:panelGrid columns="2">
 							<h:outputText value="Fecha Inicio*:" />
@@ -281,10 +271,10 @@
 						<p:growl id="message4" showDetail="false" />
 
 						<p:commandButton id="trackimprimir"
-							value="Imprimir Lista de Eventos" icon="ui-icon-print">
+							value="Imprimir lista de eventos" icon="ui-icon-print">
 							<p:ajax oncomplete="PF('dlg1').show();" />
 							<p:tooltip id="toolTipTrack3" for="trackimprimir"
-								value="Imprimir Lista de eventos" trackMouse="true" />
+								value="Imprimir lista de eventos" trackMouse="true" />
 						</p:commandButton>
 						<br> </br>
 						<p:dialog widgetVar="dlg1" modal="true" closable="false"

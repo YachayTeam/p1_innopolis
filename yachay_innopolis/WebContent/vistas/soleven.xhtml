@@ -230,7 +230,7 @@
 								trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcerrar" icon="ui-icon-circle-close"
-							action="#{eventosBean.negareventoxus(reg)}"
+							action="#{eventosBean.cambiarEstadoNegado(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrack12" for="trackcerrar"
 								value="Bot&oacute;n para desactivar el evento" trackMouse="true" />
@@ -336,10 +336,10 @@
 					closeOnEscape="true" header="Editar Mensaje" showEffect="clip"
 					hideEffect="clip">
 					<h:outputLabel
-						value="Al momento de enviar el mensaje,  &lt;br/&gt; espere a la notificación de confimación." />
+						value="Al momento de enviar el mensaje, espere a la notificación de confimación." />
 					<p:panelGrid columns="2">
 						<h:outputLabel
-							value="Mensaje de Cancelación &lt;br/&gt; de Evento a Enviar: " />
+							value="Cancelación de Evento: " />
 						<p:inputTextarea value="#{eventosBean.smscor}" cols="50"
 							autoResize="false" rows="10"></p:inputTextarea>
 						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
