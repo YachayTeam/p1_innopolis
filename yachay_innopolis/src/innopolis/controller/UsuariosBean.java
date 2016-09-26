@@ -15,6 +15,7 @@ import innopolis.model.generic.Mensaje;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,6 +28,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+
+import org.primefaces.context.RequestContext;
 
 @SessionScoped
 @ManagedBean
@@ -697,23 +700,23 @@ public class UsuariosBean implements Serializable {
 	// accion para cargar los datos en el formulario
 	public String cargarUsuario(Usuario u) {
 		try {
-			idUsuario = u.getIdUsr();
-			nombre = u.getNombre();
-			apellido = u.getApellido();
-			correo = u.getCorreo();
-			direccion = u.getDireccion();
-			telefono = u.getTelefono();
-			celular = u.getCelular();
-			password = Utilidades.Desencriptar(u.getPassword());
-			alias = u.getAlias();
-			cedula = u.getCedula();
-			tipo = u.getTipo().getIdTipo();
-			tipoest = u.getTipoestadousr().getNombreestado();
-			interes = u.getInteres();
-			sms = u.getSms();
-			empreestu = u.getEmpresestdu();
-			cargptitu = u.getCargotitulo();
-			principal = u.getPrincipal();
+			setIdUsuario(u.getIdUsr());
+			setNombre(u.getNombre());
+			setApellido(u.getApellido());
+			setCorreo(u.getCorreo());
+			setDireccion(u.getDireccion());
+			setTelefono(u.getTelefono());
+			setCelular(u.getCelular());
+			setPassword(Utilidades.Desencriptar(u.getPassword()));
+			setAlias(u.getAlias());
+			setCedula(u.getCedula());
+			setTipo(u.getTipo().getIdTipo());
+			setTipoest(u.getTipoestadousr().getNombreestado());
+			setInteres(u.getInteres());
+			setSms(u.getSms());
+			setEmpreestu(u.getEmpresestdu());
+			setCargptitu(u.getCargotitulo());
+			setPrincipal(u.getPrincipal());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -722,35 +725,12 @@ public class UsuariosBean implements Serializable {
 
 	// accion para llamar al manager
 	public void actualizarUsuario() {
-			try {
-				manager.cambio(idUsuario, principal);
-				manager.editarusuario(idUsuario, cedula.trim(), nombre.trim(),
-					 apellido.trim(), Utilidades.Encriptar(password), correo.trim(), direccion.trim(),
-						telefono.trim(), celular.trim(), empreestu,cargptitu, principal, tipo);
-				cedula = "";
-				alias = "";
-				nombre = "";
-				apellido = "";
-				correo = "";
-				direccion = "";
-				telefono = "";
-				celular = "";
-				password = "";
-				interes = "";
-				tipo = 0;
-				empreestu = "";
-				cargptitu = "";
-				idUsuario = null;
-				tipoestusr = manager.EstadoByID(1);
-				Mensaje.crearMensajeINFO("Usuario modificado");
-			} catch (Exception e) {
-				e.printStackTrace();
-				Mensaje.crearMensajeWARN("Usuario no modificado");
-			}
-	}
-
-	public String irAprovador() {
 		try {
+			manager.cambio(idUsuario, principal);
+			manager.editarusuario(idUsuario, cedula.trim(), nombre.trim(),
+					apellido.trim(), Utilidades.Encriptar(password),
+					correo.trim(), direccion.trim(), telefono.trim(),
+					celular.trim(), empreestu, cargptitu, principal, tipo);
 			cedula = "";
 			alias = "";
 			nombre = "";
@@ -759,20 +739,39 @@ public class UsuariosBean implements Serializable {
 			direccion = "";
 			telefono = "";
 			celular = "";
-			rcorreo = "";
 			password = "";
-			rpassword = "";
+			interes = "";
 			tipo = 0;
 			empreestu = "";
 			cargptitu = "";
 			idUsuario = null;
 			tipoestusr = manager.EstadoByID(1);
-			Mensaje.crearMensajeWARN("Actualización cancelada");
+			Mensaje.crearMensajeINFO("Usuario modificado");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Mensaje.crearMensajeWARN("Usuario no modificado");
 		}
-		return "administracionusuarios";
+	}
+
+	public String irAprobador() {
+		Mensaje.crearMensajeWARN("Actualización cancelada");
+		cedula = "";
+		alias = "";
+		nombre = "";
+		apellido = "";
+		correo = "";
+		direccion = "";
+		telefono = "";
+		celular = "";
+		rcorreo = "";
+		password = "";
+		rpassword = "";
+		tipo = 0;
+		empreestu = "";
+		cargptitu = "";
+		idUsuario = null;
+		// tipoestusr = manager.EstadoByID(1);
+		return "";
 	}
 
 	public String irAprovador1() {
@@ -846,77 +845,85 @@ public class UsuariosBean implements Serializable {
 
 	// envio de mensajeria
 	public String asignarsms(Usuario usr) {
-		idUsuario = usr.getIdUsr();
-		cedula = usr.getCedula();
-		nombre = usr.getNombre();
-		apellido = usr.getApellido();
-		correo = usr.getCorreo();
-		direccion = usr.getDireccion();
-		telefono = usr.getTelefono();
-		celular = usr.getCelular();
-		alias = usr.getAlias();
-		sms = usr.getSms();
-		password = usr.getPassword();
-		interes = usr.getInteres();
-		tipoest = usr.getTipoestadousr().getNombreestado();
-		try {
-			if (tipoest.equals("Activado")) {
-				smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-						+ "<meta name='viewport' content='width=device-width'></head><body>"
-						+ "Sr/ra.  "
-						+ nombre
-						+ " "
-						+ apellido
-						+ ",le informamos que su petici&oacute;n de registro al sistema "
-						+ "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento) con los datos"
-						+ "<br/> C&eacute;dula:"
-						+ cedula
-						+ ""
-						+ "<br/> Nombre:"
-						+ nombre
-						+ ""
-						+ "<br/> Apellido:"
-						+ apellido
-						+ ""
-						+ "<br/> Correo:"
-						+ correo
-						+ ""
-						+ "<br/> Dirección:"
-						+ direccion
-						+ ""
-						+ "<br/> Teléfono:"
-						+ telefono
-						+ ""
-						+ "<br/> Celular:"
-						+ celular
-						+ ""
-						+ "<br/> fue "
-						+ tipoest
-						+ ";<br/> para ingresar su usuario es: "
-						+ cedula
-						+ " o su correo "
-						+ correo
-						+ ", y su contrase&ntildea es:"
-						+ "<br/> Saludos cordiales, "
-						+ "<br/> Sistema de REGECE Yachay EP"
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-			} else if (tipoest.equals("Desactivado")) {
-				smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-						+ "<meta name='viewport' content='width=device-width'></head><body>"
-						+ "Sr/ra.  "
-						+ nombre
-						+ " "
-						+ apellido
-						+ ",le informamos que su petici&oacute;n de registro al sistema "
-						+ "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento se encuentra "
-						+ tipoest
-						+ "."
-						+ "<br/> Saludos cordiales, "
-						+ "<br/> Sistema de REGECE Yachay EP"
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(usr.getTipoestadousr().getIdTipoestadousr() != 1){
+			idUsuario = usr.getIdUsr();
+			cedula = usr.getCedula();
+			nombre = usr.getNombre();
+			apellido = usr.getApellido();
+			correo = usr.getCorreo();
+			direccion = usr.getDireccion();
+			telefono = usr.getTelefono();
+			celular = usr.getCelular();
+			alias = usr.getAlias();
+			sms = usr.getSms();
+			password = usr.getPassword();
+			interes = usr.getInteres();
+			tipoest = usr.getTipoestadousr().getNombreestado();
+			try {
+				if (tipoest.equals("Activado")) {
+					smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+							+ "<meta name='viewport' content='width=device-width'></head><body>"
+							+ "Sr/ra.  "
+							+ nombre
+							+ " "
+							+ apellido
+							+ ",le informamos que su petici&oacute;n de registro al sistema "
+							+ "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento) con los datos"
+							+ "<br/> C&eacute;dula:"
+							+ cedula
+							+ ""
+							+ "<br/> Nombre:"
+							+ nombre
+							+ ""
+							+ "<br/> Apellido:"
+							+ apellido
+							+ ""
+							+ "<br/> Correo:"
+							+ correo
+							+ ""
+							+ "<br/> Dirección:"
+							+ direccion
+							+ ""
+							+ "<br/> Teléfono:"
+							+ telefono
+							+ ""
+							+ "<br/> Celular:"
+							+ celular
+							+ ""
+							+ "<br/> fue "
+							+ tipoest
+							+ ";<br/> para ingresar su usuario es: "
+							+ cedula
+							+ " o su correo "
+							+ correo
+							+ ", y su contrase&ntildea es:"
+							+ "<br/> Saludos cordiales, "
+							+ "<br/> Sistema de REGECE Yachay EP"
+							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+					
+					RequestContext.getCurrentInstance().execute("PF('dlg2').show();");
+				} else if (tipoest.equals("Desactivado")) {
+					smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+							+ "<meta name='viewport' content='width=device-width'></head><body>"
+							+ "Sr/ra.  "
+							+ nombre
+							+ " "
+							+ apellido
+							+ ",le informamos que su petici&oacute;n de registro al sistema "
+							+ "REGECE (Reservas de Espacios y Gesti&oacute;n de Eventos del Centro de Emprendimiento se encuentra "
+							+ tipoest
+							+ "."
+							+ "<br/> Saludos cordiales, "
+							+ "<br/> Sistema de REGECE Yachay EP"
+							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+					RequestContext.getCurrentInstance().execute("PF('dlg2').show();");
+				}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}else{
+			smscor="";
+			Mensaje.crearMensajeWARN("El usuario esta pendiente");
 		}
 		return "";
 	}

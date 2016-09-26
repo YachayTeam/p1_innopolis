@@ -2221,10 +2221,8 @@ public class EventosBean {
 	// metodo para edicion de los eventos y solicitud
 	public void editarEvento() {
 		try {
-			if(estadoeven.equals("Pendiente")){
 			if (validaciones() == true) {
-				asignarTipoeve();// guardar en un objeto sala y mandar como
-									// valor al editar
+				asignarTipoeve();// guardar en un objeto sala y mandar como valor al editar
 				asignarsala();
 				Evento eve = mEvento.EventoByID(idEvento);
 				fechaInicio = new Timestamp(fi.getTime());
@@ -2261,13 +2259,61 @@ public class EventosBean {
 			} else {
 				Mensaje.crearMensajeWARN("Evento no pudo ser editado");
 			}
-			}else{
-				Mensaje.crearMensajeWARN("Evento está desactivado o activado, no se puede modificar");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	// metodo para edicion de los eventos y solicitud
+		public void editarEventoUsuario() {
+			try {
+				if (validaciones() == true) {
+					asignarTipoeve();// guardar en un objeto sala y mandar como valor al editar
+					asignarsala();
+					Evento eve = mEvento.EventoByID(idEvento);
+					if(eve.getEstado().equals("Pendiente")){
+					fechaInicio = new Timestamp(fi.getTime());
+					fechaFin = new Timestamp(ff.getTime());
+					int sala1 = mReserv.findSalaByID(sala).getCapacidad();
+					if (Integer.parseInt(cantidad) <= sala1) {
+						idusr = session.getIdUsr();
+						if (eve.getSolicicabecera().getIdSolcab() != null) {
+							if (!validarDisponibilidadRecursos(idEvento,
+									fechaInicio, fechaFin) == true) {
+								modificarRecursosDelEvento(idEvento, fechaInicio,
+										fechaFin);
+								mEvento.editarEventos(idEvento, nombre.trim(),
+										descripcion.trim(), imagen, fechaInicio,
+										fechaFin, costo,
+										Integer.parseInt(cantidad), interno);
+								Mensaje.crearMensajeINFO("Se modificó satisfactoriamente el evento");
+							} else {
+								Mensaje.crearMensajeWARN("Los recursos de la solicitud estan siendo usados");
+							}
+						}else{
+							modificarSalasDelEvento(idEvento, fechaInicio,
+									fechaFin);
+							mEvento.editarEventos(idEvento, nombre.trim(),
+									descripcion.trim(), imagen, fechaInicio,
+									fechaFin, costo,
+									Integer.parseInt(cantidad), interno);
+							Mensaje.crearMensajeINFO("Se modificó satisfactoriamente el evento");
+						}
+					} else if (Integer.parseInt(cantidad) > sala1) {
+						Mensaje.crearMensajeWARN("El número de personas excede la capacidad de la sala que es: "
+								+ sala1 + " ");
+					}
+					}else{
+						Mensaje.crearMensajeWARN("Solo el aprobador puede modificar el evento");
+					}
+				} else {
+					Mensaje.crearMensajeWARN("Evento no pudo ser editado");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 	private boolean validaciones() {
 		boolean resultado = false;
@@ -3273,10 +3319,7 @@ public class EventosBean {
 			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(h_inicio));
 			setHorafin(this.fechaAtiempo(h_fin));
-			if (!Validacion.fechaMayorIgual(h_inicio)
-					|| !Validacion.fechaMayorIgual(h_fin)) {
-				Mensaje.crearMensajeWARN("La fecha de solicitud no debe ser menor a la actual");
-			} else if (h_fin.getTime() <= h_inicio.getTime()) {
+			if (h_fin.getTime() <= h_inicio.getTime()) {
 				Mensaje.crearMensajeWARN("Verifique su horario de solicitud");
 			} else {
 				select.clear();
@@ -3389,6 +3432,56 @@ public class EventosBean {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public void cambiarEstadoNegadoUsuario(Evento ev) {
+		try {
+			if(ev.getEstado().equals("Pendiente")){
+			ev.setEstado("Desactivado");
+			if (ev.getSolicicabecera().getIdSolcab() != null) {
+				List<Solicicabecera> solicitudCabeceraEvento = mReserv
+						.findSolicitudCabeceraByIdEvento(ev.getSolicicabecera()
+								.getIdSolcab());
+				for (Solicicabecera solicitudCabecera : solicitudCabeceraEvento) {
+					
+					List<Solicidetalle> detalleDetalleCabecera = mReserv
+							.findSolicitudDetalleByCabeceraId(solicitudCabecera
+									.getIdSolcab());
+					for (Solicidetalle detalleSolicitud : detalleDetalleCabecera) {
+						mReserv.eliminarRecursoSolicitadoDesactivado(
+								detalleSolicitud.getSolicicabecera()
+										.getIdSolcab(), fechaInicio, fechaFin);
+					}
+				}
+				List<Salasactiva> salasActivasEvento = mReserv
+						.findSalasActivasByIdEvento(ev.getIdEvento());
+				for (Salasactiva salasactivasedicion : salasActivasEvento) {
+					mReserv.eliminarSalasDesactivado(
+							salasactivasedicion.getIdEvento(), fechaInicio,
+							fechaFin);
+				}
+				Mensaje.crearMensajeINFO("El evento está desactivado");
+			}else{
+				List<Salasactiva> salasActivasEvento = mReserv
+						.findSalasActivasByIdEvento(ev.getIdEvento());
+				for (Salasactiva salasactivasedicion : salasActivasEvento) {
+					mReserv.eliminarSalasDesactivado(
+							salasactivasedicion.getIdEvento(), fechaInicio,
+							fechaFin);
+					Mensaje.crearMensajeINFO("El evento está desactivado");
+				}
+			}
+			}else if(ev.getEstado().equals("Activado")){
+				Mensaje.crearMensajeINFO("El evento está activado, envíe un mensaje al administrador para cambiarlo");
+			}else if(ev.getEstado().equals("Desactivado")){
+			Mensaje.crearMensajeINFO("El evento yá se encuentra desactivado");
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 	public void cambiarEstadoActivado(Evento ev) {
 		try {

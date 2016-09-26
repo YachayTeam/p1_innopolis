@@ -380,9 +380,6 @@ create table USUARIO (
    NOMBRE               TEXT                 null,
    APELLIDO             TEXT                 null,
    CORREO               TEXT                 null,
-   DIRECCION            TEXT                 null,
-   TELEFONO             TEXT                 null,
-   CELULAR              TEXT                 null,
    ALIAS                TEXT                 null,
    PASSWORD             TEXT                 null,
    EDAD                 TEXT                 null,
@@ -391,6 +388,9 @@ create table USUARIO (
    PRINCIPAL            BOOL                 null,
    EMPRESESTDU          TEXT                 null,
    CARGOTITULO          TEXT                 null,
+   DIRECCION            TEXT                 null,
+   TELEFONO             TEXT                 null,
+   CELULAR              TEXT                 null,
    constraint PK_USUARIO primary key (ID_USR)
 );
 

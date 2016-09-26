@@ -134,6 +134,15 @@ INSERT INTO inter VALUES (default, 1, 10);
 INSERT INTO inter VALUES (default, 1, 11);
 /*INSERT INTO inter VALUES (default, 1, 12);
 INSERT INTO inter VALUES (default, 1, 13);*/
+ALTER TABLE usuario ADD direccion TEXT NOT NULL DEFAULT 'dirección';
+ALTER TABLE usuario ADD telefono TEXT NOT NULL DEFAULT '0';
+ALTER TABLE usuario ADD celular TEXT NOT NULL DEFAULT '0';
 
-INSERT INTO usuario  VALUES (1, 2, 1,'root' , 'root', 'root', 'root@correo.com', 'root' , 'Juz2xAZXhrH/1qLbW91EXA==' ,'062547123','0939407204','26', 'Ninguno', 'Notificado','false','yachay','funcionario');/*admin.12345*/
+ALTER TABLE inscripciones ADD DIRECCION TEXT NOT NULL DEFAULT 'dirección';
+ALTER TABLE inscripciones ADD TELEFONO TEXT NOT NULL DEFAULT '0';
+ALTER TABLE inscripciones ADD CELULAR TEXT NOT NULL DEFAULT '0';
+
+
+
+INSERT INTO usuario  VALUES (1, 2, 1,'root' , 'root', 'root', 'root@correo.com', 'root' , 'Juz2xAZXhrH/1qLbW91EXA==' ,'062547123','0939407204','26', 'Ninguno', 'Notificado','false','yachay','funcionario','ninguno','0','0');/*admin.12345*/
 update contadores set valor=2 where id_contador=2;

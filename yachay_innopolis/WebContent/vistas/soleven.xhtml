@@ -230,7 +230,7 @@
 								trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcerrar" icon="ui-icon-circle-close"
-							action="#{eventosBean.cambiarEstadoNegado(reg)}"
+							action="#{eventosBean.cambiarEstadoNegadoUsuario(reg)}"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrack12" for="trackcerrar"
 								value="Bot&oacute;n para desactivar el evento" trackMouse="true" />
@@ -322,7 +322,7 @@
 							height="100" />
 						<p:commandButton id="trackeditarev" style="width:100%"
 							icon="ui-icon-pencil" value="Editar Evento"
-							action="#{eventosBean.editarEvento()}"
+							action="#{eventosBean.editarEventoUsuario()}"
 							update="panel4  :form1:message1">
 						</p:commandButton>
 						<p:commandButton id="trackcerr" update=":form1:message1"

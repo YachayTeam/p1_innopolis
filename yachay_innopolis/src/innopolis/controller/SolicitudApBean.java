@@ -562,9 +562,6 @@ public class SolicitudApBean {
 
 	// Tomar el id de estado general id_estadoSolicitud
 	public String aprobarEstado(Solicicabecera solicitud) {
-		if (solicitud.getSoliciestado().getIdSolest() == 3) {
-			Mensaje.crearMensajeINFO("La solicitud se encuentra aprobada");
-		} else {
 			try {
 				manager.cambioSMS(solicitud.getIdSolcab());
 				Soliciestado estado = manager.findSolicitudEstadoByID(3);// APROBADO
@@ -573,14 +570,10 @@ public class SolicitudApBean {
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al cambiar el estado");
 			}
-		}
 		return "";
 	}
 
 	public String negarEstado(Solicicabecera solicitud) {
-		if (solicitud.getSoliciestado().getIdSolest() == 4) {
-			Mensaje.crearMensajeINFO("La solicitud se encuentra negada");
-		} else {
 			try {
 				manager.cambioSMS(solicitud.getIdSolcab());
 				Soliciestado estado = manager.findSolicitudEstadoByID(4);// NEGADO
@@ -589,7 +582,6 @@ public class SolicitudApBean {
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al cambiar el estado");
 			}
-		}
 		return "";
 	}
 
@@ -647,7 +639,6 @@ public class SolicitudApBean {
 	public String cargarDatosSolicitud(Solicicabecera solicitud) {
 		String resp = "";
 		try {
-			if (solicitud.getSoliciestado().getEstado().equals("pendiente")) {
 				id_sol = solicitud.getIdSolcab();
 				List<Evento> listEvento = manager
 						.findEventoByCabeceraId(id_sol);
@@ -737,10 +728,6 @@ public class SolicitudApBean {
 						resp = "editsol?faces-redirect=true";
 					}
 				}
-			} else {
-				Mensaje.crearMensajeWARN("Solicitud aprobada o negada, no se puede modificar");
-			}
-
 		} catch (Exception e) {
 			Mensaje.crearMensajeWARN("Error al ver la solicitud");
 			e.printStackTrace();

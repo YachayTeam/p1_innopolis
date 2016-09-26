@@ -18,7 +18,7 @@
 				<p:commandButton type="button" value="#{sessionBean.nom}"
 					disabled="true" icon="ui-icon-person" />
 				<p:commandButton id="tracksalir" value="Volver"
-					action="/vistas/administracionusuarios.xhtml" icon="ui-icon-person"></p:commandButton>
+					action="/vistas/administracionusuarios.xhtml" actionListener="#{usuariosBean.irAprovador1}" icon="ui-icon-person"></p:commandButton>
 			</f:facet>
 		</p:menubar>
 	</h:form>
@@ -46,7 +46,7 @@
 			<p:panel id="panel2" header="Lista de Intereses">
 				<p:dataTable id="dt"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} 
-		{NextPageLink} {LastPageLink}"
+					{NextPageLink} {LastPageLink}"
 					paginator="true" rows="10" reflow="true"
 					value="#{interesesBean.listainteres}" var="lu"
 					emptyMessage="No hay información almacenada">
