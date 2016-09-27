@@ -185,7 +185,7 @@
 													rendered="#{!calusrBean.event.data.interno}"></h:outputLabel></b>
 										</b:column>
 										<b:column span="5">
-											<p:outputLabel id="from"
+											<h:outputText id="from"
 												value="#{calusrBean.event.data.descripcion}"
 												rendered="#{!calusrBean.event.data.interno}" />
 										</b:column>
@@ -195,11 +195,11 @@
 											<b><h:outputLabel for="date" value="Fecha Inicio:" /></b>
 										</b:column>
 										<b:column span="5">
-											<p:outputLabel id="date"
+											<h:outputText id="date"
 												value="#{calusrBean.event.startDate}">
 												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
 													timeZone="GMT-5" />
-											</p:outputLabel>
+											</h:outputText>
 										</b:column>
 									</b:row>
 									<b:row>
@@ -207,10 +207,10 @@
 											<b><h:outputLabel for="date1" value="Fecha Fin:" /></b>
 										</b:column>
 										<b:column span="5">
-											<p:outputLabel id="date1" value="#{calusrBean.event.endDate}">
+											<h:outputText id="date1" value="#{calusrBean.event.endDate}">
 												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
 													timeZone="GMT-5" />
-											</p:outputLabel>
+											</h:outputText>
 										</b:column>
 									</b:row>
 									<b:row>
@@ -218,7 +218,7 @@
 											<b><h:outputLabel for="tc" value="Tipo Evento:" /></b>
 										</b:column>
 										<b:column span="5">
-											<p:outputLabel id="tc"
+											<h:outputText id="tc"
 												value="#{calusrBean.event.data.tipoevento.tipo}" />
 										</b:column>
 									</b:row>
@@ -227,7 +227,7 @@
 											<b><h:outputLabel for="ubi" value="Ubicación:" /></b>
 										</b:column>
 										<b:column span="5">
-											<p:outputLabel id="ubi"
+											<h:outputText id="ubi"
 												value="#{calusrBean.event.data.sala.tipo}" />
 										</b:column>
 									</b:row>
@@ -236,7 +236,7 @@
 											<b><h:outputLabel for="ca" value="Capacidad:" /></b>
 										</b:column>
 										<b:column span="5">
-											<p:outputLabel id="ca"
+											<h:outputText id="ca"
 												value="#{calusrBean.event.data.cantidad}" />
 										</b:column>
 									</b:row>
@@ -245,14 +245,14 @@
 											<b><h:outputLabel for="co" value="Costo:" /></b>
 										</b:column>
 										<b:column span="2">
-											<p:outputLabel id="co" value="#{calusrBean.event.data.costo}" />
-											<p:outputLabel value="" />
+											<h:outputText id="co" value="#{calusrBean.event.data.costo}" />
+											<h:outputText value="" />
 										</b:column>
 									</b:row>
 									<p:commandButton id="addButton" value="Inscr&iacute;bete"
 										action="#{calusrBean.irInscripcion}"
 										rendered="#{!calusrBean.event.data.interno}"
-										oncomplete="PF('myschedule').update();PF('eventDialog').hide();">
+										oncomplete="PF('myschedule').update();PF('eventDialog').hide(); :message5">
 										<p:tooltip id="toolTipTrac1" for="addButton"
 											value="Bot&oacute;n para registrarse al evento"
 											trackMouse="true" />

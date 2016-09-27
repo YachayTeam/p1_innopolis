@@ -404,26 +404,15 @@ public class ManagerEvento {
 
 		return listado;
 	}
-
-	public Integer cuantosInscritos(Evento event) {
-		List<Inscripcione> listado = inscritosXEvento(event);
-		int cont = 0;
-		for (Inscripcione inscripcione : listado) {
-			if (inscripcione.getEstado().equals("aprobada")) {
-				cont++;
-			}
-		}
-		return cont;
-	}
+	
 
 	public boolean superaInscritosEvento(Evento evento) {
 		boolean resp = false;
-
-		int inscritos = cuantosInscritos(evento);
-		if (inscritos > evento.getCantidad()) {
+		String resultado = mDAO.ejectNativeSQL2("select count(*) from inscripciones where id_evento = "+evento.getIdEvento()+" and estado = 'aprobada'").toString();
+		int inscritos = Integer.parseInt(resultado);
+		if (inscritos < evento.getCantidad()) {
 			resp = true;
 		}
-
 		return resp;
 	}
 
@@ -449,51 +438,7 @@ public class ManagerEvento {
 		}
 		return te;
 	}
-
-	// ////METODO DE ENVIO DE CORREO
-	// public boolean sendMail(String origen,String clave,String destinatario,
-	// String asunto, String mensaje) throws Exception{
-	// p=0;
-	//
-	// try
-	// {
-	// Properties props = new Properties();
-	// props.put("mail.smtp.host", "smtp.gmail.com");
-	// props.setProperty("mail.smtp.starttls.enable", "true");
-	// props.setProperty("mail.smtp.port", "587");
-	// props.setProperty("mail.smtp.user", origen);
-	// props.setProperty("mail.smtp.auth", "true");
-	//
-	// Session session = Session.getDefaultInstance(props, null);
-	// BodyPart texto = new MimeBodyPart();
-	// texto.setText(mensaje);
-	//
-	// MimeMultipart multiParte = new MimeMultipart();
-	// multiParte.addBodyPart(texto);
-	//
-	// MimeMessage message = new MimeMessage(session);
-	// message.setFrom(new InternetAddress(origen));
-	// message.addRecipients(
-	// Message.RecipientType.TO,
-	// InternetAddress.parse(destinatario));
-	// message.setSubject(asunto);
-	// message.setContent(multiParte);
-	//
-	// Transport t = session.getTransport("smtp");
-	// t.connect(origen, clave);
-	// t.sendMessage(message, message.getAllRecipients());
-	// t.close();
-	// h="Enviado correctamente la notificacion";
-	// return true;
-	// }
-	// catch (Exception e)
-	// {
-	// e.printStackTrace();
-	// h="Error al  enviar la notificacion";
-	// return false;
-	// }
-	// }
-
+	
 	// metodo para enviar el estado del mensaje si se envio
 	public String cambioSMSenvio(Integer idevento) throws Exception {
 		h = "";

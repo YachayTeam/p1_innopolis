@@ -646,9 +646,19 @@ public class CalusrBeanlogeado implements Serializable {
 
 	// IR A INSCRIPCION
 	public String irInscripcion() {
+		String r = "";
 		imagenPago = "sin_pago.jpg";
 		evento = (Evento) event.getData();
-		return "formulariousrlog?faces-redirect=true";
+		if (evento.getInterno()) {
+			Mensaje.crearMensajeWARN("El evento es privado");
+		} else if (!evento.getInterno()) {
+			if (manager.superaInscritosEvento(evento)) {
+				r = "formulariousrlog?faces-redirect=true";
+			} else {
+				Mensaje.crearMensajeINFO("El número de inscritos esta completo");
+			}
+		}
+		return r;
 		// return "frm_ins?faces-redirect=true";
 	}
 
@@ -658,7 +668,11 @@ public class CalusrBeanlogeado implements Serializable {
 		if (ev.getInterno()) {
 			Mensaje.crearMensajeWARN("El evento es privado");
 		} else if (!ev.getInterno()) {
-			r = "formulariousrlog?faces-redirect=true";
+			if (manager.superaInscritosEvento(evento)) {
+				r = "formulariousrlog?faces-redirect=true";
+			} else {
+				Mensaje.crearMensajeINFO("El número de inscritos esta completo");
+			}
 		}
 		return r;
 	}

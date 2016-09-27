@@ -39,7 +39,6 @@ public class InscripcionApBean implements Serializable {
 	private String sms;
 	private String smscor;
 	private Integer id_evento;
-	private List<Inscripcione> listadoInscripciones;
 
 	@EJB
 	private ManagerBuscar mb;
@@ -195,8 +194,7 @@ public class InscripcionApBean implements Serializable {
 	}
 
 	public List<Inscripcione> getListadoInscripciones() {
-		listadoInscripciones = managerEv.findAllInscripciones();
-		return listadoInscripciones;
+		return managerEv.findAllInscripciones();
 	}
 
 	public UploadedFile getFile() {
@@ -218,7 +216,6 @@ public class InscripcionApBean implements Serializable {
 	}
 
 	public String cargarInscripcion(Inscripcione i) {
-		try {
 			idInscripcion = i.getIdInscripcion();
 			apellido = i.getApellido();
 			correo = i.getCorreo();
@@ -232,9 +229,6 @@ public class InscripcionApBean implements Serializable {
 			direccion = i.getDireccion();
 			telefono = i.getTelefono();
 			celular = i.getCelular();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return "";
 	}
 
@@ -283,12 +277,12 @@ public class InscripcionApBean implements Serializable {
 	public String aprobarInscrito(Inscripcione inscripcion) {
 		try {
 			Evento ev = inscripcion.getEvento();
-			if (managerEv.superaInscritosEvento(ev)) {
+			if (!managerEv.superaInscritosEvento(ev)) {
 				Mensaje.crearMensajeWARN("Evento supera los inscritos");
 			} else {
 				managerEv.modificarInscripcion(inscripcion.getIdInscripcion(),
 						"aprobada");
-				Mensaje.crearMensajeINFO("Aprobación exitosa");
+				Mensaje.crearMensajeINFO("Se ha aprobado al inscrito");
 				if (inscripcion.getSms().equals("notificada")) {
 					managerEv.notificarInscripcion(
 							inscripcion.getIdInscripcion(), "no notificada");
@@ -304,12 +298,16 @@ public class InscripcionApBean implements Serializable {
 	public String negarInscrito(Inscripcione inscripcion) {
 		if (inscripcion.getEstado().equals("aprobada")
 				&& inscripcion.getSms().equals("notificada")) {
-			Mensaje.crearMensajeWARN("La inscripción ya fue aprobada y notificada, no se puede negar");
+			Mensaje.crearMensajeWARN("La inscripción yá fue aprobada y notificada, no se puede negar");
 		} else {
 			try {
-				managerEv.modificarInscripcion(inscripcion.getIdInscripcion(),
-						"negada");
-				Mensaje.crearMensajeINFO("Inscripción negada");
+				if (inscripcion.getEstado().equals("aprobada")) {
+					managerEv.modificarInscripcion(
+							inscripcion.getIdInscripcion(), "negada");
+					Mensaje.crearMensajeINFO("Inscripción negada");
+				} else if(inscripcion.getEstado().equals("negada")) {
+					Mensaje.crearMensajeINFO("Inscripción se encuentra negada");
+				}
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al negar inscripción");
 			}
@@ -337,6 +335,6 @@ public class InscripcionApBean implements Serializable {
 		observacion = "";
 		sms = "";
 		smscor = "";
-		return "/aprobador/inscripciones";
+		return "";
 	}
 }

@@ -372,5 +372,18 @@ public class ManagerDAO {
         listado = q.getResultList();
         return listado;
     }
+    
+    /**
+	 * Ejecuta una sentencia sql nativa UPDATE DELETE ALTER_SEQUENCE
+	 * @param nativeSQL
+	 */
+	public Object ejectNativeSQL2(String nativeSQL){
+		mostrarLog("ejectNativeSQL", nativeSQL);
+		Query q;
+		q = em.createNativeQuery(nativeSQL);
+		Object o = (Object) q.getSingleResult();
+		return o;
+
+	}
 
 }

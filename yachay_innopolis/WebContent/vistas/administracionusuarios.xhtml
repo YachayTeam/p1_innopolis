@@ -13,7 +13,7 @@
 </h:head>
 <h:body>
 	<h:form>
-		<p:menubar>
+	 <p:menubar>
 			<p:menuitem value="Tipos" action="#{usuariosBean.irTipo}"
 				icon="ui-icon-copy" />
 			<p:menuitem value="Buzón de Sugerencias"
@@ -86,7 +86,6 @@
 						validatorMessage="Campo teléfono debe ingresar solo n&uacute;meros.">
 						<f:validateRegex pattern="[0-9]+" />
 					</p:inputText>
-
 					<h:outputLabel value="Celular : " for="celu" />
 					<p:inputText id="celu" required="true"
 						value="#{usuariosBean.celular}"

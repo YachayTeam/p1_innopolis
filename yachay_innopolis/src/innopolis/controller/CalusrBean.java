@@ -630,9 +630,19 @@ public class CalusrBean implements Serializable {
 
 	// IR A INSCRIPCION
 	public String irInscripcion() {
+		String r = "";
 		imagenPago = "sin_pago.jpg";
 		evento = (Evento) event.getData();
-		return "formulario?faces-redirect=true";
+		if (evento.getInterno()) {
+			Mensaje.crearMensajeWARN("El evento es privado");
+		} else if (!evento.getInterno()) {
+			if (manager.superaInscritosEvento(evento)) {
+				r = "formulario?faces-redirect=true";
+			} else {
+				Mensaje.crearMensajeINFO("El número de inscritos esta completo");
+			}
+		}
+		return r;
 		// return "frm_ins?faces-redirect=true";
 	}
 
@@ -643,17 +653,20 @@ public class CalusrBean implements Serializable {
 		if (ev.getInterno()) {
 			Mensaje.crearMensajeWARN("El evento es privado");
 		} else if (!ev.getInterno()) {
-			r = "formulario?faces-redirect=true";
+			if (manager.superaInscritosEvento(evento)) {
+				r = "formulario?faces-redirect=true";
+			} else {
+				Mensaje.crearMensajeINFO("El número de inscritos esta completo");
+			}
 		}
-
 		return r;
 	}
 
 	public String inscribirse() {
-		String resp = "";
 		if (getObservacion() == null) {
 			setObservacion("sin observacion");
-		}if (getEvento().getCosto() > 0
+		}
+		if (getEvento().getCosto() > 0
 				&& getImagenPago().equals("sin_pago.jpg")) {
 			Mensaje.crearMensajeWARN("El evento posee pago y necesita imagen del comprobante");
 		} else {
@@ -754,14 +767,16 @@ public class CalusrBean implements Serializable {
 				setCorreo("");
 				setObservacion("");
 				setImagenPago("sin_pago.jpg");
+				setCelular(null);
+				setTelefono(null);
+				setDireccion("");
 				campo = "";
-				resp = "index?faces-redirect=true";
 				Mensaje.crearMensajeINFO("Se registro correctamente, espere el mensaje de confirmación");
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al intentar inscribirse al evento");
 			}
 		}
-		return resp;
+		return "";
 	}
 
 	// metodo para listar correos de ususariosadmin
@@ -790,7 +805,11 @@ public class CalusrBean implements Serializable {
 		setCelular("");
 		setObservacion("");
 		setImagenPago("sin_pago.jpg");
-		return "index?faces-redirect=true";
+		setDireccion("");
+		setTelefono(null);
+		setCelular(null);
+		Mensaje.crearMensajeWARN("Inscripción cancelada");
+		return "";
 	}
 
 	// metodo para guardar la imagen en el servidor
