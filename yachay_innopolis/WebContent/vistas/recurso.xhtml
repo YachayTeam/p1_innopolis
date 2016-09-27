@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -35,32 +36,32 @@
 			<p:growl id="message" showDetail="false" />
 			<p:panel id="panel1" header="Registro de Recursos Adicionales">
 				<p:panelGrid columns="4">
-					<h:outputLabel value="Nombre* : " for="nom" />
+					<h:outputText value="Nombre* : " for="nom" />
 					<p:inputText styleClass="t" required="true" id="nom"
 						value="#{recursosBean.nombre}"
 						requiredMessage="Requerido nombre del recurso"
 						validatorMessage="Ingrese solo letras">
 						<p:ajax listener="#{recursosBean.asignarNombreImagen}" />
 					</p:inputText>
-					<h:outputLabel value="Tipo Recurso* : " for="lug" />
-					<p:inputText styleClass="t" required="true" id="lug"
+					<h:outputText value="Tipo Recurso* : " for="lug" />
+					<p:inputText styleClass="t" required="true" id="lug" size="40"
 						value="#{recursosBean.lugar}"
 						requiredMessage="Requerido Tipo de Recurso"
 						validatorMessage="No debe contener caracteres especiales" />
-					<h:outputLabel value="Cantidad* :" for="can1" />
+					<h:outputText value="Cantidad* :" for="can1" />
 					<p:inputText required="true" id="can1" size="2"
 						value="#{recursosBean.capacidad}"
 						requiredMessage="Requerido capacidad del recurso"
 						validatorMessage="Cantidad sólo números entre 1 y 1000">
 						<f:validateRegex pattern="[0-9]+" />
 					</p:inputText>
-					<h:outputLabel value="Descripción* :" for="des" />
-					<p:inputTextarea styleClass="t" required="true" id="des"
+					<h:outputText value="Descripción* :" for="des" />
+					<b:inputTextarea styleClass="t" required="true" id="des"
 						value="#{recursosBean.descripcion}"
 						requiredMessage="Requerido descripci&oacute;n"
 						validatorMessage="Descripción requerida">
-					</p:inputTextarea>
-					<h:outputLabel value="Imagen:" for="img" />
+					</b:inputTextarea>
+					<h:outputText value="Imagen:" for="img" />
 					<p:fileUpload id="img" mode="advanced" dragDropSupport="true"
 						update=":form1:message :form1:imagen" sizeLimit="2097152"
 						multiple="false" invalidSizeMessage="Archivo excede limite 2 MB "
@@ -70,7 +71,7 @@
 						uploadLabel="Subir" label="Seleccionar" fileLimit="1"
 						fileUploadListener="#{recursosBean.ImagenServ}">
 					</p:fileUpload>
-					<h:outputLabel value="Vista Previa: " />
+					<h:outputText value="Vista Previa: " />
 					<p:graphicImage id="imagen"
 						value="/resources/img/imgevent/#{recursosBean.imagen}" width="150"
 						height="150" />
@@ -141,7 +142,7 @@
 								value="Bot&oacute;n para editar un recurso" trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcamb" icon="ui-icon-refresh"
-							actionListener="#{recursosBean.cambiarEstado(lu)}"
+							actionListener="#{recursosBean.cambiarEstado(lu)}" process="@this"
 							update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrack3" for="trackcamb"
 								value="Bot&oacute;n para cambiar el estado del recurso"
@@ -155,23 +156,23 @@
 					showEffect="clip" hideEffect="clip">
 					<p:messages id="msj" closable="true" />
 					<p:panelGrid columns="2" id="panel4">
-						<h:outputLabel value="Id: " for="id" />
-						<h:outputLabel id="id" value="#{recursosBean.idRecurso}"></h:outputLabel>
-						<h:outputLabel value="Nombre: " for="nom" />
+						<h:outputText value="Id: " for="id" />
+						<h:outputText id="id" value="#{recursosBean.idRecurso}"></h:outputText>
+						<h:outputText value="Nombre: " for="nom" />
 						<p:inputText id="nom" value="#{recursosBean.nombre}">
 						</p:inputText>
-						<h:outputLabel value="Cantidad: " for="cant" />
+						<h:outputText value="Cantidad: " for="cant" />
 						<p:inputText required="true" id="cant" size="2"
 							value="#{recursosBean.capacidad}">
 						</p:inputText>
-						<h:outputLabel value="Descripci&oacute;n: " for="des" />
-						<p:inputTextarea id="des" value="#{recursosBean.descripcion}">
-						</p:inputTextarea>
-						<h:outputLabel value="Tipo Recurso: " for="trec" />
+						<h:outputText value="Descripci&oacute;n: " for="des" />
+						<b:inputTextarea id="des" value="#{recursosBean.descripcion}">
+						</b:inputTextarea>
+						<h:outputText value="Tipo Recurso: " for="trec" />
 						<p:inputText required="false" id="trec"
 							value="#{recursosBean.lugar}" requiredMessage="Requerido">
 						</p:inputText>
-						<h:outputLabel value="Imagen:" />
+						<h:outputText value="Imagen:" />
 						<p:fileUpload mode="advanced" dragDropSupport="true"
 							multiple="false" update="imagen" sizeLimit="2097152"
 							invalidSizeMessage="Archivo excede limite 2 MB "
@@ -181,7 +182,7 @@
 							uploadLabel="Subir" label="Seleccionar" fileLimit="1"
 							fileUploadListener="#{recursosBean.ImagenServ}">
 						</p:fileUpload>
-						<h:outputLabel value="Vista Previa:" />
+						<h:outputText value="Vista Previa:" />
 						<p:graphicImage id="imagen"
 							value="/resources/img/imgevent/#{recursosBean.imagen}"
 							width="100" height="100" />

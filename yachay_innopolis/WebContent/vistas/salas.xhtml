@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -30,19 +31,19 @@
 			<p:growl id="message" showDetail="false" />
 			<p:panel id="panel1" header="Registro de Salas">
 				<p:panelGrid columns="4" id="panel4">
-					<h:outputLabel value="Nombre de Sala* :" for="tipo" />
+					<h:outputText value="Nombre de Sala* :" for="tipo" />
 					<p:inputText required="true" id="tipo" value="#{salasBean.tiponom}"
 						requiredMessage="Requerido Ubicaci&oacute;n"
 						validatorMessage="Ubicaci&oacute;n Obligatorio">
 						<p:ajax listener="#{salasBean.asignarNombreImagen}" />
 					</p:inputText>
-					<h:outputLabel value="Descripción* :" for="des" />
-					<p:inputTextarea required="true" id="des" rows="4" cols="21"
+					<h:outputText value="Descripción* :" for="des" />
+					<b:inputTextarea  required="true" id="des" rows="4" cols="21"
 						autoResize="true" value="#{salasBean.descripcion}"
 						requiredMessage="Requerido Descripci&oacute;n"
 						validatorMessage="Descripción Requerida">
-					</p:inputTextarea>
-					<h:outputLabel value="Color* :" for="color" />
+					</b:inputTextarea>
+					<h:outputText value="Color* :" for="color" />
 					<h:panelGroup>
 						<p:selectOneMenu id="color" required="true" styleClass="t"
 							value="#{salasBean.idcolor}" requiredMessage="Requerido Color">
@@ -52,14 +53,14 @@
 							</p:ajax>
 						</p:selectOneMenu>
 					</h:panelGroup>
-					<h:outputLabel value="Capacidad* :" for="capacidad" />
+					<h:outputText value="Capacidad* :" for="capacidad" />
 					<p:inputText required="true" id="capacidad"
 						value="#{salasBean.capacidad}"
 						requiredMessage="Requerida Capacidad"
 						validatorMessage="Cantidad sólo números entre 1 y 1000">
 						<f:validateRegex pattern="[0-9]+" />
 					</p:inputText>
-					<h:outputLabel value="Imagen: " />
+					<h:outputText value="Imagen: " />
 					<p:fileUpload mode="advanced" dragDropSupport="true"
 						update=":form1:message :form1:imagen" sizeLimit="2097152"
 						multiple="false" invalidSizeMessage="Archivo excede limite 2 MB "
@@ -69,7 +70,7 @@
 						uploadLabel="Subir" label="Seleccionar" fileLimit="1"
 						fileUploadListener="#{salasBean.ImagenServ}">
 					</p:fileUpload>
-					<h:outputLabel value="Vista Previa: " />
+					<h:outputText value="Vista Previa: " />
 					<p:graphicImage id="imagen"
 						value="/resources/img/imgevent/#{salasBean.imagen}" width="150"
 						height="150" />
@@ -163,19 +164,19 @@
 					hideEffect="clip">
 					<p:messages id="msj" closable="true" />
 					<p:panelGrid columns="2" id="panel4">
-						<h:outputLabel value="Identificaci&oacute;n: " for="idsala" />
+						<h:outputText value="Identificaci&oacute;n: " for="idsala" />
 						<h:outputText id="idsala" value="#{salasBean.idRectipo}"></h:outputText>
-						<h:outputLabel value="Sala: " for="sala" />
+						<h:outputText value="Sala: " for="sala" />
 						<p:inputText id="sala" value="#{salasBean.tiponom}">
 						</p:inputText>
-						<h:outputLabel value="Descripción :" for="descr" />
-						<p:inputTextarea id="descr" rows="4" cols="21" autoResize="true"
+						<h:outputText value="Descripción :" for="descr" />
+						<b:inputTextarea id="descr" rows="4" cols="21" autoResize="true"
 							value="#{salasBean.descripcion}">
-						</p:inputTextarea>
-						<h:outputLabel value="Capacidad: " for="capa" />
+						</b:inputTextarea >
+						<h:outputText value="Capacidad: " for="capa" />
 						<p:inputText id="capa" value="#{salasBean.capacidad}" size="2">
 						</p:inputText>
-						<h:outputLabel value="Escoger Color: " for="color1" />
+						<h:outputText value="Escoger Color: " for="color1" />
 						<h:panelGroup>
 							<p:selectOneMenu id="color1" value="#{salasBean.idcolor}">
 								<f:selectItem itemLabel="Seleccione el Color" itemValue="" />
@@ -184,7 +185,7 @@
 								</p:ajax>
 							</p:selectOneMenu>
 						</h:panelGroup>
-						<h:outputLabel value="Imagen: " />
+						<h:outputText value="Imagen: " />
 						<p:fileUpload mode="advanced" dragDropSupport="true"
 							multiple="false" update="imagen" sizeLimit="2097152"
 							invalidSizeMessage="Archivo excede limite 2 MB "
@@ -194,7 +195,7 @@
 							uploadLabel="Subir" label="Seleccionar" fileLimit="1"
 							fileUploadListener="#{salasBean.ImagenServ}">
 						</p:fileUpload>
-						<h:outputLabel value="Vista Previa: " />
+						<h:outputText value="Vista Previa: " />
 						<p:graphicImage id="imagen"
 							value="/resources/img/imgevent/#{salasBean.imagen}" width="100"
 							height="100" />

@@ -18,7 +18,7 @@
 			<f:facet name="options">
 				<p:commandButton type="button" value="#{sessionBean.nom}"
 					disabled="true" icon="ui-icon-person" />
-				<p:commandButton id="tracksalir" value="Volver" action="/home.xhtml"
+				<p:commandButton id="tracksalir" value="Volver" action="/home.xhtml"  actionListener="#{solicitudApBean.cancelarenv}"
 					icon="ui-icon-home">
 					<p:tooltip id="toolTipTrac10" for="tracksalir"
 						value="Bot&oacute;n para volver del sistema" trackMouse="true" />
@@ -117,7 +117,7 @@
 				</p:column>
 			</p:dataTable>
 
-			<p:dialog widgetVar="dlg1" modal="true" closable="false"
+			<p:dialog widgetVar="dlg1" modal="true" closable="true"
 				closeOnEscape="true" header="Enviar Mensaje" showEffect="clip"
 				hideEffect="clip">
 
@@ -135,13 +135,6 @@
 						update=":form:panel :form:msn">
 						<p:tooltip id="t3" for="trackedi"
 							value="Bot&oacute;n para editar el sms" trackMouse="true" />
-					</p:commandButton>
-					<p:commandButton id="trackcerrlg" value="Volver"
-						onclick="PF('dlg2').close();" update=":form:panel :form:msn"
-						action="#{solicitudApBean.cancelarenv}">
-						<p:tooltip id="toolTipTrack20" for="trackcerrlg"
-							value="Bot&oacute;n para cancelar la edici&oacute;n"
-							trackMouse="true" />
 					</p:commandButton>
 				</p:panelGrid>
 			</p:dialog>

@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui" 
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -32,7 +33,7 @@
 			<p:inputText required="true"  id="tipo" value="#{serviciosVirtualesBean.nomservicio}" requiredMessage="Requerido Nombre del Servicio">	</p:inputText>
 			<h:outputText value=""/>			
 			<h:outputText value="Url del Servicio Virtual* :"/>
-			<p:inputTextarea required="true"  id="url" value="#{serviciosVirtualesBean.url}" requiredMessage="Requerido Url del Servicio">	</p:inputTextarea>
+			<p:inputTextarea required="true"  id="url" value="#{serviciosVirtualesBean.url}" requiredMessage="Requerido Url del Servicio" rows="2" cols="100"/>
 			<h:outputText value=""/>			
 			<p:commandButton id="trackingre" update=":form1:panel1 :form2:panel2 message" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}">
 			<p:tooltip id="toolTipTrack1" for="trackingre" value="Bot&oacute;n para crear servicio virtual" trackMouse="true" />			
@@ -50,7 +51,7 @@
 <p:growl id="message1" showDetail="false" />
 	<p:panel id="panel2" header="Lista de Servicios Virtuales">
 		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
-		{PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="10" reflow="true"
+		{PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="2" reflow="true"
 		 value="#{serviciosVirtualesBean.listServicios}" var="ser" emptyMessage="No hay información almacenada">
 			<f:facet name="{exp}">
 			<h:commandLink>
@@ -89,7 +90,7 @@
 			<h:outputText value="Nombre Servicio: "/>
 			<p:inputText  id="Nom" value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
 			<h:outputText value="Url del Servicio Virtual: "/>
-			<p:inputTextarea  id="Url" value="#{serviciosVirtualesBean.url}"></p:inputTextarea>
+			<p:inputTextarea  id="Url" value="#{serviciosVirtualesBean.url}" rows="4" cols="50"></p:inputTextarea>
 			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-disk" onclick="PF('dlg1').close();"  action="#{serviciosVirtualesBean.ActualizarServicio}">
 			<p:tooltip id="toolTipTrack4" for="trackactu" value="Bot&oacute;n para actualizar el servicio virtual" trackMouse="true" />	
 			</p:commandButton>

@@ -144,7 +144,7 @@ public class ManagerLogin implements Serializable {
 		usr.setPassword(password);
 		usr.setTipoestadousr(this.EstadoByID(1));// Toma Pendiente
 		usr.setSms("No Notificado");
-		usr.setTipo(findtipoxid(2));
+		usr.setTipo(t);
 		usr.setPrincipal(false);
 		usr.setEmpresestdu(empresestu);
 		usr.setCargotitulo(cargoinstitu);

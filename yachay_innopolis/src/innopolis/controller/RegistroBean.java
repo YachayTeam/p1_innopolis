@@ -1,6 +1,7 @@
 package innopolis.controller;
 
 import innopolis.entidades.Interes;
+import innopolis.entidades.Tipo;
 import innopolis.entidades.Tipoestadousr;
 import innopolis.entidades.Usuario;
 import innopolis.entidades.help.Utilidades;
@@ -388,6 +389,7 @@ public class RegistroBean implements Serializable {
 	// accion para invocar el manager y crear evento
 	public String crearUsuario() {
 		String a = "ingresousuario";
+		asignarTipo();
 		if (this.repetidosc() == false) {
 			Mensaje.crearMensajeWARN("Los correos ingresados no coinciden");
 		} else if (this.repetidosp() == false) {
@@ -396,6 +398,8 @@ public class RegistroBean implements Serializable {
 			Mensaje.crearMensajeWARN("La cédula/pasaporte ya está siendo utilizada");
 		} else if (this.ccorreo(correo)) {
 			Mensaje.crearMensajeWARN("El correo ya está siendo utilizado");
+		} else if (tipo == null){
+			Mensaje.crearMensajeWARN("Escoja el tipo de usuario referencial ");
 		} else {
 			try {
 				setPassword(Utilidades.Encriptar(getPassword()));// MD5 PASS
@@ -485,7 +489,7 @@ public class RegistroBean implements Serializable {
 				password = "";
 				rpassword = "";
 				interes = "";
-				tipo = 0;
+				tipo = null;
 				sms = "";
 				smscoradmin = "";
 				idUsuario = null;
@@ -549,5 +553,27 @@ public class RegistroBean implements Serializable {
 
 	public String getPanel2() {
 		return this.panel2;
+	}
+
+	// metodo para mostrar los Tipos en Usuarios
+	public List<SelectItem> getListaTipo() {
+		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
+		List<Tipo> tipo = manager.findAllTipo();
+		for (Tipo t : tipo) {
+			if (t.getTipo().equals("root") || t.getTipo().equals("pendiente")
+					|| t.getTipo().equals("Administrador")
+					|| t.getTipo().equals("Gestor y Aprobador")) {
+			} else {
+				SelectItem item = new SelectItem(t.getIdTipo(), t.getTipo());
+				listadoSI.add(item);
+			}
+		}
+		return listadoSI;
+	}
+
+	// metodo para asignar el Tipo al Usuario
+	public String asignarTipo() {
+		manager.asignarTipo(tipo);
+		return "";
 	}
 }

@@ -15,7 +15,6 @@ import innopolis.model.generic.Mensaje;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -792,7 +791,6 @@ public class UsuariosBean implements Serializable {
 			cargptitu = "";
 			idUsuario = null;
 			tipoestusr = manager.EstadoByID(1);
-			Mensaje.crearMensajeWARN("Envío cancelado");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

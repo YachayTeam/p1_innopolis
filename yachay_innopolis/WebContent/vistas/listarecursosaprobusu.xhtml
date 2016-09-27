@@ -18,7 +18,7 @@
 			<f:facet name="options">
 				<p:commandButton type="button" value="#{sessionBean.nom}"
 					disabled="true" icon="ui-icon-person" />
-				<p:commandButton id="tracksalir" value="Volver"
+				<p:commandButton id="tracksalir" value="Volver" actionListener="#{eventosBean.irAprovador1}"
 					action="/vistas/soleven.xhtml" icon="ui-icon-clipboard"></p:commandButton>
 			</f:facet>
 		</p:menubar>

@@ -253,8 +253,8 @@
 				</p:dataTable>
 
 				<br />
-				<p:dialog widgetVar="dlg1" modal="true" closable="false"
-					closeOnEscape="false" header="Información Eventos"
+				<p:dialog widgetVar="dlg1" modal="true" closable="true"
+					closeOnEscape="true" header="Información Eventos"
 					showEffect="clip" hideEffect="clip">
 					<p:messages id="msj" closable="true" />
 					<p:panelGrid columns="4" id="panel4">
@@ -325,32 +325,25 @@
 							action="#{eventosBean.editarEventoUsuario()}"
 							update="panel4  :form1:message1">
 						</p:commandButton>
-						<p:commandButton id="trackcerr" update=":form1:message1"
-							value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();"
-							action="#{eventosBean.irEvento}">
-						</p:commandButton>
 					</p:panelGrid>
 				</p:dialog>
 
 				<p:dialog widgetVar="dlg2" modal="true" closable="true"
 					closeOnEscape="true" header="Editar Mensaje" showEffect="clip"
 					hideEffect="clip">
-					<h:outputLabel
+					<h:outputText
 						value="Al momento de enviar el mensaje, espere a la notificación de confimación." />
 					<p:panelGrid columns="2">
-						<h:outputLabel
+						<h:outputText
 							value="Cancelación de Evento: " />
-						<p:inputTextarea value="#{eventosBean.smscor}" cols="50"
-							autoResize="false" rows="10"></p:inputTextarea>
+						<p:inputTextarea value="#{eventosBean.smscor}" rows="10"
+							cols="50" 
+							autoResize="false" ></p:inputTextarea>
 						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
 							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
 							update=":form2 :form2:message2" icon="ui-icon-comment"
 							value="Enviar Mensaje"
 							action="#{eventosBean.enviarmensaje(reg1)}">
-						</p:commandButton>
-						<p:commandButton id="trackcerrlg" value="Volver"
-							onclick="PF('dlg2').close();" update=":form2 :form2:message2"
-							action="#{eventosBean.irAprovador1}">
 						</p:commandButton>
 					</p:panelGrid>
 				</p:dialog>

@@ -48,7 +48,7 @@ public class SessionBean {
 
 	/* Perfil de Usuario */
 	private String nombre, apellido, password, correo, direccion, telefono,
-			celular, cedula, alias, empreestu, cargptitu;
+			celular, cedula, alias, empreestu, cargptitu, tipousuario;
 	private boolean principal;
 	private Integer idUsr;
 	private Integer[] arrayTipoLogin;
@@ -252,6 +252,14 @@ public class SessionBean {
 		this.cargptitu = cargptitu;
 	}
 
+	public String getTipousuario() {
+		return tipousuario;
+	}
+	
+	public void setTipousuario(String tipousuario) {
+		this.tipousuario = tipousuario;
+	}
+	
 	// login
 	public void veri() {
 		int t = 0;
@@ -372,6 +380,7 @@ public class SessionBean {
 		telefono = "";
 		celular = "";
 		Cedula = "";
+		tipousuario ="";
 		System.out.println("si salio");
 		return "";
 	}
@@ -428,6 +437,7 @@ public class SessionBean {
 				setPassword(Utilidades.Desencriptar(usr.getPassword()));
 				setPrincipal(usr.getPrincipal());
 				setEmpreestu(usr.getEmpresestdu());
+				setTipousuario(usr.getTipo().getTipo());
 				setCargptitu(usr.getCargotitulo());
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al cargar sus datos personales");

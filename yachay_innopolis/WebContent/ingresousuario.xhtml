@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" 
-	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
@@ -20,7 +19,7 @@
 				<p:commandButton id="tracksalir" value="Volver" action="index.xhtml"
 					icon=" ui-icon-closethick">
 					<p:tooltip id="toolTipTrac10" for="tracksalir"
-						value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+						value="Bot&oacute;n para volver" trackMouse="true" />
 				</p:commandButton>
 			</f:facet>
 		</p:menubar>
@@ -32,72 +31,69 @@
 			style="margin-left: 50px;margin-right: 50px;">
 			<b:row>
 				<b:column span="10">
-					<h:outputLabel
+					<h:outputText
 						value="Ingrese información válida para ser registrado."
-						style="padding:10px;font-weight:bold;"></h:outputLabel>
+						style="padding:10px;font-weight:bold;"></h:outputText>
 				</b:column>
 			</b:row>
 			<br />
 			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Cédula/Pasaporte/RUC* :" for="cedula"
-						style="padding:10px;" />
+					<h:outputText value="Cédula/Pasaporte/RUC*: " for="cedula" />
 				</b:column>
 				<b:column span="2">
 					<p:inputText required="true" id="cedula"
+						style="width:100%; margin-bottom:15px;"
 						value="#{registroBean.cedula}"
 						requiredMessage="Requerida/o Cédula/Pasaporte" />
 				</b:column>
 			</b:row>
 			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Apellidos* :" for="apellidos"
-						style="padding:10px;" />
+					<h:outputText value="Apellidos*: " for="apellidos" />
 				</b:column>
 				<b:column span="2">
 					<p:inputText required="true" id="apellidos"
-						value="#{registroBean.apellido}" size="30"
+						style="width:100%; margin-bottom:15px;"
+						value="#{registroBean.apellido}"
 						requiredMessage="Requerido Apellidos"
 						validatorMessage="El apellido debe contener solo letras">
 						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 					</p:inputText>
 				</b:column>
-			</b:row>
-			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Nombres* :" for="nombres"
-						style="padding:10px;" />
+					<h:outputText value="Nombres*: " for="nombres" />
 				</b:column>
 				<b:column span="2">
 					<p:inputText required="true" id="nombres"
+						style="width:100%; margin-bottom:15px;"
 						value="#{registroBean.nombre}" requiredMessage="Requerido Nombres"
-						size="30" validatorMessage="El nombre debe contener solo letras">
+						validatorMessage="El nombre debe contener solo letras">
 						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 					</p:inputText>
 				</b:column>
 			</b:row>
 			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Correo* :" for="correo" style="padding:10px;" />
+					<h:outputText value="Correo*: " for="correo" />
 				</b:column>
 				<b:column span="2">
 					<p:inputText required="true" id="correo"
-						requiredMessage="Por favor ingrese su Correo." size="30"
+						style="width:100%; margin-bottom:15px;"
+						requiredMessage="Por favor ingrese su Correo."
 						validatorMessage="Formato de correo inv&aacute;lido"
 						value="#{registroBean.correo}">
 						<f:validateRegex
 							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 					</p:inputText>
 				</b:column>
-			</b:row>
-			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Repetir Correo* :" for="correo1"
-						style="padding:10px;" />
+					<h:outputText value="Repetir Correo*:" for="correo1" />
 				</b:column>
 				<b:column span="2">
 					<p:inputText required="true" id="correo1"
-						validatorMessage="Formato de correo invalido" size="30"
+						style="width:100%; margin-bottom:15px;"
+						validatorMessage="Formato de correo invalido"
 						value="#{registroBean.rcorreo}"
 						requiredMessage="Por favor ingrese su correo." />
 					<!-- <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z])$" />  -->
@@ -105,23 +101,21 @@
 			</b:row>
 			<b:row>
 				<b:column span="2">
-					<h:outputLabel for="direcc" value="Dirección* : "
-						style="padding:10px;" />
+					<h:outputText for="direcc" value="Dirección*: " />
 				</b:column>
 				<b:column span="2">
 					<p:inputText id="direcc" required="true"
-						value="#{registroBean.direccion}" size="30"
+						style="width:100%; margin-bottom:15px;"
+						value="#{registroBean.direccion}"
 						requiredMessage="Requerido Dirección"></p:inputText>
 				</b:column>
-			</b:row>
-			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Teléfono* : " for="telef"
-						style="padding:10px;" />
+					<h:outputText value="Teléfono*: " for="telef" />
 				</b:column>
 				<b:column span="2">
 					<p:inputText id="telef" required="true"
-						value="#{registroBean.telefono}" size="30"
+						value="#{registroBean.telefono}"
+						style="width:100%; margin-bottom:15px;"
 						requiredMessage="Requerido Teléfono" maxlength="10"
 						validatorMessage="Campo teléfono debe ingresar solo n&uacute;meros.">
 						<f:validateRegex pattern="[0-9]+" />
@@ -129,52 +123,29 @@
 				</b:column>
 			</b:row>
 			<b:row>
-				<b:column span="2">
-					<h:outputLabel value="Celular* : " for="celu" style="padding:10px;" />
-				</b:column>
-				<b:column span="2">
-					<p:inputText id="celu" required="true"
-						value="#{registroBean.celular}" size="30"
-						requiredMessage="Requerido Celular" maxlength="10"
-						validatorMessage="Campo celular debe ingresar solo n&uacute;meros.">
-						<f:validateRegex pattern="[0-9]+" />
-					</p:inputText>
-				</b:column>
-			</b:row>
 
-			<!--h:outputText value=""/>
-			<h:outputText value=""/>
-			<h:outputText value="Nombre de Usuario* :"/>
-			<p:inputText required="true" id="alias" value="#{registroBean.alias}" requiredMessage="Requerido Alias" validatorMessage="Alias contiene caracteres no permitidos o posee un tamaño menor a 4">
-			<f:validateRegex pattern="[a-zA-Z]+"/>
-			<f:validateLength minimum="4"/>
-			</p:inputText> 
-			<h:outputText value=""/-->
-			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Contraseña* :" for="pass"
-						style="padding:10px;" />
+					<h:outputText value="Contraseña*: " for="pass" />
 				</b:column>
 				<b:column span="2">
-					<p:password required="true" id="pass" redisplay="true" size="30"
+					<p:password required="true" id="pass" redisplay="true"
 						value="#{registroBean.password}" feedback="true"
+						style="width:100%; margin-bottom:15px;"
 						requiredMessage="Requerida Contraseña" goodLabel="Buena"
 						strongLabel="Fuerte" weakLabel="Débil"
 						promptLabel="Por favor ingrese contraseña"
 						validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
 					</p:password>
 				</b:column>
-			</b:row>
-			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Repetir Contraseña* :" for="pass1"
-						style="padding:10px;" />
+					<h:outputText value="Repetir Contraseña*: " for="pass1" />
 				</b:column>
 				<b:column span="2">
-					<p:password required="true" id="pass1" redisplay="true" size="30"
+					<p:password required="true" id="pass1" redisplay="true"
 						value="#{registroBean.rpassword}" feedback="true"
 						requiredMessage="Requerido Contraseña" goodLabel="Buena"
 						strongLabel="Fuerte" weakLabel="Débil"
+						style="width:100%; margin-bottom:15px;"
 						promptLabel="Por favor ingrese contraseña"
 						validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
 						<f:validateRegex pattern="[a-zA-Z0-9.]+" />
@@ -184,35 +155,62 @@
 			</b:row>
 			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Lugar de trabajo :" for="act1"
-						style="padding:10px;" />
+					<h:outputText value="Celular*: " for="celu" />
 				</b:column>
 				<b:column span="2">
-					<p:inputText required="false" id="act1" size="30"
-								requiredMessage="Por favor ingrese su empresa o institución."
-								validatorMessage="Formato inv&aacute;lido"
-								value="#{registroBean.empreestu}">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+					<p:inputText id="celu" required="true"
+						value="#{registroBean.celular}"
+						style="width:100%; margin-bottom:15px;"
+						requiredMessage="Requerido Celular" maxlength="10"
+						validatorMessage="Campo celular debe ingresar solo n&uacute;meros.">
+						<f:validateRegex pattern="[0-9]+" />
+					</p:inputText>
+				</b:column>
+				<b:column span="2">
+					<h:outputText value="Lugar de Trabajo: " for="act1" />
+				</b:column>
+				<b:column span="2">
+					<p:inputText required="false" id="act1"
+						style="width:100%; margin-bottom:15px;"
+						requiredMessage="Por favor ingrese su empresa o institución."
+						validatorMessage="Formato inv&aacute;lido"
+						value="#{registroBean.empreestu}">
+						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
 					</p:inputText>
 				</b:column>
 			</b:row>
 			<b:row>
 				<b:column span="2">
-					<h:outputLabel value="Cargo :" for="act2"
-						style="padding:10px;" />
+					<h:outputText value="Tipo usuario referencial*: " for="tipousrref" />
 				</b:column>
 				<b:column span="2">
-					<p:inputText required="false" id="act2" size="30"
-								requiredMessage="Por favor ingrese su cargo."
-								validatorMessage="Formato inv&aacute;lido"
-								value="#{registroBean.cargptitu}">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-							</p:inputText>
+					<h:panelGroup>
+						<p:selectOneMenu id="tipousrref" required="true"
+							styleClass="t" value="#{registroBean.tipo}"
+							requiredMessage="Requerido tipo del usuario">
+							<f:selectItem itemLabel="Selección tipo Usuario" itemValue="" />
+							<f:selectItems value="#{registroBean.listaTipo}" />
+							<p:ajax listener="#{registroBean.asignarTipo()}">
+							</p:ajax>
+						</p:selectOneMenu>
+					</h:panelGroup>
 				</b:column>
-				</b:row>
+				<b:column span="2">
+					<h:outputText value="Cargo: " for="act2" />
+				</b:column>
+				<b:column span="2">
+					<p:inputText required="false" id="act2"
+						style="width:100%; margin-bottom:15px;"
+						requiredMessage="Por favor ingrese su cargo."
+						validatorMessage="Formato inv&aacute;lido"
+						value="#{registroBean.cargptitu}">
+						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+					</p:inputText>
+				</b:column>
+			</b:row>
 			<b:row>
 				<b:column span="3">
-					<h:outputLabel value="Seleccion de Intereses*: "
+					<h:outputText value="Seleccion de Intereses*: "
 						style="padding:10px;" for="menu" />
 				</b:column>
 			</b:row>
@@ -222,8 +220,8 @@
 						value="#{registroBean.arrayTipoLogin}" layout="grid" columns="3"
 						style="font-weight: normal;">
 						<f:selectItems value="#{registroBean.listaIntereses}"
+							style="width:100%; margin-bottom:15px;"
 							itemValue="#{registroBean.intereses.idInteres}" var="intereses"
-							style="font-weight: normal;"
 							itemLabel="#{registroBean.intereses.nombreInt}" />
 					</p:selectManyCheckbox>
 				</b:column>
@@ -242,13 +240,13 @@
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" onclick="PF('dlgLoad').show();"
 					oncomplete="PF('dlgLoad').hide();"
-					action="#{registroBean.crearUsuario()}"
-					widgetVar="startButton1" update=":form2:panel2 :form2:message2">
+					action="#{registroBean.crearUsuario()}" widgetVar="startButton1"
+					update=":form2:panel2 :form2:message2">
 				</p:commandButton>
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('cd').hide()"></p:commandButton>
-				
+
 			</p:confirmDialog>
 			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
 				closable="false" resizable="false" showHeader="false">

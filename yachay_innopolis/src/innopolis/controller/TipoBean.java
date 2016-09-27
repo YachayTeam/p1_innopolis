@@ -11,10 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 @SessionScoped
@@ -50,7 +48,6 @@ public class TipoBean implements Serializable {
 	}
 
 	public Integer getAdd() {
-		Mensaje.crearMensajeINFO("Se agrego a la lista");
 		return add;
 	}
 
@@ -99,7 +96,6 @@ public class TipoBean implements Serializable {
 	}
 
 	public Integer getDel() {
-		Mensaje.crearMensajeINFO("Se ha eliminado");
 		return del;
 	}
 
@@ -154,9 +150,9 @@ public class TipoBean implements Serializable {
 			manager.insertarTipo(tipo, descripcion, arrayTipoLogin);
 			tipo = "";
 			descripcion = "";
-			Mensaje.crearMensajeINFO("Registrado..!!! Tipo creado");
+			Mensaje.crearMensajeINFO("Tipo creado");
 		} catch (Exception e) {
-			Mensaje.crearMensajeWARN("Error..!!! Tipo no pudo ser creado");
+			Mensaje.crearMensajeWARN("Tipo no pudo ser creado");
 			e.printStackTrace();
 		}
 		return "tipo";
@@ -179,9 +175,9 @@ public class TipoBean implements Serializable {
 			manager.editarTipo(idTipo, tipo, descripcion);
 			tipo = "";
 			descripcion = "";
-			Mensaje.crearMensajeINFO("Realizado..!!! Tipo modificado");
+			Mensaje.crearMensajeINFO("Tipo modificado");
 		} catch (Exception e) {
-			Mensaje.crearMensajeWARN("Error..!!! Tipo no pudo ser modificado");
+			Mensaje.crearMensajeWARN("Tipo no pudo ser modificado");
 			e.printStackTrace();
 		}
 		return "tipo";

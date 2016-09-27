@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui" 
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -27,14 +28,14 @@
 	<p:growl id="message" showDetail="false" />
 	<p:panel id="panel1"  header="Registro de Tipos de Eventos">
 		<p:panelGrid columns="2" >
-			<h:outputLabel value="Tipo* :" for="tipo"/>
-			<p:inputText required="true" id="tipo" value="#{tipoeventosBean.tipo}" requiredMessage="Requerido nombre del tipo evento" validatorMessage="Tipo de evento obligatorio">				
+			<h:outputText value="Tipo* :" for="tipo"/>
+			<p:inputText required="true" id="tipo" value="#{tipoeventosBean.tipo}" size="40" requiredMessage="Requerido nombre del tipo evento" validatorMessage="Tipo de evento obligatorio">				
 			</p:inputText>
 			
-			<h:outputLabel value="Descripci&oacute;n* :" for="tipo2"/>
-			<p:inputTextarea required="true" id="tipo2" value="#{tipoeventosBean.descripcion}" requiredMessage="Requerido descripci&oacute;n" validatorMessage="Ingrese más información">
+			<h:outputText value="Descripci&oacute;n* :" for="tipo2"/>
+			<b:inputTextarea required="true" id="tipo2" value="#{tipoeventosBean.descripcion}" requiredMessage="Requerido descripci&oacute;n" validatorMessage="Ingrese más información">
 			<f:validateLength minimum="10"/>
-			</p:inputTextarea>
+			</b:inputTextarea>
 			<p:commandButton id="trackcrear" update="panel1 :form2:panel2 message" value="Insertar" action="#{tipoeventosBean.accioninsertarTipoEvento}">
 			<p:tooltip id="toolTipTrac1" for="trackcrear" value="Bot&oacute;n para crear un tipo de evento" trackMouse="true" />
 			</p:commandButton>
@@ -73,13 +74,13 @@
 		
 	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Tipo Evento" showEffect="clip" hideEffect="clip">
 	<p:panelGrid columns="2" >
-			<h:outputLabel value="Identificaci&oacute;n: "/>
-			<h:outputLabel value="#{tipoeventosBean.id_tipoevento}" ></h:outputLabel>
-			<h:outputLabel value="Tipo Evento: " for="can"/>
+			<h:outputText value="Identificaci&oacute;n: "/>
+			<h:outputText value="#{tipoeventosBean.id_tipoevento}" ></h:outputText>
+			<h:outputText value="Tipo Evento: " for="can"/>
 			<p:inputText id="can" value="#{tipoeventosBean.tipo}">
 			</p:inputText>
-			<h:outputLabel value="Descripci&oacute;n: " for="descrip"/>
-			<p:inputTextarea required="false" id="descrip" value="#{tipoeventosBean.descripcion}"/>
+			<h:outputText value="Descripci&oacute;n: " for="descrip"/>
+			<b:inputTextarea required="false" id="descrip" value="#{tipoeventosBean.descripcion}"/>
 			<h:outputText  value=""/>
 			<h:outputText  value=""/>
 			<p:commandButton id="trackeditar" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-disk" action="#{tipoeventosBean.accionActualizarTipoEvento}">

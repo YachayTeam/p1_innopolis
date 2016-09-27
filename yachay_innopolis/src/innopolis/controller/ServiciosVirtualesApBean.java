@@ -424,7 +424,6 @@ public class ServiciosVirtualesApBean implements Serializable {
 		correo = "";
 		tema = "";
 		apellidos = "";
-		Mensaje.crearMensajeINFO("Volver");
 		try {
 			tipoestado = managerservirt.findEstadoTipoByID(1);
 		} catch (Exception e) {
@@ -432,7 +431,7 @@ public class ServiciosVirtualesApBean implements Serializable {
 		}
 		tiposervicio = new Tiposervicio();
 		idSvr = 0;
-		return "/aprobador/aprovadorserviciovirtual";
+		return "";
 	}
 
 	public String irAprovadorpag() {

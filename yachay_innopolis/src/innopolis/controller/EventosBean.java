@@ -2184,7 +2184,6 @@ public class EventosBean {
 		idusr = 0;
 		esave = false;
 		select = new ArrayList<SelectItem>();
-		Mensaje.crearMensajeWARN("Actualización cancelada");
 	}
 
 	public String irEvento1() {
@@ -2210,7 +2209,6 @@ public class EventosBean {
 		idusr = 0;
 		esave = false;
 		select = new ArrayList<SelectItem>();
-		Mensaje.crearMensajeWARN("Actualización cancelada");
 		return "eventos?faces-redirect=true";
 	}
 
@@ -2937,35 +2935,7 @@ public class EventosBean {
 		sala = 0;
 		smscor = "";
 		correosadmin = "";
-		Mensaje.crearMensajeWARN("Envío cancelado");
 		return "soleven";
-	}
-
-	public String irAprovador2() {
-		nombre = "";
-		descripcion = "";
-		lugar = "";
-		imagen = "300.jpg";
-		fi = null;
-		ff = null;
-		fechaInicio = null;
-		fechaFin = null;
-		costo = 0;
-		cantidad = "";
-		descripcionubicacion = "Descripción de la Ubicación";
-		descripcionrecurso = "Descripción de Recurso";
-		stock = "stock";
-		capacidad = "capacidad";
-		imagensala = "300.jpg";
-		sc = 0;
-		listDetalles = new ArrayList<Solicidetalle>();
-		te = 0;
-		idusr = 0;
-		sala = 0;
-		smscor = "";
-		correosadmin = "";
-		Mensaje.crearMensajeWARN("Envío cancelado");
-		return "eventos";
 	}
 
 	public String irvolver() {
@@ -3388,52 +3358,6 @@ public class EventosBean {
 		return "";
 	}
 
-	public void cambiarEstadoNegado(Evento ev) {
-		try {
-			if(ev.getEstado().equals("Pendiente") || ev.getEstado().equals("Activado")){
-			ev.setEstado("Desactivado");
-			if (ev.getSolicicabecera().getIdSolcab() != null) {
-				List<Solicicabecera> solicitudCabeceraEvento = mReserv
-						.findSolicitudCabeceraByIdEvento(ev.getSolicicabecera()
-								.getIdSolcab());
-				for (Solicicabecera solicitudCabecera : solicitudCabeceraEvento) {
-					
-					List<Solicidetalle> detalleDetalleCabecera = mReserv
-							.findSolicitudDetalleByCabeceraId(solicitudCabecera
-									.getIdSolcab());
-					for (Solicidetalle detalleSolicitud : detalleDetalleCabecera) {
-						mReserv.eliminarRecursoSolicitadoDesactivado(
-								detalleSolicitud.getSolicicabecera()
-										.getIdSolcab(), fechaInicio, fechaFin);
-					}
-				}
-				List<Salasactiva> salasActivasEvento = mReserv
-						.findSalasActivasByIdEvento(ev.getIdEvento());
-				for (Salasactiva salasactivasedicion : salasActivasEvento) {
-					mReserv.eliminarSalasDesactivado(
-							salasactivasedicion.getIdEvento(), fechaInicio,
-							fechaFin);
-				}
-				Mensaje.crearMensajeINFO("El evento está desactivado");
-			}else{
-				List<Salasactiva> salasActivasEvento = mReserv
-						.findSalasActivasByIdEvento(ev.getIdEvento());
-				for (Salasactiva salasactivasedicion : salasActivasEvento) {
-					mReserv.eliminarSalasDesactivado(
-							salasactivasedicion.getIdEvento(), fechaInicio,
-							fechaFin);
-					Mensaje.crearMensajeINFO("El evento está desactivado");
-				}
-			}
-			}else{
-				Mensaje.crearMensajeINFO("El evento está desactivado");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
 	public void cambiarEstadoNegadoUsuario(Evento ev) {
 		try {
 			if(ev.getEstado().equals("Pendiente")){
@@ -3481,7 +3405,50 @@ public class EventosBean {
 		}
 	}
 	
-	
+	public void cambiarEstadoNegado(Evento ev) {
+		try {
+			if(ev.getEstado().equals("Pendiente") || ev.getEstado().equals("Activado")){
+			ev.setEstado("Desactivado");
+			if (ev.getSolicicabecera().getIdSolcab() != null) {
+				List<Solicicabecera> solicitudCabeceraEvento = mReserv
+						.findSolicitudCabeceraByIdEvento(ev.getSolicicabecera()
+								.getIdSolcab());
+				for (Solicicabecera solicitudCabecera : solicitudCabeceraEvento) {
+					
+					List<Solicidetalle> detalleDetalleCabecera = mReserv
+							.findSolicitudDetalleByCabeceraId(solicitudCabecera
+									.getIdSolcab());
+					for (Solicidetalle detalleSolicitud : detalleDetalleCabecera) {
+						mReserv.eliminarRecursoSolicitadoDesactivado(
+								detalleSolicitud.getSolicicabecera()
+										.getIdSolcab(), fechaInicio, fechaFin);
+					}
+				}
+				List<Salasactiva> salasActivasEvento = mReserv
+						.findSalasActivasByIdEvento(ev.getIdEvento());
+				for (Salasactiva salasactivasedicion : salasActivasEvento) {
+					mReserv.eliminarSalasDesactivado(
+							salasactivasedicion.getIdEvento(), fechaInicio,
+							fechaFin);
+				}
+				Mensaje.crearMensajeINFO("El evento cambió a estado desactivado");
+			}else{
+				List<Salasactiva> salasActivasEvento = mReserv
+						.findSalasActivasByIdEvento(ev.getIdEvento());
+				for (Salasactiva salasactivasedicion : salasActivasEvento) {
+					mReserv.eliminarSalasDesactivado(
+							salasactivasedicion.getIdEvento(), fechaInicio,
+							fechaFin);
+					Mensaje.crearMensajeINFO("El evento cambió a estado  desactivado");
+				}
+			}
+			}else{
+				Mensaje.crearMensajeINFO("El evento yá se encuentra desactivado");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void cambiarEstadoActivado(Evento ev) {
 		try {
@@ -3502,7 +3469,7 @@ public class EventosBean {
 					}
 				}
 					mReserv.insertarSalaActivasActivado(ev.getIdEvento(), fechaInicio,fechaFin);
-					Mensaje.crearMensajeINFO("El evento está activado");
+					Mensaje.crearMensajeINFO("El evento cambió a estado  activado");
 			}else{
 				List<Salasactiva> salasActivasEvento = mReserv
 						.findSalasActivasByIdEvento(ev.getIdEvento());
@@ -3510,12 +3477,12 @@ public class EventosBean {
 					mReserv.insertarSalaActivasActivado(
 							salasactivasedicion.getIdEvento(), fechaInicio,
 							fechaFin);
-					Mensaje.crearMensajeINFO("El evento está activado");
+					Mensaje.crearMensajeINFO("El evento cambió a estado activado");
 				}
 			}
 			}else{
 				ev.setEstado("Activado");
-				Mensaje.crearMensajeINFO("El evento está activado");
+				Mensaje.crearMensajeINFO("El evento yá se encuentra activado");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

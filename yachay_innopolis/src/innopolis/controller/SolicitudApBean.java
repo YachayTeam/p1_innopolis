@@ -563,10 +563,15 @@ public class SolicitudApBean {
 	// Tomar el id de estado general id_estadoSolicitud
 	public String aprobarEstado(Solicicabecera solicitud) {
 			try {
+				if(solicitud.getSoliciestado().getIdSolest() == 3)
+				{
+				 Mensaje.crearMensajeINFO("La solicitud yá se encuentra aprobada");	
+				}else{
 				manager.cambioSMS(solicitud.getIdSolcab());
 				Soliciestado estado = manager.findSolicitudEstadoByID(3);// APROBADO
 				manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
 				Mensaje.crearMensajeINFO("Cambio correcto de estado");
+				}
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al cambiar el estado");
 			}
@@ -575,10 +580,15 @@ public class SolicitudApBean {
 
 	public String negarEstado(Solicicabecera solicitud) {
 			try {
+				if(solicitud.getSoliciestado().getIdSolest() == 4)
+				{
+				 Mensaje.crearMensajeINFO("La solicitud yá se encuentra negada");	
+				}else{
 				manager.cambioSMS(solicitud.getIdSolcab());
 				Soliciestado estado = manager.findSolicitudEstadoByID(4);// NEGADO
 				manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
 				Mensaje.crearMensajeINFO("Cambio correcto de estado");
+				}
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al cambiar el estado");
 			}
