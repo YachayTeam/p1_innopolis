@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="css" name="styleser.css" />
@@ -21,15 +21,15 @@
 					actionListener="#{inscripcionApBean.irAprobador}"
 					icon="ui-icon-home">
 					<p:tooltip id="toolTipTrac10" for="tracksalir"
-						value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+						value="Bot&oacute;n para volver" trackMouse="true" />
 				</p:commandButton>
 			</f:facet>
 		</p:menubar>
 	</h:form>
 	<hr />
+	<p:growl id="msn" showDetail="false"></p:growl>
 	<div class="div">
 		<h:form id="form">
-			<p:growl id="msn" showDetail="false"></p:growl>
 			<p:panel id="panel" header="Inscripciones a Eventos">
 				<p:dataTable id="dtsol"
 					value="#{inscripcionApBean.listadoInscripciones}" var="sol"
@@ -39,6 +39,7 @@
 					emptyMessage="No hay información almacenada">
 					<f:facet name="{exp}">
 						<h:commandLink>
+							<!--   <h:graphicImage value="/resources/img/excel.png" width="24"/> -->
 							<p:button value="Excel" />
 							<p:dataExporter type="xls" target="dtsol"
 								fileName="inscripciones" pageOnly="true" />
@@ -86,21 +87,21 @@
 					<p:column headerText="Opciones" exportable="false" width="90">
 						<p:commandButton id="trackapro" icon="ui-icon-circle-check"
 							actionListener="#{inscripcionApBean.aprobarInscrito(sol)}"
-							update=":form:panel :form:msn">
+							update=":form:panel msn">
 							<p:tooltip id="toolTipTrack5" for="trackapro"
 								value="Bot&oacute;n para aprobar inscripci&oacute;n"
 								trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcerr" icon="ui-icon-circle-close"
 							actionListener="#{inscripcionApBean.negarInscrito(sol)}"
-							update=":form:panel :form:msn">
+							update=":form:panel msn">
 							<p:tooltip id="toolTipTrack6" for="trackcerr"
 								value="Bot&oacute;n para negar la inscripci&oacute;n"
 								trackMouse="true" />
 						</p:commandButton>
 					</p:column>
 					<p:column headerText="Ver/Env&iacute;o Mensaje" exportable="false"
-						resizable="true" width="90">
+						width="90">
 						<p:commandButton icon="ui-icon-search" id="track">
 							<p:tooltip id="toolTipTrack2" for="track"
 								value="Bot&oacute;n para ver la informaci&oacute;n del registro"
@@ -108,11 +109,10 @@
 							<p:ajax listener="#{inscripcionApBean.cargarInscripcion(sol)}"
 								update=":form:panel" oncomplete="PF('dlg2').show();" />
 						</p:commandButton>
-						<p:commandButton id="trackcer1" icon="ui-icon-comment"
-							oncomplete="PF('dlg1').show();" update=":form:panel"
-							actionListener="#{inscripcionApBean.asignarsms(sol)}">
+						<p:commandButton id="trackcer1" icon="ui-icon-mail-closed"
+							 update=":form msn"	actionListener="#{inscripcionApBean.asignarsms(sol)}">
 							<p:tooltip id="toolTipTrack8" for="trackcer1"
-								value="Cambiar contenido de la Notificaci&oacute;n"
+								value="Cambiar contenido de la notificaci&oacute;n por defecto"
 								trackMouse="true" />
 						</p:commandButton>
 					</p:column>
@@ -129,7 +129,7 @@
 							cols="50"></p:inputTextarea>
 						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
 							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
-							update=":form:panel :form:msn" value="Aceptar"
+							update=":form:panel msn" value="Aceptar"
 							action="#{inscripcionApBean.notificarInscripcion(sol1)}"
 							icon="ui-icon-comment">
 							<p:tooltip id="t3" for="trackedi"
@@ -164,8 +164,8 @@
 						<h:outputText value="Estado Mensaje: " />
 						<h:outputText value="#{inscripcionApBean.estado}"></h:outputText>
 						<h:outputText value="Observación: " />
-						<b:inputTextarea id="obser"
-							value="#{inscripcionApBean.observacion}" rows="4" cols="30"></b:inputTextarea>
+						<p:inputTextarea id="obser"
+							value="#{inscripcionApBean.observacion}" rows="4" cols="30"></p:inputTextarea>
 					</p:panelGrid>
 				</p:dialog>
 			</p:panel>

@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 
 @ManagedBean
@@ -216,6 +217,7 @@ public class InscripcionApBean implements Serializable {
 	}
 
 	public String cargarInscripcion(Inscripcione i) {
+		try {
 			idInscripcion = i.getIdInscripcion();
 			apellido = i.getApellido();
 			correo = i.getCorreo();
@@ -229,30 +231,37 @@ public class InscripcionApBean implements Serializable {
 			direccion = i.getDireccion();
 			telefono = i.getTelefono();
 			celular = i.getCelular();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "";
 	}
 
 	public String asignarsms(Inscripcione inscripcion) {
-		idInscripcion = inscripcion.getIdInscripcion();
-		apellido = inscripcion.getApellido();
-		correo = inscripcion.getCorreo();
-		estado = inscripcion.getEstado();
-		fechaInscripcion = inscripcion.getFechaInscripcion();
-		idUsuario = inscripcion.getIdUsuario();
-		nombre = inscripcion.getNombre();
-		observacion = inscripcion.getObservacion();
-		evento = inscripcion.getEvento();
-		sms = inscripcion.getSms();
-		smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-				+ "<meta name='viewport' content='width=device-width'></head><body>"
-				+ "Le informamos que la inscripcion de: "
-				+ inscripcion.getEvento().getNombre()
-				+ " ,fue "
-				+ inscripcion.getEstado()
-				+ "<br/> Saludos cordiales, "
-				+ "<br/> Sistema de REGECE Yachay EP"
-				+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-		;
+		if (inscripcion.getEstado().equals("sin aprobar")) {
+			Mensaje.crearMensajeWARN("Debe aprobar o negar la inscripción");
+		} else {
+			idInscripcion = inscripcion.getIdInscripcion();
+			apellido = inscripcion.getApellido();
+			correo = inscripcion.getCorreo();
+			estado = inscripcion.getEstado();
+			fechaInscripcion = inscripcion.getFechaInscripcion();
+			idUsuario = inscripcion.getIdUsuario();
+			nombre = inscripcion.getNombre();
+			observacion = inscripcion.getObservacion();
+			evento = inscripcion.getEvento();
+			sms = inscripcion.getSms();
+			smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					+ "<meta name='viewport' content='width=device-width'></head><body>"
+					+ "Le informamos que la inscripcion de: "
+					+ inscripcion.getEvento().getNombre()
+					+ " ,fue "
+					+ inscripcion.getEstado()
+					+ "<br/> Saludos cordiales, "
+					+ "<br/> Sistema de REGECE Yachay EP"
+					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+			RequestContext.getCurrentInstance().execute("PF('dlg1').show();");
+		}
 		return "";
 	}
 
@@ -305,7 +314,7 @@ public class InscripcionApBean implements Serializable {
 					managerEv.modificarInscripcion(
 							inscripcion.getIdInscripcion(), "negada");
 					Mensaje.crearMensajeINFO("Inscripción negada");
-				} else if(inscripcion.getEstado().equals("negada")) {
+				} else if (inscripcion.getEstado().equals("negada")) {
 					Mensaje.crearMensajeINFO("Inscripción se encuentra negada");
 				}
 			} catch (Exception e) {
