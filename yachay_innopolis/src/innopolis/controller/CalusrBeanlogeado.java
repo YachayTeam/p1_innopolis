@@ -659,7 +659,6 @@ public class CalusrBeanlogeado implements Serializable {
 			}
 		}
 		return r;
-		// return "frm_ins?faces-redirect=true";
 	}
 
 	public String irInscripcion1(Evento ev) {
@@ -799,9 +798,7 @@ public class CalusrBeanlogeado implements Serializable {
 			int max = correosadmin.length();
 			correosadmin = correosadmin.substring(0, max - 1).trim();
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"No se encuentran usuarios administradores"));
+			Mensaje.crearMensajeWARN("No se encuentran usuarios administradores");
 			e.printStackTrace();
 		}
 		return correosadmin;

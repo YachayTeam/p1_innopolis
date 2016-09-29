@@ -21,10 +21,8 @@ import innopolis.manager.Validacion;
 import innopolis.model.generic.Mensaje;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.model.DefaultScheduleEvent;
@@ -508,27 +506,17 @@ public class SolicitudBean {
 			notificacion = "";
 			resp = "";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear la solicitud", null));
+			Mensaje.crearMensajeWARN("Error al crear la solicitud");
 		}
 		return resp;
 	}
 
 	public String insertarDetalleSolicitud() {
 		if (solicitudCabTmpGuardada == true) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"La solicitud fue guardada anteriormente", null));
+			Mensaje.crearMensajeWARN("La solicitud fue guardada anteriormente");
 			return "";
 		} else if (fi.after(ff)) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"La fecha inicio debe ser menor que la fecha fin",
-							null));
+			Mensaje.crearMensajeWARN("La fecha inicio debe ser menor que la fecha fin");
 		}
 		try {// insertar
 			controlarcantidad();
@@ -540,8 +528,7 @@ public class SolicitudBean {
 				capacidad_recurso = null;
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			e.printStackTrace();
 			agregardetalle = false;
 			id_recurso = -1;
 			capacidad_recurso = null;
@@ -554,14 +541,7 @@ public class SolicitudBean {
 	public void controlarcantidad() {
 		try {
 			if (id_recurso == -1) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_INFO,
-										"Debe seleccionar el recurso a solicitar",
-										null));
+				Mensaje.crearMensajeWARN("Debe seleccionar el recurso a solicitar");
 				agregardetalle = false;
 			} else {
 				if (capacidad_recurso == null) {
@@ -573,29 +553,17 @@ public class SolicitudBean {
 				} else if (manager.controlarcantidadmanager(getId_recurso(),
 						getcapacidad_recurso(), h_fin, h_inicio) == false) {
 					agregardetalle = false;
-					FacesContext
-							.getCurrentInstance()
-							.addMessage(
-									null,
-									new FacesMessage(
-											FacesMessage.SEVERITY_INFO,
-											"Error debe especificar el recurso o "
-													+ "La cantidad es mayor a la del recurso solicitado",
-											null));
+					Mensaje.crearMensajeWARN("Error debe especificar el recurso o la cantidad es mayor a la del recurso solicitado");
 				}
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			e.printStackTrace();
 		}
 	}
 
 	public String insertarDetalleSolicitudlista() {
 		if (solicitudCabTmpGuardada == true) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"La solicitud fue guardada", null));
+			Mensaje.crearMensajeINFO("La solicitud fue guardada");
 			return "";
 		}
 		try {// insertar
@@ -611,22 +579,15 @@ public class SolicitudBean {
 							+ p.getRecursotipo().getIdRectipo());
 				}
 			}
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Los recursos se añadieron", null));
+			Mensaje.crearMensajeINFO("Los recursos se añadieron");
 			id_recurso = -1;
 			capacidad_recurso = null;
-			// LIMPIAR LISTADO
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			// LIMPIAR LISTADO
+			e.printStackTrace();
 			id_recurso = -1;
 			capacidad_recurso = null;
-			// LIMPIAR LISTADO
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
 		}
@@ -650,16 +611,13 @@ public class SolicitudBean {
 
 	public String quitarDetalleSolicitud(Solicidetalle det) {
 		if (solicitudCabTmpGuardada == true) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("La solicitud fue guardada"));
+			Mensaje.crearMensajeINFO("La solicitud fue guardada");
 			return "";
 		}
-
 		try {
 			manager.quitarDetalleSolicitudTem(det);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			e.printStackTrace();
 		}
 
 		return "";
@@ -667,18 +625,11 @@ public class SolicitudBean {
 
 	public String guardarSolicitud() {
 		if (solicitudCabTmpGuardada == true) {
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									"La solicitud fue guardada y enviada para aprobación"));
+			Mensaje.crearMensajeINFO("La solicitud fue guardada y enviada para aprobación");
 			return "home";
 		}
 		try {
 			manager.guardarSolicitudTemporalsinev(solicitudCabTem);
-			// agregarlistadecorreos principal
-
 			DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 			smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 					+ "<meta name='viewport' content='width=device-width'></head><body>"
@@ -726,17 +677,10 @@ public class SolicitudBean {
 					+ "<br/> Sistema de REGECE Yachay EP"
 					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 			getcorreosusu();
-
-			// Mail.generateAndSendEmail(correosadmin,
-			// "Notificación de YACHAY/REGECE  ", smscoradmin);
-			// Mail.sendMailsolousr(session.getCorreo(),
-			// "Notificación de YACHAY/REGECE  ", smscorusu);
-
 			mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE",
 					smscoradmin);
 			mb.envioMailWS(session.getCorreo(),
 					"Notificación de YACHAY/REGECE", smscorusu);
-
 			solicitudCabTmpGuardada = true;
 			correosadmin = "";
 			smscoradmin = "";
@@ -748,17 +692,11 @@ public class SolicitudBean {
 			ff = null;
 			setActividad("");
 			setObjetivo("");
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									"Su solicitud fue enviada espere el mensaje de confirmación al correo."));
+			Mensaje.crearMensajeINFO("Su solicitud fue enviada, espere el mensaje de confirmación al correo.");
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage(), null));
+			Mensaje.crearMensajeWARN("Error en guardar solicitud");
+			e.printStackTrace();
 		}
-
 		return "home";
 	}
 
@@ -773,9 +711,7 @@ public class SolicitudBean {
 			int max = correosadmin.length();
 			correosadmin = correosadmin.substring(0, max - 1).trim();
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(
-					"No se encuentran usuarios administradores", null));
+			Mensaje.crearMensajeWARN("No se encuentran usuarios administradores");
 			e.printStackTrace();
 		}
 		return correosadmin;
@@ -787,7 +723,6 @@ public class SolicitudBean {
 			manager.quitarrecursosactivos();
 			cargarRecursos();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -801,43 +736,18 @@ public class SolicitudBean {
 		select = new ArrayList<SelectItem>();
 		select2 = new ArrayList<SelectItem>();
 		if (h_fin == null || h_inicio == null) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Seleccione horario para continuar", null));
+			Mensaje.crearMensajeWARN("Seleccione horario para continuar");
 		} else {
 			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(h_inicio));
 			setHorafin(this.fechaAtiempo(h_fin));
 			if (!Validacion.fechaMayorIgual(h_inicio)
 					|| !Validacion.fechaMayorIgual(h_fin)) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_WARN,
-										"La fecha de solicitud no debe ser menor a la actual",
-										null));
+				Mensaje.crearMensajeWARN("La fecha de solicitud no debe ser menor a la actual");
 			} else if (h_fin.getTime() <= h_inicio.getTime()) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Verifique su horario de solicitud", null));
-				// } else if ((!Validacion.horaMayorIgual(getHorainicio()) ||
-				// !Validacion
-				// .horaMayorIgual(getHorafin()))) {
-				// FacesContext
-				// .getCurrentInstance()
-				// .addMessage(
-				// null,
-				// new FacesMessage(
-				// FacesMessage.SEVERITY_WARN,
-				// "La hora de solicitud no debe ser menor a la actual",
-				// null));
+				Mensaje.crearMensajeWARN("Verifique su horario de solicitud");
 			} else {
 				select = this.getlistaRecursosLibres();
-				// select2 = this.getlistaTipoRecursosLibres();
 			}
 		}
 	}
@@ -854,51 +764,10 @@ public class SolicitudBean {
 		return listadoSI;
 	}
 
-	// //public List<SelectItem> listadoRecursos=new ArrayList<SelectItem>();
-	// //public int valor=0;
-	// //LISTADO DE RECURSOS
-	// public List<SelectItem> getlistaRecursosLibresaunno(){
-	// List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-	// List<Recurso> listadoRecurso=
-	// manager.findAllRecursosDisponibles(h_inicio, h_fin);
-	// for(Recurso p:listadoRecurso){
-	// SelectItem item=new SelectItem(p.getIdRecurso(),
-	// p.getNombre()+" - "+p.getCapacidad());
-	// listadoSI.add(item);
-	// }
-	// return listadoSI;
-	//
-	// }
-
 	public void selecionadorecuraso() {
 		System.out.println(getId_recurso());
 
 	}
-
-	// //LISTADO DE RECURStipo
-	// public List<SelectItem> getlistaTipoRecursosLibres(){
-	// List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-	// //borre los recursos anteriores de la tabla recursos activos
-	// List<Recursotipo> listadoTipoRecurso=
-	// manager.findAllTipoRecursosDisponibles(h_inicio, h_fin);
-	// for(Recursotipo p:listadoTipoRecurso){
-	// SelectItem item=new SelectItem(p.getIdRectipo(),
-	// p.getTipo(),p.getDescripcion());
-	// listadoSI.add(item);
-	// }
-	// return listadoSI;
-	// }
-
-	// public List<SelectItem> getlistaRecursos(){
-	// List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-	// List<Recurso> listadoRecurso= manager.findAllRecurso();
-	// for(Recurso p:listadoRecurso){
-	// SelectItem item=new SelectItem(p.getIdRecurso(),
-	// p.getNombre()+" - "+p.getCapacidad());
-	// listadoSI.add(item);
-	// }
-	// return listadoSI;
-	// }
 
 	// JAVA.DATE TO SQL.TIME
 	@SuppressWarnings("deprecation")
@@ -961,35 +830,21 @@ public class SolicitudBean {
 		try {
 			// SolicitudTemporal
 			if (actividad.equals("") && objetivo.equals("")) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al crear la solicitud", null));
+				Mensaje.crearMensajeWARN("Error al crear la solicitud");
 			} else {
 				solicitudCabTem = manager.crearSolicitudTmp(getDireccion(),
 						actividad, objetivo, getJustificacion(), new Date(),
 						getSession().getIdUsr());
-				// capacidad_recurso=0;
 				solicitudCabTmpGuardada = false;
 				id_recurso = -1;
-				// capacidad_recurso=0;
-				// actividad="";
-				// objetivo="";
-				// LIMPIAR LISTADO
 				select = new ArrayList<SelectItem>();
 				select2 = new ArrayList<SelectItem>();
 				h_inicio = null;
 				h_fin = null;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Datos almacenados correctamente", null));
+				Mensaje.crearMensajeINFO("Datos almacenados correctamente");
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear la solicitud", null));
+			Mensaje.crearMensajeWARN("Error al crear la solicitud");
 		}
 	}
 
@@ -998,10 +853,7 @@ public class SolicitudBean {
 			// SolicitudTemporal
 			actividad = getActividad();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear la solicitud", null));
+			Mensaje.crearMensajeWARN("Error al crear la solicitud");
 		}
 	}
 
@@ -1016,7 +868,6 @@ public class SolicitudBean {
 			stock = "En stock: " + contador;
 			mostrar = true;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

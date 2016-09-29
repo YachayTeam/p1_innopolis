@@ -642,7 +642,6 @@ public class CalusrBean implements Serializable {
 			}
 		}
 		return r;
-		// return "frm_ins?faces-redirect=true";
 	}
 
 	// IR A INSCRIPCION

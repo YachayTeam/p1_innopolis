@@ -287,7 +287,6 @@ public class TipoBean implements Serializable {
 	}
 
 	public String irTipo2() {
-		// limpiamos los datos
 		tipo = "";
 		descripcion = "";
 		Mensaje.crearMensajeINFO("Actualización cancelada");
@@ -299,7 +298,6 @@ public class TipoBean implements Serializable {
 		List<String> v = new ArrayList<String>();
 		if (t == null) {
 		} else {
-
 			List<Inter> i = manager.findAllInter();
 			List<Inter> o = new ArrayList<Inter>();
 			for (Inter p : i) {
@@ -319,5 +317,4 @@ public class TipoBean implements Serializable {
 		}
 		return v;
 	}
-
 }

@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import innopolis.manager.ManagerEvento;
+import innopolis.model.generic.Mensaje;
 import innopolis.entidades.Coloreve;
 import innopolis.entidades.Tipoevento;
 import innopolis.entidades.help.UsuarioHelp;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.faces.application.FacesMessage;
 
 @SessionScoped
 @ManagedBean
@@ -106,25 +105,15 @@ public class TipoeventosBean implements Serializable{
 	}
 
 	public String accioninsertarTipoEvento() {
-//		if(this.ccolor(idcolor)==true)
-//		{
-//			FacesContext context = FacesContext.getCurrentInstance();
-//	        context.addMessage(null, new FacesMessage("Color Repetido..!!!",  "El color ya está siendo utilizado") );
-//		}	
-//		else
-//		{
 		try {
 			manager.insertarTipoEvento(tipo, descripcion);
-			//limpiar datos
 			tipo="";
 			descripcion="";
 			idcolor=0;
 			color = new Coloreve();
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Registrado tipo evento creado",null));
+			Mensaje.crearMensajeINFO("Registrado tipo evento creado");
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error tipo evento no creado",null));
+			Mensaje.crearMensajeWARN("Error tipo evento no creado");
 		}
 		//}		
 		return "evetipo";
@@ -134,38 +123,28 @@ public class TipoeventosBean implements Serializable{
 		id_tipoevento = t.getIdTipoEvento();
 		tipo = t.getTipo();
 		descripcion = t.getDescripcion();
-		//idcolor=t.getColoreve().getIdcoloreve();
 		return "";
 	}
 
 	public String accionActualizarTipoEvento() throws Exception {
-		
 		try {
-			manager.editarTipoEvento(id_tipoevento,tipo, descripcion/*, idcolor*/);
-			//limpiar datos
+			manager.editarTipoEvento(id_tipoevento,tipo, descripcion);
 			tipo="";
 			descripcion="";
-			//idcolor=null;			
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Actualizado tipo evento editado",null));
+			Mensaje.crearMensajeINFO("Actualizado tipo evento editado");
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error tipo evento no editado",null));
+			Mensaje.crearMensajeWARN("Error tipo evento no editado");
 		}
 		return "";
 	}
 	
 	public String irTeventos(){
-		FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización cancelada",null));
-      //limpiamos los datos
+		Mensaje.crearMensajeINFO("Actualización cancelada");
 		tipo="";
 		descripcion="";
-		//idcolor=0;
 		return "";					
 	}
 	
-	//////////////
 	// metodo para mostrar los EventosTipos en Eventos
 	public List<SelectItem> getListacolorid() {
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
@@ -193,5 +172,4 @@ public class TipoeventosBean implements Serializable{
 				}
 				return false;
 			}
-	
 }

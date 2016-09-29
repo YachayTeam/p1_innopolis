@@ -596,7 +596,7 @@ public class SessionBean {
 				Mensaje.crearMensajeINFO("Ya se ha enviado al correo su contraseña");
 			}
 		} catch (Exception e) {
-			Mensaje.crearMensajeINFO("Error al enviar correo");
+			Mensaje.crearMensajeWARN("Error al enviar correo");
 			e.printStackTrace();
 		}
 		return "index?faces-redirect=true";

@@ -21,7 +21,6 @@ import innopolis.manager.Validacion;
 import innopolis.model.generic.Mensaje;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -562,36 +561,34 @@ public class SolicitudApBean {
 
 	// Tomar el id de estado general id_estadoSolicitud
 	public String aprobarEstado(Solicicabecera solicitud) {
-			try {
-				if(solicitud.getSoliciestado().getIdSolest() == 3)
-				{
-				 Mensaje.crearMensajeINFO("La solicitud yá se encuentra aprobada");	
-				}else{
+		try {
+			if (solicitud.getSoliciestado().getIdSolest() == 3) {
+				Mensaje.crearMensajeINFO("La solicitud yá se encuentra aprobada");
+			} else {
 				manager.cambioSMS(solicitud.getIdSolcab());
 				Soliciestado estado = manager.findSolicitudEstadoByID(3);// APROBADO
 				manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
 				Mensaje.crearMensajeINFO("Cambio correcto de estado");
-				}
-			} catch (Exception e) {
-				Mensaje.crearMensajeWARN("Error al cambiar el estado");
 			}
+		} catch (Exception e) {
+			Mensaje.crearMensajeWARN("Error al cambiar el estado");
+		}
 		return "";
 	}
 
 	public String negarEstado(Solicicabecera solicitud) {
-			try {
-				if(solicitud.getSoliciestado().getIdSolest() == 4)
-				{
-				 Mensaje.crearMensajeINFO("La solicitud yá se encuentra negada");	
-				}else{
+		try {
+			if (solicitud.getSoliciestado().getIdSolest() == 4) {
+				Mensaje.crearMensajeINFO("La solicitud yá se encuentra negada");
+			} else {
 				manager.cambioSMS(solicitud.getIdSolcab());
 				Soliciestado estado = manager.findSolicitudEstadoByID(4);// NEGADO
 				manager.cambiarEstadoSolicitud(solicitud.getIdSolcab(), estado);
 				Mensaje.crearMensajeINFO("Cambio correcto de estado");
-				}
-			} catch (Exception e) {
-				Mensaje.crearMensajeWARN("Error al cambiar el estado");
 			}
+		} catch (Exception e) {
+			Mensaje.crearMensajeWARN("Error al cambiar el estado");
+		}
 		return "";
 	}
 
@@ -649,17 +646,75 @@ public class SolicitudApBean {
 	public String cargarDatosSolicitud(Solicicabecera solicitud) {
 		String resp = "";
 		try {
-				id_sol = solicitud.getIdSolcab();
-				List<Evento> listEvento = manager
-						.findEventoByCabeceraId(id_sol);
-				List<Solicidetalle> listDetalles1 = manager
-						.findSolicitudDetalleByCabeceraId(id_sol);
-				if (!listDetalles1.isEmpty()) {
-					for (Solicidetalle sol : listDetalles1) {
-						fi = sol.getHoraInicio();
-						ff = sol.getHoraFin();
-						break;
+			id_sol = solicitud.getIdSolcab();
+			List<Evento> listEvento = manager.findEventoByCabeceraId(id_sol);
+			List<Solicidetalle> listDetalles1 = manager
+					.findSolicitudDetalleByCabeceraId(id_sol);
+			if (!listDetalles1.isEmpty()) {
+				for (Solicidetalle sol : listDetalles1) {
+					fi = sol.getHoraInicio();
+					ff = sol.getHoraFin();
+					break;
+				}
+				fechaInicio = new Timestamp(fi.getTime());
+				fechaFin = new Timestamp(ff.getTime());
+				direccion = solicitud.getDireccion();
+				actividad = solicitud.getActividad();
+				objetivo = solicitud.getObjetivo();
+				justificacion = solicitud.getJustificacion();
+				notificacion = solicitud.getSms();
+				fecha = solicitud.getFecha();
+				listDetalles = solicitud.getSolicidetalles();
+				estadoSol = solicitud.getSoliciestado();
+				capacidad_recurso = null;
+				list_mas = new ArrayList<Solicidetalle>();
+				agregardetalle = true;
+				list_menos = new ArrayList<Solicidetalle>();
+				select = new ArrayList<SelectItem>();
+				cargarRecursos();
+				if (listEvento.isEmpty()) {
+					controlsicabecera = false;
+				} else {
+					controlsicabecera = true;
+				}
+				resp = "editsol?faces-redirect=true";
+			} else {
+				for (Solicidetalle sol : listDetalles1) {
+					fi = sol.getHoraInicio();
+					ff = sol.getHoraFin();
+					break;
+				}
+				if (fi == null || ff == null) {
+					controlsicabecera = false;
+					Date d = new Date();
+					fi = new Timestamp(d.getTime());
+					ff = new Timestamp(d.getTime());
+					fechaInicio = new Timestamp(fi.getTime());
+					fechaFin = new Timestamp(ff.getTime());
+					direccion = solicitud.getDireccion();
+					actividad = solicitud.getActividad();
+					objetivo = solicitud.getObjetivo();
+					justificacion = solicitud.getJustificacion();
+					notificacion = solicitud.getSms();
+					fecha = solicitud.getFecha();
+					listDetalles = new ArrayList<Solicidetalle>();
+					estadoSol = solicitud.getSoliciestado();
+					capacidad_recurso = null;
+					list_mas = new ArrayList<Solicidetalle>();
+					agregardetalle = true;
+					list_menos = new ArrayList<Solicidetalle>();
+					select = new ArrayList<SelectItem>();
+					cargarRecursos();
+					for (Evento evento : listEvento) {
+						if (evento.getSolicicabecera().getIdSolcab() == null) {
+							controlsicabecera = true;
+						} else {
+							controlsicabecera = false;
+						}
 					}
+					resp = "editsol?faces-redirect=true";
+				} else {
+					controlsicabecera = true;
 					fechaInicio = new Timestamp(fi.getTime());
 					fechaFin = new Timestamp(ff.getTime());
 					direccion = solicitud.getDireccion();
@@ -676,68 +731,9 @@ public class SolicitudApBean {
 					list_menos = new ArrayList<Solicidetalle>();
 					select = new ArrayList<SelectItem>();
 					cargarRecursos();
-					if (listEvento.isEmpty()) {
-						controlsicabecera = false;
-					} else {
-						controlsicabecera = true;
-					}
 					resp = "editsol?faces-redirect=true";
-				} else {
-					for (Solicidetalle sol : listDetalles1) {
-						fi = sol.getHoraInicio();
-						ff = sol.getHoraFin();
-						break;
-					}
-					if (fi == null || ff == null) {
-						controlsicabecera = false;
-						Date d = new Date();
-						fi = new Timestamp(d.getTime());
-						ff = new Timestamp(d.getTime());
-						fechaInicio = new Timestamp(fi.getTime());
-						fechaFin = new Timestamp(ff.getTime());
-						direccion = solicitud.getDireccion();
-						actividad = solicitud.getActividad();
-						objetivo = solicitud.getObjetivo();
-						justificacion = solicitud.getJustificacion();
-						notificacion = solicitud.getSms();
-						fecha = solicitud.getFecha();
-						listDetalles = new ArrayList<Solicidetalle>();
-						estadoSol = solicitud.getSoliciestado();
-						capacidad_recurso = null;
-						list_mas = new ArrayList<Solicidetalle>();
-						agregardetalle = true;
-						list_menos = new ArrayList<Solicidetalle>();
-						select = new ArrayList<SelectItem>();
-						cargarRecursos();
-						for (Evento evento : listEvento) {
-							if (evento.getSolicicabecera().getIdSolcab() == null) {
-								controlsicabecera = true;
-							} else {
-								controlsicabecera = false;
-							}
-						}
-						resp = "editsol?faces-redirect=true";
-					} else {
-						controlsicabecera = true;
-						fechaInicio = new Timestamp(fi.getTime());
-						fechaFin = new Timestamp(ff.getTime());
-						direccion = solicitud.getDireccion();
-						actividad = solicitud.getActividad();
-						objetivo = solicitud.getObjetivo();
-						justificacion = solicitud.getJustificacion();
-						notificacion = solicitud.getSms();
-						fecha = solicitud.getFecha();
-						listDetalles = solicitud.getSolicidetalles();
-						estadoSol = solicitud.getSoliciestado();
-						capacidad_recurso = null;
-						list_mas = new ArrayList<Solicidetalle>();
-						agregardetalle = true;
-						list_menos = new ArrayList<Solicidetalle>();
-						select = new ArrayList<SelectItem>();
-						cargarRecursos();
-						resp = "editsol?faces-redirect=true";
-					}
 				}
+			}
 		} catch (Exception e) {
 			Mensaje.crearMensajeWARN("Error al ver la solicitud");
 			e.printStackTrace();
@@ -837,7 +833,7 @@ public class SolicitudApBean {
 		try {
 			if (id_recursotipo == null || id_recursotipo == -1) {
 				Mensaje.crearMensajeWARN("Seleccione la ubicación");
-			}else {
+			} else {
 				List<Recurso> listadoRecurso = manager
 						.findAllRecursosDisponibles(h_inicio, h_fin,
 								horainicio, horafin);
@@ -945,23 +941,16 @@ public class SolicitudApBean {
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
 			controlsicabecera = false;
-			// Cargar datos recurso
-
 			capacidad_recurso = null;
-			// Listas
 			list_mas = new ArrayList<Solicidetalle>();
 			r = "solicitudes?faces-redirect=true";
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Debe dar click en actualizar", null));
+			Mensaje.crearMensajeWARN("Debe dar click en actualizar");
 		}
 		return r;
 	}
 
 	public String irform() {
-
 		return "frm_insedit?faces-redirect=true";
 	}
 
@@ -988,9 +977,7 @@ public class SolicitudApBean {
 		fechaInicio = null;
 		listDetalles = new ArrayList<Solicidetalle>();
 		estadoSol = null;
-		// Cargar datos recurso
 		capacidad_recurso = null;
-		// Listas
 		list_mas = new ArrayList<Solicidetalle>();
 		return "solicitudes?faces-redirect=true";
 	}
@@ -1001,7 +988,6 @@ public class SolicitudApBean {
 			manager.quitarrecursosactivos();
 			cargarRecursos();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -1015,60 +1001,20 @@ public class SolicitudApBean {
 		select = new ArrayList<SelectItem>();
 		select2 = new ArrayList<SelectItem>();
 		if (h_fin == null || h_inicio == null) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Seleccione horario para continuar", null));
+			Mensaje.crearMensajeWARN("Seleccione horario para continuar");
 		} else {
-			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(h_inicio));
 			setHorafin(this.fechaAtiempo(h_fin));
 			if (!Validacion.fechaMayorIgual(h_inicio)
 					|| !Validacion.fechaMayorIgual(h_fin)) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_WARN,
-										"La fecha de solicitud no debe ser menor a la actual",
-										null));
+				Mensaje.crearMensajeWARN("La fecha de solicitud no debe ser menor a la actual");
 			} else if (h_fin.getTime() <= h_inicio.getTime()) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Verifique su horario de solicitud", null));
-				// } else if ((!Validacion.horaMayorIgual(getHorainicio()) ||
-				// !Validacion
-				// .horaMayorIgual(getHorafin()))) {
-				// FacesContext
-				// .getCurrentInstance()
-				// .addMessage(
-				// null,
-				// new FacesMessage(
-				// FacesMessage.SEVERITY_WARN,
-				// "La hora de solicitud no debe ser menor a la actual",
-				// null));
+				Mensaje.crearMensajeWARN("Verifique su horario de solicitud");
 			} else {
 				select = this.getlistaRecursosLibres();
-				// select2 = this.getlistaTipoRecursosLibres();
 			}
 		}
 	}
-
-	// //LISTADO DE RECURStipo
-	// public List<SelectItem> getlistaTipoRecursosLibres(){
-	// List<SelectItem> listadoSI=new ArrayList<SelectItem>();
-	// //borre los recursos anteriores de la tabla recursos activos
-	// List<Recursotipo> listadoTipoRecurso=
-	// manager.findAllTipoRecursosDisponibles(h_inicio, h_fin);
-	// for(Recursotipo p:listadoTipoRecurso){
-	// SelectItem item=new SelectItem(p.getIdRectipo(),
-	// p.getTipo(),p.getDescripcion());
-	// listadoSI.add(item);
-	// }
-	// return listadoSI;
-	// }
 
 	public void mostrara() {
 		Recurso rec;
@@ -1081,7 +1027,6 @@ public class SolicitudApBean {
 			stock = "En stock: " + contador;
 			mostrar = true;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -1102,7 +1047,6 @@ public class SolicitudApBean {
 						+ "imrpimirsolicitud.jasper";
 				// rutaReporte=
 				// "reports"+File.separatorChar+"rptContratoBicicletas.jasper";
-
 				Connection conexion = DriverManager
 						.getConnection("jdbc:postgresql://10.1.0.158:5432/bd_inno?user=adm_bicichay&password=y-4IO4SDwu_!");
 
@@ -1115,7 +1059,6 @@ public class SolicitudApBean {
 						+ "yachay-logo1.png");
 				// parametros.put("SUBREPORT_DIR",
 				// carpetaReportes+File.separatorChar+"");
-
 				JasperPrint informe = JasperFillManager.fillReport(rutaReporte,
 						parametros, conexion);
 				HttpServletResponse response = (HttpServletResponse) FacesContext
@@ -1129,18 +1072,11 @@ public class SolicitudApBean {
 				stream.close();
 				FacesContext.getCurrentInstance().responseComplete();
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Error al crear reporte", null));
+				Mensaje.crearMensajeWARN("Error al crear reporte");
 				e.printStackTrace();
 			}
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Aún no se aprueba o niega la solicitud", null));
+			Mensaje.crearMensajeWARN("Aún no se aprueba o niega la solicitud");
 		}
 	}
-
 }

@@ -3494,6 +3494,4 @@ public class EventosBean {
 			e.printStackTrace();
 		}
 	}
-	
-
 }
