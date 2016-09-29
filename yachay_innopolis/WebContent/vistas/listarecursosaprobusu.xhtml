@@ -18,19 +18,19 @@
 			<f:facet name="options">
 				<p:commandButton type="button" value="#{sessionBean.nom}"
 					disabled="true" icon="ui-icon-person" />
-				<p:commandButton id="tracksalir" value="Volver" actionListener="#{eventosBean.irAprovador1}"
+				<p:commandButton id="tracksalir" value="Volver"
+					actionListener="#{eventosBean.irAprovador1}"
 					action="/vistas/soleven.xhtml" icon="ui-icon-clipboard"></p:commandButton>
 			</f:facet>
 		</p:menubar>
 	</h:form>
-	<hr />
 	<h:form id="form">
 		<p:panel id="panel" header="Solicitudes Aprobadas">
 			<p:growl id="msn" showDetail="false"></p:growl>
 			<p:dataTable id="dtsol"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
 		{PageLinks} {NextPageLink} {LastPageLink} {exp}"
-				paginator="true" reflow="true" rows="8"
+				paginator="true" reflow="true" rows="20"
 				value="#{solicitudApBean.listadoaprobxus}" var="sol"
 				emptyMessage="No hay información almacenada">
 				<f:facet name="{exp}">
@@ -53,12 +53,14 @@
 					sortBy="#{sol.direccion}" headerText="Actividad">
 					<h:outputText value="#{sol.actividad}"></h:outputText>
 				</p:column>
-				<p:column id="f2" headerText="Fecha" sortBy="#{sol.fecha}" width="80">
+				<p:column id="f2" headerText="Fecha" sortBy="#{sol.fecha}"
+					width="80">
 					<h:outputText value="#{sol.fecha}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Recursos" sortBy="#{rec.recurso.nombre}" width="90">
+				<p:column headerText="Recursos" sortBy="#{rec.recurso.nombre}"
+					width="90">
 					<h:dataTable value="#{sol.solicidetalles}" var="rec">
 						<h:column>
 							<h:outputText value="#{rec.recurso.nombre}"></h:outputText>
@@ -69,11 +71,12 @@
 					headerText="Estado">
 					<h:outputText value="#{sol.soliciestado.estado}"></h:outputText>
 				</p:column>
-				<p:column id="f4" sortBy="#{sol.sms}"  width="60"
+				<p:column id="f4" sortBy="#{sol.sms}" width="60"
 					headerText="Notificaci&oacute;n">
 					<h:outputText value="#{sol.sms}"></h:outputText>
 				</p:column>
-				<p:column headerText="Imprimir solicitud"  width="80" exportable="false">
+				<p:column headerText="Imprimir solicitud" width="80"
+					exportable="false">
 					<p:commandButton id="trackcer6" styleClass="btn btn-info"
 						icon="ui-icon-print" ajax="false"
 						action="#{solicitudApBean.imprimirRptDocumento(sol)}"

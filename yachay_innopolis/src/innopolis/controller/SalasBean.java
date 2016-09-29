@@ -273,15 +273,13 @@ public class SalasBean implements Serializable {
 		return "";
 	}
 
-	public String modificarSala() {
+	public void modificarSala() {
 		try {
 			if (isNumeric(capacidad)) {
 				manager.editarSala(getIdRectipo(), getTiponom().trim(),
 						getDescripcion().trim(), getImagen(), getIdcolor(),
 						Integer.parseInt(getCapacidad()));
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(
-						"Sala editada correctamente", null));
+				Mensaje.crearMensajeINFO("Sala modificada correctamente");
 			} else {
 				Mensaje.crearMensajeINFO("La cantidad debe ser numérica");
 			}
@@ -289,7 +287,6 @@ public class SalasBean implements Serializable {
 			Mensaje.crearMensajeINFO("Error al modificar la Sala");
 			e.printStackTrace();
 		}
-		return "";
 	}
 
 	public void cancelarModificacion() {

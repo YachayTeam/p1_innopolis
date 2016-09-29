@@ -1,127 +1,161 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"> 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<h:outputStylesheet library="css" name="styleser.css" />
-<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>	
+	<link rel="shortcut icon" type="image/x-icon"
+		href="../resources/img/favicon.ico" />
 	<title>Buzón de Sugerencias</title>
-</h:head> 
-<body> 
-<h:form>  
-    <p:menubar>    	
-       <f:facet name="options">
-        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
-        	<p:commandButton id="tracksalir" value="Volver" actionListener="#{eventosBean.irAprovador1}"  action="/vistas/administracionusuarios.xhtml" icon="ui-icon-person"></p:commandButton>
-        </f:facet>
-    </p:menubar>
-</h:form>
-<hr/>
+</h:head>
+<body>
+	<h:form>
+		<p:menubar>
+			<f:facet name="options">
+				<p:commandButton type="button" value="#{sessionBean.nom}"
+					disabled="true" icon="ui-icon-person" />
+				<p:commandButton id="tracksalir" value="Volver"
+					actionListener="#{usuariosBean.irAprovador1}" 
+					action="/vistas/administracionusuarios.xhtml" icon="ui-icon-person"></p:commandButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
 	<h:form id="form">
-	<p:panel id="panel" header="Buzón de Sugerencias">
 		<p:growl id="msn" showDetail="false"></p:growl>
-		<p:dataTable id="dtsol" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-		{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true"  reflow="true" rows="8"
-		value="#{usuariosBean.listadoSugerencias}" var="sol" emptyMessage="No hay información almacenada">
-			<f:facet name="{exp}">
-			<h:commandLink>
-                <p:button  value="Excel" />
-                <p:dataExporter type="xls" target="dtsol" fileName="solicitudes" pageOnly="true" />
-            </h:commandLink> 
-            <h:commandLink>
-                <p:button  value="Pdf" />
-                <p:dataExporter type="pdf" target="dtsol" fileName="solicitudes" pageOnly="true"/>
-            </h:commandLink>
-            </f:facet>
-            <p:column id="f1" filterBy="#{sol.usuario.cedula}" sortBy="#{sol.usuario.cedula}" headerText="Cédula">
-				<h:outputText value="#{sol.usuario.cedula}"></h:outputText>
-			</p:column>
-			<p:column id="f2" filterBy="#{sol.usuario.nombre}" sortBy="#{sol.usuario.nombre}" headerText="Nombre">
-				<h:outputText value="#{sol.usuario.nombre}"></h:outputText>&nbsp;
-				<h:outputText value="#{sol.usuario.apellido}"></h:outputText>	
-			</p:column>
-			<p:column id="f4" filterBy="#{sol.usuario.correo}" sortBy="#{sol.usuario.correo}" headerText="Correo">
-				<h:outputText value="#{sol.usuario.correo}"></h:outputText>
-			</p:column>
-			<p:column id="f5" headerText="Fecha"  sortBy="#{sol.fecha}">
-				<h:outputText value="#{sol.fecha}">
-					<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-				</h:outputText>
-			</p:column>
-			<p:column  id="f6" headerText="Sugerencia">
-				<h:outputText value="#{sol.sugerencia}"></h:outputText>
-    		</p:column>
-    		<p:column id="f7" filterBy="#{sol.sms}" headerText="Notificaci&oacute;n" sortBy="#{sol.sms}">
-			<h:outputText value="#{sol.sms}"></h:outputText>
-			</p:column>
-    		<p:column headerText="Opciones" exportable="false">
-				<p:commandButton  icon="ui-icon-search" id="track">
-				<p:tooltip id="toolTipTrack2" for="track" value="Bot&oacute;n para revisar la informaci&oacute;n de la sugerencia" trackMouse="true" />
-				<p:ajax listener="#{usuariosBean.Cargarsugerencia(sol)}" update=":form:panel" oncomplete="PF('dlg1').show();" />
-				</p:commandButton>			
-				<p:commandButton id="trackcer1" icon="ui-icon-mail-closed" >
-    			<p:tooltip id="toolTipTrack8" for="trackcer1" value="Cambiar contenido de la notificaci&oacute;n por defecto" trackMouse="true" />
-    			<p:ajax listener="#{usuariosBean.asignarsmssugerencia(sol)}" update=":form:panel" oncomplete="PF('dlg2').show();" />    			
-    			</p:commandButton>
-			</p:column>
-    	</p:dataTable>
-    	
-    	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="false"  header="Información" showEffect="clip" hideEffect="clip">
-		<p:panelGrid columns="3" >
-			<h:outputText value="Cédula/Pasaporte: "/>
-			<h:outputText id="cedula" maxlength="10"  value="#{usuariosBean.cedula}"></h:outputText>
-			<h:outputText value=""/>
-			<h:outputText value="Apellidos: "/>
-			<h:outputText id="apellidos" value="#{usuariosBean.apellido}"></h:outputText>
-			<h:outputText value=""/>
-			<h:outputText value="Nombres: "/>
-			<h:outputText  id="nombres" value="#{usuariosBean.nombre}"></h:outputText>
-			<h:outputText value=""/>
-			<h:outputText value="Correo: "/>
-			<h:outputText  id="correo" value="#{usuariosBean.correo}"></h:outputText>			
-			<h:outputText value=""/>
-			<h:outputText value="Fecha: "/>
-			<h:outputText  id="fecha" value="#{usuariosBean.sugerenciafecha}" >
-			<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-			</h:outputText>			
-			<h:outputText value=""/>
-			<h:outputText value="Sugerencia: "/>
-			<p:inputTextarea readonly="true" value="#{usuariosBean.sugerenciatext}"></p:inputTextarea>
-			<h:outputText value=""/>
-			<h:outputText value="Estado Mensaje: "/>
-			<h:outputText value="#{usuariosBean.smssuge}"></h:outputText>
-			<p:commandButton id="trackcsal" value="Volver" icon="ui-icon-close" onclick="PF('dlg1').close();" update=":form:panel" action="#{usuariosBean.irsugerencia}">
-			<p:tooltip id="toolTipTrack7" for="trackcsal" value="Bot&oacute;n para cancelar la edici&oacute;n del registro" trackMouse="true" />
-			</p:commandButton>				
-		</p:panelGrid>
-		</p:dialog>	
-		
-		<p:dialog widgetVar="dlg2" modal="true" closable="true" closeOnEscape="true"  header="Editar Mensaje" showEffect="clip" hideEffect="clip">
-			<h:outputText value="Al momento de enviar el mensaje,  espere a la notificación de confimación."/>
-			<p:panelGrid columns="2" >			
-            <h:outputText value="Mensaje a Enviar: "/>
-			<p:inputTextarea value="#{usuariosBean.smscor}"  rows="10" cols="50" autoResize="false"></p:inputTextarea>
-			<p:commandButton id="trackedi" update=":form:panel" icon="ui-icon-comment" onclick="PF('dlgLoad').show();" oncomplete="PF('dlgLoad').hide();" 
-			widgetVar="startButton1" value="Aceptar" action="#{usuariosBean.enviarmensajesugerencia(sol1)}" >
-			<p:tooltip id="t3" for="trackedi" value="Bot&oacute;n para enviar el sms" trackMouse="true" />
-			</p:commandButton>
-			<p:commandButton id="trackcerrlg" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg2').close();" update=":form:panel" action="#{usuariosBean.irsugerenciavolver}">
-			<p:tooltip id="toolTipTrack20" for="trackcerrlg" value="Bot&oacute;n para cancelar la edici&oacute;n" trackMouse="true" />
-			</p:commandButton>
-			</p:panelGrid>
-			</p:dialog>	
+		<p:panel id="panel" header="Buzón de Sugerencias">
+			<p:dataTable id="dtsol"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+		{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
+				paginator="true" reflow="true" rows="20"
+				value="#{usuariosBean.listadoSugerencias}" var="sol"
+				emptyMessage="No hay información almacenada">
+				<f:facet name="{exp}">
+					<h:commandLink>
+						<p:button value="Excel" />
+						<p:dataExporter type="xls" target="dtsol" fileName="solicitudes"
+							pageOnly="true" />
+					</h:commandLink>
+					<h:commandLink>
+						<p:button value="Pdf" />
+						<p:dataExporter type="pdf" target="dtsol" fileName="solicitudes"
+							pageOnly="true" />
+					</h:commandLink>
+				</f:facet>
+				<p:column id="f1" filterBy="#{sol.usuario.cedula}"
+					sortBy="#{sol.usuario.cedula}" headerText="Cédula">
+					<h:outputText value="#{sol.usuario.cedula}"></h:outputText>
+				</p:column>
+				<p:column id="f2" filterBy="#{sol.usuario.nombre}"
+					sortBy="#{sol.usuario.nombre}" headerText="Nombre">
+					<h:outputText value="#{sol.usuario.nombre}"></h:outputText>&nbsp;
+				<h:outputText value="#{sol.usuario.apellido}"></h:outputText>
+				</p:column>
+				<p:column id="f4" filterBy="#{sol.usuario.correo}"
+					sortBy="#{sol.usuario.correo}" headerText="Correo">
+					<h:outputText value="#{sol.usuario.correo}"></h:outputText>
+				</p:column>
+				<p:column id="f5" headerText="Fecha" sortBy="#{sol.fecha}">
+					<h:outputText value="#{sol.fecha}">
+						<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+					</h:outputText>
+				</p:column>
+				<p:column id="f6" headerText="Sugerencia">
+					<h:outputText value="#{sol.sugerencia}"></h:outputText>
+				</p:column>
+				<p:column id="f7" filterBy="#{sol.sms}"
+					headerText="Notificaci&oacute;n" sortBy="#{sol.sms}">
+					<h:outputText value="#{sol.sms}"></h:outputText>
+				</p:column>
+				<p:column headerText="Opciones" exportable="false">
+					<p:commandButton icon="ui-icon-search" id="track">
+						<p:tooltip id="toolTipTrack2" for="track"
+							value="Bot&oacute;n para revisar la informaci&oacute;n de la sugerencia"
+							trackMouse="true" />
+						<p:ajax listener="#{usuariosBean.Cargarsugerencia(sol)}"
+							update=":form:panel" oncomplete="PF('dlg1').show();" />
+					</p:commandButton>
+					<p:commandButton id="trackcer1" icon="ui-icon-mail-closed" 
+					update=":form:panel" oncomplete="PF('dlg2').show();" 
+					actionListener="#{usuariosBean.asignarsmssugerencia(sol)}">
+						<p:tooltip id="toolTipTrack8" for="trackcer1"
+							value="Cambiar contenido de la notificaci&oacute;n por defecto"
+							trackMouse="true" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog widgetVar="dlg1" modal="true" closable="true"
+				closeOnEscape="true" header="Información" showEffect="clip"
+				hideEffect="clip">
+				<p:panelGrid columns="3">
+					<h:outputText value="Cédula/Pasaporte: " />
+					<h:outputText id="cedula" maxlength="10"
+						value="#{usuariosBean.cedula}"></h:outputText>
+					<h:outputText value="" />
+					<h:outputText value="Apellidos: " />
+					<h:outputText id="apellidos" value="#{usuariosBean.apellido}"></h:outputText>
+					<h:outputText value="" />
+					<h:outputText value="Nombres: " />
+					<h:outputText id="nombres" value="#{usuariosBean.nombre}"></h:outputText>
+					<h:outputText value="" />
+					<h:outputText value="Correo: " />
+					<h:outputText id="correo" value="#{usuariosBean.correo}"></h:outputText>
+					<h:outputText value="" />
+					<h:outputText value="Fecha: " />
+					<h:outputText id="fecha" value="#{usuariosBean.sugerenciafecha}">
+						<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+					</h:outputText>
+					<h:outputText value="" />
+					<h:outputText value="Sugerencia: " />
+					<p:inputTextarea readonly="true"
+						value="#{usuariosBean.sugerenciatext}"></p:inputTextarea>
+					<h:outputText value="" />
+					<h:outputText value="Estado Mensaje: " />
+					<h:outputText value="#{usuariosBean.smssuge}"></h:outputText>
+				</p:panelGrid>
+			</p:dialog>
+
+			<p:dialog widgetVar="dlg2" modal="true" closable="true"
+				closeOnEscape="true" header="Editar Mensaje" showEffect="clip"
+				hideEffect="clip">
+				<h:outputText
+					value="Al momento de enviar el mensaje,  espere a la notificación de confimación." />
+				<p:panelGrid columns="2">
+					<h:outputText value="Mensaje a Enviar: " />
+					<p:inputTextarea value="#{usuariosBean.smscor}" rows="10" cols="50"
+						autoResize="false"></p:inputTextarea>
+					<p:commandButton id="trackedi"	icon="ui-icon-comment" onclick="PF('cd').show();" value="Aceptar">
+						<p:tooltip id="t3" for="trackedi"
+							value="Bot&oacute;n para enviar el sms" trackMouse="true" />
+					</p:commandButton>
+				</p:panelGrid>
+			</p:dialog>
+			<p:confirmDialog header="Confirmar envío de mensaje"
+				message="¿Está seguro de enviar el mensaje?" showEffect="fade"
+				hideEffect="explode" widgetVar="cd" width="400">
+				<p:commandButton id="trackins" icon="ui-icon-check"
+					onclick="PF('dlgLoad').show();" action="sugerencialist.xhtml"
+					actionListener="#{usuariosBean.enviarmensajesugerencia(sol1)}"
+					oncomplete="PF('dlgLoad').hide();PF('dlg2').hide();PF('cd').hide();"
+					value="Si" update=":form:panel :form:msn">
+				</p:commandButton>
+				<p:commandButton value="No" type="reset"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('cd').hide()">
+				</p:commandButton>
+			</p:confirmDialog>
 			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
 				closable="false" resizable="false" showHeader="false">
 				<h:form>
 					<p:graphicImage value="/resources/img/loader.gif" />
 				</h:form>
-			</p:dialog>				
-	</p:panel>
+			</p:dialog>
+		</p:panel>
 	</h:form>
-	
-</body> 
+
+</body>
 </html>

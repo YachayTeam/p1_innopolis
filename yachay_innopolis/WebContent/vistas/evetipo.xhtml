@@ -1,98 +1,141 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<h:outputStylesheet library="css" name="styleser.css" />
-<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
-<title>Tipos Eventos</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="styleser.css" />
+	<link rel="shortcut icon" type="image/x-icon"
+		href="../resources/img/favicon.ico" />
+	<title>Tipos Eventos</title>
 </h:head>
 <body>
-<h:form>  
-    <p:menubar>
-        <f:facet name="options">
-        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"/>
-        	<p:commandButton id="tracksalir" value="Volver"  action="/vistas/recurso.xhtml" icon="ui-icon-suitcase"></p:commandButton>
-        </f:facet>
-    </p:menubar>
-</h:form>
-<div class="div1">
-<hr/>
-<!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
-<hr/>
-<h:form id="form1" >
-	<p:growl id="message" showDetail="false" />
-	<p:panel id="panel1"  header="Registro de Tipos de Eventos">
-		<p:panelGrid columns="2" >
-			<h:outputText value="Tipo* :" for="tipo"/>
-			<p:inputText required="true" id="tipo" value="#{tipoeventosBean.tipo}" size="40" requiredMessage="Requerido nombre del tipo evento" validatorMessage="Tipo de evento obligatorio">				
-			</p:inputText>
-			
-			<h:outputText value="Descripci&oacute;n* :" for="tipo2"/>
-			<b:inputTextarea required="true" id="tipo2" value="#{tipoeventosBean.descripcion}" requiredMessage="Requerido descripci&oacute;n" validatorMessage="Ingrese más información">
-			<f:validateLength minimum="10"/>
-			</b:inputTextarea>
-			<p:commandButton id="trackcrear" update="panel1 :form2:panel2 message" value="Insertar" action="#{tipoeventosBean.accioninsertarTipoEvento}">
-			<p:tooltip id="toolTipTrac1" for="trackcrear" value="Bot&oacute;n para crear un tipo de evento" trackMouse="true" />
-			</p:commandButton>
-		</p:panelGrid>
-	</p:panel>
-</h:form>
-<hr/>
-<h:form id="form2">
-<p:growl id="message2" showDetail="false" />
-	<p:panel id="panel2" header="Lista de Tipo de Eventos">
-		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}" 
-		paginator="true" rows="8"  value="#{tipoeventosBean.listaTipoevento}" reflow="true" var="lu" emptyMessage="No hay información almacenada">
-			<f:facet name="{exp}">
-			<h:commandLink>
-               <p:button  value="Excel" />
-                <p:dataExporter type="xls" target="dt" fileName="tipos_eventos" pageOnly="true"/>
-            </h:commandLink>
-            <h:commandLink>
-                <p:button  value="Pdf" />
-                <p:dataExporter type="pdf" target="dt" fileName="tipos_eventos" pageOnly="true"/>
-            </h:commandLink>
-            </f:facet>
-			<p:column id="f1" filterBy="#{lu.tipo}" sortBy="#{lu.tipo}" headerText="Tipo" width="40">
-				<h:outputText value="#{lu.tipo}"></h:outputText>
-			</p:column>
-			<p:column headerText="Descripci&oacute;n" sortBy="#{lu.descripcion}" width="100">
-				<h:outputText value="#{lu.descripcion}"></h:outputText>
-			</p:column>
-			<p:column headerText="Opciones" exportable="false" width="1">
-				<p:commandButton id="trackedit" icon="ui-icon-pencil">
-				<p:ajax listener="#{tipoeventosBean.accionCargarTipoEvento(lu)}" update=":form2:panel2" oncomplete="PF('dlg1').show();" />
-				<p:tooltip id="toolTipTrac2" for="trackedit" value="Bot&oacute;n para editar un tipo de evento" trackMouse="true" />
-				</p:commandButton>
-    		</p:column>			
-		</p:dataTable>
-		
-	<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Tipo Evento" showEffect="clip" hideEffect="clip">
-	<p:panelGrid columns="2" >
-			<h:outputText value="Identificaci&oacute;n: "/>
-			<h:outputText value="#{tipoeventosBean.id_tipoevento}" ></h:outputText>
-			<h:outputText value="Tipo Evento: " for="can"/>
-			<p:inputText id="can" value="#{tipoeventosBean.tipo}">
-			</p:inputText>
-			<h:outputText value="Descripci&oacute;n: " for="descrip"/>
-			<b:inputTextarea required="false" id="descrip" value="#{tipoeventosBean.descripcion}"/>
-			<h:outputText  value=""/>
-			<h:outputText  value=""/>
-			<p:commandButton id="trackeditar" update="message2" value="Actualizar" onclick="PF('dlg1').close();" icon="ui-icon-disk" action="#{tipoeventosBean.accionActualizarTipoEvento}">
-				<p:tooltip id="toolTipTrac3" for="trackeditar" value="Bot&oacute;n para editar el tipo de evento" trackMouse="true" />
-			</p:commandButton>
-			<p:commandButton id="trackcan" value="Cancelar" icon="ui-icon-close" onclick="PF('dlg1').close();" action="#{tipoeventosBean.irTeventos}">
-				<p:tooltip id="toolTipTrac4" for="trackcan" value="Bot&oacute;n para cancelar edici&oacute;n" trackMouse="true" />
-			</p:commandButton>
-		</p:panelGrid>
-</p:dialog>			
-	</p:panel>
-</h:form>
-</div>
+	<h:form>
+		<p:menubar>
+			<f:facet name="options">
+				<p:commandButton type="button" value="#{sessionBean.nom}"
+					disabled="true" icon="ui-icon-person" />
+				<p:commandButton id="tracksalir" value="Volver"
+					action="/vistas/recurso.xhtml" icon="ui-icon-suitcase"></p:commandButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<div class="div1">
+		<h:form id="form1">
+			<p:growl id="message" showDetail="false" />
+			<p:panel id="panel1" header="Registro de Tipos de Eventos">
+				<p:panelGrid columns="2">
+					<h:outputText value="Tipo* :" for="tipo" />
+					<p:inputText required="true" id="tipo"
+						value="#{tipoeventosBean.tipo}" size="40"
+						requiredMessage="Requerido nombre del tipo evento"
+						validatorMessage="Tipo de evento obligatorio">
+					</p:inputText>
+					<h:outputText value="Descripci&oacute;n* :" for="tipo2" />
+					<b:inputTextarea required="true" id="tipo2"
+						value="#{tipoeventosBean.descripcion}"
+						requiredMessage="Requerido descripci&oacute;n"
+						validatorMessage="Ingrese más información">
+						<f:validateLength minimum="10" />
+					</b:inputTextarea>
+					<p:commandButton id="trackcrear" value="Agregar"
+						onclick="PF('cd').show()">
+						<p:tooltip id="toolTipTrac1" for="trackcrear"
+							value="Bot&oacute;n para crear un tipo de evento"
+							trackMouse="true" />
+					</p:commandButton>
+					<p:confirmDialog header="Confirmar Registro"
+						message="¿Está seguro de que los datos son v&aacute;lidos?"
+						showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+						<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check" onclick="PF('dlgLoad').show();"
+							oncomplete="PF('dlgLoad').hide();"
+							action="#{tipoeventosBean.accioninsertarTipoEvento}"
+							update="panel1 :form2:panel2 message">
+						</p:commandButton>
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('cd').hide()"></p:commandButton>
+					</p:confirmDialog>
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
+		<hr />
+		<h:form id="form2">
+			<p:growl id="message2" showDetail="false" />
+			<p:panel id="panel2" header="Lista de Tipo de Eventos">
+				<p:dataTable id="dt"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
+					paginator="true" rows="8"
+					value="#{tipoeventosBean.listaTipoevento}" reflow="true" var="lu"
+					emptyMessage="No hay información almacenada">
+					<f:facet name="{exp}">
+						<h:commandLink>
+							<p:button value="Excel" />
+							<p:dataExporter type="xls" target="dt" fileName="tipos_eventos"
+								pageOnly="true" />
+						</h:commandLink>
+						<h:commandLink>
+							<p:button value="Pdf" />
+							<p:dataExporter type="pdf" target="dt" fileName="tipos_eventos"
+								pageOnly="true" />
+						</h:commandLink>
+					</f:facet>
+					<p:column id="f1" filterBy="#{lu.tipo}" sortBy="#{lu.tipo}"
+						headerText="Tipo" width="40">
+						<h:outputText value="#{lu.tipo}"></h:outputText>
+					</p:column>
+					<p:column headerText="Descripci&oacute;n"
+						sortBy="#{lu.descripcion}" width="100">
+						<h:outputText value="#{lu.descripcion}"></h:outputText>
+					</p:column>
+					<p:column headerText="Opciones" exportable="false" width="1">
+						<p:commandButton id="trackedit" icon="ui-icon-pencil">
+							<p:ajax listener="#{tipoeventosBean.accionCargarTipoEvento(lu)}"
+								update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+							<p:tooltip id="toolTipTrac2" for="trackedit"
+								value="Bot&oacute;n para editar un tipo de evento"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<p:dialog widgetVar="dlg1" modal="true" closable="false"
+					closeOnEscape="true" header="Editar Tipo Evento" showEffect="clip"
+					hideEffect="clip">
+					<p:panelGrid columns="2">
+						<h:outputText value="Identificaci&oacute;n: " />
+						<h:outputText value="#{tipoeventosBean.id_tipoevento}"></h:outputText>
+						<h:outputText value="Tipo Evento: " for="can" />
+						<p:inputText id="can" value="#{tipoeventosBean.tipo}">
+						</p:inputText>
+						<h:outputText value="Descripci&oacute;n: " for="descrip" />
+						<b:inputTextarea required="false" id="descrip"
+							value="#{tipoeventosBean.descripcion}" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<p:commandButton id="trackeditar" update="message2"
+							value="Actualizar" onclick="PF('dlg1').close();"
+							icon="ui-icon-disk"
+							action="#{tipoeventosBean.accionActualizarTipoEvento}">
+							<p:tooltip id="toolTipTrac3" for="trackeditar"
+								value="Bot&oacute;n para editar el tipo de evento"
+								trackMouse="true" />
+						</p:commandButton>
+						<p:commandButton id="trackcan" value="Cancelar"
+							icon="ui-icon-close" onclick="PF('dlg1').close();"
+							action="#{tipoeventosBean.irTeventos}">
+							<p:tooltip id="toolTipTrac4" for="trackcan"
+								value="Bot&oacute;n para cancelar edici&oacute;n"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	</div>
 </body>
 </html>

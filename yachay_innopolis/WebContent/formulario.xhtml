@@ -90,21 +90,7 @@
 								requiredMessage="Requerido Observaci&oacute;n">
 								<f:validateLength minimum="10" />
 							</p:inputTextarea>
-							<h:outputText value="" />
-							<h:outputText value="" />
-							<h:outputText value="" />
-							<h:dataTable id="campos" value="#{calusrBean.listcamponuevo}"
-								var="reg">
-								<h:column>
-									<p:outputLabel value="#{reg.etiqueta}:" />
-								</h:column>
-								<h:column>
-									<p:inputText required="true" value="#{reg.campo}"
-										requiredMessage="Requerido campo" />
-								</h:column>
-							</h:dataTable>
 							<p:commandButton value="Inscribirme" onclick="PF('cd').show()"></p:commandButton>
-
 							<p:confirmDialog header="Confirmar Inscripción"
 								message="Esta seguro de que los datos son v&aacute;lidos"
 								showEffect="fade" hideEffect="explode" widgetVar="cd"

@@ -915,23 +915,14 @@ public class SolicitudApBean {
 				capacidad_recurso = null;
 				list_mas = new ArrayList<Solicidetalle>();
 				agregarcontrol = false;
-				resp = "solicitudes?faces-redirect=true";
 				Mensaje.crearMensajeINFO("Edición correcta");
+				resp = "solicitudes?faces-redirect=true";
 			} else {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_INFO,
-										"La solicitud debe contener por lo menos un recurso",
-										null));
+				Mensaje.crearMensajeWARN("La solicitud debe contener por lo menos un recurso");
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Edición errónea", null));
+			Mensaje.crearMensajeWARN("Edición errónea");
+			e.printStackTrace();
 		}
 		return resp;
 	}

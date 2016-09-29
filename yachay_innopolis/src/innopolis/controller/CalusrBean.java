@@ -32,7 +32,6 @@ import innopolis.manager.ManagerReservas;
 import innopolis.model.generic.Mensaje;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;

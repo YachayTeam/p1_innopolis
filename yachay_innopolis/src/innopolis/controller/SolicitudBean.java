@@ -18,6 +18,7 @@ import innopolis.manager.ManagerBuscar;
 import innopolis.manager.ManagerLogin;
 import innopolis.manager.ManagerReservas;
 import innopolis.manager.Validacion;
+import innopolis.model.generic.Mensaje;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -104,6 +105,7 @@ public class SolicitudBean {
 		select = new ArrayList<SelectItem>();
 		direccion = session.getNombre();
 		justificacion = session.getApellido();
+		solicitudCabTem = null;
 		mostrar = false;
 		agregardetalle = true;
 		actividad = "";
@@ -822,16 +824,17 @@ public class SolicitudBean {
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN,
 								"Verifique su horario de solicitud", null));
-//			} else if ((!Validacion.horaMayorIgual(getHorainicio()) || !Validacion
-//					.horaMayorIgual(getHorafin()))) {
-//				FacesContext
-//						.getCurrentInstance()
-//						.addMessage(
-//								null,
-//								new FacesMessage(
-//										FacesMessage.SEVERITY_WARN,
-//										"La hora de solicitud no debe ser menor a la actual",
-//										null));
+				// } else if ((!Validacion.horaMayorIgual(getHorainicio()) ||
+				// !Validacion
+				// .horaMayorIgual(getHorafin()))) {
+				// FacesContext
+				// .getCurrentInstance()
+				// .addMessage(
+				// null,
+				// new FacesMessage(
+				// FacesMessage.SEVERITY_WARN,
+				// "La hora de solicitud no debe ser menor a la actual",
+				// null));
 			} else {
 				select = this.getlistaRecursosLibres();
 				// select2 = this.getlistaTipoRecursosLibres();
@@ -911,13 +914,15 @@ public class SolicitudBean {
 	// -------traslados
 	public String irsolres() {
 		String r = "";
-		if (solicitudCabTem.getSolicidetalles().size() > 0) {
-			r = "solres";
+		if (solicitudCabTem == null) {
+			Mensaje.crearMensajeWARN("Debe crear la solicitud indicando la actividad y objetivo");
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Debe seleccionar recursos", null));
+			if (solicitudCabTem.getSolicidetalles().size() > 0) {
+				Mensaje.crearMensajeINFO("Continuar");
+				r = "solres";
+			} else {
+				Mensaje.crearMensajeWARN("Debe seleccionar recursos");
+			}
 		}
 		return r;
 	}
@@ -927,6 +932,7 @@ public class SolicitudBean {
 	}
 
 	public String irsoldet() {
+		solicitudCabTem.getSolicidetalles().clear();
 		return "soldet";
 	}
 

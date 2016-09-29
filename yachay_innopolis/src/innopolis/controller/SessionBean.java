@@ -455,9 +455,10 @@ public class SessionBean {
 					celular.trim(), empreestu.trim(), cargptitu.trim());
 			Mensaje.crearMensajeINFO("Perfil modificado");
 		} catch (Exception e) {
+			Mensaje.crearMensajeWARN("Error al modificar usuario");
 			e.printStackTrace();
 		}
-		return "perfilu?faces-redirect=true";
+		return "";
 	}
 
 	public List<String> interesedicion() {

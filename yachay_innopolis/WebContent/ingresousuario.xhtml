@@ -185,8 +185,8 @@
 				</b:column>
 				<b:column span="2">
 					<h:panelGroup>
-						<p:selectOneMenu id="tipousrref" required="true"
-							styleClass="t" value="#{registroBean.tipo}"
+						<p:selectOneMenu id="tipousrref" required="true" styleClass="t"
+							value="#{registroBean.tipo}"
 							requiredMessage="Requerido tipo del usuario">
 							<f:selectItem itemLabel="Selección tipo Usuario" itemValue="" />
 							<f:selectItems value="#{registroBean.listaTipo}" />
@@ -233,7 +233,6 @@
 					<p:commandButton value="Registrarme" onclick="PF('cd').show()"></p:commandButton>
 				</b:column>
 			</b:row>
-
 			<p:confirmDialog header="Confirmar Registro"
 				message="Está seguro de que los datos son v&aacute;lidos"
 				showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
@@ -246,7 +245,6 @@
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('cd').hide()"></p:commandButton>
-
 			</p:confirmDialog>
 			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
 				closable="false" resizable="false" showHeader="false">

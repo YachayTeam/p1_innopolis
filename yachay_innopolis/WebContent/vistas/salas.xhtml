@@ -24,9 +24,6 @@
 		</p:menubar>
 	</h:form>
 	<div class="div1">
-		<hr />
-		<!-- h:graphicImage id="img1" value="/resources/img/logo.png"></h:graphicImage-->
-		<hr />
 		<h:form id="form1">
 			<p:growl id="message" showDetail="false" />
 			<p:panel id="panel1" header="Registro de Salas">
@@ -74,13 +71,24 @@
 					<p:graphicImage id="imagen"
 						value="/resources/img/imgevent/#{salasBean.imagen}" width="150"
 						height="150" />
-					<h:outputText value="" />
-					<p:commandButton id="trackguardar"
-						update="panel1 :form2:panel2 message" value="Agregar"
-						action="#{salasBean.crearNuevoRecursoTipo}">
+					<p:commandButton id="trackguardar" onclick="PF('cd').show()" value="Agregar">
 						<p:tooltip id="toolTipTrack1" for="trackguardar"
 							value="Bot&oacute;n para crear una Sala" trackMouse="true" />
 					</p:commandButton>
+					
+					<p:confirmDialog header="Confirmar Registro"
+						message="¿Está seguro de que los datos son v&aacute;lidos?"
+						showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+						<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check" onclick="PF('dlgLoad').show();"
+							oncomplete="PF('dlgLoad').hide();"
+							action="#{salasBean.crearNuevoRecursoTipo}"
+							update="panel1 :form2:panel2 message">
+						</p:commandButton>
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('cd').hide()"></p:commandButton>
+					</p:confirmDialog>
 				</p:panelGrid>
 			</p:panel>
 		</h:form>
@@ -114,7 +122,7 @@
 						sortBy="#{lu.descripcion}" headerText="Descripción">
 						<h:outputText value="#{lu.descripcion}"></h:outputText>
 					</p:column>
-					<p:column id="f6" filterBy="#{lu.capacidad}" width="70"
+					<p:column id="f6" filterBy="#{lu.capacidad}" width="60"
 						sortBy="#{lu.capacidad}" headerText="Capacidad">
 						<h:outputText value="#{lu.capacidad}"></h:outputText>
 					</p:column>
@@ -132,7 +140,7 @@
 						sortBy="#{lu.saladisponible.disponible}" headerText="Estado">
 						<h:outputText value="#{lu.saladisponible.disponible}"></h:outputText>
 					</p:column>
-					<p:column headerText="Opciones" exportable="false" width="30">
+					<p:column headerText="Opciones" exportable="false" width="40">
 						<p:commandButton id="trackrev" icon="ui-icon-pencil">
 							<p:tooltip id="toolTipTrack5" for="trackrev"
 								value="Bot&oacute;n para observar la Información de la Sala"

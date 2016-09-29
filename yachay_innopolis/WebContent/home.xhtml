@@ -46,16 +46,6 @@
 		</b:carousel>
 		<h:form id="form1">
 			<p:growl id="message2" showDetail="false" />
-			<!-- 			<div class="ui-grid-row"> -->
-			<!-- 				<div class="ui-grid-col-10" style="padding-left: 20%;"> -->
-			<!-- 					<h1 align="center">REGECE</h1> -->
-			<!-- 					<h3 align="center">(Reservas de Espacios y Gestión de Eventos -->
-			<!-- 						del Centro de Emprendimiento)</h3> -->
-			<!-- 				</div> -->
-			<!-- 				<div class="ui-grid-col-2"> -->
-			<!-- 					<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage> -->
-			<!-- 				</div> -->
-			<!-- 			</div> -->
 			<p:menubar>
 				<p:submenu label="Acciones/Actividades" icon="ui-icon-document">
 					<c:forEach var="te" items="#{sessionBean.la}">
@@ -88,61 +78,78 @@
 				closeOnEscape="true" header="Registrar Sugerencia"
 				showEffect="explode" hideEffect="bounce" height="320">
 				<p:panelGrid columns="1" id="panel4">
-				<b:row>
-					<b:column span="12">
-						<h:outputText style="padding:10px;margin-bottom:15px;"
-							value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						<h:outputText value="Apellidos: " for="apellidos" style="padding:10px;margin-bottom:15px;" />
-					</b:column>
-					<b:column span="2">
-						<p:inputText id="apellidos" value="#{usuariosBean.apellidosug}" 
-							style="padding:10px;margin-bottom:15px;" disabled="true"></p:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						<h:outputText value="Nombres: " for="nombres" style="padding:10px;" />
-					</b:column>
-					<b:column span="2">
-						<p:inputText id="nombres" value="#{usuariosBean.nombresug}"
-							style="padding:10px;margin-bottom:15px;" disabled="true"></p:inputText>
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="8">
-						<h:outputText value="Sugerencia a Enviar: " for="sugere" style="padding:10px;" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2"/>
-					<b:column span="10">
-						<b:inputTextarea id="sugere" rows="4"  value="#{usuariosBean.sugerenciatext}"  style="margin-bottom:15px;">
-						</b:inputTextarea>
-					</b:column>
-				</b:row>
-				<b:row>
-				<b:column span="2"></b:column>
-					<b:column span="2">
-						<p:commandButton id="trackedi" value="Enviar" icon="ui-icon-check"
-							widgetVar="startButton1" update="panel4 :form1:message2"
-							onclick="PF('dlgLoad').show();"
-							oncomplete="PF('dlgLoad').hide();"
-							action="#{usuariosBean.crearsugerencia()}">
-						</p:commandButton>
-					</b:column>
-					<b:column span="2">
-						<p:commandButton id="trackvolver" value="Cerrar" process="@this" icon="ui-icon-check"
-							widgetVar="startButton1" update=":form1:message2" 
-							onclick="PF('dlg2').hide();">
-						</p:commandButton>
-					</b:column>
-				</b:row>
+					<b:row>
+						<b:column span="12">
+							<h:outputText style="padding:10px;margin-bottom:15px;"
+								value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<h:outputText value="Apellidos: " for="apellidos"
+								style="padding:10px;margin-bottom:15px;" />
+						</b:column>
+						<b:column span="2">
+							<p:inputText id="apellidos" value="#{usuariosBean.apellidosug}"
+								style="padding:10px;margin-bottom:15px;" disabled="true"></p:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<h:outputText value="Nombres: " for="nombres"
+								style="padding:10px;" />
+						</b:column>
+						<b:column span="2">
+							<p:inputText id="nombres" value="#{usuariosBean.nombresug}"
+								style="padding:10px;margin-bottom:15px;" disabled="true"></p:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="8">
+							<h:outputText value="Sugerencia a Enviar: " for="sugere"
+								style="padding:10px;" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2" />
+						<b:column span="10">
+							<b:inputTextarea id="sugere" rows="4"
+								value="#{usuariosBean.sugerenciatext}"
+								style="margin-bottom:15px;">
+							</b:inputTextarea>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2"></b:column>
+						<b:column span="2">
+							<p:commandButton id="trackedi" value="Enviar"
+								icon="ui-icon-check" onclick="PF('cd').show();">
+							</p:commandButton>
+						</b:column>
+						<b:column span="2">
+							<p:commandButton id="trackvolver" value="Cerrar" process="@this"
+								icon="ui-icon-close" widgetVar="startButton1"
+								update=":form1:message2" oncomplete="PF('dlg2').hide();">
+							</p:commandButton>
+						</b:column>
+					</b:row>
 				</p:panelGrid>
 			</p:dialog>
+			<p:confirmDialog header="Confirmar Sugerencia"
+				message="Está seguro de enviar la sugerencia" showEffect="fade"
+				hideEffect="explode" widgetVar="cd" width="400">
+				<p:commandButton id="trackins" icon="ui-icon-check"
+					onclick="PF('dlgLoad').show();" action="home.xhtml"
+					actionListener="#{usuariosBean.crearsugerencia()}"
+					oncomplete="PF('dlgLoad').hide();PF('dlg2').hide();PF('cd').hide();"
+					value="Si"					
+					update="panel4 :form1:message2">
+				</p:commandButton>
+				<p:commandButton value="No" type="reset"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('cd').hide()">
+				</p:commandButton>
+			</p:confirmDialog>
 			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
 				closable="false" resizable="false" showHeader="false">
 				<h:form>

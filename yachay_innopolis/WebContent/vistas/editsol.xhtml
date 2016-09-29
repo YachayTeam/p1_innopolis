@@ -28,7 +28,6 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
-	<hr />
 	<p:growl id="message1" showDetail="false" />
 	<p:panel id="panel1" header="Datos de Solicitud">
 		<h:form id="form3">
@@ -170,7 +169,7 @@
 		</h:form>
 	</p:panel>
 	<p:confirmDialog header="Actualizar"
-		message="Esta seguro de aprobar los datos?" showEffect="fade"
+		message="¿Está seguro de aprobar los datos?" showEffect="fade"
 		hideEffect="explode" widgetVar="cd">
 		<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 			icon="ui-icon-check" oncomplete="PF('cd').hide()" process="@this"

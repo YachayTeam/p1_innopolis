@@ -18,75 +18,91 @@
 				<p:commandButton type="button" value="#{sessionBean.nom}"
 					disabled="true" icon="ui-icon-person" />
 				<p:commandButton id="tracksalir" value="Volver"
-					action="/vistas/administracionusuarios.xhtml" actionListener="#{usuariosBean.irAprovador1}" icon="ui-icon-person"></p:commandButton>
+					action="/vistas/administracionusuarios.xhtml"
+					actionListener="#{usuariosBean.irAprovador1}" icon="ui-icon-person"></p:commandButton>
 			</f:facet>
 		</p:menubar>
 	</h:form>
-	<div class="div1">
-		<h:form id="form1">
-			<p:growl id="message" showDetail="false" />
-			<p:panel id="panel1" header="Registro de Intereses">
+	<h:form id="form1">
+		<p:growl id="message" showDetail="false" />
+		<p:panel id="panel1" header="Registro de Intereses">
+			<p:panelGrid columns="2">
+				<h:outputText value="Tipo de Interés*: " />
+				<p:inputText required="true" id="tipo"
+					value="#{interesesBean.nombreinteres}"
+					requiredMessage="Requerido Interés"
+					validatorMessage="Interés obligatorio">
+				</p:inputText>
+				<p:commandButton id="trackguardar" value="Agregar"
+					onclick="PF('cd').show()">
+				</p:commandButton>
+			</p:panelGrid>
+			<p:confirmDialog header="Confirmar ingreso de interés"
+				message="¿Está seguro de que los datos son v&aacute;lidos?"
+				showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" onclick="PF('dlgLoad').show();"
+					oncomplete="PF('dlgLoad').hide();PF('cd').hide();"
+					action="#{interesesBean.accioninsertarInteres}"
+					widgetVar="startButton1" update=":form2:panel2 :form1:message :form1:panel1">
+				</p:commandButton>
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('cd').hide()"></p:commandButton>
+
+			</p:confirmDialog>
+			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:form>
+					<p:graphicImage value="/resources/img/loader.gif" />
+				</h:form>
+			</p:dialog>
+		</p:panel>
+	</h:form>
+	<hr />
+	<h:form id="form2">
+		<p:growl id="message2" showDetail="false" />
+		<p:panel id="panel2" header="Lista de Intereses">
+			<p:dataTable id="dt"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} 
+					{NextPageLink} {LastPageLink}"
+				paginator="true" rows="10" reflow="true"
+				value="#{interesesBean.listainteres}" var="lu"
+				emptyMessage="No hay información almacenada">
+				<p:column id="f1" filterBy="#{lu.idInteres}"
+					sortBy="#{lu.idInteres}" headerText="Id. Interés">
+					<h:outputText value="#{lu.idInteres}"></h:outputText>
+				</p:column>
+				<p:column id="f2" filterBy="#{lu.nombreInt}"
+					sortBy="#{lu.nombreInt}" headerText="Interés">
+					<h:outputText value="#{lu.nombreInt}"></h:outputText>
+				</p:column>
+				<p:column headerText="Editar" exportable="false">
+					<p:commandButton id="trackrev" icon="ui-icon-pencil">
+						<p:ajax listener="#{interesesBean.accionCargarInteres(lu)}"
+							update=":form2:panel2" oncomplete="PF('dlg1').show();" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:dialog widgetVar="dlg1" modal="true" closable="false"
+				closeOnEscape="true" header="Editar Interés" showEffect="clip"
+				hideEffect="clip">
 				<p:panelGrid columns="2">
-					<h:outputText value="Tipo de Interés*: " />
-					<p:inputText required="true" id="tipo"
-						value="#{interesesBean.nombreinteres}"
-						requiredMessage="Requerido Interés"
-						validatorMessage="Interés obligatorio">
-					</p:inputText>
-					<p:commandButton id="trackguardar"
-						update="panel1 :form2:panel2 message" value="Insertar Interés"
-						action="#{interesesBean.accioninsertarInteres}">
+					<h:outputText value="Idetificaci&oacute;n: " />
+					<h:outputText value="#{interesesBean.id_interes}"></h:outputText>
+					<h:outputText value="Interés*: " />
+					<p:inputText id="can" value="#{interesesBean.nombreinteres}"></p:inputText>
+					<p:commandButton id="trackedi" update="message2" value="Actualizar"
+						onclick="PF('dlg1').close();" icon="ui-icon-disk"
+						action="#{interesesBean.accionActualizarInteres}">
+					</p:commandButton>
+					<p:commandButton id="trackvol" value="Volver" icon="ui-icon-close"
+						onclick="PF('dlg1').close();" update=":form2:panel2"
+						action="#{interesesBean.irintereses}">
 					</p:commandButton>
 				</p:panelGrid>
-			</p:panel>
-		</h:form>
-		<hr />
-		<h:form id="form2">
-			<p:growl id="message2" showDetail="false" />
-			<p:panel id="panel2" header="Lista de Intereses">
-				<p:dataTable id="dt"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} 
-					{NextPageLink} {LastPageLink}"
-					paginator="true" rows="10" reflow="true"
-					value="#{interesesBean.listainteres}" var="lu"
-					emptyMessage="No hay información almacenada">
-					<p:column id="f1" filterBy="#{lu.idInteres}"
-						sortBy="#{lu.idInteres}" headerText="Id. Interés">
-						<h:outputText value="#{lu.idInteres}"></h:outputText>
-					</p:column>
-					<p:column id="f2" filterBy="#{lu.nombreInt}"
-						sortBy="#{lu.nombreInt}" headerText="Interés">
-						<h:outputText value="#{lu.nombreInt}"></h:outputText>
-					</p:column>
-					<p:column headerText="Editar" exportable="false">
-						<p:commandButton id="trackrev" icon="ui-icon-pencil">
-							<p:ajax listener="#{interesesBean.accionCargarInteres(lu)}"
-								update=":form2:panel2" oncomplete="PF('dlg1').show();" />
-						</p:commandButton>
-					</p:column>
-				</p:dataTable>
-
-				<p:dialog widgetVar="dlg1" modal="true" closable="false"
-					closeOnEscape="true" header="Editar Interés" showEffect="clip"
-					hideEffect="clip">
-					<p:panelGrid columns="2">
-						<h:outputText value="Idetificaci&oacute;n: " />
-						<h:outputText value="#{interesesBean.id_interes}"></h:outputText>
-						<h:outputText value="Interés*: " />
-						<p:inputText id="can" value="#{interesesBean.nombreinteres}"></p:inputText>
-						<p:commandButton id="trackedi" update="message2"
-							value="Actualizar" onclick="PF('dlg1').close();"
-							icon="ui-icon-disk"
-							action="#{interesesBean.accionActualizarInteres}">
-						</p:commandButton>
-						<p:commandButton id="trackvol" value="Volver" icon="ui-icon-close"
-							onclick="PF('dlg1').close();" update=":form2:panel2"
-							action="#{interesesBean.irintereses}">
-						</p:commandButton>
-					</p:panelGrid>
-				</p:dialog>
-			</p:panel>
-		</h:form>
-	</div>
+			</p:dialog>
+		</p:panel>
+	</h:form>
 </body>
 </html>

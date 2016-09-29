@@ -25,10 +25,6 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
-	<hr />
-	<!-- div class="div4"-->
-	<!--h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
-	<!--/div-->
 	<div class="div1">
 		<h:form id="form2">
 			<p:growl id="message2" showDetail="false" />
@@ -143,34 +139,37 @@
 					</p:panelGrid>
 				</p:dialog>
 
-				<p:dialog widgetVar="dlg2" modal="true" closable="false"
+				<p:dialog widgetVar="dlg2" modal="true" closable="true"
 					closeOnEscape="true" header="Editar Mensaje" showEffect="clip"
 					hideEffect="clip">
 					<h:outputText
 						value="Al momento de enviar la sugerencia espere al mensaje de confimación." />
 					<p:panelGrid columns="2">
 						<h:outputText value="Mensaje a Enviar: " />
-						
-						<p:inputTextarea value="#{serviciosVirtualesApBean.smscor}" rows="10"
-							cols="50" autoResize="false"></p:inputTextarea>
-						<p:commandButton id="trackedi" onclick="PF('dlgLoad').show();"
-							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
-							update=":form2:panel2 :form2:message2" icon="ui-icon-comment"
-							value="Aceptar"
-							action="#{serviciosVirtualesApBean.enviarmensaje(reg1)}">
+
+						<p:inputTextarea value="#{serviciosVirtualesApBean.smscor}"
+							rows="10" cols="50" autoResize="false"></p:inputTextarea>
+						<p:commandButton id="trackedi" value="Aceptar"
+							icon="ui-icon-comment" onclick="PF('cd').show();">
 							<p:tooltip id="t3" for="trackedi"
 								value="Bot&oacute;n para enviar el sms" trackMouse="true" />
 						</p:commandButton>
-						<p:commandButton id="trackcerrlg" value="Cancelar"
-							icon="ui-icon-close" onclick="PF('dlg2').close();"
-							update=":form2:panel2 :form2:message2"
-							action="#{serviciosVirtualesApBean.irAprovador}">
-							<p:tooltip id="toolTipTrack20" for="trackcerrlg"
-								value="Bot&oacute;n para cancelar la edici&oacute;n"
-								trackMouse="true" />
-						</p:commandButton>
 					</p:panelGrid>
 				</p:dialog>
+				<p:confirmDialog header="Confirmar envío de mensaje"
+							message="¿Está seguro de enviar el mensaje?" showEffect="fade"
+							hideEffect="explode" widgetVar="cd" width="400">
+							<p:commandButton id="trackins" icon="ui-icon-check"
+								actionListener="#{serviciosVirtualesApBean.enviarmensaje(reg1)}"
+								update=":form2:panel2 :form2:message2"
+								onclick="PF('dlgLoad').show();" action="aprovadorserviciovirtual.xhtml"
+								oncomplete="PF('dlgLoad').hide();PF('dlg2').hide();" value="Si">
+							</p:commandButton>
+							<p:commandButton value="No" type="reset"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+								onclick="PF('cd').hide()">
+							</p:commandButton>
+						</p:confirmDialog>
 				<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
 					closable="false" resizable="false" showHeader="false">
 					<h:form>

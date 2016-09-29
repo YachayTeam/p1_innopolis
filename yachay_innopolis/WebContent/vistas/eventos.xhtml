@@ -30,7 +30,6 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
-	<hr />
 	<div class="div1">
 		<h:form id="form1">
 			<p:growl id="message1" showDetail="false" />
@@ -147,7 +146,7 @@
 		<h:form id="form2">
 			<p:growl id="message2" showDetail="false" />
 			<p:panel id="panel2" header="Lista de Eventos Registrados">
-				<p:dataTable id="dt" value="#{eventosBean.listRegEventos}" rows="8"
+				<p:dataTable id="dt" value="#{eventosBean.listRegEventos}" rows="20"
 					var="reg" reflow="true" sortOrder="descending"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
 					paginator="true" emptyMessage="No hay información almacenada">
@@ -263,8 +262,8 @@
 				</p:dataTable>
 
 				<p:dialog widgetVar="dlg1" modal="true" closable="true"
-					closeOnEscape="true" header="Información Eventos"
-					showEffect="clip" hideEffect="clip">
+					closeOnEscape="true" header="Información Eventos" showEffect="clip"
+					hideEffect="clip">
 					<p:messages id="msj" closable="true" />
 					<p:panelGrid columns="4" id="panel4">
 						<h:outputText value="Usuario Solicitante:" />
@@ -347,14 +346,26 @@
 						<h:outputText value="Cancelación de evento: " />
 						<p:inputTextarea value="#{eventosBean.smscor}" rows="10" cols="50"
 							autoResize="false"></p:inputTextarea>
-						<p:commandButton id="trackedi" update=":form2 :form2:message2"
-							onclick="PF('dlgLoad').show();"
-							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
-							icon="ui-icon-comment" value="Enviar"
-							action="#{eventosBean.enviarmensajeactivacionevento(reg1)}">
+						<p:commandButton id="trackedi" value="Enviar"
+							icon="ui-icon-comment" onclick="PF('cd').show();">
 						</p:commandButton>
 					</p:panelGrid>
 				</p:dialog>
+				<p:confirmDialog header="Confirmar envío de mensaje"
+					message="¿Está seguro de enviar el mensaje?" showEffect="fade"
+					hideEffect="explode" widgetVar="cd" width="400">
+					<p:commandButton id="trackins" icon="ui-icon-check"
+						update=":form2 :form2:message2"
+						actionListener="#{eventosBean.enviarmensajeactivacionevento(reg1)}"
+						onclick="PF('dlgLoad').show();" action="eventos.xhtml"
+						oncomplete="PF('dlgLoad').hide();PF('dlg2').hide();PF('cd').hide();"
+						value="Si">
+					</p:commandButton>
+					<p:commandButton value="No" type="reset"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('cd').hide()">
+					</p:commandButton>
+				</p:confirmDialog>
 				<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
 					closable="false" resizable="false" showHeader="false">
 					<h:form>
@@ -370,7 +381,6 @@
 			</p:dialog>
 		</h:form>
 	</div>
-	<div class="div4">
-	</div>
+	<div class="div4"></div>
 </body>
 </html>

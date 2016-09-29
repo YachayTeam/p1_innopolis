@@ -1045,12 +1045,14 @@ public class UsuariosBean implements Serializable {
 	// accion para invocar el manager y crear sugerencia
 	public void crearsugerencia() {
 		try {
-			if (sugerenciatext.isEmpty()) {
+			if (sugerenciatext.isEmpty() || sugerenciatext.equals("")) {
 				Mensaje.crearMensajeWARN("Indique su sugerencia");
 			} else {
 				cargasuge();
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 				Usuario usr = manager.UsuarioByID(idusrsug);
+				manager.insertarSugerencia(idusrsug, getSugerenciatext(),
+						sugerenciafecha);
 				smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "El Sr/ra. "
@@ -1108,8 +1110,6 @@ public class UsuariosBean implements Serializable {
 				mb.envioMailWS(usr.getCorreo(),
 						"Envío de Sugerencia a YACHAY/REGECE",
 						smscorreosugerenc);
-				manager.insertarSugerencia(idusrsug, getSugerenciatext(),
-						sugerenciafecha);
 				sugerenciatext = "";
 				correosadmin = "";
 				sugerenciafecha = null;
@@ -1202,12 +1202,9 @@ public class UsuariosBean implements Serializable {
 				cargptitu = "";
 				idUsuario = null;
 				tipoestusr = manager.EstadoByID(1);
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Enviado correctamente al correo", null));
+				Mensaje.crearMensajeINFO("Enviado correctamente al correo");
 			} else {
-				Mensaje.crearMensajeINFO("Se ha enviado al correo la notificación");
+				Mensaje.crearMensajeINFO("Yá se ha enviado la notificación");
 			}
 
 		} catch (Exception e) {

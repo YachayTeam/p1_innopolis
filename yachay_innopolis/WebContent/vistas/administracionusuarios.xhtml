@@ -13,7 +13,7 @@
 </h:head>
 <h:body>
 	<h:form>
-	 <p:menubar>
+		<p:menubar>
 			<p:menuitem value="Tipos" action="#{usuariosBean.irTipo}"
 				icon="ui-icon-copy" />
 			<p:menuitem value="Buzón de Sugerencias"
@@ -26,7 +26,8 @@
 			<f:facet name="options">
 				<p:commandButton type="button" value="#{sessionBean.nom}"
 					disabled="true" icon="ui-icon-person" />
-				<p:commandButton id="tracksalir" value="Volver" actionListener="#{usuariosBean.irAprovador1}" action="/home.xhtml"
+				<p:commandButton id="tracksalir" value="Volver"
+					actionListener="#{usuariosBean.irAprovador1}" action="/home.xhtml"
 					icon="ui-icon-home">
 					<p:tooltip id="toolTipTrac10" for="tracksalir"
 						value="Bot&oacute;n para volver" trackMouse="true" />
@@ -34,7 +35,6 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
-	<hr />
 	<div class="div3">
 		<h:form id="form3">
 			<p:growl id="message" showDetail="false" />
@@ -147,13 +147,25 @@
 							itemValue="#{usuariosBean.intereses.idInteres}" />
 					</p:selectCheckboxMenu>
 					<p:commandButton id="trackregistrar" value="Registrar"
-						action="#{usuariosBean.crearUsuario}"
-						update=":form3:panel3 :form2 message">
+						onclick="PF('cd').show()">
 						<p:tooltip id="toolTipTrac1" for="trackregistrar"
 							value="Bot&oacute;n para registrar usuario al sistema"
 							trackMouse="true" />
 					</p:commandButton>
 				</p:panelGrid>
+				<p:confirmDialog header="Confirmar Registro"
+					message="¿Está seguro de que los datos son v&aacute;lidos?"
+					showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+					<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check" onclick="PF('dlgLoad').show();"
+						oncomplete="PF('dlgLoad').hide();"
+						action="#{usuariosBean.crearUsuario}"
+						update=":form3:panel3 :form2 message">
+					</p:commandButton>
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('cd').hide()"></p:commandButton>
+				</p:confirmDialog>
 			</p:panel>
 		</h:form>
 		<h:form id="form2">
@@ -219,7 +231,10 @@
 								value="Bot&oacute;n para cambiar el estado del usuario"
 								trackMouse="true" />
 						</p:commandButton>
-						<p:commandButton id="trackcer1" icon="ui-icon-mail-closed" actionListener="#{usuariosBean.asignarsms(reg)}" update=":form2 :form3:message">
+						<p:commandButton id="trackcer1" icon="ui-icon-mail-closed"
+							onclick="PF('dlg2').show();"
+							actionListener="#{usuariosBean.asignarsms(reg)}"
+							update=":form2 :form3:message">
 							<p:tooltip id="toolTipTrack8" for="trackcer1"
 								value="Cambiar contenido de la notificaci&oacute;n por defecto"
 								trackMouse="true" />
@@ -303,14 +318,27 @@
 						<h:outputLabel value="Mensaje a Enviar: " />
 						<p:inputTextarea value="#{usuariosBean.smscor}" rows="10"
 							cols="50" autoResize="false"></p:inputTextarea>
-						<p:commandButton id="trackedi" update=":form2 :form3:message"
-							onclick="PF('dlgLoad').show();"
-							oncomplete="PF('dlgLoad').hide();" widgetVar="startButton1"
-							icon="ui-icon-comment" value="Aceptar"
-							action="#{usuariosBean.enviarmensaje(reg1)}">
+						<p:commandButton id="trackedi" onclick="PF('cd1').show();"
+							icon="ui-icon-comment" value="Aceptar">
 						</p:commandButton>
 					</p:panelGrid>
 				</p:dialog>
+
+				<p:confirmDialog header="Confirmar envío de correo"
+					message="¿Está seguro de enviar el correo?" showEffect="fade"
+					hideEffect="explode" widgetVar="cd1" width="400">
+					<p:commandButton id="trackins" icon="ui-icon-check"
+						onclick="PF('dlgLoad').show();"
+						action="administracionusuarios.xhtml"
+						actionListener="#{usuariosBean.enviarmensaje(reg1)}"
+						oncomplete="PF('dlgLoad').hide();PF('dlg2').hide();PF('cd1').hide();"
+						value="Si" update=":form2 :form3:message">
+					</p:commandButton>
+					<p:commandButton value="No" type="reset"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('cd1').hide()">
+					</p:commandButton>
+				</p:confirmDialog>
 				<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
 					closable="false" resizable="false" showHeader="false">
 					<h:form>

@@ -44,6 +44,7 @@ public class TipoBean implements Serializable {
 		manager = new ManagerLogin();
 		ocupados = new ArrayList<Inter>();
 		o1 = new ArrayList<Actividad>();
+		getListaActividades();
 		res = "";
 	}
 
@@ -150,9 +151,11 @@ public class TipoBean implements Serializable {
 			manager.insertarTipo(tipo, descripcion, arrayTipoLogin);
 			tipo = "";
 			descripcion = "";
-			Mensaje.crearMensajeINFO("Tipo creado");
+			getListaActividades().clear();
+			getListaActividades();
+			Mensaje.crearMensajeINFO("Tipo de usuario creado");
 		} catch (Exception e) {
-			Mensaje.crearMensajeWARN("Tipo no pudo ser creado");
+			Mensaje.crearMensajeWARN("Tipo de usuario no pudo ser creado");
 			e.printStackTrace();
 		}
 		return "tipo";
@@ -175,9 +178,11 @@ public class TipoBean implements Serializable {
 			manager.editarTipo(idTipo, tipo, descripcion);
 			tipo = "";
 			descripcion = "";
-			Mensaje.crearMensajeINFO("Tipo modificado");
+			getListaActividades().clear();
+			getListaActividades();
+			Mensaje.crearMensajeINFO("Tipo de usuario modificado");
 		} catch (Exception e) {
-			Mensaje.crearMensajeWARN("Tipo no pudo ser modificado");
+			Mensaje.crearMensajeWARN("Tipo de usuario no pudo ser modificado");
 			e.printStackTrace();
 		}
 		return "tipo";

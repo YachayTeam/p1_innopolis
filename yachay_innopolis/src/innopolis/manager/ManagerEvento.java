@@ -50,6 +50,11 @@ public class ManagerEvento {
 	public List<Evento> findEventoByCabeceraId(Integer id) throws Exception {
 		return mDAO.findWhere(Evento.class, " o.solicicabecera.idSolcab = "+ id + " ", " o.fechaInicio ");
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Evento> findUsuarioExisteById(Integer id) throws Exception {
+		return mDAO.findWhere(Evento.class, " o.usuario.idUsr = "+ id + " ", " o.fechaInicio ");
+	}
 
 	// insertar los eventos
 	public void insertarEvento(String nombre, String descripcion,

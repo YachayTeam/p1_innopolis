@@ -1,106 +1,160 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<h:outputStylesheet library="css" name="styleser.css" />
-<link rel="shortcut icon" type="image/x-icon" href="../resources/img/favicon.ico"/>
-<title>Gesti&oacute;n Servicios Virtuales</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<h:outputStylesheet library="css" name="styleser.css" />
+	<link rel="shortcut icon" type="image/x-icon"
+		href="../resources/img/favicon.ico" />
+	<title>Gesti&oacute;n Servicios Virtuales</title>
 </h:head>
 <body>
-<h:form> 
-    <p:menubar>  
-      <f:facet name="options">
-        	<p:commandButton type="button" value="#{sessionBean.nom}" disabled="true" icon="ui-icon-person"  />
-            <p:commandButton id="tracksalir" value="Volver"  action="/home.xhtml" icon="ui-icon-home">
-            <p:tooltip id="toolTipTrac10" for="tracksalir" value="Bot&oacute;n para volver del sistema" trackMouse="true" />
-            </p:commandButton>
-        </f:facet>
-        
-    </p:menubar>
-</h:form>
-<hr/>
-<div class="div1">
-<h:form id="form1">	
-<p:growl id="message" showDetail="false" /> 
-	<p:panel id="panel1"  header="Ingreso de Servicios Virtuales">
-		<p:panelGrid columns="3" >
-			<h:outputText value="Servicios* :"/>
-			<p:inputText required="true"  id="tipo" value="#{serviciosVirtualesBean.nomservicio}" requiredMessage="Requerido Nombre del Servicio">	</p:inputText>
-			<h:outputText value=""/>			
-			<h:outputText value="Url del Servicio Virtual* :"/>
-			<p:inputTextarea required="true"  id="url" value="#{serviciosVirtualesBean.url}" requiredMessage="Requerido Url del Servicio" rows="2" cols="100"/>
-			<h:outputText value=""/>			
-			<p:commandButton id="trackingre" update=":form1:panel1 :form2:panel2 message" value="Insertar" action="#{serviciosVirtualesBean.crearNuevoTipoServicio}">
-			<p:tooltip id="toolTipTrack1" for="trackingre" value="Bot&oacute;n para crear servicio virtual" trackMouse="true" />			
-			</p:commandButton>
-		</p:panelGrid>
-	</p:panel>
-</h:form>
-</div>
-<div class="div2">
-<!-- h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
-</div>
-<hr />
-<div class="div1">
-<h:form id="form2">
-<p:growl id="message1" showDetail="false" />
-	<p:panel id="panel2" header="Lista de Servicios Virtuales">
-		<p:dataTable id="dt" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
-		{PageLinks} {NextPageLink} {LastPageLink} {exp}" paginator="true" rows="2" reflow="true"
-		 value="#{serviciosVirtualesBean.listServicios}" var="ser" emptyMessage="No hay informaci�n almacenada">
-			<f:facet name="{exp}">
-			<h:commandLink>
-                <!--   <h:graphicImage value="/resources/img/excel.png" width="24"/> -->
-               	<p:button  value="Excel" />
-                <p:dataExporter type="xls" target="dt" fileName="servicios_virtuales" pageOnly="true" />
-            </h:commandLink> 
-            <h:commandLink>
-                 <!--   <h:graphicImage value="/resources/img/excel.png" width="24"/> -->
-               <p:button  value="Pdf" />
-                <p:dataExporter type="pdf" target="dt" fileName="servicios_virtuales" pageOnly="true"/>
-            </h:commandLink>
-            </f:facet>
-			<p:column id="f1" filterBy="#{ser.nombreServicio}" sortBy="#{ser.nombreServicio}"  headerText="Servicios Virtuales" width="130">
-				<h:outputText value="#{ser.nombreServicio}"></h:outputText>
-			</p:column>			
-			<p:column id="f3" sortBy="#{ser.url}" headerText="URL" width="300"> 
-				<h:outputText value="#{ser.url}"></h:outputText>
-			</p:column>
-			<p:column id="f2" filterBy="#{ser.estadotiposervicio.ets}" width="120" sortBy="#{ser.estadotiposervicio.ets}" headerText="Estado">
-				<h:outputText value="#{ser.estadotiposervicio.ets}"></h:outputText>
-			</p:column>
-			<p:column headerText="Modificar" exportable="false" width="70">
-			<p:commandButton id="trackcedi"  icon="ui-icon-pencil">				
-			<p:tooltip id="toolTipTrack2" for="trackcedi" value="Bot�n para editar servicio virtual" trackMouse="true" />
-				<p:ajax listener="#{serviciosVirtualesBean.cargarDatostiposerv(ser)}" oncomplete="PF('dlg1').show();"  update=":form2:panel2" />
-			</p:commandButton>
-			<p:commandButton id="trackcambio" icon="ui-icon-refresh" actionListener="#{serviciosVirtualesBean.cambiarEstadoServ(ser)}" update=":form2:panel2 :form2:message1">
-				<p:tooltip id="toolTipTrack3" for="trackcambio" value="Bot&oacute;n para cambiar el estado del servicio virtual" trackMouse="true" />
-				</p:commandButton>					
-    		</p:column>			
-		</p:dataTable>		
-	<br></br>
-		<p:dialog widgetVar="dlg1" modal="true" closable="false" closeOnEscape="true"  header="Editar Servicio" showEffect="clip" hideEffect="clip">
-	<p:panelGrid columns="2" >
-			<h:outputText value="Nombre Servicio: "/>
-			<p:inputText  id="Nom" value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
-			<h:outputText value="Url del Servicio Virtual: "/>
-			<p:inputTextarea  id="Url" value="#{serviciosVirtualesBean.url}" rows="4" cols="50"></p:inputTextarea>
-			<p:commandButton id="trackactu"  value="Actualizar" icon="ui-icon-disk" onclick="PF('dlg1').close();"  action="#{serviciosVirtualesBean.ActualizarServicio}">
-			<p:tooltip id="toolTipTrack4" for="trackactu" value="Bot&oacute;n para actualizar el servicio virtual" trackMouse="true" />	
-			</p:commandButton>
-			<p:commandButton id="trackvolver" action="#{serviciosVirtualesBean.irAprovadorpag}" value="Volver" icon="ui-icon-close" update=":form2:panel2" onclick="PF('dlg1').close();">
-			<p:tooltip id="toolTipTrack5" for="trackvolver" value="Bot&oacute;n para cancelar la edici&oacute;n del servicio virtual" trackMouse="true" />
-			</p:commandButton>
-	</p:panelGrid>
-	</p:dialog>		
-	</p:panel>				
-</h:form>
-</div>
+	<h:form>
+		<p:menubar>
+			<f:facet name="options">
+				<p:commandButton type="button" value="#{sessionBean.nom}"
+					disabled="true" icon="ui-icon-person" />
+				<p:commandButton id="tracksalir" value="Volver" action="/home.xhtml"
+					icon="ui-icon-home">
+					<p:tooltip id="toolTipTrac10" for="tracksalir"
+						value="Bot&oacute;n para volver del sistema" trackMouse="true" />
+				</p:commandButton>
+			</f:facet>
+
+		</p:menubar>
+	</h:form>
+	<div class="div1">
+		<h:form id="form1">
+			<p:growl id="message" showDetail="false" />
+			<p:panel id="panel1" header="Ingreso de Servicios Virtuales">
+				<p:panelGrid columns="3">
+					<h:outputText value="Servicios* :" />
+					<p:inputText required="true" id="tipo"
+						value="#{serviciosVirtualesBean.nomservicio}"
+						requiredMessage="Requerido Nombre del Servicio">
+					</p:inputText>
+					<h:outputText value="" />
+					<h:outputText value="Url del Servicio Virtual* :" />
+					<p:inputTextarea required="true" id="url"
+						value="#{serviciosVirtualesBean.url}"
+						requiredMessage="Requerido Url del Servicio" rows="2" cols="100" />
+					<h:outputText value="" />
+					<p:commandButton id="trackingre" style="width:100%" value="Agregar"
+						onclick="PF('cd').show()">
+						<p:tooltip id="toolTipTrack1" for="trackingre"
+							value="Bot&oacute;n para crear servicio virtual"
+							trackMouse="true" />
+					</p:commandButton>
+					<p:confirmDialog header="Confirmar Registro"
+						message="¿Está seguro de que los datos son v&aacute;lidos?"
+						showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+						<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check" onclick="PF('dlgLoad').show();"
+							oncomplete="PF('dlgLoad').hide();"
+							update=":form1:panel1 :form2:panel2 message"
+							action="#{serviciosVirtualesBean.crearNuevoTipoServicio}">
+						</p:commandButton>
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('cd').hide()"></p:commandButton>
+					</p:confirmDialog>
+
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
+	</div>
+	<div class="div2">
+		<!-- h:graphicImage id="img2" value="/resources/img/logo.png"></h:graphicImage-->
+	</div>
+	<hr />
+	<div class="div1">
+		<h:form id="form2">
+			<p:growl id="message1" showDetail="false" />
+			<p:panel id="panel2" header="Lista de Servicios Virtuales">
+				<p:dataTable id="dt"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+		{PageLinks} {NextPageLink} {LastPageLink} {exp}"
+					paginator="true" rows="20" reflow="true"
+					value="#{serviciosVirtualesBean.listServicios}" var="ser"
+					emptyMessage="No hay información almacenada">
+					<f:facet name="{exp}">
+						<h:commandLink>
+							<!--   <h:graphicImage value="/resources/img/excel.png" width="24"/> -->
+							<p:button value="Excel" />
+							<p:dataExporter type="xls" target="dt"
+								fileName="servicios_virtuales" pageOnly="true" />
+						</h:commandLink>
+						<h:commandLink>
+							<!--   <h:graphicImage value="/resources/img/excel.png" width="24"/> -->
+							<p:button value="Pdf" />
+							<p:dataExporter type="pdf" target="dt"
+								fileName="servicios_virtuales" pageOnly="true" />
+						</h:commandLink>
+					</f:facet>
+					<p:column id="f1" filterBy="#{ser.nombreServicio}"
+						sortBy="#{ser.nombreServicio}" headerText="Servicios Virtuales"
+						width="130">
+						<h:outputText value="#{ser.nombreServicio}"></h:outputText>
+					</p:column>
+					<p:column id="f3" sortBy="#{ser.url}" headerText="URL" width="300">
+						<h:outputText value="#{ser.url}"></h:outputText>
+					</p:column>
+					<p:column id="f2" filterBy="#{ser.estadotiposervicio.ets}"
+						width="120" sortBy="#{ser.estadotiposervicio.ets}"
+						headerText="Estado">
+						<h:outputText value="#{ser.estadotiposervicio.ets}"></h:outputText>
+					</p:column>
+					<p:column headerText="Modificar" exportable="false" width="70">
+						<p:commandButton id="trackcedi" icon="ui-icon-pencil">
+							<p:tooltip id="toolTipTrack2" for="trackcedi"
+								value="Botón para editar servicio virtual" trackMouse="true" />
+							<p:ajax
+								listener="#{serviciosVirtualesBean.cargarDatostiposerv(ser)}"
+								oncomplete="PF('dlg1').show();" update=":form2:panel2" />
+						</p:commandButton>
+						<p:commandButton id="trackcambio" icon="ui-icon-refresh"
+							actionListener="#{serviciosVirtualesBean.cambiarEstadoServ(ser)}"
+							update=":form2:panel2 :form2:message1">
+							<p:tooltip id="toolTipTrack3" for="trackcambio"
+								value="Bot&oacute;n para cambiar el estado del servicio virtual"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<br></br>
+				<p:dialog widgetVar="dlg1" modal="true" closable="false"
+					closeOnEscape="true" header="Editar Servicio" showEffect="clip"
+					hideEffect="clip">
+					<p:panelGrid columns="2">
+						<h:outputText value="Nombre Servicio: " />
+						<p:inputText id="Nom"
+							value="#{serviciosVirtualesBean.nomservicio}"></p:inputText>
+						<h:outputText value="Url del Servicio Virtual: " />
+						<p:inputTextarea id="Url" value="#{serviciosVirtualesBean.url}"
+							rows="4" cols="50"></p:inputTextarea>
+						<p:commandButton id="trackactu" value="Actualizar"
+							icon="ui-icon-disk" onclick="PF('dlg1').close();"
+							action="#{serviciosVirtualesBean.ActualizarServicio}">
+							<p:tooltip id="toolTipTrack4" for="trackactu"
+								value="Bot&oacute;n para actualizar el servicio virtual"
+								trackMouse="true" />
+						</p:commandButton>
+						<p:commandButton id="trackvolver"
+							action="#{serviciosVirtualesBean.irAprovadorpag}" value="Volver"
+							icon="ui-icon-close" update=":form2:panel2"
+							onclick="PF('dlg1').close();">
+							<p:tooltip id="toolTipTrack5" for="trackvolver"
+								value="Bot&oacute;n para cancelar la edici&oacute;n del servicio virtual"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	</div>
 </body>
 </html>

@@ -24,6 +24,7 @@ public class InteresesBean implements Serializable {
 	public InteresesBean() {
 		session = SessionBean.verificarSession();
 		manager = new ManagerLogin();
+		nombreinteres="";
 	}
 
 	public Integer getId_interes() {
@@ -69,7 +70,9 @@ public class InteresesBean implements Serializable {
 	}
 
 	public String accioninsertarInteres() {
-		if (this.ccinteres(nombreinteres) == true) {
+		if(nombreinteres.equals("")){
+			Mensaje.crearMensajeWARN("El nombre del interés esta vacio");
+		}else if (this.ccinteres(nombreinteres) == true) {
 			Mensaje.crearMensajeWARN("El interés ya está siendo utilizado");
 		} else {
 			try {

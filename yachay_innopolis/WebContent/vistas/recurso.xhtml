@@ -7,7 +7,7 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="css" name="styleser.css" />
 	<link rel="shortcut icon" type="image/x-icon"
 		href="../resources/img/favicon.ico" />
 	<title>Gesti&oacute;n Recursos Adicionales</title>
@@ -30,7 +30,6 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
-	<hr />
 	<div class="div1">
 		<h:form id="form1">
 			<p:growl id="message" showDetail="false" />
@@ -75,12 +74,24 @@
 					<p:graphicImage id="imagen"
 						value="/resources/img/imgevent/#{recursosBean.imagen}" width="150"
 						height="150" />
-					<p:commandButton id="trackcrea" style="width:100%"
-						update="panel1 :form2:panel2 message" value="Insertar"
-						action="#{recursosBean.crearRecurso}">
+					<p:commandButton id="trackcrea" style="width:100%" value="Agregar"
+						onclick="PF('cd').show()">
 						<p:tooltip id="toolTipTrack1" for="trackcrea"
 							value="Bot&oacute;n para crear un recurso" trackMouse="true" />
 					</p:commandButton>
+					<p:confirmDialog header="Confirmar Registro"
+						message="¿Está seguro de que los datos son v&aacute;lidos?"
+						showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+						<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check" onclick="PF('dlgLoad').show();"
+							oncomplete="PF('dlgLoad').hide();"
+							action="#{recursosBean.crearRecurso}"
+							update="panel1 :form2:panel2 message">
+						</p:commandButton>
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('cd').hide()"></p:commandButton>
+					</p:confirmDialog>
 				</p:panelGrid>
 			</p:panel>
 		</h:form>
@@ -142,8 +153,8 @@
 								value="Bot&oacute;n para editar un recurso" trackMouse="true" />
 						</p:commandButton>
 						<p:commandButton id="trackcamb" icon="ui-icon-refresh"
-							actionListener="#{recursosBean.cambiarEstado(lu)}" process="@this"
-							update=":form2:panel2 :form2:message2">
+							actionListener="#{recursosBean.cambiarEstado(lu)}"
+							process="@this" update=":form2:panel2 :form2:message2">
 							<p:tooltip id="toolTipTrack3" for="trackcamb"
 								value="Bot&oacute;n para cambiar el estado del recurso"
 								trackMouse="true" />

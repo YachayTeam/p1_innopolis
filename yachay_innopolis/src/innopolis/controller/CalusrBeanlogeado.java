@@ -680,20 +680,22 @@ public class CalusrBeanlogeado implements Serializable {
 	public String inscribirse() {
 		String resp = "";
 		if (getObservacion() == null) {
-			setObservacion("sin observacion");
+			setObservacion("sin observación");
 		}
 		if (getEvento().getCosto() > 0
 				&& getImagenPago().equals("sin_pago.jpg")) {
 			Mensaje.crearMensajeWARN("El evento posee pago y necesita imagen del comprobante");
 		} else {
 			try {
+				if(manager.findUsuarioExisteById(session.getIdUsr()).size() == 0){
 				// FECHA Y HORA ACTUAL
 				Calendar fecha_hora = Calendar.getInstance();
 				setFechaInscripcion(new Timestamp(fecha_hora.getTimeInMillis()));
+				//Ingreso
 				manager.insertarInscripcion(getEvento(), getFechaInscripcion(),
-						0, getNombre(), getApellido(), getCorreo(),
-						getDireccion(), getTelefono(), getCelular(),
-						getImagenPago(), getObservacion());
+						session.getIdUsr(), getNombre().trim(), getApellido().trim(), getCorreo().trim(),
+						getDireccion().trim(), getTelefono().trim(), getCelular().trim(),
+						getImagenPago(), getObservacion().trim());
 				DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 				smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
@@ -776,6 +778,9 @@ public class CalusrBeanlogeado implements Serializable {
 				setImagenPago("sin_pago.jpg");
 				campo = "";
 				resp = "calendario?faces-redirect=true";
+				}else{
+					Mensaje.crearMensajeINFO("Yá esta registrado a este evento");
+				}
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al intentar inscribirse al evento");
 			}

@@ -97,6 +97,8 @@ public class EventosBean {
 	private ManagerBuscar mb;
 
 	private ManagerCarga mc;
+	
+	private UsuariosBean ub;
 
 	// solicitud
 	private List<SelectItem> select;
@@ -189,6 +191,7 @@ public class EventosBean {
 
 	public EventosBean() {
 		mc = new ManagerCarga();
+		ub = new UsuariosBean();
 		manager = new ManagerLogin();
 		session = SessionBean.verificarSession();
 		mEvento = new ManagerEvento();
@@ -1505,7 +1508,10 @@ public class EventosBean {
 		file = event.getFile();
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
-		if (file != null) {
+		if(getNombre().equals("") || getNombre().equals(null))
+		{
+			Mensaje.crearMensajeWARN("Debe crear el nombre del evento antes de subir la imagen");
+		}else if (file != null) {
 			try {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
@@ -3488,5 +3494,6 @@ public class EventosBean {
 			e.printStackTrace();
 		}
 	}
+	
 
 }

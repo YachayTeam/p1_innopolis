@@ -398,9 +398,9 @@ public class ServiciosVirtualesEmBean implements Serializable {
 		try {
 			if (managerservirt.usuarioReg(idusr, tiposervicio.getIdTp())
 					.equals(true)) {
-				Mensaje.crearMensajeINFO("Registrado, espera al mensaje de confirmación del servicio");
+				Mensaje.crearMensajeINFO("Yá se encuentra registrado al servicio, espere al correo de confirmación");
 			} else {
-				if (!tiposervicio.equals(-1)) {
+				if (tiposervicio != null ) {
 					managerservirt.insertarserviciovirtual(idusr, tema);
 					smscoradmin = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 							+ "<meta name='viewport' content='width=device-width'></head><body>"
@@ -476,6 +476,7 @@ public class ServiciosVirtualesEmBean implements Serializable {
 
 		} catch (Exception e) {
 			Mensaje.crearMensajeWARN("Registro no creado escoga un servicio");
+			e.printStackTrace();
 		}
 		return resp;
 	}
@@ -614,6 +615,7 @@ public class ServiciosVirtualesEmBean implements Serializable {
 
 	// ------ Envios paginas--------//
 	public String irAprovador() {
+		tema="";
 		return "home?faces-redirect=true";
 	}
 
