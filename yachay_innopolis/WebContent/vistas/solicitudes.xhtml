@@ -98,7 +98,7 @@
 				<p:column headerText="Mensaje" width="40" exportable="false">
 					<p:commandButton id="trackcer1" icon="ui-icon-mail-closed"
 						actionListener="#{solicitudApBean.asignarsms(sol)}"
-						update=":form:msn :form:panel" oncomplete="PF('dlg1').show();">
+						update=":form :form:msn" onclick="PF('dlg1').show();">
 						<p:tooltip id="toolTipTrack8" for="trackcer1"
 							value="Cambiar contenido de la notificaci&oacute;n"
 							trackMouse="true" />
@@ -118,16 +118,12 @@
 				closeOnEscape="true" header="Enviar Mensaje" showEffect="clip"
 				hideEffect="clip">
 				<h:outputText
-					value="Al momento de enviar el mensaje, espere a la notificación de confimación."
-					escape="false" />
+					value="Al momento de enviar el mensaje, espere a la notificación de confimación."/>
 				<p:panelGrid columns="2">
 					<h:outputText value="Mensaje a Enviar" />
-					<p:inputTextarea value="#{solicitudApBean.sms}" rows="10" cols="50"
-						autoResize="false"></p:inputTextarea>
+					<p:inputTextarea value="#{solicitudApBean.sms}" rows="10" cols="50"></p:inputTextarea>
 					<p:commandButton id="trackedi" value="Enviar"
 						icon="ui-icon-comment" onclick="PF('cd').show();">
-						<p:tooltip id="t3" for="trackedi"
-							value="Bot&oacute;n para editar el sms" trackMouse="true" />
 					</p:commandButton>
 				</p:panelGrid>
 			</p:dialog>

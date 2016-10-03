@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
@@ -615,7 +616,7 @@ public class SolicitudApBean {
 				+ "<br/> Saludos cordiales, "
 				+ "<br/> Sistema de REGECE Yachay EP"
 				+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-
+		RequestContext.getCurrentInstance().execute("PF('dlg1').show();");
 		return "";
 	}
 

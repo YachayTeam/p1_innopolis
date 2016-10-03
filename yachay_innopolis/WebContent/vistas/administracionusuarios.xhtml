@@ -29,324 +29,317 @@
 				<p:commandButton id="tracksalir" value="Volver"
 					actionListener="#{usuariosBean.irAprovador1}" action="/home.xhtml"
 					icon="ui-icon-home">
-					<p:tooltip id="toolTipTrac10" for="tracksalir"
-						value="Bot&oacute;n para volver" trackMouse="true" />
 				</p:commandButton>
 			</f:facet>
 		</p:menubar>
 	</h:form>
-	<div class="div3">
-		<h:form id="form3">
-			<p:growl id="message" showDetail="false" />
-			<p:panel id="panel3" header="Ingreso de Usuarios">
-				<p:panelGrid columns="4">
-					<h:outputLabel value="C&eacute;dula/Pasaporte/RUC*: " for="cedula" />
-					<p:inputText required="true" id="cedula"
-						value="#{usuariosBean.cedula}"
-						requiredMessage="Requerido C&eacute;dula/Pasaporte">
-					</p:inputText>
-					<h:outputLabel value="Nombres*: " for="nombres" />
-					<p:inputText required="true" id="nombres"
-						value="#{usuariosBean.nombre}" requiredMessage="Requerido Nombres"
-						validatorMessage="El Nombre debe contener solo letras">
-						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-					</p:inputText>
-					<h:outputLabel value="Apellidos*: " for="apellidos" />
-					<p:inputText required="true" id="apellidos"
-						value="#{usuariosBean.apellido}"
-						requiredMessage="Requerido Apellidos"
-						validatorMessage="El Apellido debe contener solo letras">
-						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-					</p:inputText>
-					<h:outputLabel value="Correo*: " for="correo" />
-					<p:inputText required="true" id="correo"
-						validatorMessage="Formato de correo invalido"
-						value="#{usuariosBean.correo}"
-						requiredMessage="Por favor Ingrese su Correo.">
-						<f:validateRegex
-							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-					</p:inputText>
-					<h:outputLabel value="Repetir Correo*: " for="correo1" />
-					<p:inputText required="true" id="correo1"
-						validatorMessage="Formato de correo invalido"
-						value="#{usuariosBean.rcorreo}"
-						requiredMessage="Por favor Ingrese su Correo.">
-						<f:validateRegex
-							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-					</p:inputText>
-					<h:outputLabel for="direcc" value="Dirección* :" />
-					<p:inputText id="direcc" required="true"
-						value="#{usuariosBean.direccion}"
-						requiredMessage="Requerido Dirección">
-					</p:inputText>
-					<h:outputLabel value="Teléfono* :" for="telef" />
-					<p:inputText id="telef" required="true"
-						value="#{usuariosBean.telefono}"
-						requiredMessage="Requerido Teléfono" maxlength="10"
-						validatorMessage="Campo teléfono debe ingresar solo n&uacute;meros.">
-						<f:validateRegex pattern="[0-9]+" />
-					</p:inputText>
-					<h:outputLabel value="Celular : " for="celu" />
-					<p:inputText id="celu" required="true"
-						value="#{usuariosBean.celular}"
-						requiredMessage="Requerido Celular" maxlength="10"
-						validatorMessage="Campo celular debe ingresar solo n&uacute;meros.">
-						<f:validateRegex pattern="[0-9]+" />
-					</p:inputText>
-					<h:outputLabel value="Contraseña*: " for="pass" />
-					<p:password required="true" id="pass" redisplay="true"
-						value="#{usuariosBean.password}" feedback="true"
-						requiredMessage="Requerido Contraseña" goodLabel="Buena"
-						strongLabel="Fuerte" weakLabel="Débil"
-						promptLabel="Por favor ingrese contraseña"
-						validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
-						<f:validateRegex pattern="[a-zA-Z0-9.]+" />
-						<f:validateLength minimum="7" />
-					</p:password>
-					<h:outputLabel value="Repetir Contraseña*: " for="pass1" />
-					<p:password required="true" id="pass1" redisplay="true"
-						value="#{usuariosBean.rpassword}" feedback="true"
-						requiredMessage="Requerido Contraseña" goodLabel="Buena"
-						strongLabel="Fuerte" weakLabel="Débil"
-						promptLabel="Por favor ingrese contraseña"
-						validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
-						<f:validateRegex pattern="[a-zA-Z0-9.]+" />
-						<f:validateLength minimum="7" />
-					</p:password>
-					<h:outputLabel value="Tipo Usuario*: " for="trackseleccionar" />
-					<h:panelGroup>
-						<p:selectOneMenu id="trackseleccionar" required="true"
-							styleClass="t" value="#{usuariosBean.tipo}"
-							requiredMessage="Requerido tipo del usuario">
-							<f:selectItem itemLabel="Selección tipo Usuario" itemValue="" />
-							<f:selectItems value="#{usuariosBean.listaTipo}" />
-							<p:ajax listener="#{usuariosBean.asignarTipo()}">
-							</p:ajax>
-						</p:selectOneMenu>
-					</h:panelGroup>
-					<h:outputLabel value="Lugar de trabajo: " size="10" escape="false"
-						for="empresa" />
-					<p:inputText required="false" id="empresa"
-						requiredMessage="Por favor ingrese su empresa"
-						validatorMessage="Formato inv&aacute;lido"
-						value="#{usuariosBean.empreestu}">
-						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-					</p:inputText>
-					<h:outputLabel value="Cargo: " size="10" escape="false" for="cargo" />
-					<p:inputText required="false" id="cargo"
-						requiredMessage="Por favor ingrese cargo."
-						validatorMessage="Formato inv&aacute;lido"
-						value="#{usuariosBean.cargptitu}">
-						<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
-					</p:inputText>
-					<h:outputLabel value="Seleccion de Intereses*: " />
-					<p:selectCheckboxMenu required="true" id="menu"
-						value="#{usuariosBean.arrayTipoLogin}" label="-------"
-						panelStyle="width:250px" requiredMessage="Requerido Interes">
-						<f:selectItems value="#{usuariosBean.listaIntereses}"
-							itemValue="#{usuariosBean.intereses.idInteres}" />
-					</p:selectCheckboxMenu>
-					<p:commandButton id="trackregistrar" value="Registrar"
-						onclick="PF('cd').show()">
-						<p:tooltip id="toolTipTrac1" for="trackregistrar"
-							value="Bot&oacute;n para registrar usuario al sistema"
+	<h:form id="form3">
+		<p:growl id="message" showDetail="false" />
+		<p:panel id="panel3" header="Ingreso de Usuarios">
+			<p:panelGrid columns="4">
+				<h:outputLabel value="C&eacute;dula/Pasaporte/RUC*: " for="cedula" />
+				<p:inputText required="true" id="cedula"
+					value="#{usuariosBean.cedula}"
+					requiredMessage="Requerido C&eacute;dula/Pasaporte">
+				</p:inputText>
+				<h:outputLabel value="Nombres*: " for="nombres" />
+				<p:inputText required="true" id="nombres"
+					value="#{usuariosBean.nombre}" requiredMessage="Requerido Nombres"
+					validatorMessage="El Nombre debe contener solo letras">
+					<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+				</p:inputText>
+				<h:outputLabel value="Apellidos*: " for="apellidos" />
+				<p:inputText required="true" id="apellidos"
+					value="#{usuariosBean.apellido}"
+					requiredMessage="Requerido Apellidos"
+					validatorMessage="El Apellido debe contener solo letras">
+					<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+				</p:inputText>
+				<h:outputLabel value="Correo*: " for="correo" />
+				<p:inputText required="true" id="correo"
+					validatorMessage="Formato de correo invalido"
+					value="#{usuariosBean.correo}"
+					requiredMessage="Por favor Ingrese su Correo.">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
+				<h:outputLabel value="Repetir Correo*: " for="correo1" />
+				<p:inputText required="true" id="correo1"
+					validatorMessage="Formato de correo invalido"
+					value="#{usuariosBean.rcorreo}"
+					requiredMessage="Por favor Ingrese su Correo.">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
+				<h:outputLabel for="direcc" value="Dirección* :" />
+				<p:inputText id="direcc" required="true"
+					value="#{usuariosBean.direccion}"
+					requiredMessage="Requerido Dirección">
+				</p:inputText>
+				<h:outputLabel value="Teléfono* :" for="telef" />
+				<p:inputText id="telef" required="true"
+					value="#{usuariosBean.telefono}"
+					requiredMessage="Requerido Teléfono" maxlength="10"
+					validatorMessage="Campo teléfono debe ingresar solo n&uacute;meros.">
+					<f:validateRegex pattern="[0-9]+" />
+				</p:inputText>
+				<h:outputLabel value="Celular : " for="celu" />
+				<p:inputText id="celu" required="true"
+					value="#{usuariosBean.celular}" requiredMessage="Requerido Celular"
+					maxlength="10"
+					validatorMessage="Campo celular debe ingresar solo n&uacute;meros.">
+					<f:validateRegex pattern="[0-9]+" />
+				</p:inputText>
+				<h:outputLabel value="Contraseña*: " for="pass" />
+				<p:password required="true" id="pass" redisplay="true"
+					value="#{usuariosBean.password}" feedback="true"
+					requiredMessage="Requerido Contraseña" goodLabel="Buena"
+					strongLabel="Fuerte" weakLabel="Débil"
+					promptLabel="Por favor ingrese contraseña"
+					validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+					<f:validateRegex pattern="[a-zA-Z0-9.]+" />
+					<f:validateLength minimum="7" />
+				</p:password>
+				<h:outputLabel value="Repetir Contraseña*: " for="pass1" />
+				<p:password required="true" id="pass1" redisplay="true"
+					value="#{usuariosBean.rpassword}" feedback="true"
+					requiredMessage="Requerido Contraseña" goodLabel="Buena"
+					strongLabel="Fuerte" weakLabel="Débil"
+					promptLabel="Por favor ingrese contraseña"
+					validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+					<f:validateRegex pattern="[a-zA-Z0-9.]+" />
+					<f:validateLength minimum="7" />
+				</p:password>
+				<h:outputLabel value="Tipo Usuario*: " for="trackseleccionar" />
+				<h:panelGroup>
+					<p:selectOneMenu id="trackseleccionar" required="true"
+						styleClass="t" value="#{usuariosBean.tipo}"
+						requiredMessage="Requerido tipo del usuario">
+						<f:selectItem itemLabel="Selección tipo Usuario" itemValue="" />
+						<f:selectItems value="#{usuariosBean.listaTipo}" />
+						<p:ajax listener="#{usuariosBean.asignarTipo()}">
+						</p:ajax>
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputLabel value="Lugar de trabajo: " size="10" escape="false"
+					for="empresa" />
+				<p:inputText required="false" id="empresa"
+					requiredMessage="Por favor ingrese su empresa"
+					validatorMessage="Formato inv&aacute;lido"
+					value="#{usuariosBean.empreestu}">
+					<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+				</p:inputText>
+				<h:outputLabel value="Cargo: " size="10" escape="false" for="cargo" />
+				<p:inputText required="false" id="cargo"
+					requiredMessage="Por favor ingrese cargo."
+					validatorMessage="Formato inv&aacute;lido"
+					value="#{usuariosBean.cargptitu}">
+					<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+				</p:inputText>
+				<h:outputLabel value="Seleccion de Intereses*: " />
+				<p:selectCheckboxMenu required="true" id="menu"
+					value="#{usuariosBean.arrayTipoLogin}" label="-------"
+					panelStyle="width:250px" requiredMessage="Requerido Interes">
+					<f:selectItems value="#{usuariosBean.listaIntereses}"
+						itemValue="#{usuariosBean.intereses.idInteres}" />
+				</p:selectCheckboxMenu>
+				<p:commandButton id="trackregistrar" value="Registrar"
+					onclick="PF('cd').show()">
+				</p:commandButton>
+			</p:panelGrid>
+			<p:confirmDialog header="Confirmar Registro"
+				message="¿Está seguro de que los datos son v&aacute;lidos?"
+				showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" onclick="PF('dlgLoad').show();"
+					oncomplete="PF('dlgLoad').hide();"
+					action="#{usuariosBean.crearUsuario}"
+					update=":form3:panel3 :form2 message">
+				</p:commandButton>
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('cd').hide()"></p:commandButton>
+			</p:confirmDialog>
+		</p:panel>
+	</h:form>
+	<h:form id="form2">
+		<p:panel id="panel2" header="Lista de Registrados">
+			<p:dataTable id="dt" value="#{usuariosBean.listRegServi}" rows="8"
+				var="reg" reflow="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
+				paginator="true" emptyMessage="No hay información almacenada">
+				<f:facet name="{exp}">
+					<h:commandLink>
+						<!--   <h:graphicImage value="/resources/img/excel.png" width="24"/> -->
+						<p:button value="Excel" />
+						<p:dataExporter type="xls" target="dt"
+							fileName="usuarios_registrados" pageOnly="true" />
+					</h:commandLink>
+					<h:commandLink>
+						<p:button value="Pdf" id="exp2" />
+						<p:dataExporter type="pdf" target="dt"
+							fileName="usuarios_registrados" pageOnly="true" />
+					</h:commandLink>
+				</f:facet>
+				<p:column id="f1" filterBy="#{reg.cedula}" sortBy="#{reg.cedula}"
+					width="130" headerText="C&eacute;dula/Pasaporte/RUC">
+					<h:outputLabel value="#{reg.cedula}"></h:outputLabel>
+				</p:column>
+				<p:column id="f2" filterBy="#{reg.apellido}"
+					sortBy="#{reg.apellido}" headerText="Apellidos/Nombres">
+					<h:outputLabel value="#{reg.apellido} #{reg.nombre}"></h:outputLabel>
+				</p:column>
+				<p:column id="f5" filterBy="#{reg.tipo.tipo}"
+					sortBy="#{reg.tipo.tipo}" headerText="Tipo de Usuario">
+					<h:outputLabel value="#{reg.tipo.tipo}"></h:outputLabel>
+				</p:column>
+				<p:column headerText="Correo" sortBy="#{reg.correo}">
+					<h:outputLabel value="#{reg.correo}"></h:outputLabel>
+				</p:column>
+				<p:column id="f4" filterBy="#{reg.tipoestadousr.nombreestado}"
+					width="110" sortBy="#{reg.tipoestadousr.nombreestado}"
+					headerText="Estado">
+					<h:outputLabel value="#{reg.tipoestadousr.nombreestado}"></h:outputLabel>
+				</p:column>
+				<p:column id="f6" filterBy="#{reg.sms}" width="110"
+					headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
+					<h:outputLabel value="#{reg.sms}"></h:outputLabel>
+				</p:column>
+				<p:column headerText="Aprobador Usuarios y Solicitudes" width="80"
+					sortBy="#{reg.principal}">
+					<p:selectBooleanCheckbox disabled="true" value="#{reg.principal}">
+					</p:selectBooleanCheckbox>
+				</p:column>
+				<p:column headerText="Opciones" exportable="false" width="90">
+					<p:commandButton icon="ui-icon-pencil" id="track">
+						<p:tooltip id="toolTipTrack2" for="track"
+							value="Bot&oacute;n para modificar la informaci&oacute;n del registro"
+							trackMouse="true" />
+						<p:ajax listener="#{usuariosBean.cargarUsuario(reg)}"
+							update=":form2:panel2 :dlgedit" />
+					</p:commandButton>
+					<p:commandButton id="trackcambio" icon="ui-icon-refresh"
+						actionListener="#{usuariosBean.cambiarEstado(reg)}"
+						update=":form2 :form3:message">
+						<p:tooltip id="toolTipTrack3" for="trackcambio"
+							value="Bot&oacute;n para cambiar el estado del usuario"
 							trackMouse="true" />
 					</p:commandButton>
-				</p:panelGrid>
-				<p:confirmDialog header="Confirmar Registro"
-					message="¿Está seguro de que los datos son v&aacute;lidos?"
-					showEffect="fade" hideEffect="explode" widgetVar="cd" width="400">
-					<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-						icon="ui-icon-check" onclick="PF('dlgLoad').show();"
-						oncomplete="PF('dlgLoad').hide();"
-						action="#{usuariosBean.crearUsuario}"
-						update=":form3:panel3 :form2 message">
+					<p:commandButton id="trackcer1" icon="ui-icon-mail-closed"
+						onclick="PF('dlg2').show();"
+						actionListener="#{usuariosBean.asignarsms(reg)}"
+						update=":form2 :form3:message">
+						<p:tooltip id="toolTipTrack8" for="trackcer1"
+							value="Cambiar contenido de la notificaci&oacute;n por defecto"
+							trackMouse="true" />
 					</p:commandButton>
-					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-						onclick="PF('cd').hide()"></p:commandButton>
-				</p:confirmDialog>
-			</p:panel>
-		</h:form>
-		<h:form id="form2">
-			<p:panel id="panel2" header="Lista de Registrados">
-				<p:dataTable id="dt" value="#{usuariosBean.listRegServi}" rows="8"
-					var="reg" reflow="true"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {exp}"
-					paginator="true" emptyMessage="No hay información almacenada">
-					<f:facet name="{exp}">
-						<h:commandLink>
-							<!--   <h:graphicImage value="/resources/img/excel.png" width="24"/> -->
-							<p:button value="Excel" />
-							<p:dataExporter type="xls" target="dt"
-								fileName="usuarios_registrados" pageOnly="true" />
-						</h:commandLink>
-						<h:commandLink>
-							<p:button value="Pdf" id="exp2" />
-							<p:dataExporter type="pdf" target="dt"
-								fileName="usuarios_registrados" pageOnly="true" />
-						</h:commandLink>
-					</f:facet>
-					<p:column id="f1" filterBy="#{reg.cedula}" sortBy="#{reg.cedula}"
-						width="130" headerText="C&eacute;dula/Pasaporte/RUC">
-						<h:outputLabel value="#{reg.cedula}"></h:outputLabel>
-					</p:column>
-					<p:column id="f2" filterBy="#{reg.apellido}"
-						sortBy="#{reg.apellido}" headerText="Apellidos/Nombres">
-						<h:outputLabel value="#{reg.apellido} #{reg.nombre}"></h:outputLabel>
-					</p:column>
-					<p:column id="f5" filterBy="#{reg.tipo.tipo}"
-						sortBy="#{reg.tipo.tipo}" headerText="Tipo de Usuario">
-						<h:outputLabel value="#{reg.tipo.tipo}"></h:outputLabel>
-					</p:column>
-					<p:column headerText="Correo" sortBy="#{reg.correo}">
-						<h:outputLabel value="#{reg.correo}"></h:outputLabel>
-					</p:column>
-					<p:column id="f4" filterBy="#{reg.tipoestadousr.nombreestado}"
-						width="110" sortBy="#{reg.tipoestadousr.nombreestado}"
-						headerText="Estado">
-						<h:outputLabel value="#{reg.tipoestadousr.nombreestado}"></h:outputLabel>
-					</p:column>
-					<p:column id="f6" filterBy="#{reg.sms}" width="110"
-						headerText="Notificaci&oacute;n" sortBy="#{reg.sms}">
-						<h:outputLabel value="#{reg.sms}"></h:outputLabel>
-					</p:column>
-					<p:column headerText="Aprobador Usuarios y Solicitudes" width="80"
-						sortBy="#{reg.principal}">
-						<p:selectBooleanCheckbox disabled="true" value="#{reg.principal}">
-						</p:selectBooleanCheckbox>
-					</p:column>
-					<p:column headerText="Opciones" exportable="false" width="90">
-						<p:commandButton icon="ui-icon-pencil" id="track">
-							<p:tooltip id="toolTipTrack2" for="track"
-								value="Bot&oacute;n para modificar la informaci&oacute;n del registro"
-								trackMouse="true" />
-							<p:ajax listener="#{usuariosBean.cargarUsuario(reg)}"
-								update=":form2:panel2" oncomplete="PF('dlg1').show();" />
-						</p:commandButton>
-						<p:commandButton id="trackcambio" icon="ui-icon-refresh"
-							actionListener="#{usuariosBean.cambiarEstado(reg)}"
-							update=":form2 :form3:message">
-							<p:tooltip id="toolTipTrack3" for="trackcambio"
-								value="Bot&oacute;n para cambiar el estado del usuario"
-								trackMouse="true" />
-						</p:commandButton>
-						<p:commandButton id="trackcer1" icon="ui-icon-mail-closed"
-							onclick="PF('dlg2').show();"
-							actionListener="#{usuariosBean.asignarsms(reg)}"
-							update=":form2 :form3:message">
-							<p:tooltip id="toolTipTrack8" for="trackcer1"
-								value="Cambiar contenido de la notificaci&oacute;n por defecto"
-								trackMouse="true" />
-						</p:commandButton>
-					</p:column>
-				</p:dataTable>
+				</p:column>
+			</p:dataTable>
+			<p:dialog widgetVar="dlg2" modal="true" closable="true"
+				closeOnEscape="true" header="Editar Mensaje" showEffect="clip"
+				hideEffect="clip">
+				<h:outputLabel
+					value="Al momento de enviar el mensaje,  espere a la notificación de confimación." />
+				<p:panelGrid columns="2">
+					<h:outputLabel value="Mensaje a Enviar: " />
+					<p:inputTextarea value="#{usuariosBean.smscor}" rows="10" cols="50"></p:inputTextarea>
+					<p:commandButton id="trackedi" onclick="PF('cd1').show();"
+						icon="ui-icon-comment" value="Enviar">
+					</p:commandButton>
+				</p:panelGrid>
+			</p:dialog>
 
-				<p:dialog widgetVar="dlg1" modal="true" closable="true"
-					closeOnEscape="true" header="Información" showEffect="clip"
-					hideEffect="clip">
-					<p:panelGrid columns="4">
-						<h:outputLabel value="C&eacute;dula/Pasaporte/RUC: " />
-						<p:inputText id="cedula" value="#{usuariosBean.cedula}"></p:inputText>
-						<h:outputLabel value="Apellidos: " />
-						<p:inputText id="apellidos" value="#{usuariosBean.apellido}"></p:inputText>
-						<h:outputLabel value="Nombres: " />
-						<p:inputText id="nombres" value="#{usuariosBean.nombre}"></p:inputText>
-						<h:outputLabel value="Correo*: " />
-						<p:inputText id="correo"
-							validatorMessage="Formato de correo inv&aacute;lido"
-							value="#{usuariosBean.correo}">
-						</p:inputText>
-						<h:outputLabel value="Dirección*: " />
-						<p:inputText id="direccion" value="#{usuariosBean.direccion}">
-						</p:inputText>
-						<h:outputLabel value="Teléfono*: " />
-						<p:inputText id="telefono" value="#{usuariosBean.telefono}">
-						</p:inputText>
-						<h:outputLabel value="Celular*: " />
-						<p:inputText id="celular" value="#{usuariosBean.celular}">
-						</p:inputText>
-						<h:outputLabel value="Contraseña*: " />
-						<p:password id="pass" value="#{usuariosBean.password}"
-							redisplay="true">
-						</p:password>
-						<h:outputLabel value="Tipo Usuario*: " />
-						<h:panelGroup>
-							<p:selectOneMenu value="#{usuariosBean.tipo}">
-								<f:selectItem itemLabel="Selección tipo Usuario" itemValue="-1" />
-								<f:selectItems value="#{usuariosBean.listaTipo}" />
-								<p:ajax listener="#{usuariosBean.asignarTipo()}">
-								</p:ajax>
-							</p:selectOneMenu>
-						</h:panelGroup>
-						<h:outputLabel value="lugar de trabajo: " />
-						<p:inputText id="empresa" value="#{usuariosBean.empreestu}">
-						</p:inputText>
-						<h:outputLabel value="Cargo: " />
-						<p:inputText id="titul" value="#{usuariosBean.cargptitu}">
-						</p:inputText>
-						<h:outputLabel value="Interés: " />
-						<p:dataList value="#{usuariosBean.interesedicion()}" var="interes"
-							emptyMessage="Ningun permiso registrado">
+			<p:confirmDialog header="Confirmar envío de correo"
+				message="¿Está seguro de enviar el correo?" showEffect="fade"
+				hideEffect="explode" widgetVar="cd1" width="400">
+				<p:commandButton id="trackins" icon="ui-icon-check"
+					onclick="PF('dlgLoad').show();"
+					action="administracionusuarios.xhtml"
+					actionListener="#{usuariosBean.enviarmensaje(reg1)}"
+					oncomplete="PF('dlgLoad').hide();PF('dlg2').hide();PF('cd1').hide();"
+					value="Si" update=":form2 :form3:message">
+				</p:commandButton>
+				<p:commandButton value="No" type="reset"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('cd1').hide()">
+				</p:commandButton>
+			</p:confirmDialog>
+			<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<h:form>
+					<p:graphicImage value="/resources/img/loader.gif" />
+				</h:form>
+			</p:dialog>
+		</p:panel>
+	</h:form>
+	<p:dialog widgetVar="dlg1" id="dlgedit" modal="true" closable="true"
+		closeOnEscape="true" header="Información" showEffect="clip"
+		hideEffect="clip">
+		<h:form id="form4">
+			<p:panelGrid columns="4">
+				<h:outputLabel value="C&eacute;dula/Pasaporte/RUC: " />
+				<p:inputText id="cedula" value="#{usuariosBean.cedula}"></p:inputText>
+				<h:outputLabel value="Apellidos: " />
+				<p:inputText id="apellidos" value="#{usuariosBean.apellido}"></p:inputText>
+				<h:outputLabel value="Nombres: " />
+				<p:inputText id="nombres" value="#{usuariosBean.nombre}"></p:inputText>
+				<h:outputLabel value="Correo*: " />
+				<p:inputText id="correo"
+					validatorMessage="Formato de correo inv&aacute;lido"
+					value="#{usuariosBean.correo}">
+				</p:inputText>
+				<h:outputLabel value="Dirección*: " />
+				<p:inputText id="direccion" value="#{usuariosBean.direccion}">
+				</p:inputText>
+				<h:outputLabel value="Teléfono*: " />
+				<p:inputText id="telefono" value="#{usuariosBean.telefono}">
+				</p:inputText>
+				<h:outputLabel value="Celular*: " />
+				<p:inputText id="celular" value="#{usuariosBean.celular}">
+				</p:inputText>
+				<h:outputLabel value="Contraseña*: " />
+				<p:password id="pass" value="#{usuariosBean.password}"
+					redisplay="true">
+				</p:password>
+				<h:outputLabel value="Tipo Usuario*: " />
+				<h:panelGroup>
+					<p:selectOneMenu value="#{usuariosBean.tipo}">
+						<f:selectItem itemLabel="Selección tipo Usuario" itemValue="-1" />
+						<f:selectItems value="#{usuariosBean.listaTipo}" />
+						<p:ajax listener="#{usuariosBean.asignarTipo()}">
+						</p:ajax>
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputLabel value="lugar de trabajo: " />
+				<p:inputText id="empresa" value="#{usuariosBean.empreestu}">
+				</p:inputText>
+				<h:outputLabel value="Cargo: " />
+				<p:inputText id="titul" value="#{usuariosBean.cargptitu}">
+				</p:inputText>
+				<h:outputLabel value="Interés: " />
+				<p:dataList value="#{usuariosBean.interesedicion()}" var="interes"
+					emptyMessage="Ningun permiso registrado">
             			#{interes}
         				</p:dataList>
-						<h:outputLabel value="Estado: " />
-						<h:outputLabel value="#{usuariosBean.tipoest}"></h:outputLabel>
-						<h:outputLabel value="Estado Mensaje: " />
-						<h:outputLabel value="#{usuariosBean.sms}"></h:outputLabel>
-						<h:outputLabel
-							value="Aprobador de Usuarios &lt;br/&gt; y Solicitudes: "
-							size="10" escape="false" />
-						<p:selectBooleanCheckbox value="#{usuariosBean.principal}">
-						</p:selectBooleanCheckbox>
-						<p:commandButton id="trackact" update=":form3:message"
-							value="Actualizar" icon="ui-icon-disk"
-							action="#{usuariosBean.actualizarUsuario}"
-							onclick="PF('dlg1').close();">
-							<p:tooltip id="toolTipTrack6" for="trackact"
-								value="Bot&oacute;n para actualizar al usuario registrado"
-								trackMouse="true" />
-						</p:commandButton>
-					</p:panelGrid>
-				</p:dialog>
-				<p:dialog widgetVar="dlg2" modal="true" closable="true"
-					closeOnEscape="false" header="Editar Mensaje" showEffect="clip"
-					hideEffect="clip">
-					<h:outputLabel
-						value="Al momento de enviar el mensaje,  espere a la notificación de confimación." />
-					<p:panelGrid columns="2">
-						<h:outputLabel value="Mensaje a Enviar: " />
-						<p:inputTextarea value="#{usuariosBean.smscor}" rows="10"
-							cols="50" autoResize="false"></p:inputTextarea>
-						<p:commandButton id="trackedi" onclick="PF('cd1').show();"
-							icon="ui-icon-comment" value="Aceptar">
-						</p:commandButton>
-					</p:panelGrid>
-				</p:dialog>
-
-				<p:confirmDialog header="Confirmar envío de correo"
-					message="¿Está seguro de enviar el correo?" showEffect="fade"
-					hideEffect="explode" widgetVar="cd1" width="400">
-					<p:commandButton id="trackins" icon="ui-icon-check"
-						onclick="PF('dlgLoad').show();"
-						action="administracionusuarios.xhtml"
-						actionListener="#{usuariosBean.enviarmensaje(reg1)}"
-						oncomplete="PF('dlgLoad').hide();PF('dlg2').hide();PF('cd1').hide();"
-						value="Si" update=":form2 :form3:message">
-					</p:commandButton>
-					<p:commandButton value="No" type="reset"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-						onclick="PF('cd1').hide()">
-					</p:commandButton>
-				</p:confirmDialog>
-				<p:dialog widgetVar="dlgLoad" modal="true" draggable="false"
-					closable="false" resizable="false" showHeader="false">
-					<h:form>
-						<p:graphicImage value="/resources/img/loader.gif" />
-					</h:form>
-				</p:dialog>
-			</p:panel>
+				<h:outputLabel value="Estado: " />
+				<h:outputLabel value="#{usuariosBean.tipoest}"></h:outputLabel>
+				<h:outputLabel value="Estado Mensaje: " />
+				<h:outputLabel value="#{usuariosBean.sms}"></h:outputLabel>
+				<h:outputLabel
+					value="Aprobador de Usuarios &lt;br/&gt; y Solicitudes: " size="10"
+					escape="false" />
+				<p:selectBooleanCheckbox value="#{usuariosBean.principal}">
+				</p:selectBooleanCheckbox>
+				<p:commandButton id="trackact" update=":form3:message"
+					value="Actualizar" icon="ui-icon-disk"
+					action="#{usuariosBean.actualizarUsuario}"
+					onclick="PF('dlg1').close();">
+					<p:tooltip id="toolTipTrack6" for="trackact"
+						value="Bot&oacute;n para actualizar al usuario registrado"
+						trackMouse="true" />
+				</p:commandButton>
+			</p:panelGrid>
 		</h:form>
-	</div>
+	</p:dialog>
 </h:body>
 </html>

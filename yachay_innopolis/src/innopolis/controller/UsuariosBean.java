@@ -697,7 +697,7 @@ public class UsuariosBean implements Serializable {
 	}
 
 	// accion para cargar los datos en el formulario
-	public String cargarUsuario(Usuario u) {
+	public void cargarUsuario(Usuario u) {
 		try {
 			setIdUsuario(u.getIdUsr());
 			setNombre(u.getNombre());
@@ -716,10 +716,11 @@ public class UsuariosBean implements Serializable {
 			setEmpreestu(u.getEmpresestdu());
 			setCargptitu(u.getCargotitulo());
 			setPrincipal(u.getPrincipal());
+			
+			RequestContext.getCurrentInstance().execute("PF('dlg1').show();");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "";
 	}
 
 	// accion para llamar al manager

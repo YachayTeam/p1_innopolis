@@ -651,7 +651,7 @@ public class CalusrBean implements Serializable {
 		if (ev.getInterno()) {
 			Mensaje.crearMensajeWARN("El evento es privado");
 		} else if (!ev.getInterno()) {
-			if (manager.superaInscritosEvento(evento)) {
+			if (manager.superaInscritosEvento(ev)) {
 				r = "formulario?faces-redirect=true";
 			} else {
 				Mensaje.crearMensajeINFO("El número de inscritos esta completo");
@@ -881,11 +881,8 @@ public class CalusrBean implements Serializable {
 	public List<Evento> getListEvenAct() {
 		List<Evento> a = manager.findAllEventosOrdenados();
 		List<Evento> l1 = new ArrayList<Evento>();
-		Date date1 = new Date();
 		for (Evento t : a) {
-			hora_fin = new Timestamp(date1.getTime());
-			if (t.getEstado().equals("Activado")
-					&& t.getFechaFin().after(hora_fin)) {
+			if (t.getEstado().equals("Activado")){
 				l1.add(t);
 			}
 		}
