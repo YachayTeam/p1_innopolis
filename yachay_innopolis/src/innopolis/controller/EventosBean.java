@@ -216,8 +216,8 @@ public class EventosBean {
 		mostrar = false;
 		interno = false;
 		idusr = session.getIdUsr();
-		descripcionubicacion = "Descripción de la Sala";
-		descripcionrecurso = "Descripción de Recurso";
+		descripcionubicacion = "Descripciï¿½n de la Sala";
+		descripcionrecurso = "Descripciï¿½n de Recurso";
 		stock = "stock";
 		capacidad = "capacidad";
 	}
@@ -1017,7 +1017,7 @@ public class EventosBean {
 						+ date.format(ff).toString()
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automï¿½ticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 				smscorususoleve = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
@@ -1046,22 +1046,22 @@ public class EventosBean {
 						+ date.format(ff).toString()
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automï¿½ticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 				getcorreosusub();
 				mb.envioMailWS(correosadminsoleve,
-						"Notificación de YACHAY/REGECE", smscoradminsoleve);
+						"Notificaciï¿½n de YACHAY/REGECE", smscoradminsoleve);
 				mb.envioMailWS(session.getCorreo(),
-						"Notificación de YACHAY/REGECE", smscorususoleve);
+						"Notificaciï¿½n de YACHAY/REGECE", smscorususoleve);
 
 				eventoidedicio = null;
 				correosadminsoleve = "";
 				smscoradminsoleve = "";
 				smscorususoleve = "";
-				descripcionubicacion = "Descripción de la Sala";
+				descripcionubicacion = "Descripciï¿½n de la Sala";
 				stock = "stock";
 				capacidad = "capacidad";
-				descripcionrecurso = "Descripción de Recurso";
+				descripcionrecurso = "Descripciï¿½n de Recurso";
 				imagensala = "300.jpg";
 				// reiniciamos datos (limpiamos el formulario)
 				nombre = "";
@@ -1110,7 +1110,6 @@ public class EventosBean {
 	// metodo para poner el nombre a la imagen
 	public void asignarNombreImagen() {
 		if (getNombre().trim().isEmpty()) {
-			System.out.println("Vacio");
 		} else {
 			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmm");
 			g = "img_" + getNombre() + dateFormat.format(new Date()) + ".jpg";
@@ -1132,7 +1131,6 @@ public class EventosBean {
 
 	// metodo para ir a solicitud y guardar el evento en un temporal
 	public String irSolicitud(Evento ev) {
-		System.out.println(ev.getEstado());
 		if (esave == true) {
 			Mensaje.crearMensajeWARN("El evento cuenta con una solicitud");
 			return "";
@@ -1187,7 +1185,6 @@ public class EventosBean {
 		}
 		solivalor = false;
 		String a = "";
-		System.out.println(ev.getEstado());
 		if (esave == true) {
 			Mensaje.crearMensajeWARN("El evento cuenta con una solicitud");
 			return "";
@@ -1294,8 +1291,6 @@ public class EventosBean {
 				setH_fin(ev.getFechaFin());
 				setcapacidad_recurso(ev.getCantidad());
 				veri();
-
-				System.out.print("sin solicitud");
 				return "soldet3?faces-redirect=true";
 			}
 		}
@@ -1315,11 +1310,11 @@ public class EventosBean {
 		} else {
 			try {
 				if (Integer.parseInt(cantidad) == 0) {
-					Mensaje.crearMensajeWARN("Ingrese el número de personas mayor que 0");
+					Mensaje.crearMensajeWARN("Ingrese el nï¿½mero de personas mayor que 0");
 				} else {
 					if (isNumeric(cantidad)) {
 						if (Integer.parseInt(cantidad) == 0) {
-							Mensaje.crearMensajeWARN("Ingrese el número de personas mayor que 0");
+							Mensaje.crearMensajeWARN("Ingrese el nï¿½mero de personas mayor que 0");
 						} else {
 							int sala1 = mReserv.findSalaByID(sala)
 									.getCapacidad();
@@ -1345,11 +1340,11 @@ public class EventosBean {
 								veri();
 								a = "soldet3?faces-redirect=true";
 							} else if (Integer.parseInt(cantidad) > sala1) {
-								Mensaje.crearMensajeWARN("El número de personas excede la capacidad de la sala");
+								Mensaje.crearMensajeWARN("El nï¿½mero de personas excede la capacidad de la sala");
 							}
 						}
 					} else {
-						Mensaje.crearMensajeWARN("La cantidad debe ser numérica");
+						Mensaje.crearMensajeWARN("La cantidad debe ser numï¿½rica");
 					}
 				}
 			} catch (Exception e) {
@@ -1373,7 +1368,7 @@ public class EventosBean {
 			try {
 				if (isNumeric(cantidad)) {
 					if (Integer.parseInt(cantidad) == 0) {
-						Mensaje.crearMensajeWARN("Ingrese el número de personas mayor que 0");
+						Mensaje.crearMensajeWARN("Ingrese el nï¿½mero de personas mayor que 0");
 					} else {
 						int sala1 = mReserv.findSalaByID(sala).getCapacidad();
 						if (Integer.parseInt(cantidad) <= sala1) {
@@ -1400,11 +1395,11 @@ public class EventosBean {
 							agregardetalle = true;
 							a = "soldet3?faces-redirect=true";
 						} else if (Integer.parseInt(cantidad) > sala1) {
-							Mensaje.crearMensajeWARN("El número de personas excede la capacidad de la sala");
+							Mensaje.crearMensajeWARN("El nï¿½mero de personas excede la capacidad de la sala");
 						}
 					}
 				} else {
-					Mensaje.crearMensajeWARN("La cantidad debe ser numérica");
+					Mensaje.crearMensajeWARN("La cantidad debe ser numï¿½rica");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1421,7 +1416,7 @@ public class EventosBean {
 		String r = "";
 		if (agregarcontrol == false) {
 			if (solivalor == true) {
-				descripcionrecurso = "Descripción de Recurso";
+				descripcionrecurso = "Descripciï¿½n de Recurso";
 				stock = "stock";
 				capacidad = "capacidad";
 				imagen = "300.jpg";
@@ -1435,7 +1430,7 @@ public class EventosBean {
 				list_mas = new ArrayList<Solicidetalle>();
 				r = "eventos?faces-redirect=true";
 			} else {
-				descripcionrecurso = "Descripción de Recurso";
+				descripcionrecurso = "Descripciï¿½n de Recurso";
 				stock = "stock";
 				capacidad = "capacidad";
 				imagen = "300.jpg";
@@ -1477,8 +1472,8 @@ public class EventosBean {
 			descripcion = "";
 			lugar = "";
 			imagen = "300.jpg";
-			descripcionubicacion = "Descripción de la Sala";
-			descripcionrecurso = "Descripción de Recurso";
+			descripcionubicacion = "Descripciï¿½n de la Sala";
+			descripcionrecurso = "Descripciï¿½n de Recurso";
 			imagensala = "300.jpg";
 			fi = null;
 			ff = null;
@@ -1491,12 +1486,9 @@ public class EventosBean {
 			te = 0;
 			idusr = 0;
 			esave = false;
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Campos Limpios", null));
+			Mensaje.crearMensajeINFO("Campos Limpios");
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(
-					"El evento no pudo ser limpiado", null));
+			Mensaje.crearMensajeWARN("El evento no pudo ser limpiado");
 			e.printStackTrace();
 		}
 
@@ -1650,27 +1642,22 @@ public class EventosBean {
 							+ p.getRecursotipo().getIdRectipo());
 				}
 			}
-			Mensaje.crearMensajeINFO("Los recursos se añadieron");
-			id_recurso = -1;
-			capacidad_recurso = null;
-			// LIMPIAR LISTADO
-			select = new ArrayList<SelectItem>();
-			select2 = new ArrayList<SelectItem>();
-			h_inicio = new Timestamp(new Date().getTime());
-			h_fin = new Timestamp(new Date().getTime());
+			Mensaje.crearMensajeINFO("Los recursos se aï¿½adieron");
+			limpiarCampos();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			// LIMPIAR LISTADO
-			id_recurso = -1;
-			capacidad_recurso = null;
-			// LIMPIAR LISTADO
-			select = new ArrayList<SelectItem>();
-			select2 = new ArrayList<SelectItem>();
-			h_inicio = new Timestamp(new Date().getTime());
-			h_fin = new Timestamp(new Date().getTime());
+			e.printStackTrace();
+			limpiarCampos();
 		}
 		return "";
+	}
+	
+	public void limpiarCampos(){
+		id_recurso = -1;
+		capacidad_recurso = null;
+		select = new ArrayList<SelectItem>();
+		select2 = new ArrayList<SelectItem>();
+		h_inicio = new Timestamp(new Date().getTime());
+		h_fin = new Timestamp(new Date().getTime());
 	}
 
 	public void quitarDetalleSolicitud(Solicidetalle detalle) {
@@ -1684,7 +1671,7 @@ public class EventosBean {
 			mReserv.eliminarSoliciDetalleByID(detalle.getIdSoldet());
 			listDetalles.remove(detalle);
 			cargarRecursos();
-			Mensaje.crearMensajeINFO("Se eliminó el recurso");
+			Mensaje.crearMensajeINFO("Se eliminï¿½ el recurso");
 			agregarcontrol = true;
 		} catch (Exception e) {
 			Mensaje.crearMensajeWARN("No se pudo quitar el recurso");
@@ -1695,8 +1682,7 @@ public class EventosBean {
 	public String guardarSolicitud() {
 		String rsp = "";
 		if (solicitudCabTmpGuardada == true) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("La solicitud fue guardada", null));
+			Mensaje.crearMensajeINFO("La solicitud fue guardada");
 			return "";
 		}
 		if (isEditarEventoSS()) {
@@ -1719,7 +1705,6 @@ public class EventosBean {
 						+ date.format(h_inicio).toString() + ""
 						+ "<br/> Fecha de petici&oacute;n: "
 						+ date.format(h_fin).toString() + "";
-
 				smscorususolreceve = "Sr/ra.  "
 						+ direccion
 						+ " "
@@ -1731,13 +1716,11 @@ public class EventosBean {
 						+ date.format(h_inicio).toString() + ""
 						+ "<br/> Fecha de petici&oacute;n: "
 						+ date.format(h_fin).toString() + "";
-
 				getcorreosusuc();
-				System.out.println(correosadminsolreceve);
 				mb.envioMailWS(correosadminsolreceve,
-						"Notificación de YACHAY/REGECE", smscoradminsolreceve);
+						"Notificaciï¿½n de YACHAY/REGECE", smscoradminsolreceve);
 				mb.envioMailWS(session.getCorreo(),
-						"Notificación de YACHAY/REGECE", smscorususolreceve);
+						"Notificaciï¿½n de YACHAY/REGECE", smscorususolreceve);
 				correosadminsolreceve = "";
 				smscoradminsolreceve = "";
 				smscorususolreceve = "";
@@ -1752,7 +1735,7 @@ public class EventosBean {
 				setObjetivo("");
 				setEditarEventoSS(false);
 				rsp = "";
-				Mensaje.crearMensajeINFO("Su solicitud fue enviada espere el correo de confirmación");
+				Mensaje.crearMensajeINFO("Su solicitud fue enviada espere el correo de confirmaciï¿½n");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1779,7 +1762,6 @@ public class EventosBean {
 							.guardarSolicitudTemporal(solicitudCabTem);
 					mEvento.asignarSolcab(scID);
 					crearEvento();
-
 					mEvento.editarEventoCreado(eventoidedicio, scID);
 					solicitudCabTmpGuardada = true;
 					DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
@@ -1804,8 +1786,7 @@ public class EventosBean {
 							+ date.format(h_fin).toString()
 							+ "<br/> Saludos cordiales, "
 							+ "<br/> Sistema de REGECE Yachay EP"
-							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-
+							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automï¿½ticamente por el sistema favor no responder al mismo.</em></body></html>";
 					smscorususolreceve = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 							+ "<meta name='viewport' content='width=device-width'></head><body>"
 							+ "Sr/ra.  "
@@ -1827,15 +1808,13 @@ public class EventosBean {
 							+ date.format(h_fin).toString()
 							+ "<br/> Saludos cordiales, "
 							+ "<br/> Sistema de REGECE Yachay EP"
-							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-
+							+ "<br/><em><strong>NOTA:</strong> Este correo es generado automï¿½ticamente por el sistema favor no responder al mismo.</em></body></html>";
 					getcorreosusuc();
-					System.out.println(correosadminsolreceve);
 					mb.envioMailWS(correosadminsolreceve,
-							"Notificación de YACHAY/REGECE",
+							"Notificaciï¿½n de YACHAY/REGECE",
 							smscoradminsolreceve);
 					mb.envioMailWS(session.getCorreo(),
-							"Notificación de YACHAY/REGECE", smscorususolreceve);
+							"Notificaciï¿½n de YACHAY/REGECE", smscorususolreceve);
 					correosadminsolreceve = "";
 					smscoradminsolreceve = "";
 					smscorususolreceve = "";
@@ -1850,16 +1829,14 @@ public class EventosBean {
 					solicitudCabTem = null;
 					eventoidedicio = null;
 					rsp = "home";
-					Mensaje.crearMensajeINFO("Su solicitud fue enviada espere el correo de confirmación");
+					Mensaje.crearMensajeINFO("Su solicitud fue enviada espere el correo de confirmaciï¿½n");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}
-
 		return rsp;
 	}
 
-	// metodo para guardar la solicitud
 	public String guardarSolicitude() {
 		String rsp = "";
 		if (solicitudCabTmpGuardada == true) {
@@ -1910,8 +1887,7 @@ public class EventosBean {
 						+ date.format(h_fin).toString()
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automï¿½ticamente por el sistema favor no responder al mismo.</em></body></html>";
 				smscorususolreceve = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
 						+ "Sr/ra.  "
@@ -1933,12 +1909,12 @@ public class EventosBean {
 						+ date.format(h_fin).toString()
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automï¿½ticamente por el sistema favor no responder al mismo.</em></body></html>";
 				getcorreosusuc();
 				mb.envioMailWS(correosadminsolreceve,
-						"Notificación de YACHAY/REGECE", smscoradminsolreceve);
+						"Notificaciï¿½n de YACHAY/REGECE", smscoradminsolreceve);
 				mb.envioMailWS(session.getCorreo(),
-						"Notificación de YACHAY/REGECE", smscorususolreceve);
+						"Notificaciï¿½n de YACHAY/REGECE", smscorususolreceve);
 				correosadminsolreceve = "";
 				smscoradminsolreceve = "";
 				smscorususolreceve = "";
@@ -1951,10 +1927,9 @@ public class EventosBean {
 				setActividad("");
 				setObjetivo("");
 				rsp = "home";
-				Mensaje.crearMensajeWARN("Su solicitud fue enviada espere el correo de confirmación");
+				Mensaje.crearMensajeWARN("Su solicitud fue enviada espere el correo de confirmaciï¿½n");
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(e.getMessage()));
+				e.printStackTrace();
 			}
 
 		return rsp;
@@ -1971,7 +1946,6 @@ public class EventosBean {
 			int max = correosadminsolreceve.length();
 			correosadminsolreceve = correosadminsolreceve.substring(0, max - 1)
 					.trim();
-			System.out.println(correosadminsolreceve);
 		} catch (Exception e) {
 			Mensaje.crearMensajeWARN("No se encuentran usuarios administradores");
 			e.printStackTrace();
@@ -1998,10 +1972,6 @@ public class EventosBean {
 			// Modificacion de Horas
 			setHorainicio(this.fechaAtiempo(h_inicio));
 			setHorafin(this.fechaAtiempo(h_fin));
-			System.out.println("cargartiporecursos hora inicio: " + h_inicio
-					+ " hora fin" + h_fin);
-			System.out.println("cargartiporecursos hora inicio: " + horainicio
-					+ " hora fin" + horafin);
 			if (!Validacion.fechaMayorIgual(h_inicio)
 					|| !Validacion.fechaMayorIgual(h_fin)) {
 				Mensaje.crearMensajeWARN("La fecha de solicitud no debe ser menor a la actual");
@@ -2025,7 +1995,7 @@ public class EventosBean {
 
 			listadoSI.add(item);
 		}
-		System.out.println("------->TAMAÑO " + listadoSI.size());
+		System.out.println("------->TAMAï¿½O " + listadoSI.size());
 		return listadoSI;
 	}
 
@@ -2040,7 +2010,6 @@ public class EventosBean {
 		return resp;
 	}
 
-	// metodo para cargar eventos
 	public String CargarEventos(Evento ev) {
 		idEvento = ev.getIdEvento();
 		nombre = ev.getNombre();
@@ -2091,10 +2060,8 @@ public class EventosBean {
 		String r = "";
 		if (solicitudCabTem.getSolicidetalles().size() > 0) {
 			r = "solres2";
-			System.out.print(r);
 		} else {
 			Mensaje.crearMensajeWARN("Debe seleccionar recursos");
-			System.out.print(r);
 		}
 		return r;
 	}
@@ -2102,7 +2069,6 @@ public class EventosBean {
 	public String irsolres3() {
 		String r = "";
 		r = "solres3";
-		System.out.print(r);
 		return r;
 	}
 
@@ -2111,8 +2077,8 @@ public class EventosBean {
 		descripcion = "";
 		lugar = "";
 		imagen = "300.jpg";
-		descripcionubicacion = "Descripción de la Sala";
-		descripcionrecurso = "Descripción de Recurso";
+		descripcionubicacion = "Descripciï¿½n de la Sala";
+		descripcionrecurso = "Descripciï¿½n de Recurso";
 		imagensala = "300.jpg";
 		fi = null;
 		ff = null;
@@ -2125,8 +2091,8 @@ public class EventosBean {
 		te = 0;
 		idusr = 0;
 		esave = false;
-		descripcionubicacion = "Descripción de la Ubicación";
-		descripcionrecurso = "Descripción de Recurso";
+		descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+		descripcionrecurso = "Descripciï¿½n de Recurso";
 		stock = "stock";
 		imagen = "300.jpg";
 		return "soleven?faces-redirect=true";
@@ -2145,8 +2111,8 @@ public class EventosBean {
 		sala = 0;
 		cantidad = "";
 		sc = 0;
-		descripcionubicacion = "Descripción de la Ubicación";
-		descripcionrecurso = "Descripción de Recurso";
+		descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+		descripcionrecurso = "Descripciï¿½n de Recurso";
 		stock = "stock";
 		capacidad = "capacidad";
 		imagensala = "300.jpg";
@@ -2184,8 +2150,8 @@ public class EventosBean {
 		sc = 0;
 		sms = "";
 		te = 0;
-		descripcionubicacion = "Descripción de la Ubicación";
-		descripcionrecurso = "Descripción de Recurso";
+		descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+		descripcionrecurso = "Descripciï¿½n de Recurso";
 		imagensala = "300.jpg";
 		idusr = 0;
 		esave = false;
@@ -2202,8 +2168,8 @@ public class EventosBean {
 		ff = null;
 		fechaInicio = null;
 		fechaFin = null;
-		descripcionubicacion = "Descripción de la Ubicación";
-		descripcionrecurso = "Descripción de Recurso";
+		descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+		descripcionrecurso = "Descripciï¿½n de Recurso";
 		imagensala = "300.jpg";
 		costo = 0;
 		cantidad = "";
@@ -2243,7 +2209,7 @@ public class EventosBean {
 									descripcion.trim(), imagen, fechaInicio,
 									fechaFin, costo,
 									Integer.parseInt(cantidad), interno);
-							Mensaje.crearMensajeINFO("Se modificó satisfactoriamente el evento");
+							Mensaje.crearMensajeINFO("Se modificï¿½ satisfactoriamente el evento");
 						} else {
 							Mensaje.crearMensajeWARN("Los recursos de la solicitud estan siendo usados");
 						}
@@ -2254,10 +2220,10 @@ public class EventosBean {
 								descripcion.trim(), imagen, fechaInicio,
 								fechaFin, costo,
 								Integer.parseInt(cantidad), interno);
-						Mensaje.crearMensajeINFO("Se modificó satisfactoriamente el evento");
+						Mensaje.crearMensajeINFO("Se modificï¿½ satisfactoriamente el evento");
 					}
 				} else if (Integer.parseInt(cantidad) > sala1) {
-					Mensaje.crearMensajeWARN("El número de personas excede la capacidad de la sala que es: "
+					Mensaje.crearMensajeWARN("El nï¿½mero de personas excede la capacidad de la sala que es: "
 							+ sala1 + " ");
 				}
 			} else {
@@ -2291,7 +2257,7 @@ public class EventosBean {
 										descripcion.trim(), imagen, fechaInicio,
 										fechaFin, costo,
 										Integer.parseInt(cantidad), interno);
-								Mensaje.crearMensajeINFO("Se modificó satisfactoriamente el evento");
+								Mensaje.crearMensajeINFO("Se modificï¿½ satisfactoriamente el evento");
 							} else {
 								Mensaje.crearMensajeWARN("Los recursos de la solicitud estan siendo usados");
 							}
@@ -2302,10 +2268,10 @@ public class EventosBean {
 									descripcion.trim(), imagen, fechaInicio,
 									fechaFin, costo,
 									Integer.parseInt(cantidad), interno);
-							Mensaje.crearMensajeINFO("Se modificó satisfactoriamente el evento");
+							Mensaje.crearMensajeINFO("Se modificï¿½ satisfactoriamente el evento");
 						}
 					} else if (Integer.parseInt(cantidad) > sala1) {
-						Mensaje.crearMensajeWARN("El número de personas excede la capacidad de la sala que es: "
+						Mensaje.crearMensajeWARN("El nï¿½mero de personas excede la capacidad de la sala que es: "
 								+ sala1 + " ");
 					}
 					}else{
@@ -2328,9 +2294,9 @@ public class EventosBean {
 		} else if (sala == -1 || sala == null || sala == 0) {
 			Mensaje.crearMensajeWARN("Debe seleccionar una sala");
 		} else if (!isNumeric(cantidad)) {
-			Mensaje.crearMensajeWARN("El campo se debe ingresar números");
+			Mensaje.crearMensajeWARN("El campo se debe ingresar nï¿½meros");
 		} else if (Integer.parseInt(cantidad) == 0) {
-			Mensaje.crearMensajeWARN("Ingrese el número de personas mayor que 0");
+			Mensaje.crearMensajeWARN("Ingrese el nï¿½mero de personas mayor que 0");
 		} else {
 			resultado = true;
 		}
@@ -2580,7 +2546,7 @@ public class EventosBean {
 	public String aprobarevento(Evento eve) {
 		try {
 			if (eve.getEstado().equals("Activado")) {
-				Mensaje.crearMensajeINFO("La inscripción se encuentra activada");
+				Mensaje.crearMensajeINFO("La inscripciï¿½n se encuentra activada");
 			} else {
 				mEvento.cambioSMS(eve.getIdEvento());
 				eve.setEstado("Activado");
@@ -2596,7 +2562,7 @@ public class EventosBean {
 	public String negarevento(Evento eve) {
 		try {
 			if (eve.getEstado().equals(("Desactivado"))) {
-				Mensaje.crearMensajeINFO("La inscripción se encuentra desactivada");
+				Mensaje.crearMensajeINFO("La inscripciï¿½n se encuentra desactivada");
 			} else {
 
 				eve.setEstado("Desactivado");
@@ -2612,15 +2578,15 @@ public class EventosBean {
 	public String negareventoxus(Evento eve) {
 		try {
 			if (eve.getEstado().equals(("Desactivado"))) {
-				Mensaje.crearMensajeWARN("La inscripción se encuentra desactivada");
+				Mensaje.crearMensajeWARN("La inscripciï¿½n se encuentra desactivada");
 			} else if (eve.getEstado().equals("Activado")) {
-				Mensaje.crearMensajeWARN("La inscripción se encuentra activada, envie el mensaje para cancelar el Evento");
+				Mensaje.crearMensajeWARN("La inscripciï¿½n se encuentra activada, envie el mensaje para cancelar el Evento");
 			} else if (eve.getEstado().equals("Pendiente")) {
 				eve.setEstado("Desactivado");
 				Mensaje.crearMensajeWARN("Ha cambiado el estado del evento a desactivado");
 			}
 		} catch (Exception e) {
-			Mensaje.crearMensajeWARN("Error al desactivar la inscripción");
+			Mensaje.crearMensajeWARN("Error al desactivar la inscripciï¿½n");
 		}
 		return "";
 	}
@@ -2734,7 +2700,7 @@ public class EventosBean {
 					+ ".<br/> "
 					+ "<br/> Saludos cordiales, "
 					+ "<br/> Sistema de REGECE Yachay EP"
-					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automï¿½ticamente por el sistema favor no responder al mismo.</em></body></html>";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2748,8 +2714,7 @@ public class EventosBean {
 			if (!estadoeven.equals("Pendiente") && sms.equals("No Notificado")) {
 				mEvento.cambioSMSenvio(idEvento);
 				Usuario u = manager.findususarioByID(idusr);
-				System.out.println(u.getCorreo());
-				mb.envioMailWS(u.getCorreo(), "Cancelación Evento/REGECE ",
+				mb.envioMailWS(u.getCorreo(), "Cancelaciï¿½n Evento/REGECE ",
 						smscor);
 				// limpiamos los datos notificaciones.inno@gmail.com
 				// innopolisyachay2015@gmail.com
@@ -2763,8 +2728,8 @@ public class EventosBean {
 				fechaInicio = null;
 				fechaFin = null;
 				costo = 0;
-				descripcionubicacion = "Descripción de la Ubicación";
-				descripcionrecurso = "Descripción de Recurso";
+				descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+				descripcionrecurso = "Descripciï¿½n de Recurso";
 				stock = "stock";
 				capacidad = "capacidad";
 				imagensala = "300.jpg";
@@ -2785,8 +2750,8 @@ public class EventosBean {
 				imagen = "300.jpg";
 				fi = null;
 				ff = null;
-				descripcionubicacion = "Descripción de la Ubicación";
-				descripcionrecurso = "Descripción de Recurso";
+				descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+				descripcionrecurso = "Descripciï¿½n de Recurso";
 				stock = "stock";
 				capacidad = "capacidad";
 				imagensala = "300.jpg";
@@ -2812,8 +2777,8 @@ public class EventosBean {
 				ff = null;
 				fechaInicio = null;
 				fechaFin = null;
-				descripcionubicacion = "Descripción de la Ubicación";
-				descripcionrecurso = "Descripción de Recurso";
+				descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+				descripcionrecurso = "Descripciï¿½n de Recurso";
 				stock = "stock";
 				capacidad = "capacidad";
 				imagensala = "300.jpg";
@@ -2826,7 +2791,7 @@ public class EventosBean {
 				idusr = 0;
 				smscor = "";
 				correosadmin = "";
-				Mensaje.crearMensajeINFO("Ya se envió el mensaje");
+				Mensaje.crearMensajeINFO("Ya se enviï¿½ el mensaje");
 			}
 
 		} catch (Exception e) {
@@ -2841,8 +2806,8 @@ public class EventosBean {
 			if (estadoeven.equals("Activado")) {
 				getcorreosusua();
 				mb.envioMailWS(session.getCorreo(),
-						"Cancelación Evento/REGECE ", smscor);
-				mb.envioMailWS(correosadmin, "Cancelación Evento/REGECE ",
+						"Cancelaciï¿½n Evento/REGECE ", smscor);
+				mb.envioMailWS(correosadmin, "Cancelaciï¿½n Evento/REGECE ",
 						smscor);
 				// limpiamos los datos notificaciones.inno@gmail.com
 				// innopolisyachay2015@gmail.com
@@ -2851,8 +2816,8 @@ public class EventosBean {
 				descripcion = "";
 				lugar = "";
 				imagen = "300.jpg";
-				descripcionubicacion = "Descripción de la Ubicación";
-				descripcionrecurso = "Descripción de Recurso";
+				descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+				descripcionrecurso = "Descripciï¿½n de Recurso";
 				stock = "stock";
 				capacidad = "capacidad";
 				imagensala = "300.jpg";
@@ -2877,8 +2842,8 @@ public class EventosBean {
 				imagen = "300.jpg";
 				fi = null;
 				ff = null;
-				descripcionubicacion = "Descripción de la Ubicación";
-				descripcionrecurso = "Descripción de Recurso";
+				descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+				descripcionrecurso = "Descripciï¿½n de Recurso";
 				stock = "stock";
 				capacidad = "capacidad";
 				imagensala = "300.jpg";
@@ -2910,7 +2875,6 @@ public class EventosBean {
 			}
 			int max = correosadmin.length();
 			correosadmin = correosadmin.substring(0, max - 1).trim();
-			System.out.println(correosadmin);
 		} catch (Exception e) {
 			Mensaje.crearMensajeWARN("No se encuentran usuarios administradores");
 			e.printStackTrace();
@@ -2928,8 +2892,8 @@ public class EventosBean {
 		fechaInicio = null;
 		fechaFin = null;
 		costo = 0;
-		descripcionubicacion = "Descripción de la Ubicación";
-		descripcionrecurso = "Descripción de Recurso";
+		descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+		descripcionrecurso = "Descripciï¿½n de Recurso";
 		stock = "stock";
 		capacidad = "capacidad";
 		imagensala = "300.jpg";
@@ -2950,8 +2914,8 @@ public class EventosBean {
 		descripcion = "";
 		lugar = "";
 		imagen = "300.jpg";
-		descripcionubicacion = "Descripción de la Ubicación";
-		descripcionrecurso = "Descripción de Recurso";
+		descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+		descripcionrecurso = "Descripciï¿½n de Recurso";
 		stock = "stock";
 		capacidad = "capacidad";
 		imagensala = "300.jpg";
@@ -2976,8 +2940,8 @@ public class EventosBean {
 		h_fin = new Timestamp(new Date().getTime());
 		select = new ArrayList<SelectItem>();
 		select2 = new ArrayList<SelectItem>();
-		descripcionubicacion = "Descripción de la Ubicación";
-		descripcionrecurso = "Descripción de Recurso";
+		descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
+		descripcionrecurso = "Descripciï¿½n de Recurso";
 		stock = "stock";
 		imagen = "300.jpg";
 		solicitudCabTem = null;
@@ -3018,7 +2982,7 @@ public class EventosBean {
 			descripcion = "";
 			lugar = "";
 			imagen = "300.jpg";
-			descripcionubicacion = "Descripción de la Ubicación";
+			descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
 			imagensala = "300.jpg";
 			fi = null;
 			ff = null;
@@ -3043,7 +3007,7 @@ public class EventosBean {
 			h_fin = new Timestamp(new Date().getTime());
 			select = new ArrayList<SelectItem>();
 			select2 = new ArrayList<SelectItem>();
-			descripcionubicacion = "Descripción de la Ubicación";
+			descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
 			stock = "stock";
 			imagen = "300.jpg";
 			solicitudCabTem = null;
@@ -3057,7 +3021,7 @@ public class EventosBean {
 		descripcion = "";
 		lugar = "";
 		imagen = "300.jpg";
-		descripcionubicacion = "Descripción de la Ubicación";
+		descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
 		stock = "stock";
 		imagensala = "300.jpg";
 		h_inicio = new Timestamp(new Date().getTime());
@@ -3083,7 +3047,7 @@ public class EventosBean {
 		select = new ArrayList<SelectItem>();
 		select2 = new ArrayList<SelectItem>();
 		listDetalles = new ArrayList<Solicidetalle>();
-		descripcionubicacion = "Descripción de la Ubicación";
+		descripcionubicacion = "Descripciï¿½n de la Ubicaciï¿½n";
 		imagen = "300.jpg";
 		solicitudCabTem = null;
 		return "eventos?faces-redirect=true";
@@ -3172,7 +3136,7 @@ public class EventosBean {
 		}
 	}
 
-	// Recurso ya añadido
+	// Recurso ya aï¿½adido
 	public boolean esRecursoAnadido(Integer id_recurso, Timestamp horaInicio,
 			Timestamp horaFin) {
 		List<Solicidetalle> listado = listDetalles;
@@ -3202,7 +3166,7 @@ public class EventosBean {
 			mReserv.eliminarSoliciDetalleByID(detalle.getIdSoldet());
 			listDetalles.remove(detalle);
 			cargarRecursos();
-			Mensaje.crearMensajeINFO("Se eliminó el recurso");
+			Mensaje.crearMensajeINFO("Se eliminï¿½ el recurso");
 			agregarcontrol = true;
 		} catch (Exception e) {
 			Mensaje.crearMensajeWARN("No se pudo quitar el recurso");
@@ -3214,7 +3178,7 @@ public class EventosBean {
 		String resp = "";
 		try {
 			if (!listDetalles.isEmpty()) {
-				descripcionrecurso = "Descripción de Recurso";
+				descripcionrecurso = "Descripciï¿½n de Recurso";
 				id_sol = null;
 				stock = "stock";
 				capacidad = "capacidad";
@@ -3242,12 +3206,12 @@ public class EventosBean {
 				} else {
 					resp = "soleven?faces-redirect=true";
 				}
-				Mensaje.crearMensajeINFO("Edición correcta");
+				Mensaje.crearMensajeINFO("Ediciï¿½n correcta");
 			} else {
 				Mensaje.crearMensajeWARN("La solicitud debe contener por lo menos un recurso");
 			}
 		} catch (Exception e) {
-			Mensaje.crearMensajeWARN("Edición errónea");
+			Mensaje.crearMensajeWARN("Ediciï¿½n errï¿½nea");
 		}
 		return resp;
 	}
@@ -3257,7 +3221,7 @@ public class EventosBean {
 		String resp = "";
 		try {
 			mReserv.editarDetallesSolicitud(id_sol, list_mas, list_menos);
-			descripcionrecurso = "Descripción de Recurso";
+			descripcionrecurso = "Descripciï¿½n de Recurso";
 			stock = "stock";
 			imagen = "300.jpg";
 			imagensala = "300.jpg";
@@ -3266,7 +3230,7 @@ public class EventosBean {
 			imagentipo = "300.jpg";
 			resp = "eventos";
 		} catch (Exception e) {
-			Mensaje.crearMensajeWARN("Edición errónea");
+			Mensaje.crearMensajeWARN("Ediciï¿½n errï¿½nea");
 		}
 		return resp;
 	}
@@ -3348,13 +3312,13 @@ public class EventosBean {
 				stream.flush();
 				stream.close();
 				FacesContext.getCurrentInstance().responseComplete();
-				Mensaje.crearMensajeINFO("Se imprimió correctamente");
+				Mensaje.crearMensajeINFO("Se imprimiï¿½ correctamente");
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al imprimir");
 				e.printStackTrace();
 			}
 		} else {
-			Mensaje.crearMensajeWARN("Aún no se aprueba o niega el evento");
+			Mensaje.crearMensajeWARN("Aï¿½n no se aprueba o niega el evento");
 		}
 	}
 
@@ -3390,7 +3354,7 @@ public class EventosBean {
 							salasactivasedicion.getIdEvento(), fechaInicio,
 							fechaFin);
 				}
-				Mensaje.crearMensajeINFO("El evento está desactivado");
+				Mensaje.crearMensajeINFO("El evento estï¿½ desactivado");
 			}else{
 				List<Salasactiva> salasActivasEvento = mReserv
 						.findSalasActivasByIdEvento(ev.getIdEvento());
@@ -3398,13 +3362,13 @@ public class EventosBean {
 					mReserv.eliminarSalasDesactivado(
 							salasactivasedicion.getIdEvento(), fechaInicio,
 							fechaFin);
-					Mensaje.crearMensajeINFO("El evento está desactivado");
+					Mensaje.crearMensajeINFO("El evento estï¿½ desactivado");
 				}
 			}
 			}else if(ev.getEstado().equals("Activado")){
-				Mensaje.crearMensajeINFO("El evento está activado, envíe un mensaje al administrador para cambiarlo");
+				Mensaje.crearMensajeINFO("El evento estï¿½ activado, envï¿½e un mensaje al administrador para cambiarlo");
 			}else if(ev.getEstado().equals("Desactivado")){
-			Mensaje.crearMensajeINFO("El evento yá se encuentra desactivado");
+			Mensaje.crearMensajeINFO("El evento yï¿½ se encuentra desactivado");
 		}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -3437,7 +3401,7 @@ public class EventosBean {
 							salasactivasedicion.getIdEvento(), fechaInicio,
 							fechaFin);
 				}
-				Mensaje.crearMensajeINFO("El evento cambió a estado desactivado");
+				Mensaje.crearMensajeINFO("El evento cambiï¿½ a estado desactivado");
 			}else{
 				List<Salasactiva> salasActivasEvento = mReserv
 						.findSalasActivasByIdEvento(ev.getIdEvento());
@@ -3445,11 +3409,11 @@ public class EventosBean {
 					mReserv.eliminarSalasDesactivado(
 							salasactivasedicion.getIdEvento(), fechaInicio,
 							fechaFin);
-					Mensaje.crearMensajeINFO("El evento cambió a estado  desactivado");
+					Mensaje.crearMensajeINFO("El evento cambiï¿½ a estado  desactivado");
 				}
 			}
 			}else{
-				Mensaje.crearMensajeINFO("El evento yá se encuentra desactivado");
+				Mensaje.crearMensajeINFO("El evento yï¿½ se encuentra desactivado");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -3475,7 +3439,7 @@ public class EventosBean {
 					}
 				}
 					mReserv.insertarSalaActivasActivado(ev.getIdEvento(), fechaInicio,fechaFin);
-					Mensaje.crearMensajeINFO("El evento cambió a estado  activado");
+					Mensaje.crearMensajeINFO("El evento cambiï¿½ a estado  activado");
 			}else{
 				List<Salasactiva> salasActivasEvento = mReserv
 						.findSalasActivasByIdEvento(ev.getIdEvento());
@@ -3483,12 +3447,12 @@ public class EventosBean {
 					mReserv.insertarSalaActivasActivado(
 							salasactivasedicion.getIdEvento(), fechaInicio,
 							fechaFin);
-					Mensaje.crearMensajeINFO("El evento cambió a estado activado");
+					Mensaje.crearMensajeINFO("El evento cambiï¿½ a estado activado");
 				}
 			}
 			}else{
 				ev.setEstado("Activado");
-				Mensaje.crearMensajeINFO("El evento yá se encuentra activado");
+				Mensaje.crearMensajeINFO("El evento yï¿½ se encuentra activado");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

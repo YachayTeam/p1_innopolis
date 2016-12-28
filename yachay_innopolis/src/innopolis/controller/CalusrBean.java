@@ -223,7 +223,7 @@ public class CalusrBean implements Serializable {
 		for (Evento e : listado) {
 			if (e.getEstado().equals("Activado")) {
 				if (e.getInterno()) {
-					event = new DefaultScheduleEvent("Reunión Privada",
+					event = new DefaultScheduleEvent("Reuniï¿½n Privada",
 							e.getFechaInicio(), e.getFechaFin(), e);
 					((DefaultScheduleEvent) event).setStyleClass(e.getSala()
 							.getColorsala().getColor());
@@ -638,7 +638,7 @@ public class CalusrBean implements Serializable {
 			if (manager.superaInscritosEvento(evento)) {
 				r = "formulario?faces-redirect=true";
 			} else {
-				Mensaje.crearMensajeINFO("El número de inscritos esta completo");
+				Mensaje.crearMensajeINFO("El nï¿½mero de inscritos esta completo");
 			}
 		}
 		return r;
@@ -654,7 +654,7 @@ public class CalusrBean implements Serializable {
 			if (manager.superaInscritosEvento(ev)) {
 				r = "formulario?faces-redirect=true";
 			} else {
-				Mensaje.crearMensajeINFO("El número de inscritos esta completo");
+				Mensaje.crearMensajeINFO("El nï¿½mero de inscritos esta completo");
 			}
 		}
 		return r;
@@ -693,10 +693,10 @@ public class CalusrBean implements Serializable {
 						+ "<br/> Apellido: "
 						+ getApellido()
 						+ ""
-						+ "<br/> Dirección: "
+						+ "<br/> Direcciï¿½n: "
 						+ getDireccion()
 						+ ""
-						+ "<br/> Teléfono: "
+						+ "<br/> Telï¿½fono: "
 						+ getTelefono()
 						+ ""
 						+ "<br/> Celular: "
@@ -713,7 +713,7 @@ public class CalusrBean implements Serializable {
 						+ ""
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automï¿½ticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 				smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 						+ "<meta name='viewport' content='width=device-width'></head><body>"
@@ -729,10 +729,10 @@ public class CalusrBean implements Serializable {
 						+ "<br/> Apellido: "
 						+ getApellido()
 						+ ""
-						+ "<br/> Dirección: "
+						+ "<br/> Direcciï¿½n: "
 						+ getDireccion()
 						+ ""
-						+ "<br/> Teléfono: "
+						+ "<br/> Telï¿½fono: "
 						+ getTelefono()
 						+ ""
 						+ "<br/> Celular: "
@@ -749,12 +749,12 @@ public class CalusrBean implements Serializable {
 						+ ""
 						+ "<br/> Saludos cordiales, "
 						+ "<br/> Sistema de REGECE Yachay EP"
-						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
+						+ "<br/><em><strong>NOTA:</strong> Este correo es generado automï¿½ticamente por el sistema favor no responder al mismo.</em></body></html>";
 				getcorreosusu();
 				System.out.println(correosadmin);
-				mb.envioMailWS(correosadmin, "Notificación de YACHAY/REGECE",
+				mb.envioMailWS(correosadmin, "Notificaciï¿½n de YACHAY/REGECE",
 						smscoradmin);
-				mb.envioMailWS(getCorreo(), "Notificación de YACHAY/REGECE",
+				mb.envioMailWS(getCorreo(), "Notificaciï¿½n de YACHAY/REGECE",
 						smscorusu);
 
 				correosadmin = "";
@@ -769,7 +769,7 @@ public class CalusrBean implements Serializable {
 				setTelefono(null);
 				setDireccion("");
 				campo = "";
-				Mensaje.crearMensajeINFO("Se registro correctamente, espere el mensaje de confirmación");
+				Mensaje.crearMensajeINFO("Se registro correctamente, espere el mensaje de confirmaciï¿½n");
 			} catch (Exception e) {
 				Mensaje.crearMensajeWARN("Error al intentar inscribirse al evento");
 			}
@@ -806,7 +806,7 @@ public class CalusrBean implements Serializable {
 		setDireccion("");
 		setTelefono(null);
 		setCelular(null);
-		Mensaje.crearMensajeWARN("Inscripción cancelada");
+		Mensaje.crearMensajeWARN("Inscripciï¿½n cancelada");
 		return "";
 	}
 
@@ -868,7 +868,7 @@ public class CalusrBean implements Serializable {
 		return l1;
 	}
 
-	public String ircontraseña() {
+	public String ircontrasena() {
 		return "recu_contra?faces-redirect=true";
 	}
 
@@ -891,7 +891,7 @@ public class CalusrBean implements Serializable {
 
 	public String valorInterno(Evento ev) {
 		if (ev.getInterno())
-			return "Reunión Privada";
+			return "Reuniï¿½n Privada";
 		else
 			return ev.getNombre();
 	}

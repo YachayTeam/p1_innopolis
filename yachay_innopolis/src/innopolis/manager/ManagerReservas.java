@@ -527,11 +527,7 @@ public class ManagerReservas {
 					+ "aca1");
 			System.out.println(dateFormat.format(fecha_seleccionadaini)
 					.toString() + "aca2");
-			if (dateFormat
-					.format(recursosactivo.getHoraFin().getTime())
-					.toString()
-					.equals(dateFormat.format(fecha_seleccionadaini.getTime())
-							.toString())) {
+			if (dateFormat.format(recursosactivo.getHoraFin().getTime()).toString().equals(dateFormat.format(fecha_seleccionadaini.getTime()).toString())) {
 				resultado.add(recursosactivo);
 			}
 		}
@@ -647,8 +643,7 @@ public class ManagerReservas {
 					+ Validacion.fechaAtiempo(recursosactivo.getHoraInicio()));
 			System.out.println(horafin + " y "
 					+ Validacion.fechaAtiempo(recursosactivo.getHoraFin()));
-			if ((horainicio.before(Validacion.fechaAtiempo(recursosactivo
-					.getHoraInicio())) && horainicio.after(Validacion
+			if ((horainicio.before(Validacion.fechaAtiempo(recursosactivo.getHoraInicio())) && horainicio.after(Validacion
 					.fechaAtiempo(recursosactivo.getHoraFin())))
 					|| (horafin.before(Validacion.fechaAtiempo(recursosactivo
 							.getHoraInicio())) && horafin.after(Validacion

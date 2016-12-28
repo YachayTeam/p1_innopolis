@@ -50,14 +50,14 @@ public class Funciones {
 	public static String hostWS = "http://10.1.0.115:8080/app-permisos/";
 	
 	public static Boolean validacionCedula(String cedula){
-        //verifica que los dos primeros dígitos correspondan a un valor entre 1 y NUMERO_DE_PROVINCIAS
+        //verifica que los dos primeros dï¿½gitos correspondan a un valor entre 1 y NUMERO_DE_PROVINCIAS
         int prov = Integer.parseInt(cedula.substring(0, 2));
         if (!((prov > 0) && (prov <= num_provincias) || prov==30)) {
-        	//addError("La cédula ingresada no es válida");
+        	//addError("La cï¿½dula ingresada no es vï¿½lida");
         	System.out.println("Error: cedula ingresada mal");
             return false;
         }
-        //verifica que el último dígito de la cédula sea válido
+        //verifica que el ï¿½ltimo dï¿½gito de la cï¿½dula sea vï¿½lido
         int[] d = new int[10];
         //Asignamos el string a un array
         for (int i = 0; i < d.length; i++) {
@@ -65,12 +65,12 @@ public class Funciones {
         }
         int imp = 0;
         int par = 0;
-        //sumamos los duplos de posición impar
+        //sumamos los duplos de posiciï¿½n impar
         for (int i = 0; i < d.length; i += 2) {
             d[i] = ((d[i] * 2) > 9) ? ((d[i] * 2) - 9) : (d[i] * 2);
             imp += d[i];
         }
-        //sumamos los digitos de posición par
+        //sumamos los digitos de posiciï¿½n par
         for (int i = 1; i < (d.length - 1); i += 2) {
             par += d[i];
         }
@@ -78,13 +78,13 @@ public class Funciones {
         int suma = imp + par;
         //Restamos de la decena superior
         int d10 = Integer.parseInt(String.valueOf(suma + 10).substring(0, 1) + "0") - suma;
-        //Si es diez el décimo dígito es cero        
+        //Si es diez el dï¿½cimo dï¿½gito es cero        
         d10 = (d10 == 10) ? 0 : d10;
-        //si el décimo dígito calculado es igual al digitado la cédula es correcta
+        //si el dï¿½cimo dï¿½gito calculado es igual al digitado la cï¿½dula es correcta
         if (d10 == d[9]) {
         	return true;
         }else {
-        	//addError("La cédula ingresada no es válida");
+        	//addError("La cï¿½dula ingresada no es vï¿½lida");
         	return false;
         }
 	}
@@ -250,7 +250,7 @@ public class Funciones {
 	}
 	
 	/**
-	 * Convierte una cadena en otra con codificación utf-8
+	 * Convierte una cadena en otra con codificaciï¿½n utf-8
 	 * @param cadena
 	 * @return String
 	 */
@@ -284,18 +284,18 @@ public class Funciones {
 		// Se asigna la fecha recibida a la fecha de nacimiento.
 		fechaNacimiento.setTime(fecha);
 		// Se restan la fecha actual y la fecha de nacimiento
-		int año = fechaActual.get(Calendar.YEAR)
+		int anio = fechaActual.get(Calendar.YEAR)
 				- fechaNacimiento.get(Calendar.YEAR);
 		int mes = fechaActual.get(Calendar.MONTH)
 				- fechaNacimiento.get(Calendar.MONTH);
 		int dia = fechaActual.get(Calendar.DATE)
 				- fechaNacimiento.get(Calendar.DATE);
-		// Se ajusta el año dependiendo el mes y el día
+		// Se ajusta el aï¿½o dependiendo el mes y el dï¿½a
 		if (mes < 0 || (mes == 0 && dia < 0)) {
-			año--;
+			anio--;
 		}
 		// Regresa la edad en base a la fecha de nacimiento
-		return año;
+		return anio;
 	}
 	
 	/**

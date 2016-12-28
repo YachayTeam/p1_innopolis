@@ -48,12 +48,14 @@ public class ManagerEvento {
 
 	@SuppressWarnings("unchecked")
 	public List<Evento> findEventoByCabeceraId(Integer id) throws Exception {
-		return mDAO.findWhere(Evento.class, " o.solicicabecera.idSolcab = "+ id + " ", " o.fechaInicio ");
+		return mDAO.findWhere(Evento.class, " o.solicicabecera.idSolcab = "
+				+ id + " ", " o.fechaInicio ");
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Evento> findUsuarioExisteById(Integer id) throws Exception {
-		return mDAO.findWhere(Evento.class, " o.usuario.idUsr = "+ id + " ", " o.fechaInicio ");
+		return mDAO.findWhere(Evento.class, " o.usuario.idUsr = " + id + " ",
+				" o.fechaInicio ");
 	}
 
 	// insertar los eventos
@@ -138,9 +140,9 @@ public class ManagerEvento {
 
 	// editar los eventos
 	public void editarEventos(Integer id_evento, String nombre,
-			String descripcion,String imagen,
-			Timestamp fecha_inicio, Timestamp fecha_fin, float costo,
-			Integer cantidad, Boolean interno) throws Exception {
+			String descripcion, String imagen, Timestamp fecha_inicio,
+			Timestamp fecha_fin, float costo, Integer cantidad, Boolean interno)
+			throws Exception {
 		try {
 			Evento r = this.EventoByID(id_evento);
 			r.setIdEvento(id_evento);
@@ -161,20 +163,21 @@ public class ManagerEvento {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// editar los eventos
-		public void editarEventoCreado(Integer id_evento, Integer cdId) throws Exception {
-			try {
-				Evento r = this.EventoByID(id_evento);
-				r.setIdEvento(id_evento);
-				r.setSolicicabecera(sc);
-				mDAO.actualizar(r);
-				System.out.println("bien_mod_evento");
-			} catch (Exception e) {
-				System.out.println("Error_mod_evento");
-				e.printStackTrace();
-			}
+	public void editarEventoCreado(Integer id_evento, Integer cdId)
+			throws Exception {
+		try {
+			Evento r = this.EventoByID(id_evento);
+			r.setIdEvento(id_evento);
+			r.setSolicicabecera(sc);
+			mDAO.actualizar(r);
+			System.out.println("bien_mod_evento");
+		} catch (Exception e) {
+			System.out.println("Error_mod_evento");
+			e.printStackTrace();
 		}
+	}
 
 	// buscar sol por ID
 	public Solicicabecera SolByID(Integer sol) throws Exception {
@@ -409,11 +412,13 @@ public class ManagerEvento {
 
 		return listado;
 	}
-	
 
 	public boolean superaInscritosEvento(Evento evento) {
 		boolean resp = false;
-		String resultado = mDAO.ejectNativeSQL2("select count(*) from inscripciones where id_evento = "+evento.getIdEvento()+" and estado = 'aprobada'").toString();
+		String resultado = mDAO.ejectNativeSQL2(
+				"select count(*) from inscripciones where id_evento = " + ""
+						+ evento.getIdEvento() + " and estado = 'aprobada'")
+				.toString();
 		int inscritos = Integer.parseInt(resultado);
 		if (inscritos < evento.getCantidad()) {
 			resp = true;
@@ -443,7 +448,7 @@ public class ManagerEvento {
 		}
 		return te;
 	}
-	
+
 	// metodo para enviar el estado del mensaje si se envio
 	public String cambioSMSenvio(Integer idevento) throws Exception {
 		h = "";
